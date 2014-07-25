@@ -3,6 +3,7 @@ An application architecture for React utilizing a unidirectional data flow.
 
 ## Examples
 Basic example: [TodoMVC](https://github.com/facebook/react/tree/master/examples/todomvc-flux)
+
 Slightly more complex example: [Chat Client](https://github.com/facebook/flux/tree/master/examples/flux-chat)
 
 ## Requirements
@@ -13,11 +14,7 @@ Clone the repo and from within the `flux` directory, run the following on the co
 
 `npm install`
 
-Afterward, run:
-
-`make`
-
-This will produce the file Flux.js, which you can use within a browser. 
+This will run `make` automatically and produce the file Flux.js, which you can use within a browser. 
 The dispatcher will be available as Flux.Dispatcher.
 
 
