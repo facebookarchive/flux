@@ -106,13 +106,13 @@ var _prefix = 'ID_';
  * registered callbacks in order: `CountryStore`, `CityStore`, then
  * `FlightPriceStore`.
  */
-class Dispatcher {
-  constructor() {
-    this._callbacks = {};
-    this._isPending = {};
-    this._isHandled = {};
-    this._isDispatching = false;
-    this._pendingPayload = null;
+
+  function Dispatcher() {"use strict";
+    this.$Dispatcher_callbacks = {};
+    this.$Dispatcher_isPending = {};
+    this.$Dispatcher_isHandled = {};
+    this.$Dispatcher_isDispatching = false;
+    this.$Dispatcher_pendingPayload = null;
   }
 
   /**
@@ -122,25 +122,25 @@ class Dispatcher {
    * @param {function} callback
    * @return {string}
    */
-  register(callback) {
+  Dispatcher.prototype.register=function(callback) {"use strict";
     var id = _prefix + _lastID++;
-    this._callbacks[id] = callback;
+    this.$Dispatcher_callbacks[id] = callback;
     return id;
-  }
+  };
 
   /**
    * Removes a callback based on its token.
    *
    * @param {string} id
    */
-  unregister(id) {
+  Dispatcher.prototype.unregister=function(id) {"use strict";
     invariant(
-      this._callbacks[id],
+      this.$Dispatcher_callbacks[id],
       'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
       id
     );
-    delete this._callbacks[id];
-  }
+    delete this.$Dispatcher_callbacks[id];
+  };
 
   /**
    * Waits for the callbacks specified to be invoked before continuing execution
@@ -149,16 +149,16 @@ class Dispatcher {
    *
    * @param {array<string>} ids
    */
-  waitFor(ids) {
+  Dispatcher.prototype.waitFor=function(ids) {"use strict";
     invariant(
-      this._isDispatching,
+      this.$Dispatcher_isDispatching,
       'Dispatcher.waitFor(...): Must be invoked while dispatching.'
     );
     for (var ii = 0; ii < ids.length; ii++) {
       var id = ids[ii];
-      if (this._isPending[id]) {
+      if (this.$Dispatcher_isPending[id]) {
         invariant(
-          this._isHandled[id],
+          this.$Dispatcher_isHandled[id],
           'Dispatcher.waitFor(...): Circular dependency detected while ' +
           'waiting for `%s`.',
           id
@@ -166,45 +166,45 @@ class Dispatcher {
         continue;
       }
       invariant(
-        this._callbacks[id],
+        this.$Dispatcher_callbacks[id],
         'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
         id
       );
-      this._invokeCallback(id);
+      this.$Dispatcher_invokeCallback(id);
     }
-  }
+  };
 
   /**
    * Dispatches a payload to all registered callbacks.
    *
    * @param {object} payload
    */
-  dispatch(payload) {
+  Dispatcher.prototype.dispatch=function(payload) {"use strict";
     invariant(
-      !this._isDispatching,
+      !this.$Dispatcher_isDispatching,
       'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
     );
-    this._startDispatching(payload);
+    this.$Dispatcher_startDispatching(payload);
     try {
-      for (var id in this._callbacks) {
-        if (this._isPending[id]) {
+      for (var id in this.$Dispatcher_callbacks) {
+        if (this.$Dispatcher_isPending[id]) {
           continue;
         }
-        this._invokeCallback(id);
+        this.$Dispatcher_invokeCallback(id);
       }
     } finally {
-      this._stopDispatching();
+      this.$Dispatcher_stopDispatching();
     }
-  }
+  };
 
   /**
    * Is this Dispatcher currently dispatching.
    *
    * @return {boolean}
    */
-  isDispatching() {
-    return this._isDispatching;
-  }
+  Dispatcher.prototype.isDispatching=function() {"use strict";
+    return this.$Dispatcher_isDispatching;
+  };
 
   /**
    * Call the calback stored with the given id. Also do some internal
@@ -213,11 +213,11 @@ class Dispatcher {
    * @param {string} id
    * @internal
    */
-  _invokeCallback(id) {
-    this._isPending[id] = true;
-    this._callbacks[id](this._pendingPayload);
-    this._isHandled[id] = true;
-  }
+  Dispatcher.prototype.$Dispatcher_invokeCallback=function(id) {"use strict";
+    this.$Dispatcher_isPending[id] = true;
+    this.$Dispatcher_callbacks[id](this.$Dispatcher_pendingPayload);
+    this.$Dispatcher_isHandled[id] = true;
+  };
 
   /**
    * Set up bookkeeping needed when dispatching.
@@ -225,24 +225,24 @@ class Dispatcher {
    * @param {object} payload
    * @internal
    */
-  _startDispatching(payload) {
-    for (var id in this._callbacks) {
-      this._isPending[id] = false;
-      this._isHandled[id] = false;
+  Dispatcher.prototype.$Dispatcher_startDispatching=function(payload) {"use strict";
+    for (var id in this.$Dispatcher_callbacks) {
+      this.$Dispatcher_isPending[id] = false;
+      this.$Dispatcher_isHandled[id] = false;
     }
-    this._pendingPayload = payload;
-    this._isDispatching = true;
-  }
+    this.$Dispatcher_pendingPayload = payload;
+    this.$Dispatcher_isDispatching = true;
+  };
 
   /**
    * Clear bookkeeping used for dispatching.
    *
    * @internal
    */
-  _stopDispatching() {
-    this._pendingPayload = null;
-    this._isDispatching = false;
-  }
-}
+  Dispatcher.prototype.$Dispatcher_stopDispatching=function() {"use strict";
+    this.$Dispatcher_pendingPayload = null;
+    this.$Dispatcher_isDispatching = false;
+  };
+
 
 module.exports = Dispatcher;
