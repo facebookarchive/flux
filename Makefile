@@ -13,4 +13,4 @@ Flux.js: lib/Dispatcher.js lib/invariant.js
 
 clean:
 	rm -rf lib
-	rm Flux.js
+	rm -f Flux.js
