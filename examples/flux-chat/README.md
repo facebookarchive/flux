@@ -24,6 +24,9 @@ based on [Browserify](http://browserify.org/) and
 React's JSX syntax into standard JavaScript with
 [Reactify](https://github.com/andreypopp/reactify).
 
+After starting the watcher, you can open `index.html` in your browser to
+open the app.
+
 ## License
 
 > Copyright 2013-2014 Facebook, Inc.
