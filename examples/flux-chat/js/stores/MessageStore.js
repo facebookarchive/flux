@@ -113,7 +113,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
     case ActionTypes.CLICK_THREAD:
       ChatAppDispatcher.waitFor([ThreadStore.dispatchToken]);
       _markAllInThreadRead(ThreadStore.getCurrentID());
-      MessageStore.emitChange;
+      MessageStore.emitChange();
       break;
 
     case ActionTypes.CREATE_MESSAGE:
