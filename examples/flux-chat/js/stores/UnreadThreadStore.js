@@ -53,7 +53,7 @@ var UnreadThreadStore = merge(EventEmitter.prototype, {
       }
     }
     return unreadCount;
-  },
+  }
 
 });
 
