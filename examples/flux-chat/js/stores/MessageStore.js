@@ -42,7 +42,7 @@ function _markAllInThreadRead(threadID) {
     if (_messages[id].threadID === threadID) {
       _messages[id].isRead = true;
     }
-  };
+  }
 }
 
 var MessageStore = merge(EventEmitter.prototype, {

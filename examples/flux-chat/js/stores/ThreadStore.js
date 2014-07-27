@@ -18,7 +18,6 @@ var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
 var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
-var MessageStore = require('../stores/MessageStore');
 var merge = require('react/lib/merge');
 
 var ActionTypes = ChatConstants.ActionTypes;
@@ -83,7 +82,7 @@ var ThreadStore = merge(EventEmitter.prototype, {
   getAllChrono: function() {
     var orderedThreads = [];
     for (var id in _threads) {
-      thread = _threads[id];
+      var thread = _threads[id];
       orderedThreads.push(thread);
     }
     orderedThreads.sort(function(a, b) {
