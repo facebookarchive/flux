@@ -4,6 +4,7 @@ title: Todo List
 layout: docs
 category: Quick Start
 permalink: docs/todo-list.html
+next: dispatcher
 ---
 
 To demonstrate the Flux architecture with some example code, let's take on the classic TodoMVC application. The entire application is available in the React GitHub repo within the [todomvc-flux](https://github.com/facebook/react/tree/master/examples/todomvc-flux) example directory, but let's walk through the development of it a step at a time.

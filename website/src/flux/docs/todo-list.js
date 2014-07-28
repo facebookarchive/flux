@@ -602,7 +602,7 @@ Thanks for taking the time to read about how we build client-side applications a
 `
 var Post = React.createClass({
   render: function() {
-    return layout({metadata: {"id":"todo-list","title":"Todo List","layout":"docs","category":"Quick Start","permalink":"docs/todo-list.html"}}, content);
+    return layout({metadata: {"id":"todo-list","title":"Todo List","layout":"docs","category":"Quick Start","permalink":"docs/todo-list.html","next":"dispatcher"}}, content);
   }
 });
 Post.content = content;
