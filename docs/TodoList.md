@@ -553,7 +553,7 @@ The payload produced by the TodoActions.create() will look like:
 }
 ```
 
-This payload is provided to the TodoStore through its registered callback. The TodoStore then broadcasts the 'change' event, and the MainSection responds by fetching the new collection of to-do items from the TodoStore and changing its state. This change in state causes the TodoApp component to call its own render() method, and the render() method of all of its descendents.
+This payload is provided to the TodoStore through its registered callback. The TodoStore then broadcasts the 'change' event, and the MainSection responds by fetching the new collection of to-do items from the TodoStore and changing its state. This change in state causes the TodoApp component to call its own render() method, and the render() method of all of its descendants.
 
 Start Me Up
 -----------
