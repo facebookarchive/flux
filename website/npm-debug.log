@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'start' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
+4 verbose run-script [ 'prestart', 'start', 'poststart' ]
+5 info prestart @
+6 info start @
+7 verbose unsafe-perm in lifecycle true
+8 info @ Failed to exec start script
+9 error @ start: `node server/server.js`
+9 error Exit status 8
+10 error Failed at the @ start script.
+10 error This is most likely a problem with the  package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     node server/server.js
+10 error You can get their info via:
+10 error     npm owner ls
+10 error There is likely additional logging output above.
+11 error System Darwin 13.1.0
+12 error command "node" "/usr/local/bin/npm" "start"
+13 error cwd /Users/vjeux/random_stuff/flux/website
+14 error node -v v0.10.26
+15 error npm -v 1.4.3
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]
