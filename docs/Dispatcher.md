@@ -28,7 +28,7 @@ Waits for the callbacks specified to be invoked before continuing execution of t
 
 - **dispatch(object payload): void** Dispatches a payload to all registered callbacks.
 
-- **isDispatching(): void** Is this Dispatcher currently dispatching.
+- **isDispatching(): boolean** Is this Dispatcher currently dispatching.
 
 ## Example
 
