@@ -108,11 +108,14 @@ The usage of `waitFor()` can be chained, for example:
 
 ```
 FlightPriceStore.dispatchToken =
-  flightDispatcher.register(function(payload)) {
-    if (payload.actionType === 'country-update' || payload.actionType === 'city-update') {
-      flightDispatcher.waitFor([CityStore.dispatchToken]);
-      FlightPriceStore.price =
-        getFlightPriceStore(CountryStore.country, CityStore.city);
+  flightDispatcher.register(function(payload) {
+    switch (payload.actionType) {
+      case 'country-update':
+      case 'city-update':
+        flightDispatcher.waitFor([CityStore.dispatchToken]);
+        FlightPriceStore.price =
+          getFlightPriceStore(CountryStore.country, CityStore.city);
+        break;
   }
 });
 ```
