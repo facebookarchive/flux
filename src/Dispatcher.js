@@ -207,7 +207,7 @@ class Dispatcher {
   }
 
   /**
-   * Call the calback stored with the given id. Also do some internal
+   * Call the callback stored with the given id. Also do some internal
    * bookkeeping.
    *
    * @param {string} id
