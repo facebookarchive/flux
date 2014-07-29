@@ -17,7 +17,7 @@
 var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
 var EventEmitter = require('events').EventEmitter;
-var MessageStore = require('../stores/messagestore');
+var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
 var merge = require('react/lib/merge');
 
