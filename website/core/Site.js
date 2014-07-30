@@ -13,12 +13,12 @@ var Site = React.createClass({
         <head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-          <title>Flux | Architecture for building client-side web applications</title>
+          <title>Flux | Application Architecture for Building User Interfaces</title>
           <meta name="viewport" content="width=device-width" />
-          <meta property="og:title" content="Flux | Architecture for building client-side web applications" />
+          <meta property="og:title" content="Flux | Application Architecture for Building User Interfaces" />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="http://facebook.github.io/flux/index.html" />
-          <meta property="og:description" content="Architecture for building client-side web applications" />
+          <meta property="og:description" content="Application Architecture for Building User Interfaces" />
 
           <link rel="stylesheet" href="/flux/css/flux.css" />
 

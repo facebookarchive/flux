@@ -16,7 +16,7 @@ var index = React.createClass({
           <div className="wrap">
             <div className="text"><strong>Flux</strong></div>
             <div className="minitext">
-              Architecture for building client-side web applications
+              Application Architecture for Building User Interfaces
             </div>
           </div>
         </div>

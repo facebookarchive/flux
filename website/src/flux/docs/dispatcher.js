@@ -27,7 +27,7 @@ Waits for the callbacks specified to be invoked before continuing execution of t
 
 - **dispatch(object payload): void** Dispatches a payload to all registered callbacks.
 
-- **isDispatching(): void** Is this Dispatcher currently dispatching.
+- **isDispatching(): boolean** Is this Dispatcher currently dispatching.
 
 ## Example
 
@@ -107,17 +107,13 @@ The usage of \`waitFor()\` can be chained, for example:
 
 \`\`\`
 FlightPriceStore.dispatchToken =
-  flightDispatcher.register(function(payload)) {
+  flightDispatcher.register(function(payload) {
     switch (payload.actionType) {
       case 'country-update':
+      case 'city-update':
         flightDispatcher.waitFor([CityStore.dispatchToken]);
         FlightPriceStore.price =
           getFlightPriceStore(CountryStore.country, CityStore.city);
-        break;
-
-      case 'city-update':
-        FlightPriceStore.price =
-          FlightPriceStore(CountryStore.country, CityStore.city);
         break;
   }
 });
