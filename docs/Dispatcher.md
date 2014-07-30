@@ -15,6 +15,7 @@ different from generic pub-sub systems in two ways:
 - Callbacks can be deferred in whole or part until other callbacks have
      been executed.
 
+Check out [Dispatcher.js](https://github.com/facebook/flux/blob/master/src/Dispatcher.js) for the source code.
 
 ## API
 
