@@ -61,6 +61,13 @@ var DocsSidebar = React.createClass({
     return categories;
   },
 
+  getLink: function(metadata) {
+    if (metadata.permalink.match(/^https?:/)) {
+      return metadata.permalink;
+    }
+    return '/flux/' + metadata.permalink + '#content';
+  },
+
   render: function() {
     return <div className="nav-docs">
       {this.getCategories().map((category) =>
@@ -72,7 +79,7 @@ var DocsSidebar = React.createClass({
                 <a
                   style={{marginLeft: metadata.indent ? 20 : 0}}
                   className={metadata.id === this.props.metadata.id ? 'active' : ''}
-                  href={'/flux/' + metadata.permalink + '#content'}>
+                  href={this.getLink(metadata)}>
                   {metadata.title}
                 </a>
               </li>

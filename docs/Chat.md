@@ -1,6 +1,6 @@
 ---
 id: chat
-title: Chat
+title: Tutorial – Chat
 layout: docs
 category: Quick Start
 permalink: docs/chat.html

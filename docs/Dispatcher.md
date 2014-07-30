@@ -4,6 +4,7 @@ title: Dispatcher
 layout: docs
 category: Reference
 permalink: docs/dispatcher.html
+next: react
 ---
 
 Dispatcher is used to broadcast payloads to registered callbacks. This is

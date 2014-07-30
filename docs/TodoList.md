@@ -1,6 +1,6 @@
 ---
 id: todo-list
-title: Todo List
+title: Tutorial – Todo List
 layout: docs
 category: Quick Start
 permalink: docs/todo-list.html

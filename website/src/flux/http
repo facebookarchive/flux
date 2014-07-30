@@ -1,0 +1,14 @@
+/**
+ * @generated
+ * @jsx React.DOM
+ */
+var React = require("React");
+var layout = require("DocsLayout");
+var content = ``
+var Post = React.createClass({
+  render: function() {
+    return layout({metadata: {"id":"react","title":"React","layout":"docs","category":"Complementary","permalink":"http"}}, content);
+  }
+});
+Post.content = content;
+module.exports = Post;
