@@ -7,11 +7,11 @@ permalink: docs/todo-list.html
 next: dispatcher
 ---
 
-To demonstrate the Flux architecture with some example code, let's take on the classic TodoMVC application. The entire application is available in the React GitHub repo within the [todomvc-flux](https://github.com/facebook/react/tree/master/examples/todomvc-flux) example directory, but let's walk through the development of it a step at a time.
+To demonstrate the Flux architecture with some example code, let's take on the classic TodoMVC application. The entire application is available in the React GitHub repo within the [flux-todomvc](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/) example directory, but let's walk through the development of it a step at a time.
 
 To begin, we'll need some boilerplate and get up and running with a module system. Node's module system, based on CommonJS, will fit the bill very nicely and we can build off of [react-boilerplate](https://github.com/petehunt/react-boilerplate) to get up and running quickly. Assuming you have npm installed, simply clone the react-boilerplate code from GitHub, and navigate into the resulting directory in Terminal (or whatever CLI application you like). Next run the npm scripts to get up and running: `npm install`, then `npm run build`, and lastly `npm start` to continuously build using Browserify.
 
-The TodoMVC example has all this built into it as well, but if you're starting with react-boilerplate make sure you edit your package.json file to match the file structure and dependencies described in the TodoMVC example's [package.json](https://github.com/facebook/react/tree/master/examples/todomvc-flux/package.json), or else your code won't match up with the explanations below.
+The TodoMVC example has all this built into it as well, but if you're starting with react-boilerplate make sure you edit your package.json file to match the file structure and dependencies described in the TodoMVC example's [package.json](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/package.json), or else your code won't match up with the explanations below.
 
 
 Source Code Structure
@@ -139,7 +139,7 @@ Now we've created an implementation that is a bit more specific to our needs, wi
 Creating Stores
 ----------------
 
-We can use Node's EventEmitter to get started with a store. We need EventEmitter to broadcast the 'change' event to our controller-views. So let's take a look at what that looks like. I've omitted some of the code for the sake of brevity, but for the full version see [TodoStore.js](https://github.com/Facebook/react/blob/master/examples/todomvc-flux/js/stores/TodoStore.js) in the TodoMVC example code.
+We can use Node's EventEmitter to get started with a store. We need EventEmitter to broadcast the 'change' event to our controller-views. So let's take a look at what that looks like. I've omitted some of the code for the sake of brevity, but for the full version see [TodoStore.js](https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/stores/TodoStore.js) in the TodoMVC example code.
 
 ```javascript
 var AppDispatcher = require('../dispatcher/AppDispatcher');
@@ -238,7 +238,7 @@ Another important part is the registration of the store's callback with the disp
 Listening to Changes with a Controller-View
 -------------------------------------------
 
-We need a React component near the top of our component hierarchy to listen for changes in the store. In a larger app, we would have more of these listening components, perhaps one for every section of the page. In Facebook's Ads Creation Tool, we have many of these controller-like views, each governing a specific section of the UI. In the Lookback Video Editor, we only had two: one for the animated preview and one for the image selection interface. Here's one for our TodoMVC example. Again, this is slightly abbreviated, but for the full code you can take a look at the TodoMVC example's [TodoApp.react.js](https://github.com/facebook/react/blob/master/examples/todomvc-flux/js/components/TodoApp.react.js)
+We need a React component near the top of our component hierarchy to listen for changes in the store. In a larger app, we would have more of these listening components, perhaps one for every section of the page. In Facebook's Ads Creation Tool, we have many of these controller-like views, each governing a specific section of the UI. In the Lookback Video Editor, we only had two: one for the animated preview and one for the image selection interface. Here's one for our TodoMVC example. Again, this is slightly abbreviated, but for the full code you can take a look at the TodoMVC example's [TodoApp.react.js](https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/components/TodoApp.react.js)
 
 ```javascript
 /** @jsx React.DOM */
