@@ -23,7 +23,6 @@
     "test": "jest"
   },
   "author": "Bill Fisher",
-  "license": "Apache 2",
   "browserify": {
     "transform": [
       "reactify",
