@@ -20,7 +20,7 @@ var ReactPropTypes = React.PropTypes;
 
 var ThreadListItem = React.createClass({
 
-  props: {
+  propTypes: {
     thread: ReactPropTypes.object,
     currentThreadID: ReactPropTypes.string
   },
