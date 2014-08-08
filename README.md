@@ -7,24 +7,19 @@ Basic example: [TodoMVC](https://github.com/facebook/react/tree/master/examples/
 Slightly more complex example: [Chat Client](https://github.com/facebook/flux/tree/master/examples/flux-chat)
 
 ## Requirements
-Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use EventEmitter as a basis for Stores and React for our Views.
+Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module is available here to complete your Flux toolbox.  The Dispatcher's one dependency is the `invariant` module, also included here.
 
-## Building Flux
-Clone the repo and from within the `flux` directory, run the following on the command line: 
+## Building and Installing Flux
+Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
 
-`npm install`
+This will run [Gulp](http://gulpjs.com/)-based build tasks automatically and produce the file Flux.js, which you can then require as a module. 
+The dispatcher will be available as Flux.Dispatcher.  You could require it like so:
 
-This will run `make` automatically and produce the file Flux.js, which you can use within a browser. 
-The dispatcher will be available as Flux.Dispatcher.
+```javascript
+var Dispatcher = require('path/to/this/directory/Flux').Dispatcher;
+```
 
-
-## Installing Flux
-One can utilize the Flux.js file in the browser, and refer to the dispatcher in your code as `Flux.Dispatcher`.
-
-Alternatively, if you are using Browserify and a CommonJS module system, you can use the Dispatcher and the invariant here as modules in that system.
-
-Please see the two example applications for instruction on how to build with Browserify.
-
+The build process also produces de-sugared versions of the `Dispatcher` and `invariant` modules in a `lib` directory, and you can require those modules directly, copying them into whatever directory is most convenient for you.  The flux-todomvc and flux-chat example applications both do this.
 
 ## How Flux works
 Flux applications have three major parts: the ___dispatcher___, the ___stores___, and the ___views___ (React components).  These should not be confused with Model-View-Controller.  Controllers do exist in a Flux application, but they are ___controller-views___ -- views often found at the top of the hierarchy that retrieve data from the stores and pass this data down to their children.  Additionally, ___actions___ — dispatcher helper methods — are often used to support a semantic dispatcher API.  It can be useful to think of them as a fourth part of the Flux update cycle.
