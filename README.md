@@ -34,12 +34,7 @@ Control is inverted with ___stores___: the stores accept updates and reconcile t
 
 Data in a Flux application flows in a single direction, in a cycle:
 
-<pre>
-Views ---> (actions) ----> Dispatcher ---> (registered callback) ---> Stores -------+
-Ʌ                                                                                   |
-|                                                                                   V
-+-- (Controller-Views "change" event handlers) ---- (Stores emit "change" events) --+
-</pre>
+<img src="./docs/img/flux-diagram-white-background.png" style="width: 100%;" />
 
 A unidirectional data flow is central to the Flux pattern, and in fact Flux takes its name from the Latin word for flow. In the above diagram, the ___dispatcher___, ___stores___ and ___views___ are independent nodes with distinct inputs and outputs. The ___actions___ are simply discrete, semantic helper functions that facilitate passing data to the ___dispatcher___. 
 
