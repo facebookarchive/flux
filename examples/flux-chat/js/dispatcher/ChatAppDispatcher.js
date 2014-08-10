@@ -12,8 +12,6 @@
 
 var ChatConstants = require('../constants/ChatConstants');
 var Dispatcher = require('./Dispatcher');
-
-// var merge = require('react/lib/merge');
 var copyProperties = require('react/lib/copyProperties');
 
 var PayloadSources = ChatConstants.PayloadSources;
