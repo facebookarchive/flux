@@ -10,10 +10,13 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+var ChatConstants = require('../constants/ChatConstants');
 var Dispatcher = require('./Dispatcher');
 
 // var merge = require('react/lib/merge');
 var copyProperties = require('react/lib/copyProperties');
+
+var PayloadSources = ChatConstants.PayloadSources;
 
 var ChatAppDispatcher = copyProperties(new Dispatcher(), {
 
@@ -23,7 +26,7 @@ var ChatAppDispatcher = copyProperties(new Dispatcher(), {
    */
   handleServerAction: function(action) {
     var payload = {
-      source: 'SERVER_ACTION',
+      source: PayloadSources.SERVER_ACTION,
       action: action
     };
     this.dispatch(payload);
@@ -35,7 +38,7 @@ var ChatAppDispatcher = copyProperties(new Dispatcher(), {
    */
   handleViewAction: function(action) {
     var payload = {
-      source: 'VIEW_ACTION',
+      source: PayloadSources.VIEW_ACTION,
       action: action
     };
     this.dispatch(payload);
