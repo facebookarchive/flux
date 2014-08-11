@@ -24,38 +24,34 @@ describe('AppDispatcher', function() {
 
     var listener1Done = false;
     var listener1 = function(pl) {
-      return AppDispatcher.waitFor([index2, index4], function() {
-        // Second, third, and fourth listeners should have now been called
-        expect(listener2Done).toBe(true);
-        expect(listener3Done).toBe(true);
-        expect(listener4Done).toBe(true);
-        listener1Done = true;
-      });
+      AppDispatcher.waitFor([index2, index4]);
+      // Second, third, and fourth listeners should have now been called
+      expect(listener2Done).toBe(true);
+      expect(listener3Done).toBe(true);
+      expect(listener4Done).toBe(true);
+      listener1Done = true;
     };
     var index1 = AppDispatcher.register(listener1);
 
     var listener2Done = false;
     var listener2 = function(pl) {
-      return AppDispatcher.waitFor([index3], function() {
-        expect(listener3Done).toBe(true);
-        listener2Done = true;
-      });
+      AppDispatcher.waitFor([index3]);
+      expect(listener3Done).toBe(true);
+      listener2Done = true;
     };
     var index2 = AppDispatcher.register(listener2);
 
     var listener3Done = false;
     var listener3 = function(pl) {
       listener3Done = true;
-      return true;
     };
     var index3 = AppDispatcher.register(listener3);
 
     var listener4Done = false;
     var listener4 = function(pl) {
-      return AppDispatcher.waitFor([index3], function() {
-        expect(listener3Done).toBe(true);
-        listener4Done = true;
-      });
+      AppDispatcher.waitFor([index3]);
+      expect(listener3Done).toBe(true);
+      listener4Done = true;
     };
     var index4 = AppDispatcher.register(listener4);
 
