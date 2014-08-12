@@ -13,7 +13,7 @@ Going further, please take a look at our in-depth examination of [action creator
 
 
 ## Examples
-Basic example: [TodoMVC](https://github.com/facebook/react/tree/master/examples/todomvc-flux)
+Basic example: [TodoMVC](https://github.com/facebook/flux/tree/master/examples/flux-todomvc)
 
 Slightly more complex example: [Chat Client](https://github.com/facebook/flux/tree/master/examples/flux-chat)
 
