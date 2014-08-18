@@ -83,10 +83,9 @@ var TodoStore = merge(EventEmitter.prototype, {
    * @return {booleam}
    */
   areAllComplete: function() {
-    for (id in _todos) {
+    for (var id in _todos) {
       if (!_todos[id].complete) {
         return false;
-        break;
       }
     }
     return true;
