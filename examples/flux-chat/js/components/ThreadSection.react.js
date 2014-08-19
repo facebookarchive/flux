@@ -43,15 +43,12 @@ var ThreadSection = React.createClass({
   },
 
   render: function() {
-    var threadListItems = this.state.threads.map(function(thread) {
-      return (
-        <ThreadListItem
-          key={thread.id}
-          thread={thread}
-          currentThreadID={this.state.currentThreadID}
-        />
-      );
-    }, this);
+    var threadListItems = this.state.threads.map((thread) =>
+      <ThreadListItem
+        key={thread.id}
+        thread={thread}
+        currentThreadID={this.state.currentThreadID}
+      />, this);
     var unread =
       this.state.unreadCount === 0 ?
       null :
