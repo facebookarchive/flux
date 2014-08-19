@@ -48,7 +48,8 @@ var ThreadSection = React.createClass({
         key={thread.id}
         thread={thread}
         currentThreadID={this.state.currentThreadID}
-      />, this);
+      />
+    );
     var unread =
       this.state.unreadCount === 0 ?
       null :
