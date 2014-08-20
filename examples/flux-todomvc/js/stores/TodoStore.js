@@ -118,53 +118,54 @@ var TodoStore = merge(EventEmitter.prototype, {
   }
 });
 
+var actions = {
+  TODO_CREATE: function(action) {
+    text = action.text.trim();
+    if (text !== '') {
+      create(text);
+    }
+  },
+
+  TODO_TOGGLE_COMPLETE_ALL: function(action) {
+    if (TodoStore.areAllComplete()) {
+      updateAll({complete: false});
+    } else {
+      updateAll({complete: true});
+    }
+  },
+
+  TODO_UNDO_COMPLETE: function(action) {
+    update(action.id, {complete: false});
+  },
+
+  TODO_COMPLETE: function(action) {
+    update(action.id, {complete: true});
+  },
+
+  TODO_UPDATE_TEXT: function(action) {
+    text = action.text.trim();
+    if (text !== '') {
+      update(action.id, {text: text});
+    }
+  },
+
+  TODO_DESTROY: function(action) {
+    destroy(action.id);
+  },
+
+  TODO_DESTROY_COMPLETED: function(action) {
+    destroyCompleted();
+  }
+};
+
 // Register to handle all updates
 AppDispatcher.register(function(payload) {
   var action = payload.action;
   var text;
 
-  switch(action.actionType) {
-    case TodoConstants.TODO_CREATE:
-      text = action.text.trim();
-      if (text !== '') {
-        create(text);
-      }
-      break;
-
-    case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
-      if (TodoStore.areAllComplete()) {
-        updateAll({complete: false});
-      } else {
-        updateAll({complete: true});
-      }
-      break;
-
-    case TodoConstants.TODO_UNDO_COMPLETE:
-      update(action.id, {complete: false});
-      break;
-
-    case TodoConstants.TODO_COMPLETE:
-      update(action.id, {complete: true});
-      break;
-
-    case TodoConstants.TODO_UPDATE_TEXT:
-      text = action.text.trim();
-      if (text !== '') {
-        update(action.id, {text: text});
-      }
-      break;
-
-    case TodoConstants.TODO_DESTROY:
-      destroy(action.id);
-      break;
-
-    case TodoConstants.TODO_DESTROY_COMPLETED:
-      destroyCompleted();
-      break;
-
-    default:
-      return true;
-  }
+  var func = actions[TodoConstants[action.actionType]];
+  if (!func) return true;
+  func(action);
 
   // This often goes in each case that should trigger a UI change. This store
   // needs to trigger a UI change after every view action, so we can make the
