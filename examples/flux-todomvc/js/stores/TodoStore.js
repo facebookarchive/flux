@@ -163,7 +163,7 @@ AppDispatcher.register(function(payload) {
   var action = payload.action;
   var text;
 
-  var func = actions[action.actionType];
+  var func = actions[TodoConstants[action.actionType]];
   if (!func) return true;
   func(action);
 
