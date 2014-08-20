@@ -7,13 +7,13 @@
     "react": "~0.11"
   },
   "devDependencies": {
-    "browserify": "~4.2.2",
+    "browserify": "~5.10.0",
     "envify": "~2.0.1",
     "jest-cli": "~0.1.17",
     "reactify": "~0.14.0",
     "statics": "~0.1.0",
     "uglify-js": "~2.4.15",
-    "watchify": "~0.10.2"
+    "watchify": "~1.0.2"
   },
   "scripts": {
     "start": "STATIC_ROOT=./static watchify -o js/bundle.js -v -d .",
@@ -24,7 +24,7 @@
   "author": "Bill Fisher",
   "browserify": {
     "transform": [
-      "reactify",
+      ["reactify", {"es6": true}],
       "envify"
     ]
   },
