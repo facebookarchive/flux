@@ -80,7 +80,7 @@ var TodoStore = merge(EventEmitter.prototype, {
 
   /**
    * Tests whether all the remaining TODO items are marked as completed.
-   * @return {booleam}
+   * @return {boolean}
    */
   areAllComplete: function() {
     for (var id in _todos) {
