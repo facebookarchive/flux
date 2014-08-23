@@ -62,7 +62,7 @@ flightDispatcher.dispatch({
 This payload is digested by `CityStore`:
 
 ```
-flightDispatcher.register(function(payload)) {
+flightDispatcher.register(function(payload) {
   if (payload.actionType === 'city-update') {
     CityStore.city = payload.selectedCity;
   }
