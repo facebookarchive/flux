@@ -47,7 +47,7 @@ var _prefix = 'ID_';
  *
  * This payload is digested by `CityStore`:
  *
- *   flightDispatcher.register(function(payload)) {
+ *   flightDispatcher.register(function(payload) {
  *     if (payload.actionType === 'city-update') {
  *       CityStore.city = payload.selectedCity;
  *     }
@@ -87,7 +87,7 @@ var _prefix = 'ID_';
  * The usage of `waitFor()` can be chained, for example:
  *
  *   FlightPriceStore.dispatchToken =
- *     flightDispatcher.register(function(payload)) {
+ *     flightDispatcher.register(function(payload) {
  *       switch (payload.actionType) {
  *         case 'country-update':
  *           flightDispatcher.waitFor([CityStore.dispatchToken]);
