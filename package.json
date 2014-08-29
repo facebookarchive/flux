@@ -18,7 +18,7 @@
   ],
   "main": "index.js",
   "scripts": {
-    "prepublish": "./node_modules/.bin/gulp publish"
+    "prepublish": "gulp publish"
   },
   "repository": {
     "type": "git",
