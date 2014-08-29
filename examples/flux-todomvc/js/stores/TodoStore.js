@@ -25,8 +25,8 @@ var _todos = {};
 function create(text) {
   // Hand waving here -- not showing how this interacts with XHR or persistent
   // server-side storage.
-  // Using the current timestamp in place of a real id.
-  var id = Date.now();
+  // Using the current timestamp + random number in place of a real id.
+  var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36);
   _todos[id] = {
     id: id,
     complete: false,
