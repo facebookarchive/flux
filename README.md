@@ -22,11 +22,16 @@ Slightly more complex example: [Chat Client](https://github.com/facebook/flux/tr
 Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module is available here to complete your Flux toolbox.  The Dispatcher's one dependency is the `invariant` module, also included here.
 
 
-## Building and Installing Flux
+## Installing Flux
+Flux is available as a npm module, so you can add it to your package.json file or run `npm install flux`.  The dispatcher will be available as Flux.Dispatcher.
+
+
+## Building Flux from a Cloned Repo
 Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
 
 This will run [Gulp](http://gulpjs.com/)-based build tasks automatically and produce the file Flux.js, which you can then require as a module. 
-The dispatcher will be available as Flux.Dispatcher.  You could require it like so:
+
+You could then require the Dispatcher like so:
 
 ```javascript
 var Dispatcher = require('path/to/this/directory/Flux').Dispatcher;
