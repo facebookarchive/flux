@@ -1,12 +1,33 @@
 {
   "name": "flux",
   "version": "0.0.0",
-  "description": "",
+  "description": "An application architecture based on a unidirectional data flow",
+  "keywords": [
+    "flux",
+    "react",
+    "facebook",
+    "dispatcher"
+  ],
+  "homepage": "http://facebook.github.io/flux/",
+  "bugs": "https://github.com/facebook/flux/issues",
+  "files": [
+    "index.js",
+    "src/"
+  ],
   "main": "index.js",
   "scripts": {
     "prepublish": "./node_modules/.bin/gulp publish"
   },
-  "author": "",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/flux"
+  },
+  "author": "Facebook",
+  "contributors": [
+    "Jing Chen",
+    "Bill Fisher <fisherwebdev@gmail.com>",
+    "Paul O'Shannessy"
+  ],
   "license": "BSD",
   "devDependencies": {
     "browserify": "^5.9.1",
