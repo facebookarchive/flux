@@ -26,9 +26,9 @@
   },
   "author": "Facebook",
   "contributors": [
-    "Jing Chen",
+    "Jing Chen <jingc@fb.com>",
     "Bill Fisher <fisherwebdev@gmail.com>",
-    "Paul O'Shannessy"
+    "Paul O'Shannessy <paul@oshanessy.com>"
   ],
   "license": "BSD",
   "devDependencies": {
