@@ -1,6 +1,6 @@
 {
   "name": "flux",
-  "version": "0.0.0",
+  "version": "2.0.0",
   "description": "An application architecture based on a unidirectional data flow",
   "keywords": [
     "flux",
@@ -12,7 +12,9 @@
   "bugs": "https://github.com/facebook/flux/issues",
   "files": [
     "index.js",
-    "src/"
+    "lib/",
+    "LICENSE",
+    "PATENTS"
   ],
   "main": "index.js",
   "scripts": {
