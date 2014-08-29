@@ -1,18 +1,17 @@
 var gulp = require('gulp');
-var gRimraf = require('gulp-rimraf');
 var gReact = require('gulp-react')
 var gReplace = require('gulp-replace');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var del = require('del');
 
 var browserifyConfig = {
   entries: ['./index.js'],
   standalone: 'Flux'
 };
 
-gulp.task('clean', function() {
-  return gulp.src(['lib/', 'Flux.js'], { read: false })
-             .pipe(gRimraf());
+gulp.task('clean', function(cb) {
+  del(['lib/', 'Flux.js'], cb);
 });
 
 gulp.task('lib', function() {
@@ -32,4 +31,3 @@ gulp.task('browserify', function() {
 
 gulp.task('publish', ['clean', 'default']);
 gulp.task('default', ['lib', 'browserify']);
-
