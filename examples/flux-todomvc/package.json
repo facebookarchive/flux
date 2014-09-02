@@ -1,25 +1,23 @@
 {
   "name": "todomvc-flux",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Example Flux architecture.",
+  "repository": "https://github.com/facebook/flux",
   "main": "js/app.js",
   "dependencies": {
-    "es6-promise": "~0.1.1",
     "react": "~0.11.0"
   },
   "devDependencies": {
-    "browserify": "~2.36.0",
-    "envify": "~1.2.0",
-    "reactify": "~0.4.0",
-    "statics": "~0.1.0",
-    "uglify-js": "~2.4.13",
-    "watchify": "~0.4.1",
-    "jest-cli": "~0.1.5"
+    "browserify": "~4.2.2",
+    "envify": "~2.0.1",
+    "jest-cli": "~0.1.17",
+    "reactify": "~0.14.0",
+    "uglify-js": "~2.4.15",
+    "watchify": "~0.10.2"
   },
   "scripts": {
-    "start": "STATIC_ROOT=./static watchify -o js/bundle.js -v -d .",
-    "build": "STATIC_ROOT=./static NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.min.js",
-    "collect-static": "collect-static . ./static",
+    "start": "watchify -o js/bundle.js -v -d .",
+    "build": "NODE_ENV=production browserify . | uglifyjs -cm > js/bundle.min.js",
     "test": "jest"
   },
   "author": "Bill Fisher",
