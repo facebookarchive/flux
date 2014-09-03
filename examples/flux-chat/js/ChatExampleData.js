@@ -13,6 +13,7 @@
 module.exports = {
 
   init: function() {
+    if(localStorage.hasOwnProperty('messages')) return;
     localStorage.clear();
     localStorage.setItem('messages', JSON.stringify([
       {
