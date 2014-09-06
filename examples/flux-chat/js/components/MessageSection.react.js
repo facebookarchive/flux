@@ -18,6 +18,10 @@ var MessageStore = require('../stores/MessageStore');
 var React = require('react');
 var ThreadStore = require('../stores/ThreadStore');
 
+// Need to setup message registration
+// We need to ensure that both MessageStore and ThreadStore have finished initializing before this "require"
+require('../stores/ThreadstoreMessageRegistration');
+
 function getStateFromStores() {
   return {
     messages: MessageStore.getAllForCurrentThread(),
