@@ -10,6 +10,7 @@
  */
 
 var React = require('react');
+window.React = React; // enable Chrome React dev-tools
 
 var TodoApp = require('./components/TodoApp.react');
 
