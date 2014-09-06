@@ -115,9 +115,7 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
     case ActionTypes.CREATE_MESSAGE:
       var message = MessageStore.getCreatedMessageData(action.text);
       _messages[message.id] = message;
-      ThreadStore.setLastMessageOnCurrentThread(message);
       MessageStore.emitChange();
-      ThreadStore.emitChange();
       break;
 
     case ActionTypes.RECEIVE_RAW_MESSAGES:
@@ -131,6 +129,32 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
       // do nothing
   }
 
+});
+
+ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
+  var action = payload.action;
+
+  switch(action.type) {
+
+    case ActionTypes.CLICK_THREAD:
+      ThreadStore.threadSelected(action.threadID);
+      ThreadStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_RAW_MESSAGES:
+      ThreadStore.init(action.rawMessages);
+      ThreadStore.emitChange();
+      break;
+
+    case ActionTypes.CREATE_MESSAGE:
+      ChatAppDispatcher.waitFor([MessageStore.dispatchToken]);
+      var currentThreadMessages = MessageStore.getAllForCurrentThread();
+      var lastMessage = currentThreadMessages[currentThreadMessages.length - 1];
+      ThreadStore.setLastMessageOnCurrentThread(lastMessage);
+      ThreadStore.emitChange();
+    default:
+    // do nothing
+  }
 });
 
 module.exports = MessageStore;

@@ -102,33 +102,11 @@ var ThreadStore = merge(EventEmitter.prototype, {
 
   setLastMessageOnCurrentThread: function(message) {
     this.getCurrent().lastMessage = message;
-  }
-});
+  },
 
-ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
-  var action = payload.action;
-
-  switch(action.type) {
-
-    case ActionTypes.CLICK_THREAD:
-      _currentID = action.threadID;
-      _threads[_currentID].lastMessage.isRead = true;
-      ThreadStore.emitChange();
-      break;
-
-    case ActionTypes.RECEIVE_RAW_MESSAGES:
-      ThreadStore.init(action.rawMessages);
-      ThreadStore.emitChange();
-      break;
-
-    // Trying to ensure the MessageStore handled the event first didn't work
-    // Why is MessageStore always {} ?? Circular dependency issue probably
-    //case ActionTypes.CREATE_MESSAGE:
-    //  ChatAppDispatcher.waitFor([MessageStore.dispatchToken]);
-    //  ThreadStore.setLastMessageOnCurrentThread();
-    //  ThreadStore.emitChange();
-    default:
-      // do nothing
+  threadSelected: function(threadID) {
+    _currentID = threadID;
+    _threads[_currentID].lastMessage.isRead = true;
   }
 
 });
