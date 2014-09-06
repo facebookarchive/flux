@@ -36,10 +36,14 @@ var MessageComposer = React.createClass({
   },
 
   _onChange: function(event, value) {
-    this.setState({text: event.target.value});
+    // ENTER_KEY_CODE handled by _onKeyDown
+    if (event.target.value !== "\n") {
+      this.setState({text: event.target.value});
+    }
   },
 
   _onKeyDown: function(event) {
+    // Trap the ENTER_KEY_CODE to send the message
     if (event.keyCode === ENTER_KEY_CODE) {
       var text = this.state.text.trim();
       if (text) {
