@@ -44,7 +44,7 @@ var MessageComposer = React.createClass({
 
   _onKeyDown: function(event) {
     // Trap the ENTER_KEY_CODE to send the message
-    if (event.keyCode === ENTER_KEY_CODE) {
+    if (event.keyCode === ENTER_KEY_CODE && event.shiftKey === false) {
       var text = this.state.text.trim();
       if (text) {
         ChatMessageActionCreators.createMessage(text);
