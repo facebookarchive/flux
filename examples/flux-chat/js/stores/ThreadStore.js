@@ -98,8 +98,11 @@ var ThreadStore = merge(EventEmitter.prototype, {
 
   getCurrent: function() {
     return this.get(this.getCurrentID());
-  }
+  },
 
+  setLastMessageOnCurrentThread: function(message) {
+    this.getCurrent().lastMessage = message;
+  }
 });
 
 ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
@@ -118,6 +121,12 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
       ThreadStore.emitChange();
       break;
 
+    // Trying to ensure the MessageStore handled the event first didn't work
+    // Why is MessageStore always {} ?? Circular dependency issue probably
+    //case ActionTypes.CREATE_MESSAGE:
+    //  ChatAppDispatcher.waitFor([MessageStore.dispatchToken]);
+    //  ThreadStore.setLastMessageOnCurrentThread();
+    //  ThreadStore.emitChange();
     default:
       // do nothing
   }
