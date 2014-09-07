@@ -23,7 +23,11 @@ Flux is more of a pattern than a framework, and does not have any hard dependenc
 
 
 ## Installing Flux
-Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you can add it to your package.json file or run `npm install flux`.  The dispatcher will be available as Flux.Dispatcher.
+Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you can add it to your package.json file or run `npm install flux`.  The dispatcher will be available as `Flux.Dispatcher` and can be required like this:
+
+```javascript
+var Dispatcher = require('flux').Dispatcher;
+```
 
 
 ## Building Flux from a Cloned Repo
