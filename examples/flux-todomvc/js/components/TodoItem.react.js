@@ -34,27 +34,9 @@ var TodoItem = React.createClass({
   render: function() {
     var todo = this.props.todo;
 
-    var input;
-    if (this.state.isEditing) {
-      input =
-        <TodoTextInput
-          className="edit"
-          onSave={this._onSave}
-          value={todo.text}
-        />;
-    }
-
-    // List items should get the class 'editing' when editing
-    // and 'completed' when marked as completed.
-    // Note that 'completed' is a classification while 'complete' is a state.
-    // This differentiation between classification and state becomes important
-    // in the naming of view actions toggleComplete() vs. destroyCompleted().
     return (
       <li
-        className={cx({
-          'completed': todo.complete,
-          'editing': this.state.isEditing
-        })}
+        className={this._className()}
         key={todo.id}>
         <div className="view">
           <input
@@ -63,14 +45,38 @@ var TodoItem = React.createClass({
             checked={todo.complete}
             onChange={this._onToggleComplete}
           />
-          <label onDoubleClick={this._onDoubleClick}>
+          <label onClick={this._onDoubleClick}>
             {todo.text}
           </label>
           <button className="destroy" onClick={this._onDestroyClick} />
         </div>
-        {input}
+        {this._inputComponent()}
       </li>
     );
+  },
+
+  _inputComponent: function() {
+    if (this.state.isEditing) {
+      return (
+        <TodoTextInput
+          className="edit"
+          onSave={this._onSave}
+          value={this.props.todo.text}
+        />
+      );
+    }
+  },
+
+  // List items should get the class 'editing' when editing
+  // and 'completed' when marked as completed.
+  // Note that 'completed' is a classification while 'complete' is a state.
+  // This differentiation between classification and state becomes important
+  // in the naming of view actions toggleComplete() vs. destroyCompleted().
+  _className: function() {
+    return cx({
+      'completed': this.props.todo.complete,
+      'editing': this.state.isEditing
+    });
   },
 
   _onToggleComplete: function() {
