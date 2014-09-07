@@ -45,7 +45,7 @@ var TodoItem = React.createClass({
             checked={todo.complete}
             onChange={this._onToggleComplete}
           />
-          <label onClick={this._onDoubleClick}>
+          <label onDoubleClick={this._onDoubleClick}>
             {todo.text}
           </label>
           <button className="destroy" onClick={this._onDestroyClick} />
