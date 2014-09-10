@@ -10,6 +10,8 @@
  * @typechecks
  */
 
+"use strict";
+
 var invariant = require('./invariant');
 
 var _lastID = 1;
