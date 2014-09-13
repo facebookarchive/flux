@@ -23,58 +23,39 @@ var Footer = React.createClass({
    * @return {object}
    */
   render: function() {
-    this._computeRenderingValues();
-    // Undefined and thus not rendered if no completed items are left.
-    var clearCompletedButton = this._clearCompletedButton(this._completed);
+    var allTodos = this.props.allTodos;
+    var total = Object.keys(allTodos).length;
+
+    if (total === 0) {
+      return null;
+    }
+
+    var completed = 0;
+    for (var key in allTodos) {
+      if (allTodos[key].complete) {
+        completed++;
+      }
+    }
+
+    var itemsLeft = total - completed;
+    var itemsLeftPhrase = itemsLeft === 1 ? ' item ' : ' items ';
+    itemsLeftPhrase += 'left';
+
   	return (
       <footer id="footer">
         <span id="todo-count">
           <strong>
-            {this._itemsLeft}
+            {itemsLeft}
           </strong>
-          {this._itemsLeftPhrase}
+          {itemsLeftPhrase}
         </span>
-        {clearCompletedButton}
+        {this.clearCompletedButton(completed)}
       </footer>
     );
   },
 
-  /**
-   * Event handler to delete all completed TODOs
-   */
-  _onClearCompletedClick: function() {
-    TodoActions.destroyCompleted();
-  },
-
-  _computeItemsLeft: function() {
-    this._itemsLeft = this._total - this._completed;
-    this._itemsLeftPhrase = this._itemsLeft === 1 ? ' item ' : ' items ';
-    this._itemsLeftPhrase += 'left';
-  },
-
-  _computeTotalCompleted: function() {
-    var allTodos = this.props.allTodos;
-    this._total = Object.keys(allTodos).length;
-
-    if (this._total === 0) {
-      this._completed = 0
-    } else {
-      var completed = 0;
-      for (var key in allTodos) {
-        if (allTodos[key].complete) {
-          completed++;
-        }
-      }
-      this._completed = completed;
-    }
-  },
-
-  _computeRenderingValues: function() {
-    this._computeTotalCompleted();
-    this._computeItemsLeft();
-  },
-
-  _clearCompletedButton: function(completed) {
+  clearCompletedButton: function(completed) {
+    // Undefined and thus not rendered if no completed items are left.
     if (completed) {
       return (
         <button
@@ -83,10 +64,16 @@ var Footer = React.createClass({
         Clear completed ({completed})
         </button>
       );
-    } else {
-      return null;
     }
+  },
+
+  /**
+   * Event handler to delete all completed TODOs
+   */
+  _onClearCompletedClick: function() {
+    TodoActions.destroyCompleted();
   }
+
 });
 
 module.exports = Footer;
