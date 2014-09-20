@@ -22,7 +22,7 @@
  * will remain to ensure logic does not differ in production.
  */
 
-var invariant = function(condition, format, a, b, c, d, e, f) {
+var invariant = function(condition, format) {
   if (__DEV__) {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
@@ -37,11 +37,10 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
         'for the full error message and additional helpful warnings.'
       );
     } else {
-      var args = [a, b, c, d, e, f];
-      var argIndex = 0;
+      var argIndex = 2;
       error = new Error(
         'Invariant Violation: ' +
-        format.replace(/%s/g, function() { return args[argIndex++]; })
+        format.replace(/%s/g, function() { return arguments[argIndex++]; })
       );
     }
 
