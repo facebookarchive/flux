@@ -26,7 +26,7 @@ gulp.task('browserify', function() {
   return browserify(browserifyConfig)
           .bundle()
           .pipe(source('Flux.js'))
-          .pipe(gulp.dest('./'))
+          .pipe(gulp.dest('./dist/'))
 });
 
 gulp.task('publish', ['clean', 'default']);
