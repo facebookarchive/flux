@@ -4,34 +4,37 @@
   "version": "2.0.1",
   "main": "dist/Flux.js",
   "license": "https://github.com/facebook/flux/blob/master/LICENSE",
-  "ignore": [
-    "docs/",
-    "examples/"
-    "lib/",
-    "src/",
-    "node_modules/",
-    "website/",
-    "CONTRIBUTING.md",
-    "**/.*",
-    "Gulpfile.js",
-    "index.js",
-    "package.json"
-  ],
-  "keywords": [
-    "flux",
-    "react",
-    "facebook",
-    "dispatcher"
-  ],
+  "homepage": "http://facebook.github.io/flux/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/facebook/flux.git"
+  },
   "authors": [
     "Facebook",
     "Jing Chen <jingc@fb.com>",
     "Bill Fisher <fisherwebdev@gmail.com>",
     "Paul O'Shannessy <paul@oshanessy.com>"
   ],
-  "homepage": "http://facebook.github.io/flux/",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/facebook/flux.git"
-  }
+  "keywords": [
+    "flux",
+    "dispatcher",
+    "react",
+    "facebook"
+  ],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests",
+    "docs",
+    "examples",
+    "src",
+    "lib",
+    "website",
+    "CONTRIBUTING.md",
+    "Gulpfile.js",
+    "index.js",
+    "package.json"
+  ]
 }
