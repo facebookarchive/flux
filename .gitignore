@@ -1,6 +1,5 @@
 node_modules
 lib/
-Flux.js
 *.log
 website/src/flux/docs/
 website/core/metadata.js
