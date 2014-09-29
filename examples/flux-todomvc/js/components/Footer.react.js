@@ -41,17 +41,6 @@ var Footer = React.createClass({
     var itemsLeftPhrase = itemsLeft === 1 ? ' item ' : ' items ';
     itemsLeftPhrase += 'left';
 
-    // Undefined and thus not rendered if no completed items are left.
-    var clearCompletedButton;
-    if (completed) {
-      clearCompletedButton =
-        <button
-          id="clear-completed"
-          onClick={this._onClearCompletedClick}>
-          Clear completed ({completed})
-        </button>;
-    }
-
   	return (
       <footer id="footer">
         <span id="todo-count">
@@ -60,9 +49,22 @@ var Footer = React.createClass({
           </strong>
           {itemsLeftPhrase}
         </span>
-        {clearCompletedButton}
+        {this.clearCompletedButton(completed)}
       </footer>
     );
+  },
+
+  clearCompletedButton: function(completed) {
+    // Undefined and thus not rendered if no completed items are left.
+    if (completed) {
+      return (
+        <button
+        id="clear-completed"
+        onClick={this._onClearCompletedClick}>
+        Clear completed ({completed})
+        </button>
+      );
+    }
   },
 
   /**
