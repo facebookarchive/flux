@@ -16,6 +16,15 @@ var React = require('react');
 
 var ReactPropTypes = React.PropTypes;
 
+// Copied from http://stackoverflow.com/a/10772475/1009332
+// Would make more sense to use markdown parser or other library
+var sanitizeHTML = function (string, white, black) {
+  if (!white) white = "b|i|p|br";//allowed tags
+  if (!black) black = "script|object|embed";//complete remove tags
+  var e = new RegExp("(<(" + black + ")[^>]*>.*</\\2>|(?!<[/]?(" + white + ")(\\s[^<]*>|[/]>|>))<[^<>]*>|(?!<[^<>\\s]+)\\s[^</>]+(?=[/>]))", "gi");
+  return string.replace(e, "");
+}
+
 var MessageListItem = React.createClass({
 
   propTypes: {
@@ -24,16 +33,19 @@ var MessageListItem = React.createClass({
 
   render: function() {
     var message = this.props.message;
+    var sanitizedText = sanitizeHTML(message.text, false, false);
+    var text = sanitizedText.replace(/\n/g, "<br />");
     return (
       <li className="message-list-item">
         <h5 className="message-author-name">{message.authorName}</h5>
         <div className="message-time">
           {message.date.toLocaleTimeString()}
         </div>
-        <div className="message-text">{message.text}</div>
+        <div className="message-text" dangerouslySetInnerHTML={{__html: text}} />
       </li>
     );
   }
+  //<div className="message-text">{message.text}</div>
 
 });
 

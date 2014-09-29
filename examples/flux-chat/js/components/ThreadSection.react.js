@@ -13,7 +13,6 @@
  */
 
 var React = require('react');
-var MessageStore = require('../stores/MessageStore');
 var ThreadListItem = require('../components/ThreadListItem.react');
 var ThreadStore = require('../stores/ThreadStore');
 var UnreadThreadStore = require('../stores/UnreadThreadStore');
