@@ -120,7 +120,7 @@ In this TodoMVC example application, we can see the elements of Flux in our dire
       TodoStore.js
 </pre>
 
-The primary entry point into the application is app.js.  This file bootstraps the React rendering inside of index.html.  TodoApp.js is our controller-view and it passes all data down into its child React components.
+The primary entry point into the application is app.js.  This file bootstraps the React rendering inside of index.html.  TodoApp.react.js is our controller-view and it passes all data down into its child React components.
 
 TodoActions.js is a collection of action creator methods that views may call from within their event handlers, in response to user interactions.  They are nothing more than helpers that call into the AppDispatcher.
 
