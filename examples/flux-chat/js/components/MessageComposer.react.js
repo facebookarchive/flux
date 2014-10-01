@@ -41,6 +41,7 @@ var MessageComposer = React.createClass({
 
   _onKeyDown: function(event) {
     if (event.keyCode === ENTER_KEY_CODE) {
+      event.preventDefault();
       var text = this.state.text.trim();
       if (text) {
         ChatMessageActionCreators.createMessage(text);
