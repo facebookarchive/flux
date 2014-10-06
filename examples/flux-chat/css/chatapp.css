@@ -49,6 +49,7 @@
 
 .thread-list-item {
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
 }
 
 .thread-list:hover .thread-list-item:hover {
@@ -63,6 +64,7 @@
 .thread-list:hover .thread-list-item.active,
 .thread-list:hover .thread-list-item.active:hover {
   background-color: #efefff;
+  cursor: default;
 }
 
 .message-author-name,
