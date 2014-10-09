@@ -29,7 +29,7 @@ var index = React.createClass({
           </section>
 
           <section className="home-section home-getting-started">
-            <iframe width="500" height="280" src="//www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&amp;start=621" frameborder="0" allowfullscreen></iframe>
+            <iframe width="500" height="280" src="//www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&amp;start=621" frameBorder="0" allowFullcreen></iframe>
           </section>
 
           <section className="home-bottom-section">
