@@ -47,7 +47,7 @@ var CountryStore = {country: null};
 var CityStore = {city: null};
 
 // Keeps track of the base flight price of the selected city
-var FlightPriceStore = {price: null}
+var FlightPriceStore = {price: null};
 ```
 
 When a user changes the selected city, we dispatch the payload:
