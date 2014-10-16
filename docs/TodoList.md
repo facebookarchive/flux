@@ -200,31 +200,30 @@ var TodoStore = merge(EventEmitter.prototype, {
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   }
+});
 
-  dispatcherIndex: AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    var text;
+dispatcherIndex: AppDispatcher.register(function(payload) {
+  var action = payload.action;
+  var text;
 
-    switch(action.actionType) {
-      case TodoConstants.TODO_CREATE:
-        text = action.text.trim();
-        if (text !== '') {
-          create(text);
-          TodoStore.emitChange();
-        }
-        break;
-
-      case TodoConstants.TODO_DESTROY:
-        destroy(action.id);
+  switch(action.actionType) {
+    case TodoConstants.TODO_CREATE:
+      text = action.text.trim();
+      if (text !== '') {
+        create(text);
         TodoStore.emitChange();
-        break;
+      }
+      break;
 
-      // add more cases for other actionTypes, like TODO_UPDATE, etc.
-    }
+    case TodoConstants.TODO_DESTROY:
+      destroy(action.id);
+      TodoStore.emitChange();
+      break;
 
-    return true; // No errors. Needed by promise in Dispatcher.
-  })
+    // add more cases for other actionTypes, like TODO_UPDATE, etc.
+  }
 
+  return true; // No errors. Needed by promise in Dispatcher.
 });
 
 module.exports = TodoStore;
