@@ -230,7 +230,7 @@ var TodoStore = merge(EventEmitter.prototype, {
 module.exports = TodoStore;
 ```
 
-There are a few important things to note in the above code. To start, we are maintaining a private data structure called _todos. This object contains all the individual to-do items. Because this variable lives outside the class, but within the closure of the module, it remains private — it cannot be directly changed from the outside. This helps us preserve a distinct input/output interface for the flow of data by making it impossible to update the store without using an action.
+There are a few important things to note in the above code. To start, we are maintaining a private data structure called _todos. This object contains all the individual to-do items. Because this variable lives outside the class, but within the closure of the module, it remains private — it cannot be directly changed from outside of the module. This helps us preserve a distinct input/output interface for the flow of data by making it impossible to update the store without using an action.
 
 Another important part is the registration of the store's callback with the dispatcher. We pass in our payload handling callback to the dispatcher and preserve the index that this store has in the dispatcher's registry. The callback function currently only handles two actionTypes, but later we can add as many as we need.
 
