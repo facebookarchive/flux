@@ -7,7 +7,7 @@ An application architecture for React utilizing a unidirectional data flow.
 ## Documentation
 Please read the blog post announcing Flux: ["An Application Architecture for React"](http://facebook.github.io/react/blog/2014/05/06/flux.html).
 
-Then read more about the [Flux architecture](http://facebook.github.io/react/docs/flux-overview.html) and dive into our [TodoMVC tutorial](http://facebook.github.io/flux/docs/todo-list.html).  
+Then read more about the [Flux architecture](http://facebook.github.io/flux/docs/overview.html) and dive into our [TodoMVC tutorial](http://facebook.github.io/flux/docs/todo-list.html).  
 
 Going further, please take a look at our in-depth examination of [action creators and the dispatcher](http://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html).
 
