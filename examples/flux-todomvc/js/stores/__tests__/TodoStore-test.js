@@ -11,7 +11,7 @@
 
 jest.dontMock('../../constants/TodoConstants');
 jest.dontMock('../TodoStore');
-jest.dontMock('react/lib/merge');
+jest.dontMock('react/lib/Object.assign');
 
 describe('TodoStore', function() {
 
