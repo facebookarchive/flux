@@ -11,7 +11,7 @@
  */
 
 jest.dontMock('../UnreadThreadStore');
-jest.dontMock('react/lib/Object.assign');
+jest.dontMock('object-assign');
 
 describe('UnreadThreadStore', function() {
 
