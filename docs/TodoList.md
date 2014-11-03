@@ -56,13 +56,13 @@ Now we are ready to create a dispatcher. Here is an naive example of a Dispatche
 
 ```javascript
 var Promise = require('es6-promise').Promise;
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var _callbacks = [];
 var _promises = [];
 
 var Dispatcher = function() {};
-Dispatcher.prototype = merge(Dispatcher.prototype, {
+Dispatcher.prototype = assign({}, Dispatcher.prototype, {
 
   /**
    * Register a Store's callback so that it may be invoked by an action.
@@ -111,10 +111,9 @@ Now we are all set to create a dispatcher that is more specific to our app, whic
 
 ```javascript
 var Dispatcher = require('./Dispatcher');
+var assign = require('object-assign');
 
-var merge = require('react/lib/merge');
-
-var AppDispatcher = merge(Dispatcher.prototype, {
+var AppDispatcher = assign({}, Dispatcher.prototype, {
 
   /**
    * A bridge function between the views and the dispatcher, marking the action
@@ -145,7 +144,7 @@ We can use Node's EventEmitter to get started with a store. We need EventEmitter
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -173,7 +172,7 @@ function destroy(id) {
   delete _todos[id];
 }
 
-var TodoStore = merge(EventEmitter.prototype, {
+var TodoStore = assign({}, EventEmitter.prototype, {
 
   /**
    * Get the entire collection of TODOs.

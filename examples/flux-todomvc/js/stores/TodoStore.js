@@ -12,7 +12,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
-var merge = require('react/lib/merge');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
@@ -41,7 +41,7 @@ function create(text) {
  *     updated.
  */
 function update(id, updates) {
-  _todos[id] = merge(_todos[id], updates);
+  _todos[id] = assign({}, _todos[id], updates);
 }
 
 /**
@@ -76,7 +76,7 @@ function destroyCompleted() {
   }
 }
 
-var TodoStore = merge(EventEmitter.prototype, {
+var TodoStore = assign({}, EventEmitter.prototype, {
 
   /**
    * Tests whether all the remaining TODO items are marked as completed.

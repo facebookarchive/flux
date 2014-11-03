@@ -12,11 +12,11 @@
 
 var ChatConstants = require('../constants/ChatConstants');
 var Dispatcher = require('flux').Dispatcher;
-var copyProperties = require('react/lib/copyProperties');
+var assign = require('object-assign');
 
 var PayloadSources = ChatConstants.PayloadSources;
 
-var ChatAppDispatcher = copyProperties(new Dispatcher(), {
+var ChatAppDispatcher = assign(new Dispatcher(), {
 
   /**
    * @param {object} action The details of the action, including the action's
