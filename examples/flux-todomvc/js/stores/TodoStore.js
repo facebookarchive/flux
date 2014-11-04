@@ -12,7 +12,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
-var assign = require('react/lib/Object.assign');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 
