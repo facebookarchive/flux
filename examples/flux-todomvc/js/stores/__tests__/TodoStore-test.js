@@ -16,6 +16,9 @@ jest.dontMock('react/lib/merge');
 describe('TodoStore', function() {
 
   var TodoConstants = require('../../constants/TodoConstants');
+  var AppDispatcher;
+  var TodoStore;
+  var callback;
 
   // mock actions inside dispatch payloads
   var actionTodoCreate = {
