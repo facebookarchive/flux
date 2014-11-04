@@ -1,5 +1,5 @@
 var gulp = require('gulp');
-var gReact = require('gulp-react')
+var gReact = require('gulp-react');
 var gReplace = require('gulp-replace');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
