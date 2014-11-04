@@ -56,7 +56,7 @@ Now we are ready to create a dispatcher. Here is an naive example of a Dispatche
 
 ```javascript
 var Promise = require('es6-promise').Promise;
-var assign = require('react/lib/Object.assign');
+var assign = require('object-assign');
 
 var _callbacks = [];
 var _promises = [];
@@ -111,8 +111,7 @@ Now we are all set to create a dispatcher that is more specific to our app, whic
 
 ```javascript
 var Dispatcher = require('./Dispatcher');
-
-var assign = require('react/lib/Object.assign');
+var assign = require('object-assign');
 
 var AppDispatcher = assign({}, Dispatcher.prototype, {
 
@@ -145,7 +144,7 @@ We can use Node's EventEmitter to get started with a store. We need EventEmitter
 var AppDispatcher = require('../dispatcher/AppDispatcher');
 var EventEmitter = require('events').EventEmitter;
 var TodoConstants = require('../constants/TodoConstants');
-var assign = require('react/lib/Object.assign');
+var assign = require('object-assign');
 
 var CHANGE_EVENT = 'change';
 

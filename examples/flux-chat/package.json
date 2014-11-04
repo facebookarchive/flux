@@ -6,13 +6,14 @@
   "main": "js/app.js",
   "dependencies": {
     "flux": "^2.0.0",
+    "object-assign": "^1.0.0",
     "react": "^0.12.0"
   },
   "devDependencies": {
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
     "jest-cli": "~0.1.17",
-    "reactify": "~0.15.2",
+    "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
   },
