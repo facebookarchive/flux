@@ -11,7 +11,7 @@
  */
 
 jest.dontMock('../UnreadThreadStore');
-jest.dontMock('react/lib/merge');
+jest.dontMock('react/lib/Object.assign');
 
 describe('UnreadThreadStore', function() {
 

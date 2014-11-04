@@ -15,7 +15,7 @@ var ChatConstants = require('../constants/ChatConstants');
 var ChatMessageUtils = require('../utils/ChatMessageUtils');
 var EventEmitter = require('events').EventEmitter;
 var ThreadStore = require('../stores/ThreadStore');
-var merge = require('react/lib/merge');
+var assign = require('react/lib/Object.assign');
 
 var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
@@ -41,7 +41,7 @@ function _markAllInThreadRead(threadID) {
   }
 }
 
-var MessageStore = merge(EventEmitter.prototype, {
+var MessageStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);

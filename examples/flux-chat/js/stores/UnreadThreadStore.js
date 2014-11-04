@@ -15,12 +15,12 @@ var ChatConstants = require('../constants/ChatConstants');
 var EventEmitter = require('events').EventEmitter;
 var MessageStore = require('../stores/MessageStore');
 var ThreadStore = require('../stores/ThreadStore');
-var merge = require('react/lib/merge');
+var assign = require('react/lib/Object.assign');
 
 var ActionTypes = ChatConstants.ActionTypes;
 var CHANGE_EVENT = 'change';
 
-var UnreadThreadStore = merge(EventEmitter.prototype, {
+var UnreadThreadStore = assign({}, EventEmitter.prototype, {
 
   emitChange: function() {
     this.emit(CHANGE_EVENT);
