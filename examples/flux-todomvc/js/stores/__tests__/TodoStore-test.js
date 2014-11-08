@@ -11,6 +11,7 @@
 
 jest.dontMock('../../constants/TodoConstants');
 jest.dontMock('../TodoStore');
+jest.dontMock('keyMirror');
 jest.dontMock('object-assign');
 
 describe('TodoStore', function() {
