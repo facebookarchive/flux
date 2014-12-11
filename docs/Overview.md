@@ -87,13 +87,20 @@ case 'TODO_CREATE':
   Dispatcher.waitFor([
     PrependedTextStore.dispatcherIndex,
     YetAnotherStore.dispatcherIndex
-  ], function() {
-    TodoStore.create(PrependedTextStore.getText() + ' ' + action.text);
-    TodoStore.emit('change');
-  });
+  ]);
+
+  TodoStore.create(PrependedTextStore.getText() + ' ' + action.text);
   break;
 ```
 
-The arguments for `waitFor()` are an array of dispatcher registry indexes, and a final callback to invoke after the callbacks at the given indexes have completed.  Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
+`waitFor()` accepts a single argument which is an array of dispatcher registry indexes. Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
+
+A dispatcher registry index is returned by `register()` when registering callbacks for the Dispatcher:
+
+```javascript
+PrependedTextStore.dispatcherIndex = Dispatcher.register(function (payload) {
+  // ...
+});
+```
 
 A problem arises if we create circular dependencies. If Store A waits for Store B, and B waits for A, then we'll have a very bad situation on our hands. We'll need a more robust dispatcher that flags these circular dependencies with console errors, and this is not easily accomplished with promises. Unfortunately, that's a bit beyond the scope of this documentation. In the future we hope to cover how to build a more robust dispatcher and how to initialize, update, and save the state of the application with persistent data, like a web service API.
