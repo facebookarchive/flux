@@ -12,7 +12,7 @@
   "bugs": "https://github.com/facebook/flux/issues",
   "files": [
     "index.js",
-    "lib/",
+    "src/",
     "LICENSE",
     "PATENTS"
   ],
