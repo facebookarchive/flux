@@ -125,14 +125,20 @@ class Dispatcher {
    * @param {function} callback
    * @return {string}
    */
-  register(actionType, callback) {
-    if (typeof actionType === "function") {
-      callback = actionType;
-      actionType = "*";
+  register(actionTypes, callback) {
+    if (typeof actionTypes === "function") {
+      callback = actionTypes;
+      actionTypes = "*";
     }
-    if (!this._actionTypes[actionType]) this._actionTypes[actionType] = {};
+    if (!Array.isArray(actionTypes)) {
+      actionTypes = [actionTypes];
+    }
     var id = _prefix + _lastID++;
-    this._actionTypes[actionType][id] = this._callbacks[id] = callback;
+    for (var i = 0, l = actionTypes.length; i < l; i++) {
+      var actionType = actionTypes[i];
+      if (!this._actionTypes[actionType]) this._actionTypes[actionType] = {};
+      this._actionTypes[actionType][id] = this._callbacks[id] = callback;
+    }
     return id;
   }
 
