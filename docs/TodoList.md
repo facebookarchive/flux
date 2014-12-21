@@ -587,6 +587,4 @@ Now within the TodoStore callback we can explicitly wait for any dependencies to
 The Future of Flux
 ------------------
 
-A lot of people ask if Facebook will release Flux as an open source framework. Really, Flux is just an architecture, not a framework.  But perhaps a Flux boilerplate project might make sense, if there is enough interest. Please let us know if you'd like to see us do this.
-
 Thanks for taking the time to read about how we build client-side applications at Facebook. We hope Flux proves as useful to you as it has to us.
