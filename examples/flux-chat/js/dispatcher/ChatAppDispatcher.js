@@ -16,31 +16,29 @@ var assign = require('object-assign');
 
 var PayloadSources = ChatConstants.PayloadSources;
 
+function handleFunctionFactory(source) {
+  return function(action) {
+    var payload = {
+      source: source,
+      action: action
+    };
+    this.dispatch(payload);
+  };
+}
+
 var ChatAppDispatcher = assign(new Dispatcher(), {
 
   /**
    * @param {object} action The details of the action, including the action's
    * type and additional data coming from the server.
    */
-  handleServerAction: function(action) {
-    var payload = {
-      source: PayloadSources.SERVER_ACTION,
-      action: action
-    };
-    this.dispatch(payload);
-  },
+  handleServerAction: handleFunctionFactory(PayloadSources.SERVER_ACTION)
 
   /**
    * @param {object} action The details of the action, including the action's
    * type and additional data coming from the view.
    */
-  handleViewAction: function(action) {
-    var payload = {
-      source: PayloadSources.VIEW_ACTION,
-      action: action
-    };
-    this.dispatch(payload);
-  }
+  handleViewAction: handleFunctionFactory(PayloadSources.VIEW_ACTION)
 
 });
 
