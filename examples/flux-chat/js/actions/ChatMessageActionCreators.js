@@ -24,8 +24,6 @@ module.exports = {
       type: ActionTypes.CREATE_MESSAGE,
       text: text
     });
-    var message = MessageStore.getCreatedMessageData(text);
-    ChatWebAPIUtils.createMessage(message);
   }
 
 };
