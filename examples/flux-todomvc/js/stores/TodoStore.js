@@ -118,9 +118,8 @@ var TodoStore = assign({}, EventEmitter.prototype, {
   }
 });
 
-// Register to handle all updates
-AppDispatcher.register(function(payload) {
-  var action = payload.action;
+// Register callback to handle all updates
+AppDispatcher.register(function(action) {
   var text;
 
   switch(action.actionType) {
@@ -129,6 +128,7 @@ AppDispatcher.register(function(payload) {
       if (text !== '') {
         create(text);
       }
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
@@ -137,14 +137,17 @@ AppDispatcher.register(function(payload) {
       } else {
         updateAll({complete: true});
       }
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_UNDO_COMPLETE:
       update(action.id, {complete: false});
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_COMPLETE:
       update(action.id, {complete: true});
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_UPDATE_TEXT:
@@ -152,27 +155,22 @@ AppDispatcher.register(function(payload) {
       if (text !== '') {
         update(action.id, {text: text});
       }
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_DESTROY:
       destroy(action.id);
+      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_DESTROY_COMPLETED:
       destroyCompleted();
+      TodoStore.emitChange();
       break;
 
     default:
-      return true;
+      // no op
   }
-
-  // This often goes in each case that should trigger a UI change. This store
-  // needs to trigger a UI change after every view action, so we can make the
-  // code less repetitive by putting it here.  We need the default case,
-  // however, to make sure this only gets called after one of the cases above.
-  TodoStore.emitChange();
-
-  return true; // No errors.  Needed by promise in Dispatcher.
 });
 
 module.exports = TodoStore;
