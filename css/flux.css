@@ -98,6 +98,7 @@ li {
 
 a {
   color: #34A83B;
+  font-weight: 400;
   text-decoration: none;
 }
 
@@ -126,7 +127,7 @@ html * {
   font-family: 'source-code-pro', Menlo, 'Courier New', Consolas, monospace;
   font-size: 13px;
   line-height: 20px;
-  border-left: 4px solid #4B9150;
+  border-left: 4px solid #318435;
   padding: 5px 10px;
   margin-left: 20px;
   background-color: rgba(75, 145, 80, 0.05);
@@ -279,20 +280,25 @@ h1:hover .hash-link, h2:hover .hash-link, h3:hover .hash-link, h4:hover .hash-li
 
 .nav-main .nav-site a.active {
   color: #fafafa;
-  border-bottom: 3px solid #4B9150;
+  border-bottom: 3px solid #44B74A;
   background: #333;
 }
 
 .nav-main .nav-home {
+  color: #44B74A;
   font-size: 24px;
   line-height: 50px;
 }
 
+.nav-home a {
+  color: #44B74A;
+}
+
 .nav-home img {
-  vertical-align: -13px;
-  margin-right: 7px;
-  width: 38px;
-  height: 38px;
+  vertical-align: -17px;
+  margin-right: 4px;
+  width: 50px;
+  height: 50px;
 }
 
 .nav-main ul {
@@ -304,7 +310,7 @@ h1:hover .hash-link, h2:hover .hash-link, h3:hover .hash-link, h4:hover .hash-li
 }
 
 .hero {
-  background: #4B9150;
+  background: #318435;
   padding: 50px 0;
   color: #FDF3E7;
   font-weight: 300;
@@ -336,7 +342,7 @@ h1:hover .hash-link, h2:hover .hash-link, h3:hover .hash-link, h4:hover .hash-li
 
 .buttons-unit .button {
   font-size: 24px;
-  background: #4B9150;
+  background: #318435;
   color: #fafafa;
 }
 
