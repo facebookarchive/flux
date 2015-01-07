@@ -4,7 +4,7 @@
 
 var React = require('React');
 var Site = require('Site');
-var center = require('center');
+var Center = require('center');
 var H2 = require('H2');
 
 var support = React.createClass({
@@ -32,7 +32,7 @@ var support = React.createClass({
             <H2>Twitter</H2>
             <p><a href="https://twitter.com/search?q=%23fluxjs"><strong>#fluxjs</strong> hash tag on Twitter</a> is used to keep up with the latest Flux news.</p>
 
-            <p><center><a className="twitter-timeline" data-dnt="true" data-chrome="nofooter noheader transparent" href="https://twitter.com/search?q=%23fluxjs" data-widget-id="493727680810848257"></a></center></p>
+            <p><Center><a className="twitter-timeline" data-dnt="true" data-chrome="nofooter noheader transparent" href="https://twitter.com/search?q=%23fluxjs" data-widget-id="493727680810848257"></a></Center></p>
           </div>
         </section>
 

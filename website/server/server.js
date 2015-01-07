@@ -1,10 +1,16 @@
 "use strict";
+
+var compression = require('compression');
 var connect = require('connect');
+var convert = require('./convert.js');
+var errorHandler = require('errorhandler');
 var http = require('http');
+var morgan = require('morgan');
 var optimist = require('optimist');
 var path = require('path');
 var reactMiddleware = require('react-page-middleware');
-var convert = require('./convert.js');
+var serveFavicon = require('serve-favicon');
+var serveStatic = require('serve-static');
 
 var argv = optimist.argv;
 
@@ -40,11 +46,11 @@ var app = connect()
     next();
   })
   .use(reactMiddleware.provide(buildOptions))
-  .use(connect['static'](FILE_SERVE_ROOT))
-  .use(connect.favicon(path.join(FILE_SERVE_ROOT, 'elements', 'favicon', 'favicon.ico')))
-  .use(connect.logger())
-  .use(connect.compress())
-  .use(connect.errorHandler());
+  .use(serveStatic(FILE_SERVE_ROOT))
+  .use(serveFavicon(path.join(FILE_SERVE_ROOT, 'elements', 'favicon', 'favicon.ico')))
+  .use(morgan('combined'))
+  .use(compression())
+  .use(errorHandler());
 
 var portToUse = port || 8080;
 var server = http.createServer(app);

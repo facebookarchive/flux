@@ -31,6 +31,7 @@ var Site = React.createClass({
             <div className="nav-main">
               <div className="wrap">
                 <a className="nav-home" href="/flux/">
+                  <img class="nav-logo" src="/flux/img/flux_logo.svg" width="50" height="50" />
                   Flux
                 </a>
                 <HeaderLinks section={this.props.section} />

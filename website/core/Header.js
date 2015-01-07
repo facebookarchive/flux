@@ -38,14 +38,14 @@ var Header = React.createClass({
 
   render: function() {
     var slug = this.slug(this.props.toSlug || this.props.children);
-    var h = React.DOM['h' + this.props.level];
+    var Heading = React.DOM['h' + this.props.level];
 
     return this.transferPropsTo(
-      <h>
+      <Heading>
         <a className="anchor" name={slug}></a>
         {this.props.children}
         {' '}<a className="hash-link" href={'#' + slug}>#</a>
-      </h>
+      </Heading>
     );
   }
 });
