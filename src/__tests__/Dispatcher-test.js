@@ -124,8 +124,9 @@ describe('Dispatcher', function() {
   });
 
   it('should throw on self-circular dependencies', function() {
-    var tokenA = dispatcher.register(function() {
+    var tokenA = dispatcher.register(function(payload) {
       dispatcher.waitFor([tokenA]);
+      callbackA(payload);
     });
 
     var payload = {};
@@ -137,12 +138,14 @@ describe('Dispatcher', function() {
   });
 
   it('should throw on multi-circular dependencies', function() {
-    var tokenA = dispatcher.register(function() {
+    var tokenA = dispatcher.register(function(payload) {
       dispatcher.waitFor([tokenB]);
+      callbackA(payload);
     });
 
-    var tokenB = dispatcher.register(function() {
+    var tokenB = dispatcher.register(function(payload) {
       dispatcher.waitFor([tokenA]);
+      callbackB(payload);
     });
 
     var payload = {};
