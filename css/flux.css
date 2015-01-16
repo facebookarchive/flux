@@ -971,3 +971,7 @@ div[data-twttr-id] iframe {
     margin: 0;
   }
 }
+
+.video {
+  margin-bottom: 10px;
+}
