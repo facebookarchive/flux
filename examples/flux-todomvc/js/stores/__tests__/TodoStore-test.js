@@ -20,26 +20,24 @@ describe('TodoStore', function() {
   var TodoStore;
   var callback;
 
-  // mock actions inside dispatch payloads
+  // mock actions
   var actionTodoCreate = {
-    source: 'VIEW_ACTION',
-    action: {
-      actionType: TodoConstants.TODO_CREATE,
-      text: 'foo'
-    }
+    actionType: TodoConstants.TODO_CREATE,
+    text: 'foo'
   };
   var actionTodoDestroy = {
-    source: 'VIEW_ACTION',
-    action: {
-      actionType: TodoConstants.TODO_DESTROY,
-      id: 'replace me in test'
-    }
+    actionType: TodoConstants.TODO_DESTROY,
+    id: 'replace me in test'
   };
 
   beforeEach(function() {
     AppDispatcher = require('../../dispatcher/AppDispatcher');
     TodoStore = require('../TodoStore');
     callback = AppDispatcher.register.mock.calls[0][0];
+  });
+
+  it('registers a callback with the dispatcher', function() {
+    expect(AppDispatcher.register.mock.calls.length).toBe(1);
   });
 
   it('should register a callback with the dispatcher', function() {
@@ -64,7 +62,7 @@ describe('TodoStore', function() {
     var all = TodoStore.getAll();
     var keys = Object.keys(all);
     expect(keys.length).toBe(1);
-    actionTodoDestroy.action.id = keys[0];
+    actionTodoDestroy.id = keys[0];
     callback(actionTodoDestroy);
     expect(all[keys[0]]).toBeUndefined();
   });
@@ -80,21 +78,15 @@ describe('TodoStore', function() {
     var all = TodoStore.getAll();
     for (key in all) {
       callback({
-        source: 'VIEW_ACTION',
-        action: {
-          actionType: TodoConstants.TODO_COMPLETE,
-          id: key
-        }
+        actionType: TodoConstants.TODO_COMPLETE,
+        id: key
       });
     }
     expect(TodoStore.areAllComplete()).toBe(true);
 
     callback({
-      source: 'VIEW_ACTION',
-      action: {
-        actionType: TodoConstants.TODO_UNDO_COMPLETE,
-        id: key
-      }
+      actionType: TodoConstants.TODO_UNDO_COMPLETE,
+      id: key
     });
     expect(TodoStore.areAllComplete()).toBe(false);
   });
