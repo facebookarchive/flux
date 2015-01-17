@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014, Facebook, Inc.
  * All rights reserved.
  *
@@ -8,6 +8,7 @@
  *
  * @providesModule Dispatcher
  * @typechecks
+ * @preventMunge
  */
 
 "use strict";
