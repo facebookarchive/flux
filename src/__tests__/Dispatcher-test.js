@@ -17,16 +17,19 @@ describe('Dispatcher', function() {
   var dispatcher;
   var callbackA;
   var callbackB;
+  var callbackC;
 
   beforeEach(function() {
     dispatcher = new Dispatcher();
     callbackA = jest.genMockFunction();
     callbackB = jest.genMockFunction();
+    callbackC = jest.genMockFunction();
   });
 
   it('should execute all subscriber callbacks', function() {
     dispatcher.register(callbackA);
     dispatcher.register(callbackB);
+    dispatcher.register("sample-event", callbackC);
 
     var payload = {};
     dispatcher.dispatch(payload);
@@ -37,6 +40,9 @@ describe('Dispatcher', function() {
     expect(callbackB.mock.calls.length).toBe(1);
     expect(callbackB.mock.calls[0][0]).toBe(payload);
 
+    expect(callbackC.mock.calls.length).toBe(1);
+    expect(callbackC.mock.calls[0][0]).toBe(payload);
+
     dispatcher.dispatch(payload);
 
     expect(callbackA.mock.calls.length).toBe(2);
@@ -44,6 +50,78 @@ describe('Dispatcher', function() {
 
     expect(callbackB.mock.calls.length).toBe(2);
     expect(callbackB.mock.calls[1][0]).toBe(payload);
+
+    expect(callbackC.mock.calls.length).toBe(2);
+    expect(callbackC.mock.calls[1][0]).toBe(payload);
+  });
+
+  it('should execute specific subscriber callback via string', function() {
+    dispatcher.register(callbackA);
+    dispatcher.register(callbackB);
+    dispatcher.register("sample-event", callbackC);
+
+    var payload = {actionType: "sample-event"};
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(1);
+    expect(callbackC.mock.calls[0][0]).toBe(payload);
+
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(2);
+    expect(callbackC.mock.calls[1][0]).toBe(payload);
+  });
+
+  it('should execute specific subscriber callback via array', function() {
+    dispatcher.register(callbackA);
+    dispatcher.register(callbackB);
+    dispatcher.register(["sample-event", "other-event"], callbackC);
+
+    var payload = {actionType: "sample-event"};
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(1);
+    expect(callbackC.mock.calls[0][0]).toBe(payload);
+
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(2);
+    expect(callbackC.mock.calls[1][0]).toBe(payload);
+
+    payload = {actionType: "other-event"};
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(3);
+    expect(callbackC.mock.calls[2][0]).toBe(payload);
+
+    dispatcher.dispatch(payload);
+
+    expect(callbackA.mock.calls.length).toBe(0);
+
+    expect(callbackB.mock.calls.length).toBe(0);
+
+    expect(callbackC.mock.calls.length).toBe(4);
+    expect(callbackC.mock.calls[3][0]).toBe(payload);
   });
 
   it('should wait for callbacks registered earlier', function() {

@@ -111,6 +111,7 @@ class Dispatcher {
     this._isHandled = {};
     this._isDispatching = false;
     this._pendingPayload = null;
+    this._actionTypes = {};
   }
 
   /**
@@ -120,9 +121,20 @@ class Dispatcher {
    * @param {function} callback
    * @return {string}
    */
-  register(callback) {
+  register(actionTypes, callback) {
+    if (typeof actionTypes === "function") {
+      callback = actionTypes;
+      actionTypes = "*";
+    }
+    if (!Array.isArray(actionTypes)) {
+      actionTypes = [actionTypes];
+    }
     var id = _prefix + _lastID++;
-    this._callbacks[id] = callback;
+    for (var i = 0, l = actionTypes.length; i < l; i++) {
+      var actionType = actionTypes[i];
+      if (!this._actionTypes[actionType]) this._actionTypes[actionType] = {};
+      this._actionTypes[actionType][id] = this._callbacks[id] = callback;
+    }
     return id;
   }
 
@@ -138,6 +150,18 @@ class Dispatcher {
       id
     );
     delete this._callbacks[id];
+    for (var actionType in this._actionTypes) {
+      delete this._actionTypes[actionType][id];
+    }
+  }
+
+  /**
+   * Removes a callback based on its token.
+   *
+   * @param {string} actionType
+   */
+  unregisterAction(actionType) {
+    // to be implemented
   }
 
   /**
@@ -182,9 +206,10 @@ class Dispatcher {
       !this._isDispatching,
       'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
     );
-    this._startDispatching(payload);
+    var actionType = payload.actionType || "*";
+    this._startDispatching(actionType, payload);
     try {
-      for (var id in this._callbacks) {
+      for (var id in actionType == "*" ? this._callbacks : this._actionTypes[actionType]) {
         if (this._isPending[id]) {
           continue;
         }
@@ -213,7 +238,8 @@ class Dispatcher {
    */
   _invokeCallback(id) {
     this._isPending[id] = true;
-    this._callbacks[id](this._pendingPayload);
+    var actionType = this._pendingPayload.actionType || "*";
+    (actionType == "*" ? this._callbacks : this._actionTypes[actionType])[id](this._pendingPayload);
     this._isHandled[id] = true;
   }
 
@@ -223,8 +249,12 @@ class Dispatcher {
    * @param {object} payload
    * @internal
    */
-  _startDispatching(payload) {
-    for (var id in this._callbacks) {
+  _startDispatching(actionType, payload) {
+    if (typeof actionType !== "string") {
+      payload = actionType;
+      actionType = "*";
+    }
+    for (var id in actionType == "*" ? this._callbacks : this._actionTypes[actionType]) {
       this._isPending[id] = false;
       this._isHandled[id] = false;
     }
