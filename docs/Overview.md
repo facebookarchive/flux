@@ -9,7 +9,9 @@ next: todo-list
 
 Flux is the application architecture that Facebook uses for building client-side web applications.  It complements React's composable view components by utilizing a unidirectional data flow.  It's more of a pattern rather than a formal framework, and you can start using Flux immediately without a lot of new code.
 
-<figure><iframe width="650" height="396" src="//www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&start=621" frameborder="0" allowfullscreen></iframe></figure>
+<figure class="video-container disassociated-with-next-sibling">
+  <iframe src="//www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&start=621" frameborder="0" allowfullscreen></iframe>
+</figure>
 
 Flux applications have three major parts: the dispatcher, the stores, and the views (React components).  These should not be confused with Model-View-Controller.  Controllers do exist in a Flux application, but they are controller-views — views often found at the top of the hierarchy that retrieve data from the stores and pass this data down to their children.  Additionally, action creators — dispatcher helper methods — are used to support a semantic API that describes all changes that are possible in the application.  It can be useful to think of them as a fourth part of the Flux update cycle.
 
@@ -22,24 +24,30 @@ Control is inverted with stores: the stores accept updates and reconcile them as
 
 ## Structure and Data Flow
 
+<p class="associated-with-next-sibling">
 Data in a Flux application flows in a single direction:
+</p>
 
-<figure>
-  <img src="/flux/img/flux-simple-f8-diagram-1300w.png" alt="unidirectional data flow in Flux" width=650 />
+<figure class="diagram associated-with-next-sibling">
+  <img src="/flux/img/flux-simple-f8-diagram-1300w.png" alt="unidirectional data flow in Flux" />
 </figure>
 
 A unidirectional data flow is central to the Flux pattern, and the above diagram should be __the primary mental model for the Flux programmer__. The dispatcher, stores and views are independent nodes with distinct inputs and outputs. The actions are simple objects containing the new data and an identifying _type_ property.  
 
+<p class="associated-with-next-sibling">
 The views may cause a new action to be propagated through the system in response to user interactions:
+</p>
 
-<figure>
-  <img src="/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png" alt="data flow in Flux with data originating from user interactions" width=650 />
+<figure class="diagram">
+  <img src="/flux/img/flux-simple-f8-diagram-with-client-action-1300w.png" alt="data flow in Flux with data originating from user interactions" />
 </figure>
 
+<p class="associated-with-next-sibling">
 All data flows through the dispatcher as a central hub.  Actions are provided to the dispatcher in an _action creator_ method, and most often originate from user interactions with the views.  The dispatcher then invokes the callbacks that the stores have registered with it, dispatching actions to all stores.  Within their registered callbacks, stores respond to whichever actions are relevant to the state they maintain.  The stores then emit a _change_ event to alert the controller-views that a change to the data layer has occurred.  Controller-views listen for these events and retrieve data from the stores in an event handler. The controller-views call their own `setState()` method, causing a re-rendering of themselves and all of their descendants in the component tree.
+</p>
 
-<figure>
-  <img src="/flux/img/flux-simple-f8-diagram-explained-1300w.png" alt="varying transports between each step of the Flux data flow" width=650 />
+<figure class="diagram">
+  <img src="/flux/img/flux-simple-f8-diagram-explained-1300w.png" alt="varying transports between each step of the Flux data flow" />
 </figure>
 
 This structure allows us to reason easily about our application in a way that is reminiscent of _functional reactive programming_, or more specifically _data-flow programming_ or _flow-based programming_, where data flows through the application in a single direction — there are no two-way bindings. Application state is maintained only in the stores, allowing the different parts of the application to remain highly decoupled. Where dependencies do occur between stores, they are kept in a strict hierarchy, with synchronous updates managed by the dispatcher.
