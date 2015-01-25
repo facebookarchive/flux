@@ -40,10 +40,6 @@ describe('TodoStore', function() {
     expect(AppDispatcher.register.mock.calls.length).toBe(1);
   });
 
-  it('should register a callback with the dispatcher', function() {
-    expect(AppDispatcher.register.mock.calls.length).toBe(1);
-  });
-
   it('should initialize with no to-do items', function() {
     var all = TodoStore.getAll();
     expect(all).toEqual({});
