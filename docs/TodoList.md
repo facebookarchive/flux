@@ -477,12 +477,12 @@ When the user creates a new to-do item, the payload produced by the TodoActions.
 }
 ```
 
-This payload is provided to the TodoStore through its registered callback. The TodoStore updates itself then broadcasts the 'change' event, and the MainSection responds by fetching the new collection of to-do items from the TodoStore and changing its state. This change in state causes the TodoApp component to call its own render() method, and the render() method of all of its descendants.
+Let's wrap it up. When the user validates the text input in the Header component, TodoActions.create is called with the text for the new-todo. A new action is created, with a payload containing both the text and the action type. This action is dispatched to the stores which registered to the dispatcher, through a callback mechanism. In response to the dispatched action, the TodoStore updates itself by creating a new todo-item, then emits a 'change' event. The controller-view TodoApp, which is the root React component in this application, is listening for such events broadcasted by the store. It responds to the 'change' event by fetching the new collection of to-do items from the TodoStore and changes its state. React kicks in: this change in state automatically causes the TodoApp component to call its own render() method, and the render() method of all of its owned components. Any relevant, required updates to the DOM are performed by React at the end of this unidirectional "Flux chain".
 
 Start Me Up
 -----------
 
-The bootstrap file of our application is app.js. It simply takes the TodoApp component and renders it in the root element of the application.
+The TodoApp component has still to be created. The bootstrap file of our application will be app.js. It simply takes the TodoApp component and renders it in the root element of the application.
 
 ```javascript
 var React = require('react');
