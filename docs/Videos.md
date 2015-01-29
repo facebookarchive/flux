@@ -4,7 +4,7 @@ title: Videos
 layout: docs
 category: Community Resources
 permalink: docs/videos.html
-next: react
+next: examples-and-tools
 ---
 
 ### "Rethinking Web App Development at Facebook" - Facebook F8 Conference 2014
