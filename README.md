@@ -29,6 +29,7 @@ Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you 
 var Dispatcher = require('flux').Dispatcher;
 ```
 
+Take a look at the [dispatcher API and some examples](http://facebook.github.io/flux/docs/dispatcher.html#content).
 
 ## Building Flux from a Cloned Repo
 Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
