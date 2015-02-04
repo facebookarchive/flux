@@ -221,12 +221,13 @@ module<span class="token punctuation">.</span>exports <span class="token operato
 module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoApp<span class="token punctuation">;</span></div><p>Now we&#x27;re in our familiar React territory, utilizing React&#x27;s lifecycle methods. We set up the initial state of this controller-view in getInitialState(), register an event listener in componentDidMount(), and then clean up after ourselves within componentWillUnmount(). We render a containing div and pass down the collection of states we got from the TodoStore.</p><p>The Header component contains the primary text input for the application, but it does not need to know the state of the store. The MainSection and Footer do need this data, so we pass it down to them.</p><h2><a class="anchor" name="more-views"></a>More Views <a class="hash-link" href="#more-views">#</a></h2><p>At a high level, the React component hierarchy of the app looks like this:</p><div class="prism language-javascript">&lt;TodoApp<span class="token operator">&gt;</span>
   &lt;Header<span class="token operator">&gt;</span>
     &lt;TodoTextInput <span class="token operator">/</span><span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>Header<span class="token operator">&gt;</span>
 
-    &lt;MainSection<span class="token operator">&gt;</span>
-      &lt;ul<span class="token operator">&gt;</span>
-        &lt;TodoItem <span class="token operator">/</span><span class="token operator">&gt;</span>
-      &lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
-    &lt;<span class="token operator">/</span>MainSection<span class="token operator">&gt;</span>
+  &lt;MainSection<span class="token operator">&gt;</span>
+    &lt;ul<span class="token operator">&gt;</span>
+      &lt;TodoItem <span class="token operator">/</span><span class="token operator">&gt;</span>
+    &lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>MainSection<span class="token operator">&gt;</span>
 
 &lt;<span class="token operator">/</span>TodoApp<span class="token operator">&gt;</span></div><p>If a TodoItem is in edit mode, it will also render a TodoTextInput as a child. Let&#x27;s take a look at how some of these components display the data they receive as props, and how they communicate through actions with the dispatcher.
 The MainSection needs to iterate over the collection of to-do items it received from TodoApp to create the list of TodoItems. In the component&#x27;s render() method, we can do that iteration like so:</p><div class="prism language-javascript"><span class="token keyword">var</span> allTodos <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>allTodos<span class="token punctuation">;</span>
@@ -237,7 +238,8 @@ The MainSection needs to iterate over the collection of to-do items it received 
 
 <span class="token keyword">return</span> <span class="token punctuation">(</span>
   &lt;section id<span class="token operator">=</span><span class="token string">&quot;main&quot;</span><span class="token operator">&gt;</span>
-  &lt;ul id<span class="token operator">=</span><span class="token string">&quot;todo-list&quot;</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>todos<span class="token punctuation">}</span>&lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+    &lt;ul id<span class="token operator">=</span><span class="token string">&quot;todo-list&quot;</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>todos<span class="token punctuation">}</span>&lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>section<span class="token operator">&gt;</span>
 <span class="token punctuation">)</span><span class="token punctuation">;</span></div><p>Now each TodoItem can display it&#x27;s own text, and perform actions utilizing it&#x27;s own ID. Explaining all the different actions that a TodoItem can invoke in the TodoMVC example goes beyond the scope of this article, but let&#x27;s just take a look at the action that deletes one of the to-do items. Here is an abbreviated version of the TodoItem:</p><div class="prism language-javascript"><span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> TodoActions <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../actions/TodoActions&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
 <span class="token keyword">var</span> TodoTextInput <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./TodoTextInput.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
