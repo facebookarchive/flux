@@ -348,14 +348,12 @@ var TodoApp = React.createClass({
    * @return {object}
    */
   render: function() {
-    var style = Object.assign(
-      {},
-      this.styles['html, body'],
-      this.styles['body']
-    );
-
   	return (
-      <div style={style}>
+      <div style={Object.assign(
+        {},
+        this.styles['html, body'],
+        this.styles['body']
+      )}>
         <div style={this.styles['#todoapp']}>
           <div style={this.styles['#todoapp:before']}></div>
           <Header />

@@ -77,13 +77,6 @@ var TodoTextInput = React.createClass({
    * @return {object}
    */
   render: function() /*object*/ {
-    var style = Object.assign(
-      {},
-      this.styles['#todoapp input::-moz-placeholder'],
-      this.styles['#new-todo, .edit'],
-      this.styles['#new-todo']
-    );
-
     return (
       <input
         className={this.props.className}
@@ -94,7 +87,12 @@ var TodoTextInput = React.createClass({
         onKeyDown={this._onKeyDown}
         value={this.state.value}
         autoFocus={true}
-        style={style}
+        style={Object.assign(
+          {},
+          this.styles['#todoapp input::-moz-placeholder'],
+          this.styles['#new-todo, .edit'],
+          this.styles['#new-todo']
+        )}
       />
     );
   },

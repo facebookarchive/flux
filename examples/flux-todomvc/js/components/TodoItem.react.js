@@ -174,11 +174,6 @@ var TodoItem = React.createClass({
         />;
     }
 
-    var style = Object.assign(
-      {},
-      this.styles['#todo-list li']
-    );
-
     // List items should get the class 'editing' when editing
     // and 'completed' when marked as completed.
     // Note that 'completed' is a classification while 'complete' is a state.
@@ -191,7 +186,10 @@ var TodoItem = React.createClass({
           'editing': this.state.isEditing
         })}
         key={todo.id}
-        style={style}
+        style={Object.assign(
+          {},
+          this.styles['#todo-list li']
+        )}
       >
         <div style={this.styles['#todo-list li .view']}>
           <div style={this.styles['#todo-list li .toggle:after']}></div>
