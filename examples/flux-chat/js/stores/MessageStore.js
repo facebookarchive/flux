@@ -13,7 +13,6 @@
 var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
 var ChatConstants = require('../constants/ChatConstants');
 var ChatMessageUtils = require('../utils/ChatMessageUtils');
-var ChatWebAPIUtils = require('../utils/ChatWebAPIUtils');
 var EventEmitter = require('events').EventEmitter;
 var ThreadStore = require('../stores/ThreadStore');
 var assign = require('object-assign');
@@ -108,10 +107,9 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
     case ActionTypes.CREATE_MESSAGE:
       var message = ChatMessageUtils.getCreatedMessageData(
         action.text,
-        ThreadStore.getCurrentID()
+        action.currentThreadID
       );
       _messages[message.id] = message;
-      ChatWebAPIUtils.createMessage(message);
       MessageStore.emitChange();
       break;
 
