@@ -11,9 +11,59 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoItem = require('./TodoItem.react');
+var Helpers = require('../helpers');
 
 var MainSection = React.createClass({
+  styles: Helpers.styles(`
 
+    #todoapp input::-webkit-input-placeholder {
+      font-style: italic;
+    }
+
+    #todoapp input::-moz-placeholder {
+      font-style: italic;
+      color: #a9a9a9;
+    }
+
+    label[for='toggle-all'] {
+      display: none;
+    }
+
+    #toggle-all {
+      position: absolute;
+      top: -42px;
+      left: -4px;
+      width: 40px;
+      text-align: center;
+      /* Mobile Safari */
+      border: none;
+    }
+
+    #toggle-all:before {
+      content: '»';
+      font-size: 28px;
+      color: #d9d9d9;
+      padding: 0 25px 7px;
+    }
+
+    #toggle-all:checked:before {
+      color: #737373;
+    }
+
+    #todo-list {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+
+    #main {
+      position: relative;
+      z-index: 2;
+      border-top: 1px dotted #adadad;
+    }
+  `),
+  
   propTypes: {
     allTodos: ReactPropTypes.object.isRequired,
     areAllComplete: ReactPropTypes.bool.isRequired
@@ -37,15 +87,15 @@ var MainSection = React.createClass({
     }
 
     return (
-      <section id="main">
+      <section style={this.styles['#main']}>
         <input
-          id="toggle-all"
           type="checkbox"
           onChange={this._onToggleCompleteAll}
           checked={this.props.areAllComplete ? 'checked' : ''}
+          style={this.styles['#toggle-all']}
         />
-        <label htmlFor="toggle-all">Mark all as complete</label>
-        <ul id="todo-list">{todos}</ul>
+        <label htmlFor="toggle-all" style={this.styles['label[for=\'toggle-all\']']}>Mark all as complete</label>
+        <ul id="todo-list" style={this.styles['#todo-list']}>{todos}</ul>
       </section>
     );
   },
