@@ -16,7 +16,8 @@
     "jest-cli": "~0.1.17",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "watchify": "^2.1.1",
+    "6to5ify": "~4.1.0"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d .",
@@ -27,7 +28,8 @@
   "browserify": {
     "transform": [
       "reactify",
-      "envify"
+      "envify",
+      "6to5ify"
     ]
   },
   "jest": {
