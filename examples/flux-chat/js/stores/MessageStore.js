@@ -53,7 +53,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
   addChangeListener: function(callback) {
     this.on(CHANGE_EVENT, callback);
   },
-  
+
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
   },
@@ -89,18 +89,6 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 
   getAllForCurrentThread: function() {
     return this.getAllForThread(ThreadStore.getCurrentID());
-  },
-
-  getCreatedMessageData: function(text) {
-    var timestamp = Date.now();
-    return {
-      id: 'm_' + timestamp,
-      threadID: ThreadStore.getCurrentID(),
-      authorName: 'Bill', // hard coded for the example
-      date: new Date(timestamp),
-      text: text,
-      isRead: true
-    };
   }
 
 });
@@ -117,7 +105,10 @@ MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
       break;
 
     case ActionTypes.CREATE_MESSAGE:
-      var message = MessageStore.getCreatedMessageData(action.text);
+      var message = ChatMessageUtils.getCreatedMessageData(
+        action.text,
+        action.currentThreadID
+      );
       _messages[message.id] = message;
       MessageStore.emitChange();
       break;

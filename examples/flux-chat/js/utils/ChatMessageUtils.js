@@ -21,6 +21,18 @@ module.exports = {
       text: rawMessage.text,
       isRead: rawMessage.threadID === currentThreadID
     };
+  },
+
+  getCreatedMessageData: function(text, currentThreadID) {
+    var timestamp = Date.now();
+    return {
+      id: 'm_' + timestamp,
+      threadID: currentThreadID,
+      authorName: 'Bill', // hard coded for the example
+      date: new Date(timestamp),
+      text: text,
+      isRead: true
+    };
   }
 
 };

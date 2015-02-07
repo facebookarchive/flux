@@ -17,6 +17,10 @@ var ENTER_KEY_CODE = 13;
 
 var MessageComposer = React.createClass({
 
+  propTypes: {
+    threadID: React.PropTypes.string.isRequired
+  },
+
   getInitialState: function() {
     return {text: ''};
   },
@@ -42,7 +46,7 @@ var MessageComposer = React.createClass({
       event.preventDefault();
       var text = this.state.text.trim();
       if (text) {
-        ChatMessageActionCreators.createMessage(text);
+        ChatMessageActionCreators.createMessage(text, this.props.threadID);
       }
       this.setState({text: ''});
     }
