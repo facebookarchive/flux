@@ -32,7 +32,7 @@ var Dispatcher = require('flux').Dispatcher;
 Take a look at the [dispatcher API and some examples](http://facebook.github.io/flux/docs/dispatcher.html#content).
 
 ## Building Flux from a Cloned Repo
-Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
+Clone the repo and navigate into the resulting `flux` directory, then run `npm install`.
 
 This will run [Gulp](http://gulpjs.com/)-based build tasks automatically and produce the file Flux.js, which you can then require as a module. 
 
