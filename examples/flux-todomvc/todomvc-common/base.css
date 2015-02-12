@@ -10,6 +10,7 @@ button {
 	border: 0;
 	background: none;
 	font-size: 100%;
+	cursor: pointer;
 	vertical-align: baseline;
 	font-family: inherit;
 	color: inherit;
