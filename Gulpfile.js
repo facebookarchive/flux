@@ -4,6 +4,7 @@ var gReplace = require('gulp-replace');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var del = require('del');
+var runSequence = require('run-sequence');
 
 var browserifyConfig = {
   entries: ['./index.js'],
@@ -22,12 +23,17 @@ gulp.task('lib', function() {
 
 });
 
-gulp.task('browserify', function() {
+gulp.task('browserify', ['lib'], function() {
   return browserify(browserifyConfig)
           .bundle()
           .pipe(source('Flux.js'))
           .pipe(gulp.dest('./dist/'))
 });
 
-gulp.task('publish', ['clean', 'default']);
-gulp.task('default', ['lib', 'browserify']);
+gulp.task('build', ['lib', 'browserify']);
+
+gulp.task('publish', function(cb) {
+  runSequence('clean', 'build', cb);
+});
+
+gulp.task('default', ['build']);
