@@ -102,8 +102,7 @@ var ThreadStore = assign({}, EventEmitter.prototype, {
 
 });
 
-ThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
-  var action = payload.action;
+ThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
 
   switch(action.type) {
 
