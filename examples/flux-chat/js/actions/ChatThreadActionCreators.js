@@ -18,7 +18,7 @@ var ActionTypes = ChatConstants.ActionTypes;
 module.exports = {
 
   clickThread: function(threadID) {
-    ChatAppDispatcher.handleViewAction({
+    ChatAppDispatcher.dispatch({
       type: ActionTypes.CLICK_THREAD,
       threadID: threadID
     });
