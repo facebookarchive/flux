@@ -18,14 +18,14 @@ var ActionTypes = ChatConstants.ActionTypes;
 module.exports = {
 
   receiveAll: function(rawMessages) {
-    ChatAppDispatcher.handleServerAction({
+    ChatAppDispatcher.dispatch({
       type: ActionTypes.RECEIVE_RAW_MESSAGES,
       rawMessages: rawMessages
     });
   },
 
   receiveCreatedMessage: function(createdMessage) {
-    ChatAppDispatcher.handleServerAction({
+    ChatAppDispatcher.dispatch({
       type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
       rawMessage: createdMessage
     });

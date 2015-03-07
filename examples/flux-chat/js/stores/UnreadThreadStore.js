@@ -53,13 +53,12 @@ var UnreadThreadStore = assign({}, EventEmitter.prototype, {
 
 });
 
-UnreadThreadStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
+UnreadThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
   ChatAppDispatcher.waitFor([
     ThreadStore.dispatchToken,
     MessageStore.dispatchToken
   ]);
 
-  var action = payload.action;
   switch (action.type) {
 
     case ActionTypes.CLICK_THREAD:

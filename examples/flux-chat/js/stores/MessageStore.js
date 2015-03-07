@@ -93,8 +93,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
 
 });
 
-MessageStore.dispatchToken = ChatAppDispatcher.register(function(payload) {
-  var action = payload.action;
+MessageStore.dispatchToken = ChatAppDispatcher.register(function(action) {
 
   switch(action.type) {
 
