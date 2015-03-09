@@ -108,7 +108,6 @@ In this TodoMVC example application, we can see the elements of Flux in our dire
     bundle.js
     dispatcher/
       AppDispatcher.js
-      Dispatcher.js
     components/
       Footer.react.js
       Header.react.js
