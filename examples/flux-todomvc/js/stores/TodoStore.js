@@ -127,8 +127,8 @@ AppDispatcher.register(function(action) {
       text = action.text.trim();
       if (text !== '') {
         create(text);
+        TodoStore.emitChange();
       }
-      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
@@ -154,8 +154,8 @@ AppDispatcher.register(function(action) {
       text = action.text.trim();
       if (text !== '') {
         update(action.id, {text: text});
+        TodoStore.emitChange();
       }
-      TodoStore.emitChange();
       break;
 
     case TodoConstants.TODO_DESTROY:
