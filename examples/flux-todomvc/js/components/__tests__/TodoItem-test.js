@@ -5,14 +5,15 @@
 jest.dontMock('../TodoItem.react.js');
 jest.dontMock('object-assign');
 jest.dontMock('react/addons');
+
 describe('TodoItem', function(){
 
   var TodoConstants = require('../../constants/TodoConstants'),
+      TodoActions,
       React,
       TestUtils,
       TodoItem,
-      item,
-      label;
+      item;
 
   beforeEach(function(){
     React = require('react/addons');
@@ -27,17 +28,33 @@ describe('TodoItem', function(){
         }
       })
     );
-    label = TestUtils.findRenderedDOMComponentWithTag(item, 'label');
   });
 
   it('has an initial state.isEditing of false', function(){
     expect(item.state.isEditing).toBe(false)
   })
 
-  describe('onDoubleClick', function(){
-    it ('changes state.isEditing to true', function(){
+  describe('label onDoubleClick', function(){
+    var label;
+    beforeEach(function(){
+      label = TestUtils.findRenderedDOMComponentWithTag(item, 'label');
       TestUtils.Simulate.doubleClick(label)
+    })
+    it ('changes state.isEditing to true', function(){
       expect(item.state.isEditing).toBe(true)
     });
   });
+
+  describe('button onClick', function(){
+    var button;
+    beforeEach(function(){
+      TodoActions = require('../../actions/TodoActions'),
+      button = TestUtils.findRenderedDOMComponentWithTag(item, 'button');
+      TestUtils.Simulate.click(button)
+    })
+
+    it('calls TodoActions.destroy with the todo id', function(){
+      expect(TodoActions.destroy).toBeCalledWith(item.props.todo.id)
+    })
+  })
 });
