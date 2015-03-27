@@ -1,10 +1,8 @@
-
 /*
  * MainSection-test
  */
 
 jest.dontMock('../MainSection.react.js');
-jest.dontMock('object-assign');
 jest.dontMock('react/addons');
 
 describe('MainSection', function(){

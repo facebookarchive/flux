@@ -3,15 +3,13 @@
  */
 
 jest.dontMock('../TodoTextInput.react.js');
-jest.dontMock('object-assign');
 jest.dontMock('react/addons');
 
-describe('TodoTestInput', function(){
-  var TodoConstants = require('../../constants/TodoConstants'),
-      React,
+describe('TodoTextInput', function(){
+  var React,
       TestUtils,
       TodoTextInput,
-      inputComponent,
+      todoTextInput,
       input,
       onSaveMock;
 
@@ -20,7 +18,7 @@ describe('TodoTestInput', function(){
     TestUtils = React.addons.TestUtils;
     TodoTextInput = require('../TodoTextInput.react.js');
     onSaveMock = jest.genMockFunction();
-    inputComponent = TestUtils.renderIntoDocument(
+    todoTextInput = TestUtils.renderIntoDocument(
       React.createElement(TodoTextInput, {
         className: 'Text Input Class',
         id: 'Text Input id',
@@ -30,13 +28,13 @@ describe('TodoTestInput', function(){
       })
     );
 
-    input = TestUtils.findRenderedDOMComponentWithTag(inputComponent, 'input');
+    input = TestUtils.findRenderedDOMComponentWithTag(todoTextInput, 'input');
   });
 
   describe('onChange event', function(){
     it('changes the state.value to the event.target.value', function(){
       TestUtils.Simulate.change(input, { target: { value: 'Changed Value' } });
-      expect(inputComponent.state.value).toBe('Changed Value');
+      expect(todoTextInput.state.value).toBe('Changed Value');
     });
   });
 
@@ -50,7 +48,7 @@ describe('TodoTestInput', function(){
     });
 
     it('sets state.value to and empty String', function(){
-      expect(inputComponent.state.value).toBe('');
+      expect(todoTextInput.state.value).toBe('');
     });
   });
 
@@ -65,8 +63,8 @@ describe('TodoTestInput', function(){
         expect(onSaveMock).toBeCalled();
       });
 
-      it('sets state.value to and empty String', function(){
-        expect(inputComponent.state.value).toBe('');
+      it('sets state.value to an empty String', function(){
+        expect(todoTextInput.state.value).toBe('');
       });
     });
 
@@ -76,7 +74,7 @@ describe('TodoTestInput', function(){
       });
 
       it('does not modify state.value', function(){
-        expect(inputComponent.state.value).toBe('Text Input Value');
+        expect(todoTextInput.state.value).toBe('Text Input Value');
       });
 
       it('does not call props.onSave if key 13 (enter) is not pressed', function(){

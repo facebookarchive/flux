@@ -1,17 +1,18 @@
+/*
+ * Footer-test
+ */
+
 jest.dontMock('../Footer.react.js');
-jest.dontMock('object-assign');
 jest.dontMock('react/addons');
 
 describe('Footer', function(){
 
-  var TodoConstants = require('../../constants/TodoConstants'),
-      TodoActions,
+  var TodoActions,
       React,
       TestUtils,
       Footer,
       incompletedTodoProps,
       completedTodoProps,
-      mixedTodoProps,
       footer;
 
   beforeEach(function(){
@@ -40,18 +41,6 @@ describe('Footer', function(){
         complete: true,
         id: '2',
         text: "I'm an another completed todo!"
-      },
-    };
-    mixedTodoProps = {
-      1: {
-        complete: false,
-        id: '1',
-        text: "I'm an incompleted todo!"
-      },
-      2: {
-        complete: true,
-        id: '2',
-        text: "I'm a completed todo!"
       },
     };
   });

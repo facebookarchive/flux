@@ -3,13 +3,11 @@
  */
 
 jest.dontMock('../TodoItem.react.js');
-jest.dontMock('object-assign');
 jest.dontMock('react/addons');
 
 describe('TodoItem', function(){
 
-  var TodoConstants = require('../../constants/TodoConstants'),
-      TodoActions,
+  var TodoActions,
       React,
       TestUtils,
       TodoItem,
@@ -51,7 +49,7 @@ describe('TodoItem', function(){
       TodoActions = require('../../actions/TodoActions'),
       button = TestUtils.findRenderedDOMComponentWithTag(item, 'button');
       TestUtils.Simulate.click(button);
-    })
+    });
 
     it('calls TodoActions.destroy with the todo id', function(){
       expect(TodoActions.destroy).toBeCalledWith(item.props.todo.id);
