@@ -4,36 +4,40 @@
 
 jest.dontMock('../TodoItem.react.js');
 jest.dontMock('object-assign');
-
+jest.dontMock('react/addons');
 describe('TodoItem', function(){
-var React = require('react/addons');
-var TestUtils = React.addons.TestUtils;
 
   var TodoConstants = require('../../constants/TodoConstants'),
-      AppDispatcher,
+      React,
+      TestUtils,
       TodoItem,
       item,
       label;
 
   beforeEach(function(){
+    React = require('react/addons');
+    TestUtils = React.addons.TestUtils;
+    TodoItem = require('../TodoItem.react.js')
     item = TestUtils.renderIntoDocument(
-      // <TodoItem complete=false id='1' text="I'm a Todo" />
       React.createElement(TodoItem, {
-        complete: false,
-        id: '1',
-        text: "I'm a todo!"
+        todo: {
+          complete: false,
+          id: '1',
+          text: "I'm a todo!"
+        }
       })
     );
     label = TestUtils.findRenderedDOMComponentWithTag(item, 'label');
   });
 
-  it('has a default isEditing state of false', function(){
-    expect(item.state.isEditing).toBe(true)
+  it('has an initial state.isEditing of false', function(){
+    expect(item.state.isEditing).toBe(false)
   })
+
   describe('onDoubleClick', function(){
-    it ('changes the isEditing state to true', function(){
-      TestUtils.simulate.doubleClick(label)
-      expect(item.state.isEditing).toBe(false)
+    it ('changes state.isEditing to true', function(){
+      TestUtils.Simulate.doubleClick(label)
+      expect(item.state.isEditing).toBe(true)
     });
   });
 });
