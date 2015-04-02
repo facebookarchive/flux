@@ -42,12 +42,12 @@ var TodoActions = {
    */
   toggleComplete: function(todo) {
     var id = todo.id;
-    var todoComplete = todo.complete ?
+    var actionType = todo.complete ?
         TodoConstants.TODO_UNDO_COMPLETE :
         TodoConstants.TODO_COMPLETE;
 
     AppDispatcher.dispatch({
-      actionType: todoComplete,
+      actionType: actionType,
       id: id
     });
   },
