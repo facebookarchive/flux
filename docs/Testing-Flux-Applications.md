@@ -21,7 +21,7 @@ The first steps toward working with Jest are as follows:
 
 1. Get the module dependencies for the application installed by running `npm install`.
 2. Create a directory `__tests__/` with a test file, in this case TodoStore-test.js
-3. Run `npm install jest-cli —save-dev`
+3. Run `npm install jest-cli -—save-dev`
 4. Add the following to your package.json
 
 ```javascript
