@@ -43,7 +43,7 @@ The views may cause a new action to be propagated through the system in response
 </figure>
 
 <p class="associated-with-next-sibling">
-All data flows through the dispatcher as a central hub.  Actions are provided to the dispatcher in an _action creator_ method, and most often originate from user interactions with the views.  The dispatcher then invokes the callbacks that the stores have registered with it, dispatching actions to all stores.  Within their registered callbacks, stores respond to whichever actions are relevant to the state they maintain.  The stores then emit a _change_ event to alert the controller-views that a change to the data layer has occurred.  Controller-views listen for these events and retrieve data from the stores in an event handler. The controller-views call their own `setState()` method, causing a re-rendering of themselves and all of their descendants in the component tree.
+All data flows through the dispatcher as a central hub.  Actions are provided to the dispatcher in an <em>action creator</em> method, and most often originate from user interactions with the views.  The dispatcher then invokes the callbacks that the stores have registered with it, dispatching actions to all stores.  Within their registered callbacks, stores respond to whichever actions are relevant to the state they maintain.  The stores then emit a <em>change</em> event to alert the controller-views that a change to the data layer has occurred.  Controller-views listen for these events and retrieve data from the stores in an event handler. The controller-views call their own <code>setState()</code> method, causing a re-rendering of themselves and all of their descendants in the component tree.
 </p>
 
 <figure class="diagram">

@@ -812,13 +812,14 @@ Parser.prototype.tok = function() {
       return React.DOM.hr(null, null);
     }
     case 'heading': {
-      return Header(
-        {level: this.token.depth, toSlug: this.token.text},
-        this.inline.output(this.token.text)
+      return (
+        <Header level={this.token.depth} toSlug={this.token.text}>
+          {this.inline.output(this.token.text)}
+        </Header>
       );
     }
     case 'code': {
-      return Prism(null, this.token.text);
+      return <Prism>{this.token.text}</Prism>;
     }
     case 'table': {
       var table = []
@@ -1087,7 +1088,7 @@ marked.parse = marked;
 
 var Marked = React.createClass({
   render: function() {
-    return React.DOM.div(null, marked(this.props.children, this.props));
+    return <div>{marked(this.props.children, this.props)}</div>;
   }
 });
 
