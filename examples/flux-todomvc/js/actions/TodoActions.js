@@ -42,17 +42,14 @@ var TodoActions = {
    */
   toggleComplete: function(todo) {
     var id = todo.id;
-    if (todo.complete) {
-      AppDispatcher.dispatch({
-        actionType: TodoConstants.TODO_UNDO_COMPLETE,
-        id: id
-      });
-    } else {
-      AppDispatcher.dispatch({
-        actionType: TodoConstants.TODO_COMPLETE,
-        id: id
-      });
-    }
+    var actionType = todo.complete ?
+        TodoConstants.TODO_UNDO_COMPLETE :
+        TodoConstants.TODO_COMPLETE;
+
+    AppDispatcher.dispatch({
+      actionType: actionType,
+      id: id
+    });
   },
 
   /**
