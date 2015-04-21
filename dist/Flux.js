@@ -28,7 +28,6 @@ module.exports.Dispatcher = require('./lib/Dispatcher')
 
 var invariant = require('./invariant');
 
-var _lastID = 1;
 var _prefix = 'ID_';
 
 /**
@@ -120,6 +119,7 @@ var _prefix = 'ID_';
  */
 
   function Dispatcher() {
+    this._lastID = 1;
     this._callbacks = {};
     this._isPending = {};
     this._isHandled = {};
@@ -135,7 +135,7 @@ var _prefix = 'ID_';
    * @return {string}
    */
   Dispatcher.prototype.register=function(callback) {
-    var id = _prefix + _lastID++;
+    var id = _prefix + this._lastID++;
     this._callbacks[id] = callback;
     return id;
   };

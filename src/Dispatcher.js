@@ -15,7 +15,6 @@
 
 var invariant = require('./invariant');
 
-var _lastID = 1;
 var _prefix = 'ID_';
 
 /**
@@ -107,6 +106,7 @@ var _prefix = 'ID_';
  */
 class Dispatcher {
   constructor() {
+    this._lastID = 1;
     this._callbacks = {};
     this._isPending = {};
     this._isHandled = {};
@@ -122,7 +122,7 @@ class Dispatcher {
    * @return {string}
    */
   register(callback) {
-    var id = _prefix + _lastID++;
+    var id = _prefix + this._lastID++;
     this._callbacks[id] = callback;
     return id;
   }
