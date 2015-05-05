@@ -8,3 +8,4 @@
  */
 
 module.exports.Dispatcher = require('./lib/Dispatcher')
+module.exports.invariant = require('./lib/invariant')
