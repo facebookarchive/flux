@@ -5,6 +5,7 @@ layout: docs
 category: Quick Start
 permalink: docs/overview-ko-KR.html
 next: todo-list-ko-KR
+lang: ko-KR
 ---
 
 Flux는 Facebook에서 클라이언트-사이드 웹 어플리케이션을 만들기 위해 사용하는 어플리케이션 아키텍쳐다. 단방향 데이터 흐름을 활용해 뷰 컴포넌트를 구성하는 React를 보완하는 역할을 한다. 이전까지의 프레임워크와는 달리 패턴과 같은 모습을 하고 있기 때문에 수많은 새로운 코드를 작성할 필요 없이 바로 Flux를 이용해 사용할 수 있다.

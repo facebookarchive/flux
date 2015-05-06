@@ -5,6 +5,7 @@ layout: docs
 category: Community Resources
 permalink: docs/videos-ko-KR.html
 next: examples-and-tools-ko-KR
+lang: ko-KR
 ---
 
 ### "Rethinking Web App Development at Facebook" - Facebook F8 Conference 2014

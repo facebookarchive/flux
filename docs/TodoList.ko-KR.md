@@ -5,6 +5,7 @@ layout: docs
 category: Quick Start
 permalink: docs/todo-list-ko-KR.html
 next: chat-ko-KR
+lang: ko-KR
 ---
 
 Flux 아키텍쳐를 설명하기 위해 전형적인 TodoMVC 어플리케이션을 만들려고 한다. 이 어플리케이션 전체는 React 깃헙 리포지터리 [flux-todomvc](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/) 예제 폴더에서 받을 수 있지만 이 예제에서 개발 단계를 하나씩 살펴보도록 하자.

@@ -5,6 +5,7 @@ layout: docs
 category: Guides
 permalink: docs/actions-and-the-dispatcher-ko-KR.html
 next: testing-flux-applications-ko-KR
+lang: ko-KR
 ---
 
 이 가이드는 원래 [React 블로그](http://facebook.github.io/react/blog/)에 게시된 [포스트](http://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html)며 편집 후 여기에 추가되었다.

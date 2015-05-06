@@ -5,6 +5,7 @@ layout: docs
 category: Community Resources
 permalink: docs/examples-and-tools-ko-KR.html
 next: react-ko-KR
+lang: ko-KR
 ---
 
 TodoMVC와 Chat 예제와 더불어 다음의 예제는 어떻게 Flux 아키텍쳐 패턴을 사용할 수 있는지 구현하고 있어 Flux를 이해하는데 도움이 될 것이다.

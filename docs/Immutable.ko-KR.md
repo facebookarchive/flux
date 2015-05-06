@@ -5,4 +5,5 @@ layout: docs
 category: Complementary
 permalink: http://facebook.github.io/immutable-js/
 next: jest-ko-KR
+lang: ko-KR
 ---

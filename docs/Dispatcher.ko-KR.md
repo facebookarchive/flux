@@ -5,6 +5,7 @@ layout: docs
 category: Reference
 permalink: docs/dispatcher-ko-KR.html
 next: videos-ko-KR
+lang: ko-KR
 ---
 
 Dispatcher는 등록된 callback에 데이터를 중계할 때 사용된다. 일반적인 pub-sub 시스템과는 다음 두 항목이 다르다:

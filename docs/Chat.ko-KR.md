@@ -5,6 +5,7 @@ layout: docs
 category: Quick Start
 permalink: docs/chat-ko-KR.html
 next: actions-and-the-dispatcher-ko-KR
+lang: ko-KR
 ---
 
 이 어플리케이션은 [ForwardJS](http://forwardjs.com/) 컨퍼런스를 위해 Flux 앱 구조를
