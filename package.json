@@ -35,7 +35,7 @@
     "Bill Fisher <fisherwebdev@gmail.com>",
     "Paul O'Shannessy <paul@oshanessy.com>"
   ],
-  "license": "BSD",
+  "license": "BSD-3-Clause",
   "devDependencies": {
     "browserify": "^9.0.3",
     "del": "^1.1.1",
