@@ -52,7 +52,7 @@ myapp
 Creating a Dispatcher
 ---------------------
 
-Now we are ready to create a dispatcher. Here is an naive example of a Dispatcher class, written with JavaScript promises, polyfilled with Jake Archibald's [ES6-Promises](https://github.com/jakearchibald/ES6-Promises) module.
+Now we are ready to create a dispatcher. Here is a naive example of a Dispatcher class, written with JavaScript promises, polyfilled with Jake Archibald's [ES6-Promises](https://github.com/jakearchibald/ES6-Promises) module.
 
 ```javascript
 var Promise = require('es6-promise').Promise;
