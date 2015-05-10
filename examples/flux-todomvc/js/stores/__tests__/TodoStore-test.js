@@ -9,6 +9,7 @@
  * TodoStore-test
  */
 
+jest.dontMock('keymirror');
 jest.dontMock('../../constants/TodoConstants');
 jest.dontMock('../TodoStore');
 jest.dontMock('object-assign');
