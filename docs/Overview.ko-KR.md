@@ -72,7 +72,7 @@ dispatcher는 Flux 어플리케이션의 중앙 허브로 모든 데이터의 �
 
 어플리케이션의 규모가 커지게 되면 dispachter의 역할은 더욱 필수적이다. 바로 store 간에 의존성을 특정적인 순서로 callback을 실행하는 과정으로 관리하기 때문이다. Store는 다른 store의 업데이트가 끝날 때까지 선언적으로 기다릴 수 있고 끝나는 순서에 따라 스스로 갱신된다.
 
-Facebook이 실제로 사용하는를 dispatcher를 [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), 또는 [GitHub](https://github.com/facebook/flux)에서 확인할 수 있다.
+Facebook이 실제로 사용하는 dispatcher는 [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), 또는 [GitHub](https://github.com/facebook/flux)에서 확인할 수 있다.
 
 ### Stores
 
