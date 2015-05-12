@@ -573,7 +573,7 @@ We'll need another public method, waitFor(). Note that it returns a Promise that
 
 ```javascript
   /**
-   * @param  {array} promisesIndexes
+   * @param  {array} promiseIndexes
    * @param  {function} callback
    */
   waitFor: function(promiseIndexes, callback) {
