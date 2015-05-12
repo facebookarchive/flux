@@ -13,7 +13,7 @@
   "devDependencies": {
     "browserify": "^6.2.0",
     "envify": "^3.0.0",
-    "jest-cli": "~0.1.17",
+    "jest-cli": "^0.4.3",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
     "watchify": "^2.1.1"
