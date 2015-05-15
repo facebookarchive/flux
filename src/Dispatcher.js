@@ -106,6 +106,11 @@ var _prefix = 'ID_';
  */
 class Dispatcher {
   constructor() {
+    if (Dispatcher._instance) {
+      return Dispatcher._instance;
+    }
+
+    Dispatcher._instance = this;
     this._lastID = 1;
     this._callbacks = {};
     this._isPending = {};
