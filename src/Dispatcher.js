@@ -123,6 +123,7 @@ class Dispatcher {
    */
   register(callback) {
     var id = _prefix + this._lastID++;
+    //Dispatcher shouldn't add a duplicate callback, right?
     this._callbacks[id] = callback;
     return id;
   }
