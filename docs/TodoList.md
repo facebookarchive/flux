@@ -94,11 +94,12 @@ Dispatcher.prototype = assign({}, Dispatcher.prototype, {
       // See waitFor() for why this might be useful.
       Promise.resolve(callback(payload)).then(function() {
         resolves[i](payload);
+        _promises.splice(i, 1);
       }, function() {
         rejects[i](new Error('Dispatcher callback unsuccessful'));
+        _promises.splice(i, 1);
       });
     });
-    _promises = [];
   }
 });
 
