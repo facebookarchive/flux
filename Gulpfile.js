@@ -1,10 +1,10 @@
 var gulp = require('gulp');
-var gReact = require('gulp-react');
 var gReplace = require('gulp-replace');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var del = require('del');
 var runSequence = require('run-sequence');
+var babel = require('gulp-babel');
 
 var browserifyConfig = {
   entries: ['./index.js'],
@@ -17,8 +17,11 @@ gulp.task('clean', function(cb) {
 
 gulp.task('lib', function() {
   return gulp.src('src/*.js')
-             .pipe(gReact({harmony: true}))
              .pipe(gReplace(/__DEV__/g, 'false'))
+             .pipe(babel({
+               loose: true,
+               blacklist: ['spec.functionName']
+              }))
              .pipe(gulp.dest('lib'));
 
 });
