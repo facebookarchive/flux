@@ -34,7 +34,7 @@ var DocsSidebar = React.createClass({
     var first = null;
     for (var i = 0; i < metadatas.length; ++i) {
       var metadata = metadatas[i];
-      if (!previous[metadata.id]) {
+      if (!previous[metadata.id] && !metadata.lang) {
         first = metadata;
         break;
       }
