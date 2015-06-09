@@ -24,7 +24,9 @@ module.exports.Dispatcher = require('./lib/Dispatcher')
  * @preventMunge
  */
 
-"use strict";
+'use strict';
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError('Cannot call a class as a function'); } }
 
 var invariant = require('./invariant');
 
@@ -118,7 +120,10 @@ var _prefix = 'ID_';
  * `FlightPriceStore`.
  */
 
+var Dispatcher = (function () {
   function Dispatcher() {
+    _classCallCheck(this, Dispatcher);
+
     this._lastID = 1;
     this._callbacks = {};
     this._isPending = {};
@@ -134,7 +139,8 @@ var _prefix = 'ID_';
    * @param {function} callback
    * @return {string}
    */
-  Dispatcher.prototype.register=function(callback) {
+
+  Dispatcher.prototype.register = function register(callback) {
     var id = _prefix + this._lastID++;
     this._callbacks[id] = callback;
     return id;
@@ -145,12 +151,9 @@ var _prefix = 'ID_';
    *
    * @param {string} id
    */
-  Dispatcher.prototype.unregister=function(id) {
-    invariant(
-      this._callbacks[id],
-      'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-      id
-    );
+
+  Dispatcher.prototype.unregister = function unregister(id) {
+    invariant(this._callbacks[id], 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id);
     delete this._callbacks[id];
   };
 
@@ -161,27 +164,16 @@ var _prefix = 'ID_';
    *
    * @param {array<string>} ids
    */
-  Dispatcher.prototype.waitFor=function(ids) {
-    invariant(
-      this._isDispatching,
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-    );
+
+  Dispatcher.prototype.waitFor = function waitFor(ids) {
+    invariant(this._isDispatching, 'Dispatcher.waitFor(...): Must be invoked while dispatching.');
     for (var ii = 0; ii < ids.length; ii++) {
       var id = ids[ii];
       if (this._isPending[id]) {
-        invariant(
-          this._isHandled[id],
-          'Dispatcher.waitFor(...): Circular dependency detected while ' +
-          'waiting for `%s`.',
-          id
-        );
+        invariant(this._isHandled[id], 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id);
         continue;
       }
-      invariant(
-        this._callbacks[id],
-        'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-        id
-      );
+      invariant(this._callbacks[id], 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id);
       this._invokeCallback(id);
     }
   };
@@ -191,11 +183,9 @@ var _prefix = 'ID_';
    *
    * @param {object} payload
    */
-  Dispatcher.prototype.dispatch=function(payload) {
-    invariant(
-      !this._isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-    );
+
+  Dispatcher.prototype.dispatch = function dispatch(payload) {
+    invariant(!this._isDispatching, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.');
     this._startDispatching(payload);
     try {
       for (var id in this._callbacks) {
@@ -214,7 +204,8 @@ var _prefix = 'ID_';
    *
    * @return {boolean}
    */
-  Dispatcher.prototype.isDispatching=function() {
+
+  Dispatcher.prototype.isDispatching = function isDispatching() {
     return this._isDispatching;
   };
 
@@ -225,7 +216,8 @@ var _prefix = 'ID_';
    * @param {string} id
    * @internal
    */
-  Dispatcher.prototype._invokeCallback=function(id) {
+
+  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
     this._isPending[id] = true;
     this._callbacks[id](this._pendingPayload);
     this._isHandled[id] = true;
@@ -237,7 +229,8 @@ var _prefix = 'ID_';
    * @param {object} payload
    * @internal
    */
-  Dispatcher.prototype._startDispatching=function(payload) {
+
+  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
     for (var id in this._callbacks) {
       this._isPending[id] = false;
       this._isHandled[id] = false;
@@ -251,14 +244,16 @@ var _prefix = 'ID_';
    *
    * @internal
    */
-  Dispatcher.prototype._stopDispatching=function() {
+
+  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
     this._pendingPayload = null;
     this._isDispatching = false;
   };
 
+  return Dispatcher;
+})();
 
 module.exports = Dispatcher;
-
 },{"./invariant":3}],3:[function(require,module,exports){
 /**
  * Copyright (c) 2014-2015, Facebook, Inc.
@@ -271,7 +266,7 @@ module.exports = Dispatcher;
  * @providesModule invariant
  */
 
-"use strict";
+'use strict';
 
 /**
  * Use invariant() to assert state which your program assumes to be true.
@@ -284,7 +279,7 @@ module.exports = Dispatcher;
  * will remain to ensure logic does not differ in production.
  */
 
-var invariant = function(condition, format, a, b, c, d, e, f) {
+var invariant = function (condition, format, a, b, c, d, e, f) {
   if (false) {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
@@ -294,17 +289,13 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
   if (!condition) {
     var error;
     if (format === undefined) {
-      error = new Error(
-        'Minified exception occurred; use the non-minified dev environment ' +
-        'for the full error message and additional helpful warnings.'
-      );
+      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
     } else {
       var args = [a, b, c, d, e, f];
       var argIndex = 0;
-      error = new Error(
-        'Invariant Violation: ' +
-        format.replace(/%s/g, function() { return args[argIndex++]; })
-      );
+      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+        return args[argIndex++];
+      }));
     }
 
     error.framesToPop = 1; // we don't care about invariant's own frame
@@ -313,6 +304,5 @@ var invariant = function(condition, format, a, b, c, d, e, f) {
 };
 
 module.exports = invariant;
-
 },{}]},{},[1])(1)
 });
