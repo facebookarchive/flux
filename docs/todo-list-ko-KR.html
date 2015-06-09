@@ -1,0 +1,441 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"><title>Flux | Application Architecture for Building User Interfaces</title><meta name="viewport" content="width=device-width"><meta property="og:title" content="Flux | Application Architecture for Building User Interfaces"><meta property="og:type" content="website"><meta property="og:url" content="http://facebook.github.io/flux/index.html"><meta property="og:description" content="Application Architecture for Building User Interfaces"><link rel="stylesheet" href="/flux/css/flux.css"><script type="text/javascript" src="//use.typekit.net/vqa1hcx.js"></script><script type="text/javascript">try{Typekit.load();}catch(e){}</script></head><body><div class="container"><div class="nav-main"><div class="wrap"><a class="nav-home" href="/flux/"><img class="nav-logo" src="/flux/img/flux_logo.svg" width="50" height="50">Flux</a><ul class="nav-site"><li><a href="/flux/docs/overview.html#content" class="active">docs</a></li><li><a href="/flux/support.html" class="">support</a></li><li><a href="http://github.com/facebook/flux" class="">github</a></li></ul></div></div><section class="content wrap documentationContent"><div class="nav-docs"><div class="nav-docs-section"><h3>Quick Start</h3><ul><li><a style="margin-left:0;" class="" href="/flux/docs/overview.html#content">Overview</a></li><li><a style="margin-left:0;" class="" href="/flux/docs/todo-list.html#content">Tutorial – Todo List</a></li><li><a style="margin-left:0;" class="" href="/flux/docs/chat.html#content">Tutorial – Chat</a></li></ul></div><div class="nav-docs-section"><h3>Guides</h3><ul><li><a style="margin-left:0;" class="" href="/flux/docs/actions-and-the-dispatcher.html#content">Actions and the Dispatcher</a></li><li><a style="margin-left:0;" class="" href="/flux/docs/testing-flux-applications.html#content">Testing Flux Applications</a></li></ul></div><div class="nav-docs-section"><h3>Reference</h3><ul><li><a style="margin-left:0;" class="" href="/flux/docs/dispatcher.html#content">Dispatcher</a></li></ul></div><div class="nav-docs-section"><h3>Community Resources</h3><ul><li><a style="margin-left:0;" class="" href="/flux/docs/videos.html#content">Videos</a></li><li><a style="margin-left:0;" class="" href="/flux/docs/examples-and-tools.html#content">Examples and Tools</a></li></ul></div><div class="nav-docs-section"><h3>Complementary</h3><ul><li><a target="_blank" style="margin-left:0;" class="" href="http://facebook.github.io/react/">React – UI Library</a></li><li><a target="_blank" style="margin-left:0;" class="" href="http://facebook.github.io/immutable-js/">ImmutableJS – Immutable Data</a></li><li><a target="_blank" style="margin-left:0;" class="" href="http://facebook.github.io/jest/">Jest – Unit Testing</a></li></ul></div></div><div class="inner-content"><a id="content"></a><h1>튜토리얼 – 할 일 목록</h1><div><p>Flux 아키텍쳐를 설명하기 위해 전형적인 TodoMVC 어플리케이션을 만들려고 한다. 이 어플리케이션 전체는 React 깃헙 리포지터리 <a href="https://github.com/facebook/flux/tree/master/examples/flux-todomvc/" target="_blank">flux-todomvc</a> 예제 폴더에서 받을 수 있지만 이 예제에서 개발 단계를 하나씩 살펴보도록 하자.</p><p>처음 시작할 때에 모듈을 구동하기 위해 기본적인 구조가 필요하다. CommonJS를 기반으로 한 Node의 모듈 시스템은 상황에 잘 맞고 <a href="https://github.com/petehunt/react-boilerplate" target="_blank">react-boilerplate</a>를 활용해 빠르게 설정하고 구동할 수 있다. npm이 설치되어 있다는 가정 하에 react-boilerplate를 깃헙에서 복제한 후 해당 디렉토리에 터미널로(또는 본인이 사용하고 싶은 CLI 어플리케이션으로) 이동한다. 그리고 다음 npm 스크립트를 통해 환경을 만들고 구동한다. <code>npm install</code>, <code>npm run build</code> 그리고 마지막에 <code>npm start</code>로 Browserify를 이용한 지속적인 빌드를 시작한다.</p><p>TodoMVC 예제를 사용한다면 이미 포함되어 있는 내용이지만, react-boilerplate를 사용한다면 package.json을 수정해서 파일 구조와 의존성에 관한 내용을 TodoMVC의 예제에 포함된 <a href="https://github.com/facebook/flux/tree/master/examples/flux-todomvc/package.json" target="_blank">package.json</a>에 맞춰준다. 이 작업을 하지 않으면 여기서 설명하는 내용과 다를 수 있다.</p><h2><a class="anchor" name=""></a>소스 코드 구조 <a class="hash-link" href="#">#</a></h2><p>index.html 파일이 바로 앱의 시작점이다. 이 파일에서는 Browserify에 의해 만들어진 bundle.js를 불러오는 역할을 하고 있으며 이제부터 작성하는 대부분의 코드는 &#x27;js&#x27; 디렉토리에 넣을 예정이다. Browserify가 이 작업을 하게 두고 새로운 터미널 또는 GUI 파일 브라우저를 열어 디렉토리를 살펴보면 다음과 같은 구조로 구성되어 있다:</p><div class="prism language-javascript">myapp
+  <span class="token operator">|</span>
+  <span class="token operator">+</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">+</span> js
+    <span class="token operator">|</span>
+    <span class="token operator">+</span> app<span class="token punctuation">.</span>js
+    <span class="token operator">+</span> bundle<span class="token punctuation">.</span>js<span class="token comment" spellcheck="true"> // 파일을 변경하면 Browserify가 자동으로 생성함
+</span>  <span class="token operator">+</span> index<span class="token punctuation">.</span>html
+  <span class="token operator">+</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></div><p>js 디렉토리를 살펴보면 다음과 같은 초기 디렉토리 구조로 구성되어 있다:</p><div class="prism language-javascript">myapp
+  <span class="token operator">|</span>
+  <span class="token operator">+</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+  <span class="token operator">+</span> js
+    <span class="token operator">|</span>
+    <span class="token operator">+</span> actions
+    <span class="token operator">+</span> components<span class="token comment" spellcheck="true"> // 모든 React 컴포넌트 즉 view와 controller-views가 들어있음
+</span>    <span class="token operator">+</span> constants
+    <span class="token operator">+</span> dispatcher
+    <span class="token operator">+</span> stores
+    <span class="token operator">+</span> app<span class="token punctuation">.</span>js
+    <span class="token operator">+</span> bundle<span class="token punctuation">.</span>js
+  <span class="token operator">+</span> index<span class="token punctuation">.</span>html
+  <span class="token operator">+</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span></div><h2><a class="anchor" name="dispatcher"></a>Dispatcher 생성하기 <a class="hash-link" href="#dispatcher">#</a></h2><p>이제 dispatcher를 만들 준비가 되었다. Dispatcher 클래스에 대한 작은 예제가 여기에 있다. JavaScript의 promise 패턴으로 작성되어 있고 Jake Archibald의 <a href="https://github.com/jakearchibald/ES6-Promises" target="_blank">ES6-Promises</a> 모듈로 가구현되어(polyfilled) 있다.</p><div class="prism language-javascript"><span class="token keyword">var</span> Promise <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;es6-promise&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>Promise<span class="token punctuation">;</span>
+<span class="token keyword">var</span> assign <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;object-assign&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> _callbacks <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> _promises <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Dispatcher <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span>
+Dispatcher<span class="token punctuation">.</span>prototype <span class="token operator">=</span> <span class="token function">assign<span class="token punctuation">(</span></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> Dispatcher<span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * Store의 콜백을 Dispatcher에 등록하면 action에 의해 실행됨.
+   * @param {function} callback 등록하려고 하는 콜백
+   * @return {number} _cllbacks 배열에 포함될 콜백에 대한 인덱스
+   */</span>
+  register<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    _callbacks<span class="token punctuation">.</span><span class="token function">push<span class="token punctuation">(</span></span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> _callbacks<span class="token punctuation">.</span>length <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true"> // index
+</span>  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * dispatch
+   * @param  {object} payload action으로 넘어온 데이터
+   */</span>
+  dispatch<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+   <span class="token comment" spellcheck="true"> // 콜백을 참조하기 위해 promise 배열을 생성
+</span>    <span class="token keyword">var</span> resolves <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">var</span> rejects <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    _promises <span class="token operator">=</span> _callbacks<span class="token punctuation">.</span><span class="token function">map<span class="token punctuation">(</span></span><span class="token keyword">function</span><span class="token punctuation">(</span>_<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> <span class="token keyword">new</span> <span class="token class-name">Promise</span><span class="token punctuation">(</span><span class="token keyword">function</span><span class="token punctuation">(</span>resolve<span class="token punctuation">,</span> reject<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        resolves<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> resolve<span class="token punctuation">;</span>
+        rejects<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> reject<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+   <span class="token comment" spellcheck="true"> // 콜백에 데이터를 전파해 promise를 해결(resolve)하거나 거절(reject)함
+</span>    _callbacks<span class="token punctuation">.</span><span class="token function">forEach<span class="token punctuation">(</span></span><span class="token keyword">function</span><span class="token punctuation">(</span>callback<span class="token punctuation">,</span> i<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+     <span class="token comment" spellcheck="true"> // 콜백은 객체를 반환해 해결하거나 Promise 방식으로 체이닝 할 수 있음
+</span>     <span class="token comment" spellcheck="true"> // waitFor()를 보면 이 방식이 유용하다는 것을 알 수 있음
+</span>      Promise<span class="token punctuation">.</span><span class="token function">resolve<span class="token punctuation">(</span></span><span class="token function">callback<span class="token punctuation">(</span></span>payload<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then<span class="token punctuation">(</span></span><span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        resolves<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        rejects<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">(</span><span class="token keyword">new</span> <span class="token class-name">Error</span><span class="token punctuation">(</span><span class="token string">&#x27;Dispatcher callback unsuccessful&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    _promises <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Dispatcher<span class="token punctuation">;</span></div><p>기본적으로 Dispatcher 클래스가 제공하는 공개 API는 register()와 dispatch() 두 메소드다. 각각 store의 콜백을 등록하기 위해서 store 내에서 register() 메소드를 사용한다. 그리고 콜백을 실행하기 위해 dispatch() 메소드를 action 내에서 사용한다.</p><p>앞으로 만들 app에 적합한 dispatcher인 AppDispatcher를 다음과 같이 작성한다.</p><div class="prism language-javascript"><span class="token keyword">var</span> Dispatcher <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./Dispatcher&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> assign <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;object-assign&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> AppDispatcher <span class="token operator">=</span> <span class="token function">assign<span class="token punctuation">(</span></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> Dispatcher<span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * view와 dispatcher를 연결하는 다리 함수로 view action만 action으로 표시했다.
+   * 다른 변형으로는 handleServerAction이 있다.
+   * @param  {object} action view로부터 오는 데이터
+   */</span>
+  handleViewAction<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>action<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">dispatch<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+      source<span class="token punctuation">:</span> <span class="token string">&#x27;VIEW_ACTION&#x27;</span><span class="token punctuation">,</span>
+      action<span class="token punctuation">:</span> action
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> AppDispatcher<span class="token punctuation">;</span></div><p>이제 좀 더 요구사항에 맞는 구현을 만들었다. view의 이벤트 핸들러에서 action을 도움 함수를 이용해 전달된다. 이후에는 이 코드를 더 확장해서 서버 갱신을 위해 분리된 코드를 만들겠지만 지금은 이 정도로 충분하다.</p><h2><a class="anchor" name="store"></a>Store 생성하기 <a class="hash-link" href="#store">#</a></h2><p>Store를 만들기 위해 Node의 EventEmitter를 사용한다. &#x27;변경&#x27; 이벤트를 controller-views에게 중계하기 위해 EventEmitter가 필요하다. 어떻게 만드는지 여기서 살펴보려 한다. 여기에서의 코드는 일부가 생략되었는데 전체 코드를 보고 싶다면 TodoMVC 예제 코드의 <a href="https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/stores/TodoStore.js" target="_blank">TodoStore.js</a>를 확인하자.</p><div class="prism language-javascript"><span class="token keyword">var</span> AppDispatcher <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../dispatcher/AppDispatcher&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> EventEmitter <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;events&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">.</span>EventEmitter<span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoConstants <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../constants/TodoConstants&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> assign <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;object-assign&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> CHANGE_EVENT <span class="token operator">=</span> <span class="token string">&#x27;change&#x27;</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> _todos <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true"> // 할 일 항목을 위한 컬랙션
+</span>
+<span class="token comment" spellcheck="true">/**
+ * 할 일 항목을 생성함
+ * @param {string} text 할 일의 내용
+ */</span>
+<span class="token keyword">function</span> <span class="token function">create<span class="token punctuation">(</span></span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+ <span class="token comment" spellcheck="true"> // 실제 id 대신 현재의 타임스탬프를 사용함
+</span>  <span class="token keyword">var</span> id <span class="token operator">=</span> Date<span class="token punctuation">.</span><span class="token function">now<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  _todos<span class="token punctuation">[</span>id<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">{</span>
+    id<span class="token punctuation">:</span> id<span class="token punctuation">,</span>
+    complete<span class="token punctuation">:</span> <span class="token boolean">false</span><span class="token punctuation">,</span>
+    text<span class="token punctuation">:</span> text
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">/**
+ * 할 일 항목을 제거함
+ * @param {string} id
+ */</span>
+<span class="token keyword">function</span> <span class="token function">destroy<span class="token punctuation">(</span></span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  delete _todos<span class="token punctuation">[</span>id<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> TodoStore <span class="token operator">=</span> <span class="token function">assign<span class="token punctuation">(</span></span><span class="token punctuation">{</span><span class="token punctuation">}</span><span class="token punctuation">,</span> EventEmitter<span class="token punctuation">.</span>prototype<span class="token punctuation">,</span> <span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * 할 일의 전체 목록을 얻음
+   * @return {object}
+   */</span>
+  getAll<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> _todos<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  emitChange<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">emit<span class="token punctuation">(</span></span>CHANGE_EVENT<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param {function} callback
+   */</span>
+  addChangeListener<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">on<span class="token punctuation">(</span></span>CHANGE_EVENT<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param {function} callback
+   */</span>
+  removeChangeListener<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">removeListener<span class="token punctuation">(</span></span>CHANGE_EVENT<span class="token punctuation">,</span> callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  dispatcherIndex<span class="token punctuation">:</span> AppDispatcher<span class="token punctuation">.</span><span class="token function">register<span class="token punctuation">(</span></span><span class="token keyword">function</span><span class="token punctuation">(</span>payload<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> action <span class="token operator">=</span> payload<span class="token punctuation">.</span>action<span class="token punctuation">;</span>
+    <span class="token keyword">var</span> text<span class="token punctuation">;</span>
+
+    <span class="token function">switch<span class="token punctuation">(</span></span>action<span class="token punctuation">.</span>actionType<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      case TodoConstants<span class="token punctuation">.</span>TODO_CREATE<span class="token punctuation">:</span>
+        text <span class="token operator">=</span> action<span class="token punctuation">.</span>text<span class="token punctuation">.</span><span class="token function">trim<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>text <span class="token operator">!</span><span class="token operator">==</span> <span class="token string">&#x27;&#x27;</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+          <span class="token function">create<span class="token punctuation">(</span></span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+          TodoStore<span class="token punctuation">.</span><span class="token function">emitChange<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+      case TodoConstants<span class="token punctuation">.</span>TODO_DESTROY<span class="token punctuation">:</span>
+        <span class="token function">destroy<span class="token punctuation">(</span></span>action<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        TodoStore<span class="token punctuation">.</span><span class="token function">emitChange<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">break</span><span class="token punctuation">;</span>
+
+     <span class="token comment" spellcheck="true"> // 다른 경우를 위한 actionTypes, 예를 들어 TODO_UPDATE 등
+</span>    <span class="token punctuation">}</span>
+
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span><span class="token comment" spellcheck="true"> // 이 반환은 문제가 없음. Dispatcher의 promise를 위해 필요.
+</span>  <span class="token punctuation">}</span><span class="token punctuation">)</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoStore<span class="token punctuation">;</span></div><p>위에서 작성한 코드 중에는 몇가지 중요한 부분이 있다. 맨 처음 프라이빗 데이터 구조인 _todos를 만들었다. 이 객체는 모든 개별적인 할 일 항목을 담고 있다. 이 변수는 클래스의 바깥에 있지만 모듈의 클로저로 사용된다. 그래서 프라이빗 상태로 남아 모듈 바깥에서 직접적인 변경을 할 수 없다. 이 구조는 입출력 인터페이스를 명확하게 보존할 수 있게 해 데이터의 흐름이 action을 이용하지 않고는 store 갱신을 불가능하게 한다.</p><p>다른 중요한 부분은 store의 콜백을 dispatcher에 등록하는 부분이다. dispatcher에 데이터를 처리하는 콜백을 전달하고 dispatcher에 등록한 콜백을 store에 인덱스로 보존한다. 콜백 함수는 현재 2가지 actionType만 처리하고 있지만 추후에 필요한 만큼 더 추가할 수 있다.</p><h2><a class="anchor" name="controller-view"></a>Controller-View 변경 리스닝하기 <a class="hash-link" href="#controller-view">#</a></h2><p>store의 변경을 듣기 위해 컴포넌트 위계의 최상위에 놓인 React 컴포넌트가 필요하다. 앱의 규모가 크다면 리스닝 컴포넌트는 더 많이 필요하게 되고 그에 따라 페이지의 모든 섹션마다 위치하게 될 것이다. Facebook의 광고 생성 도구에서 controller를 닮은 view를 많이 포함하고 있는데 각각 상세한 영역의 UI를 운영하는데 사용된다. 돌아보기 비디오 편집기에서는 프리뷰와 이미지 선택 인터페이스, 이 둘만 포함하고 있다. 여기에 TodoMVC 예제가 있다. 다시 말해서 이 코드는 요약본이며 모든 코드를 확인하고 싶다면 TodoMVC 예제의 <a href="https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/components/TodoApp.react.js" target="_blank">TodoApp.react.js</a>를 참고하자.</p><div class="prism language-javascript"><span class="token keyword">var</span> Footer <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./Footer.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> Header <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./Header.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> MainSection <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./MainSection.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoStore <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../stores/TodoStore&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">function</span> <span class="token function">getTodoState<span class="token punctuation">(</span></span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token keyword">return</span> <span class="token punctuation">{</span>
+    allTodos<span class="token punctuation">:</span> TodoStore<span class="token punctuation">.</span><span class="token function">getAll<span class="token punctuation">(</span></span><span class="token punctuation">)</span>
+  <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">var</span> TodoApp <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createClass<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+
+  getInitialState<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token function">getTodoState<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  componentDidMount<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    TodoStore<span class="token punctuation">.</span><span class="token function">addChangeListener<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">.</span>_onChange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  componentWillUnmount<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    TodoStore<span class="token punctuation">.</span><span class="token function">removeChangeListener<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">.</span>_onChange<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @return {object}
+   */</span>
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      &lt;div<span class="token operator">&gt;</span>
+        &lt;Header <span class="token operator">/</span><span class="token operator">&gt;</span>
+        &lt;MainSection
+          allTodos<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>allTodos<span class="token punctuation">}</span>
+          areAllComplete<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>areAllComplete<span class="token punctuation">}</span>
+        <span class="token operator">/</span><span class="token operator">&gt;</span>
+        &lt;Footer allTodos<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>allTodos<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+      &lt;<span class="token operator">/</span>div<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  _onChange<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState<span class="token punctuation">(</span></span><span class="token function">getTodoState<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoApp<span class="token punctuation">;</span></div><p>이제 React의 영역에 들어와 React의 생명주기 메소드를 이용한다. 이 controller-view에서 getInitialState() 메소드를 활용해 초기화하고, 이벤트 리스너를 componentDidMount() 메소드로 등록하고, componentWillUnmount()로 연결을 뒷정리한다. 여기에 포함된 div를 화면에 그려내고 TodoStore에서 받은 상태의 모음을 view의 위계에 따라 흘려 보낸다.</p><p>최상단 컴포넌트는 어플리케이션을 위한 텍스트 input을 포함하고 있지만 store의 상태를 알고 있을 필요는 없다. MainSection과 Footer는 이 데이터가 필요하기 때문에 아래로 흘려보내야 한다.</p><h2><a class="anchor" name="views"></a>더 많은 Views <a class="hash-link" href="#views">#</a></h2><p>React 컴포넌트 위계의 상위 레벨은 다음과 같다:</p><div class="prism language-javascript">&lt;TodoApp<span class="token operator">&gt;</span>
+  &lt;Header<span class="token operator">&gt;</span>
+    &lt;TodoTextInput <span class="token operator">/</span><span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>Header<span class="token operator">&gt;</span>
+
+  &lt;MainSection<span class="token operator">&gt;</span>
+    &lt;ul<span class="token operator">&gt;</span>
+      &lt;TodoItem <span class="token operator">/</span><span class="token operator">&gt;</span>
+    &lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>MainSection<span class="token operator">&gt;</span>
+
+&lt;<span class="token operator">/</span>TodoApp<span class="token operator">&gt;</span></div><p>TodoItem이 편집 모드라면 TodoTextInput을 자식으로 생성해야 한다. 프로퍼티(props)로 받은 데이터를 컴포넌트에서 어떻게 보여주는지 살펴보고 어떻게 dispatcher가 action으로 소통하는지 알아보자.</p><p>MainSection은 TodoApp에서 생성한 TodoItems서 받아온 할 일 목록을 반복해서 출력하는데 필요하다. 컴포넌트의 render()메소드로 다음과 같이 반복 출력을 표현할 수 있다:</p><div class="prism language-javascript"><span class="token keyword">var</span> allTodos <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>allTodos<span class="token punctuation">;</span>
+
+<span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">var</span> key <span class="token keyword">in</span> allTodos<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  todos<span class="token punctuation">.</span><span class="token function">push<span class="token punctuation">(</span></span>&lt;TodoItem key<span class="token operator">=</span><span class="token punctuation">{</span>key<span class="token punctuation">}</span> todo<span class="token operator">=</span><span class="token punctuation">{</span>allTodos<span class="token punctuation">[</span>key<span class="token punctuation">]</span><span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">return</span> <span class="token punctuation">(</span>
+  &lt;section id<span class="token operator">=</span><span class="token string">&quot;main&quot;</span><span class="token operator">&gt;</span>
+    &lt;ul id<span class="token operator">=</span><span class="token string">&quot;todo-list&quot;</span><span class="token operator">&gt;</span><span class="token punctuation">{</span>todos<span class="token punctuation">}</span>&lt;<span class="token operator">/</span>ul<span class="token operator">&gt;</span>
+  &lt;<span class="token operator">/</span>section<span class="token operator">&gt;</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></div><p>이제 TodoItem은 할 일 항목의 원문을 표시하고 자체 id를 사용한다. TodoMVC 예제에서 TodoItem이 사용하고 있는 모든 action을 설명하는 것은 이 글의 취지와는 거리가 멀지만 할 일 항목을 삭제하는 action을 살펴보려고 한다. 축약된 버전의 TodoItem은 다음과 같다:</p><div class="prism language-javascript"><span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoActions <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../actions/TodoActions&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoTextInput <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./TodoTextInput.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> TodoItem <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createClass<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+
+  propTypes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    todo<span class="token punctuation">:</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">.</span>object<span class="token punctuation">.</span>isRequired
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> todo <span class="token operator">=</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>todo<span class="token punctuation">;</span>
+
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      &lt;li
+        key<span class="token operator">=</span><span class="token punctuation">{</span>todo<span class="token punctuation">.</span>id<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+        &lt;label<span class="token operator">&gt;</span>
+          <span class="token punctuation">{</span>todo<span class="token punctuation">.</span>text<span class="token punctuation">}</span>
+        &lt;<span class="token operator">/</span>label<span class="token operator">&gt;</span>
+        &lt;button className<span class="token operator">=</span><span class="token string">&quot;destroy&quot;</span> onClick<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>_onDestroyClick<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+      &lt;<span class="token operator">/</span>li<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  _onDestroyClick<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    TodoActions<span class="token punctuation">.</span><span class="token function">destroy<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>todo<span class="token punctuation">.</span>id<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoItem<span class="token punctuation">;</span></div><p>TodoActions에서 action을 삭제하는 것도 가능하다. Store가 이런 방식의 핸들링에 이미 준비되어 있기 때문에 사용자의 상호작용과 연결해 어플리케이션의 상태를 변경하는 것은 아주 간단한 일이다. 해야 할 일은 onClick 핸들러로 제거할 action을 감싸고 id만 제공해주면 끝이다. 이제 사용자는 제거 버튼을 클릭해 Flux 사이클이 어플리케이션의 남은 부분을 갱신하게 할 수 있다.</p><p>반면 텍스트 입력은 약간 복잡한데 텍스트 입력의 상태를 React 컴포넌트 스스로가 업데이트 하지 않도록 잠시 멈춰야 하기 때문이다. TodoTextInput이 어떤 방식으로 동작하는가 확인해보자. 다음 보게될 내용에서는, 입력창에 값을 입력할 때, 값이 변하는 매 순간마다 React는 컴포넌트의 상태를 갱신하려고 한다. 그래서 입력창 안에 텍스트를 저장할 준비가 완료되었을 때, 컴포넌트 상태에 묶여있던 값을 action에 적재해야 한다.</p><p>이 부분은 어플리케이션의 상태가 아니라 UI의 상태인데 이 둘을 잘 구분해서 생각하면 이 상태가 어디에 보관되어 있어야 하는가에 대한 좋은 지침이 된다. 모든 어플리케이션의 상태는 store에 저장된다. 반면 UI의 상태는 때때로 컴포넌트에 저장이 된다. 물론 이상적으로는 React 컴포넌트는 가능한 한 작은 상태를 유지해야 한다.</p><p>어플리케이션 내에서 TodoTextInput은 여러 곳에 위치할 수 있는데다 다른 행동을 필요로 할 수 있기 때문인데 컴포넌트의 부모에게 물려받은 프로퍼티와 같이 onSave 메소드를 사용해야 하는 경우가 있을 것이다. 다음 구현으로 동일한 onSave 메소드를 사용하더라도 어디에 위치했는가에 따라 다른 action을 실행하는 것이 가능하다.</p><div class="prism language-javascript"><span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> ReactPropTypes <span class="token operator">=</span> React<span class="token punctuation">.</span>PropTypes<span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> ENTER_KEY_CODE <span class="token operator">=</span> <span class="token number">13</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> TodoTextInput <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createClass<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+
+  propTypes<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    className<span class="token punctuation">:</span> ReactPropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+    id<span class="token punctuation">:</span> ReactPropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+    placeholder<span class="token punctuation">:</span> ReactPropTypes<span class="token punctuation">.</span>string<span class="token punctuation">,</span>
+    onSave<span class="token punctuation">:</span> ReactPropTypes<span class="token punctuation">.</span>func<span class="token punctuation">.</span>isRequired<span class="token punctuation">,</span>
+    value<span class="token punctuation">:</span> ReactPropTypes<span class="token punctuation">.</span>string
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  getInitialState<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">{</span>
+      value<span class="token punctuation">:</span> <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>value <span class="token operator">||</span> <span class="token string">&#x27;&#x27;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @return {object}
+   */</span>
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token comment" spellcheck="true">/*object*/</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      &lt;input
+        className<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>className<span class="token punctuation">}</span>
+        id<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>id<span class="token punctuation">}</span>
+        placeholder<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span>placeholder<span class="token punctuation">}</span>
+        onBlur<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>_save<span class="token punctuation">}</span>
+        onChange<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>_onChange<span class="token punctuation">}</span>
+        onKeyDown<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>_onKeyDown<span class="token punctuation">}</span>
+        value<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>value<span class="token punctuation">}</span>
+        autoFocus<span class="token operator">=</span><span class="token punctuation">{</span><span class="token boolean">true</span><span class="token punctuation">}</span>
+      <span class="token operator">/</span><span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * onSave 메소드를 콜백에 값을 넘겨 실행하는 방법으로 활용해
+   * 컴포넌트가 다른 방식으로 사용될 수 있도록 한다.
+   */</span>
+  _save<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span>props<span class="token punctuation">.</span><span class="token function">onSave<span class="token punctuation">(</span></span><span class="token keyword">this</span><span class="token punctuation">.</span>state<span class="token punctuation">.</span>value<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+      value<span class="token punctuation">:</span> <span class="token string">&#x27;&#x27;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param {object} event
+   */</span>
+  _onChange<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token comment" spellcheck="true">/*object*/</span> event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">setState<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+      value<span class="token punctuation">:</span> event<span class="token punctuation">.</span>target<span class="token punctuation">.</span>value
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param {object} event
+   */</span>
+
+  _onKeyDown<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>event<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>event<span class="token punctuation">.</span>keyCode <span class="token operator">===</span> ENTER_KEY_CODE<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">this</span><span class="token punctuation">.</span><span class="token function">_save<span class="token punctuation">(</span></span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoTextInput<span class="token punctuation">;</span></div><p>TodoTextInput이 새로운 할 일 항목을 생성하는 프로퍼티로 onSave 메소드를 사용할 수 있도록 Header를 다음과 같이 작성한다:</p><div class="prism language-javascript"><span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoActions <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../actions/TodoActions&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoTextInput <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./TodoTextInput.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> Header <span class="token operator">=</span> React<span class="token punctuation">.</span><span class="token function">createClass<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @return {object}
+   */</span>
+  render<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">return</span> <span class="token punctuation">(</span>
+      &lt;header id<span class="token operator">=</span><span class="token string">&quot;header&quot;</span><span class="token operator">&gt;</span>
+        &lt;h1<span class="token operator">&gt;</span>todos&lt;<span class="token operator">/</span>h1<span class="token operator">&gt;</span>
+        &lt;TodoTextInput
+          id<span class="token operator">=</span><span class="token string">&quot;new-todo&quot;</span>
+          placeholder<span class="token operator">=</span><span class="token string">&quot;What needs to be done?&quot;</span>
+          onSave<span class="token operator">=</span><span class="token punctuation">{</span><span class="token keyword">this</span><span class="token punctuation">.</span>_onSave<span class="token punctuation">}</span>
+        <span class="token operator">/</span><span class="token operator">&gt;</span>
+      &lt;<span class="token operator">/</span>header<span class="token operator">&gt;</span>
+    <span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * TodoTextInput와 함께 이벤트 핸들러가 호출된다.
+   * 다음과 같이 정의하는 것으로 TodoTextInput를 여러 위치에서 다양한 방법으로
+   * 사용할 수 있게 된다.
+   * @param {string} text
+   */</span>
+  _onSave<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    TodoActions<span class="token punctuation">.</span><span class="token function">create<span class="token punctuation">(</span></span>text<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> Header<span class="token punctuation">;</span></div><p>다른 맥락을 예를 든다면 이미 존재하는 할 일 항목을 수정하는 경우에는 onSave 콜백에서 <code>TodoActions.update(text)</code>를 실행하는 방식으로 작성한다.</p><h2><a class="anchor" name="action"></a>유의적 action 만들기 <a class="hash-link" href="#action">#</a></h2><p>위에서 만든 view에서 사용한 2가지 action을 다음 코드와 같이 만들 수 있다:</p><div class="prism language-javascript"><span class="token comment" spellcheck="true">/**
+ * TodoActions
+ */</span>
+
+<span class="token keyword">var</span> AppDispatcher <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../dispatcher/AppDispatcher&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">var</span> TodoConstants <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;../constants/TodoConstants&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> TodoActions <span class="token operator">=</span> <span class="token punctuation">{</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param  {string} text
+   */</span>
+  create<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>text<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    AppDispatcher<span class="token punctuation">.</span><span class="token function">handleViewAction<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+      actionType<span class="token punctuation">:</span> TodoConstants<span class="token punctuation">.</span>TODO_CREATE<span class="token punctuation">,</span>
+      text<span class="token punctuation">:</span> text
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+  <span class="token comment" spellcheck="true">/**
+   * @param  {string} id
+   */</span>
+  destroy<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>id<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    AppDispatcher<span class="token punctuation">.</span><span class="token function">handleViewAction<span class="token punctuation">(</span></span><span class="token punctuation">{</span>
+      actionType<span class="token punctuation">:</span> TodoConstants<span class="token punctuation">.</span>TODO_DESTROY<span class="token punctuation">,</span>
+      id<span class="token punctuation">:</span> id
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span>
+
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+module<span class="token punctuation">.</span>exports <span class="token operator">=</span> TodoActions<span class="token punctuation">;</span></div><p>여기서 보는 것과 같이 AppDispatcher.handleViewAction() 헬퍼나 TodoActions.create() 메소드를 꼭 사용해야 할 필요는 없다. 이론적으로는 AppDispatcher.dispatch()를 직접 호출해서 데이터를 제공할 수 있다. 하지만 어플리케이션이 규모가 커지는 경우에 이 헬퍼는 코드를 깨끗하고 유의미하게 유지할 수 있도록 돕는다. 단순하게 봐도 TodoItem에 필요 없는 모든 코드를 작성하는 것보다 TodoActions.destroy(id)를 사용하는 쪽이 낫다.</p><p>TodoActions.create()로 적재하는 데이터는 다음과 같다:</p><div class="prism language-javascript"><span class="token punctuation">{</span>
+  source<span class="token punctuation">:</span> <span class="token string">&#x27;VIEW_ACTION&#x27;</span><span class="token punctuation">,</span>
+  action<span class="token punctuation">:</span> <span class="token punctuation">{</span>
+    type<span class="token punctuation">:</span> <span class="token string">&#x27;TODO_CREATE&#x27;</span><span class="token punctuation">,</span>
+    text<span class="token punctuation">:</span> <span class="token string">&#x27;Write blog post about Flux&#x27;</span>
+  <span class="token punctuation">}</span>
+<span class="token punctuation">}</span></div><p>이 데이터는 등록된 콜백을 통해 TodoStore에게 제공된다. TodoStore는 &#x27;변경&#x27; 이벤트를 중계하고 MainSection은 TodoStore에서 새 할 일 목록을 가져오는 것으로 응답하고 상태를 변경한다. 상태의 변화는 TodoApp 컴포넌트가 자신의 render() 메소드와 모든 자식 컴포넌트의 render()메소드를 호출하는 동기가 된다.</p><h2><a class="anchor" name=""></a>시작하기 <a class="hash-link" href="#">#</a></h2><p>이 어플리케이션의 시작점이 되는 파일은 app.js이다. 이 파일은 간단하게 TodoApp 컴포넌트로 어플리케이션의 최상위 엘리먼트를 구현한다.</p><div class="prism language-javascript"><span class="token keyword">var</span> React <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+<span class="token keyword">var</span> TodoApp <span class="token operator">=</span> <span class="token function">require<span class="token punctuation">(</span></span><span class="token string">&#x27;./components/TodoApp.react&#x27;</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+React<span class="token punctuation">.</span><span class="token function">render<span class="token punctuation">(</span></span>
+  &lt;TodoApp <span class="token operator">/</span><span class="token operator">&gt;</span><span class="token punctuation">,</span>
+  document<span class="token punctuation">.</span><span class="token function">getElementById<span class="token punctuation">(</span></span><span class="token string">&#x27;todoapp&#x27;</span><span class="token punctuation">)</span>
+<span class="token punctuation">)</span><span class="token punctuation">;</span></div><h2><a class="anchor" name="dispatcher"></a>Dispatcher로 의존성 관리하기 <a class="hash-link" href="#dispatcher">#</a></h2><p>앞서 말한 것처럼 Dispatcher 구현은 약간 세련되지 않다. 꽤 괜찮은 편이지만 대부분의 어플리케이션에서는 충분하지 않을 것이다. 각 Store 사이의 의존성을 관리할 수 있는 방법이 필요하다. 이를 위해 주요 몸체가 되는 Dispatcher 클래스에 waitFor() 메소드를 이용해 기능을 추가해보자.</p><p>필요한 것은 waitFor()를 구현하는 것이다. Store 콜백으로부터 반환해 사용할 수 있도록 Promise 패턴을 사용한다.</p><div class="prism language-javascript">  <span class="token comment" spellcheck="true">/**
+   * @param  {array} promisesIndexes
+   * @param  {function} callback
+   */</span>
+  waitFor<span class="token punctuation">:</span> <span class="token keyword">function</span><span class="token punctuation">(</span>promiseIndexes<span class="token punctuation">,</span> callback<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">var</span> selectedPromises <span class="token operator">=</span> promiseIndexes<span class="token punctuation">.</span><span class="token function">map<span class="token punctuation">(</span></span><span class="token keyword">function</span><span class="token punctuation">(</span>index<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      <span class="token keyword">return</span> _promises<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">return</span> Promise<span class="token punctuation">.</span><span class="token function">all<span class="token punctuation">(</span></span>selectedPromises<span class="token punctuation">)</span><span class="token punctuation">.</span><span class="token function">then<span class="token punctuation">(</span></span>callback<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token punctuation">}</span></div><p>이제 TodoStore 콜백에서 다른 의존성이 먼저 명시적으로 업데이트 될 때까지 진행되지 않고 기다릴 수 있게 되었다. 하지만 Store A가 Store B를 기다리고 B가 A를 기다리는 경우에는 순환 의존이 발생할 수 있다. 더 튼튼한 dispatcher가 필요하다면 이런 시나리오에서 콘솔에 경고를 띄우는 등 문제를 알려주는 부분도 구현해야 한다.</p><h2><a class="anchor" name="flux"></a>Flux의 미래 <a class="hash-link" href="#flux">#</a></h2><p>Facebook이 Flux를 오픈소스 프레임워크로 계속 릴리즈 할 것인가를 물어본다. 사실 Flux는 아키텍쳐지 프레임워크가 아니다. 그 질문이 Flux를 사용하기 쉽게 도울 기반 프로젝트에 대해 궁금한 것이라면, 우리는 계속 릴리즈 할 것이다. 우리에게 더 필요한 것이 있다면 알려주길 바란다.</p><p>Facebook에서 어떤 방식으로 클라이언트-사이드 어플리케이션을 만드는지 시간내어 읽어줘서 고맙다. Flux가 당신이 하는 일에 도움이 되길 기대한다.</p></div><div class="docs-prevnext"><a class="docs-next" href="chat-ko-KR.html#content">Next →</a></div></div></section><footer class="wrap"><div class="right">© 2014-2015 Facebook Inc.</div></footer></div><div id="fb-root"></div><script>
+            (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+            })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+            ga('create', 'UA-387204-10', 'facebook.github.io');
+            ga('send', 'pageview');
+
+            !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)
+            ){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";
+            fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+          </script></body></html>
