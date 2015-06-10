@@ -1,7 +1,6 @@
 {
   "name": "flux",
   "description": "An application architecture based on a unidirectional data flow",
-  "version": "2.0.2",
   "main": "dist/Flux.js",
   "license": "https://github.com/facebook/flux/blob/master/LICENSE",
   "homepage": "http://facebook.github.io/flux/",
