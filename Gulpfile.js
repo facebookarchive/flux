@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 var browserify = require('browserify');
+var bundleCollapser = require('bundle-collapser/plugin');
+var derequire = require('derequire/plugin');
 var source = require('vinyl-source-stream');
 var del = require('del');
 var runSequence = require('run-sequence');
@@ -26,10 +28,12 @@ gulp.task('lib', function() {
 });
 
 gulp.task('browserify', ['lib'], function() {
-  return browserify(browserifyConfig)
-          .bundle()
+  var b = browserify(browserifyConfig)
+    .plugin(bundleCollapser)
+    .plugin(derequire);
+  return b.bundle()
           .pipe(source('Flux.js'))
-          .pipe(gulp.dest('./dist/'))
+          .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('build', ['lib', 'browserify']);

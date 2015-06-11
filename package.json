@@ -38,8 +38,10 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "babel-jest": "^5.2.0",
-    "browserify": "^9.0.3",
+    "browserify": "^10.2.4",
+    "bundle-collapser": "^1.2.0",
     "del": "^1.1.1",
+    "derequire": "^2.0.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
     "jest-cli": "^0.4.3",
