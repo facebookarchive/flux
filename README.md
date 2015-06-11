@@ -66,7 +66,7 @@ We found that two-way data bindings led to cascading updates, where changing one
 
 
 ## Join the Flux community
-See the CONTRIBUTING file for how to help out.
+See the [CONTRIBUTING](/CONTRIBUTING.md) file for how to help out.
 
 
 ## License
