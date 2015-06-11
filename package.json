@@ -18,8 +18,8 @@
   ],
   "main": "index.js",
   "scripts": {
-    "prepublish": "gulp publish",
-    "test": "jest"
+    "prepublish": "NODE_ENV=production gulp publish",
+    "test": "NODE_ENV=development jest"
   },
   "jest": {
     "rootDir": "src",
@@ -38,11 +38,12 @@
   "license": "BSD-3-Clause",
   "devDependencies": {
     "babel-jest": "^5.2.0",
-    "browserify": "^9.0.3",
+    "browserify": "^10.2.4",
+    "bundle-collapser": "^1.2.0",
     "del": "^1.1.1",
+    "derequire": "^2.0.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
-    "gulp-replace": "^0.5.3",
     "jest-cli": "^0.4.3",
     "run-sequence": "^1.0.2",
     "vinyl-source-stream": "^1.0.0"

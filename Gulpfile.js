@@ -1,6 +1,7 @@
 var gulp = require('gulp');
-var gReplace = require('gulp-replace');
 var browserify = require('browserify');
+var bundleCollapser = require('bundle-collapser/plugin');
+var derequire = require('derequire/plugin');
 var source = require('vinyl-source-stream');
 var del = require('del');
 var runSequence = require('run-sequence');
@@ -17,20 +18,22 @@ gulp.task('clean', function(cb) {
 
 gulp.task('lib', function() {
   return gulp.src('src/*.js')
-             .pipe(gReplace(/__DEV__/g, 'false'))
              .pipe(babel({
                loose: true,
-               blacklist: ['spec.functionName']
+               blacklist: ['spec.functionName'],
+               optional: ['utility.inlineEnvironmentVariables']
               }))
              .pipe(gulp.dest('lib'));
 
 });
 
 gulp.task('browserify', ['lib'], function() {
-  return browserify(browserifyConfig)
-          .bundle()
+  var b = browserify(browserifyConfig)
+    .plugin(bundleCollapser)
+    .plugin(derequire);
+  return b.bundle()
           .pipe(source('Flux.js'))
-          .pipe(gulp.dest('./dist/'))
+          .pipe(gulp.dest('./dist/'));
 });
 
 gulp.task('build', ['lib', 'browserify']);

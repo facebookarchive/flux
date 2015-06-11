@@ -9,7 +9,6 @@
 
 jest.dontMock('../Dispatcher');
 jest.dontMock('../invariant');
-__DEV__ = true; // simulate dev environment to test if errors are thrown
 
 describe('Dispatcher', function() {
 
