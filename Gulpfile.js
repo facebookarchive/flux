@@ -1,5 +1,4 @@
 var gulp = require('gulp');
-var gReplace = require('gulp-replace');
 var browserify = require('browserify');
 var source = require('vinyl-source-stream');
 var del = require('del');
@@ -17,10 +16,10 @@ gulp.task('clean', function(cb) {
 
 gulp.task('lib', function() {
   return gulp.src('src/*.js')
-             .pipe(gReplace(/__DEV__/g, 'false'))
              .pipe(babel({
                loose: true,
-               blacklist: ['spec.functionName']
+               blacklist: ['spec.functionName'],
+               optional: ['utility.inlineEnvironmentVariables']
               }))
              .pipe(gulp.dest('lib'));
 

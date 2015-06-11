@@ -280,7 +280,7 @@ module.exports = Dispatcher;
  */
 
 var invariant = function (condition, format, a, b, c, d, e, f) {
-  if (false) {
+  if ('production' !== 'production') {
     if (format === undefined) {
       throw new Error('invariant requires an error message argument');
     }
