@@ -275,7 +275,6 @@ var TodoApp = React.createClass({
         <Header />
         <MainSection
           allTodos={this.state.allTodos}
-          areAllComplete={this.state.areAllComplete}
         />
         <Footer allTodos={this.state.allTodos} />
       </div>
