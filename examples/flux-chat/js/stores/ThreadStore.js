@@ -28,7 +28,7 @@ var ThreadStore = assign({}, EventEmitter.prototype, {
     rawMessages.forEach(function(message) {
       var threadID = message.threadID;
       var thread = _threads[threadID];
-      if (thread && thread.lastTimestamp > message.timestamp) {
+      if (thread && thread.lastMessage.timestamp > message.timestamp) {
         return;
       }
       _threads[threadID] = {
