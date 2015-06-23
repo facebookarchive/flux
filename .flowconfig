@@ -5,6 +5,7 @@
 [include]
 
 [libs]
+flow
 
 [options]
 module.system=haste

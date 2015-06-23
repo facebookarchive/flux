@@ -8,11 +8,10 @@
  *
  * @providesModule Dispatcher
  * @flow
- * @typechecks
  * @preventMunge
  */
 
-"use strict";
+'use strict';
 
 var invariant = require('./invariant');
 

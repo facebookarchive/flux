@@ -21,7 +21,6 @@ module.exports.Dispatcher = require('./lib/Dispatcher')
  *
  * @providesModule Dispatcher
  * @flow
- * @typechecks
  * @preventMunge
  */
 
