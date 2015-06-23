@@ -20,7 +20,7 @@ module.exports.Dispatcher = require('./lib/Dispatcher')
  * of patent rights can be found in the PATENTS file in the same directory.
  *
  * @providesModule Dispatcher
- * @typechecks
+ * @flow
  * @preventMunge
  */
 
@@ -135,9 +135,6 @@ var Dispatcher = (function () {
   /**
    * Registers a callback to be invoked with every dispatched payload. Returns
    * a token that can be used with `waitFor()`.
-   *
-   * @param {function} callback
-   * @return {string}
    */
 
   Dispatcher.prototype.register = function register(callback) {
@@ -148,8 +145,6 @@ var Dispatcher = (function () {
 
   /**
    * Removes a callback based on its token.
-   *
-   * @param {string} id
    */
 
   Dispatcher.prototype.unregister = function unregister(id) {
@@ -161,8 +156,6 @@ var Dispatcher = (function () {
    * Waits for the callbacks specified to be invoked before continuing execution
    * of the current callback. This method should only be used by a callback in
    * response to a dispatched payload.
-   *
-   * @param {array<string>} ids
    */
 
   Dispatcher.prototype.waitFor = function waitFor(ids) {
@@ -180,8 +173,6 @@ var Dispatcher = (function () {
 
   /**
    * Dispatches a payload to all registered callbacks.
-   *
-   * @param {object} payload
    */
 
   Dispatcher.prototype.dispatch = function dispatch(payload) {
@@ -201,8 +192,6 @@ var Dispatcher = (function () {
 
   /**
    * Is this Dispatcher currently dispatching.
-   *
-   * @return {boolean}
    */
 
   Dispatcher.prototype.isDispatching = function isDispatching() {
@@ -213,7 +202,6 @@ var Dispatcher = (function () {
    * Call the callback stored with the given id. Also do some internal
    * bookkeeping.
    *
-   * @param {string} id
    * @internal
    */
 
@@ -226,7 +214,6 @@ var Dispatcher = (function () {
   /**
    * Set up bookkeeping needed when dispatching.
    *
-   * @param {object} payload
    * @internal
    */
 
