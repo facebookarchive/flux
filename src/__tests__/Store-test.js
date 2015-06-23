@@ -6,10 +6,11 @@
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
-
-jest.dontMock('../Store');
-jest.dontMock('../invariant');
 __DEV__ = true; // simulate dev environment to test if errors are thrown
+
+jest
+  .dontMock('../Store')
+  .dontMock('../invariant');
 
 var {EventEmitter} = require('events');
 var Store = require('../Store');

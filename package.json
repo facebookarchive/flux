@@ -46,5 +46,8 @@
     "jest-cli": "^0.4.3",
     "run-sequence": "^1.0.2",
     "vinyl-source-stream": "^1.0.0"
+  },
+  "dependencies": {
+    "immutable": "^3.7.4"
   }
 }
