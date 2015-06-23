@@ -21,6 +21,7 @@ module.exports.Dispatcher = require('./lib/Dispatcher')
  *
  * @providesModule Dispatcher
  * @flow
+ * @typechecks
  * @preventMunge
  */
 
@@ -121,6 +122,11 @@ var _prefix = 'ID_';
  */
 
 var Dispatcher = (function () {
+
+  /**
+   * @public
+   */
+
   function Dispatcher() {
     _classCallCheck(this, Dispatcher);
 
@@ -135,6 +141,8 @@ var Dispatcher = (function () {
   /**
    * Registers a callback to be invoked with every dispatched payload. Returns
    * a token that can be used with `waitFor()`.
+   *
+   * @public
    */
 
   Dispatcher.prototype.register = function register(callback) {
@@ -145,6 +153,8 @@ var Dispatcher = (function () {
 
   /**
    * Removes a callback based on its token.
+   *
+   * @public
    */
 
   Dispatcher.prototype.unregister = function unregister(id) {
@@ -156,6 +166,8 @@ var Dispatcher = (function () {
    * Waits for the callbacks specified to be invoked before continuing execution
    * of the current callback. This method should only be used by a callback in
    * response to a dispatched payload.
+   *
+   * @public
    */
 
   Dispatcher.prototype.waitFor = function waitFor(ids) {
@@ -173,6 +185,8 @@ var Dispatcher = (function () {
 
   /**
    * Dispatches a payload to all registered callbacks.
+   *
+   * @public
    */
 
   Dispatcher.prototype.dispatch = function dispatch(payload) {
@@ -192,6 +206,8 @@ var Dispatcher = (function () {
 
   /**
    * Is this Dispatcher currently dispatching.
+   *
+   * @public
    */
 
   Dispatcher.prototype.isDispatching = function isDispatching() {
@@ -202,7 +218,7 @@ var Dispatcher = (function () {
    * Call the callback stored with the given id. Also do some internal
    * bookkeeping.
    *
-   * @internal
+   * @private
    */
 
   Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
@@ -214,7 +230,7 @@ var Dispatcher = (function () {
   /**
    * Set up bookkeeping needed when dispatching.
    *
-   * @internal
+   * @private
    */
 
   Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
@@ -229,7 +245,7 @@ var Dispatcher = (function () {
   /**
    * Clear bookkeeping used for dispatching.
    *
-   * @internal
+   * @private
    */
 
   Dispatcher.prototype._stopDispatching = function _stopDispatching() {

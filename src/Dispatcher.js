@@ -8,6 +8,7 @@
  *
  * @providesModule Dispatcher
  * @flow
+ * @typechecks
  * @preventMunge
  */
 
@@ -112,6 +113,9 @@ class Dispatcher {
   _isDispatching: boolean;
   _pendingPayload: mixed;
 
+  /**
+   * @public
+   */
   constructor() {
     this._lastID = 1;
     this._callbacks = {};
@@ -124,6 +128,8 @@ class Dispatcher {
   /**
    * Registers a callback to be invoked with every dispatched payload. Returns
    * a token that can be used with `waitFor()`.
+   *
+   * @public
    */
   register(callback: Function): string {
     var id = _prefix + this._lastID++;
@@ -133,6 +139,8 @@ class Dispatcher {
 
   /**
    * Removes a callback based on its token.
+   *
+   * @public
    */
   unregister(id: string): void {
     invariant(
@@ -147,6 +155,8 @@ class Dispatcher {
    * Waits for the callbacks specified to be invoked before continuing execution
    * of the current callback. This method should only be used by a callback in
    * response to a dispatched payload.
+   *
+   * @public
    */
   waitFor(ids: Array<string>): void {
     invariant(
@@ -175,8 +185,10 @@ class Dispatcher {
 
   /**
    * Dispatches a payload to all registered callbacks.
+   *
+   * @public
    */
-  dispatch(payload: mixed): void {
+  dispatch(payload: Object): void {
     invariant(
       !this._isDispatching,
       'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
@@ -196,6 +208,8 @@ class Dispatcher {
 
   /**
    * Is this Dispatcher currently dispatching.
+   *
+   * @public
    */
   isDispatching(): boolean {
     return this._isDispatching;
@@ -205,7 +219,7 @@ class Dispatcher {
    * Call the callback stored with the given id. Also do some internal
    * bookkeeping.
    *
-   * @internal
+   * @private
    */
   _invokeCallback(id: string): void {
     this._isPending[id] = true;
@@ -216,9 +230,9 @@ class Dispatcher {
   /**
    * Set up bookkeeping needed when dispatching.
    *
-   * @internal
+   * @private
    */
-  _startDispatching(payload: mixed): void {
+  _startDispatching(payload: Object): void {
     for (var id in this._callbacks) {
       this._isPending[id] = false;
       this._isHandled[id] = false;
@@ -230,7 +244,7 @@ class Dispatcher {
   /**
    * Clear bookkeeping used for dispatching.
    *
-   * @internal
+   * @private
    */
   _stopDispatching(): void {
     this._pendingPayload = null;
