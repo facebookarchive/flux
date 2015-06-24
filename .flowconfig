@@ -1,0 +1,11 @@
+[ignore]
+.*/lib/.*
+.*/node_modules/.*
+
+[include]
+
+[libs]
+flow
+
+[options]
+module.system=haste
