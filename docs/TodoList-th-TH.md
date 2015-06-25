@@ -10,7 +10,7 @@ lang: th-TH
 
 เพื่อสาธิตคอนเซ็ปต์ของ Flux ด้วยโค้ดตัวอย่าง เรามาลองสร้างแอพพลิเคชั่น TodoMVC กัน โดยที่คุณสามารถดูโค้ดทั้งหมดที่ GitHub repo ของ React ที่ [flux-todomvc](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/) ได้ แต่ลองมาพัฒนาไปด้วยกันทีละขั้นตอนดีกว่า
 
-มาเริ่มต้นกันด้วยโค้ดต้นแบบที่สามารถรันระบบโมดูลได้ ระบบโมดูล CommonJS ของ Node เหมาะกับงานนี้เป็นอย่างดีโดยที่เราสามารถใช้ [react-boilerplate](https://github.com/petehunt/react-boilerplate) เป็นต้นแบบในการเริ่มต้นพัฒนาได้อย่างรวดเร็ว คาดว่าคุณมี npm ติดตั้งอยู่ในคอมพิวเตอร์ของคุณอยู่แล้ว เรามาเริ่มจาก clone โค้ด react-boilerplate จาก GitHub และเปลี่ยน directory ไปที่ directory ที่โคลนมาโดยใช้ Terminal (หรือโปรแกรม CLI ที่คุณใช้อยู่) จากนั้นรันสคริปต์ของ npm เพื่อเริ่มต้นพัฒนา: `npm install` ต่อไปด้วย `npm run build` และท้ายสุดรัน `npm start` เพื่อใช้ Browserify ในการเขียนโค้ดอย่างต่อเนื่อง
+มาเริ่มต้นกันด้วยโค้ดต้นแบบที่สามารถรันระบบโมดูลได้ ระบบโมดูล CommonJS ของ Node เหมาะกับงานนี้เป็นอย่างดีโดยที่เราสามารถใช้ [react-boilerplate](https://github.com/petehunt/react-boilerplate) เป็นต้นแบบในการเริ่มต้นพัฒนาได้อย่างรวดเร็ว คาดว่าคุณมี npm ติดตั้งอยู่ในคอมพิวเตอร์ของคุณอยู่แล้ว เรามาเริ่มจาก clone โค้ด react-boilerplate จาก GitHub และเปลี่ยน directory ไปที่ directory ที่โคลนมาโดยใช้ Terminal (หรือโปรแกรม CLI ที่คุณใช้อยู่) จากนั้นรันสคริปต์ของ npm เพื่อเริ่มต้นพัฒนา: `npm install` ต่อด้วย `npm run build` และท้ายสุดรัน `npm start` เพื่อใช้ Browserify ในการเขียนโค้ดอย่างต่อเนื่อง
 
 โค้ดตัวอย่าง TodoMVC มีทุกอย่างที่เราจะพัฒนากันเรียบร้อยแล้ว แต่ถ้าคุณเลือกเริ่มต้นด้วย react-boilerplate ขอให้ตรวจสอบว่าไฟล์ package.json ของคุณตรงกันกับไฟล์ตัวอย่าง [package.json](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/package.json) ของ TodoMVC ไม่เช่นนั้นโค้ดของคุณจะทำงานได้ไม่ตรงตามคำอธิบายต่อจากนี้
 
@@ -133,7 +133,7 @@ var AppDispatcher = assign({}, Dispatcher.prototype, {
 module.exports = AppDispatcher;
 ```
 
-ตอนนี้เราได้เขียนโค้ด dispatcher ที่ตรงกับความต้องการของเราเรียบร้อยแล้ว โดยที่เรามี helper function ที่สามารถนำไปใช้ได้ใน actions ที่มาจาก event handlers ใน views ซึ่งในอนาคตเราอาจจะเพิ่ม helper สำหรับ action ที่มาจากการอัพเดทฝั่ง server แต่สำหรับตอนนี้ถือว่าเพียงพอกับสิ่งที่เราต้องการแล้ว
+ตอนนี้เราได้เขียนโค้ด dispatcher ที่ตรงกับความต้องการของเราเรียบร้อยแล้ว โดยที่เรามี helper function ที่สามารถนำไปใช้ได้ใน actions ที่มาจาก event handlers ใน views ซึ่งในอนาคตเราอาจจะเพิ่ม helper สำหรับ action ที่มาจากการอัพเดทฝั่ง server ได้ แต่สำหรับตอนนี้ถือว่าเพียงพอแล้วกับสิ่งที่เราต้องการ
 
 
 สร้าง Stores
@@ -232,7 +232,7 @@ module.exports = TodoStore;
 
 จากโค้ดด้านบน มีจุดสำคัญอยู่บางจุด เริ่มต้นจากเราจะเก็บข้อมูลแบบ private ไว้ในตัวแปรชื่อ _todos ซึ่ง object นี้เก็บ to-do items ทั้งหมดเอาไว้ เนื่องจากว่าตัวแปรนี้อยู่ด้านนอก class แต่อยู่ภายใน closure ของโมดูล ตัวแปรนี้จึงมีสภาวะ private — โค้ดต่างๆ ภายนอกโมดูลนี้ไม่สามารถเปลี่ยนแปลงค่าของตัวแปรนี้ได้ตรงๆ ซึ่งสิ่งนี้ช่วยให้เราควบคุมแพทเทิร์นการเดินทางของข้อมูลให้เป็นทิศทางเดียวได้ ทำให้เป็นไม่ได้เลยที่จะอัพเดท store โดยที่ไม่ใช้ action
 
-อีกส่วนสำคัญคือการลงทะเบียน callback ของ store ไว้กับ dispatcher ซึ่งเราทำได้โดยการส่ง callback ที่รับข้อมูล payload ให้กับ dispatcher และเก็บ index ที่ใช้อ้างอิงถึง store นี้จากทะเบียนของ dispatcher จะเห็นว่าฟังก์ชั่น callback ของเราใช้ตอบสนองกับประเภทของ action เพียงแค่ 2 ประเภทเท่านั้น ในอนาคตเราสามารถเพิ่มได้มากเท่าที่เราต้องการ
+อีกส่วนสำคัญคือการลงทะเบียน callback ของ store ไว้กับ dispatcher ซึ่งเราทำได้โดยการส่งต่อ callback ที่รับข้อมูล payload ให้กับ dispatcher และเก็บ index ที่ใช้อ้างอิงถึง store นี้จากทะเบียนของ dispatcher จะเห็นว่าฟังก์ชั่น callback ของเราใช้ตอบสนองกับ action เพียงแค่ 2 ประเภทเท่านั้น ในอนาคตเราสามารถเพิ่มได้มากเท่าที่เราต้องการ
 
 
 ตอบสนองต่อการเปลี่ยนแปลงของข้อมูลด้วย Controller-View
@@ -292,7 +292,7 @@ var TodoApp = React.createClass({
 module.exports = TodoApp;
 ```
 
-เราคงคุ้นเคยกับโค้ด React ด้านบนนี้อยู่แล้วที่ใช้ประโยชน์คำสั่ง lifecycle ต่างๆของ React เริ่มที่เราเซทอัพ state ตั้งต้นของ controller-view ตัวนี้ในคำสั่ง getInitialState() จากนั้นลงทะเบียน event listener ในคำสั่ง componentDidMount() และยกเลิกการลงทะเบียนไว้ในคำสั่ง componentWillUnmount() โดยที่ในคำสั่ง render เราแสดงผล div หลักและส่งค่า states ต่างๆที่เราได้จาก TodoStore ลงไปใน component ชั้นล่าง
+เราคงคุ้นเคยกับโค้ด React ด้านบนนี้อยู่แล้วที่ใช้ประโยชน์คำสั่ง lifecycle ต่างๆของ React เริ่มที่เราเซทอัพ state ตั้งต้นของ controller-view ตัวนี้ด้วยคำสั่ง getInitialState() จากนั้นลงทะเบียน event listener ในคำสั่ง componentDidMount() และยกเลิกการลงทะเบียนไว้ในคำสั่ง componentWillUnmount() โดยที่ในคำสั่ง render เราแสดงผล div หลักและส่งค่า states ต่างๆที่เราได้จาก TodoStore ลงไปใน component ชั้นล่าง
 
 Header component ประกอบไปด้วยกล่องข้อความ text input หลักสำหรับแอพพลิเคชั่น แต่จะสังเกตุว่ามันไม่จำเป็นต้องรู้ค่า state ของ store เลย ในขณะที่ MainSection และ Footer จำเป็นต้องรู้ข้อมูล state เหล่านี้เราจึงส่งค่าลงไปให้
 
