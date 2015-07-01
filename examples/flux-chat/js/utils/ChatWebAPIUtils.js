@@ -29,7 +29,7 @@ module.exports = {
     ChatServerActionCreators.receiveAll(rawMessages);
   },
 
-  createMessage: function(message, threadName) {
+  createMessage: function(message) {
     // simulate writing to a database
     var rawMessages = JSON.parse(localStorage.getItem('messages'));
     var timestamp = Date.now();
@@ -38,7 +38,7 @@ module.exports = {
     var createdMessage = {
       id: id,
       threadID: threadID,
-      threadName: threadName,
+      threadName: message.threadName,
       authorName: message.authorName,
       text: message.text,
       timestamp: timestamp
