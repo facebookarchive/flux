@@ -46,10 +46,8 @@ function update(id, updates) {
 
 /**
  * Update all of the TODO items with the same object.
- *     the data to be updated.  Used to mark all TODOs as completed.
  * @param  {object} updates An object literal containing only the data to be
  *     updated.
-
  */
 function updateAll(updates) {
   for (var id in _todos) {
