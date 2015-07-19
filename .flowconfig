@@ -1,0 +1,13 @@
+[ignore]
+.*/examples/.*
+.*/lib/.*
+.*/node_modules/gulp-babel/.*
+.*/node_modules/jest-cli/.*
+
+[include]
+
+[libs]
+flow
+
+[options]
+module.system=haste
