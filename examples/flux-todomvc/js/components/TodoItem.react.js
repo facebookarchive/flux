@@ -12,7 +12,7 @@ var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoTextInput = require('./TodoTextInput.react');
 
-var cx = require('react/lib/cx');
+var classNames = require('classnames');
 
 var TodoItem = React.createClass({
 
@@ -49,7 +49,7 @@ var TodoItem = React.createClass({
     // in the naming of view actions toggleComplete() vs. destroyCompleted().
     return (
       <li
-        className={cx({
+        className={classNames({
           'completed': todo.complete,
           'editing': this.state.isEditing
         })}

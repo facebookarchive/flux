@@ -12,7 +12,7 @@
 
 var ChatThreadActionCreators = require('../actions/ChatThreadActionCreators');
 var React = require('react');
-var cx = require('react/lib/cx');
+var classNames = require('classnames');
 
 var ReactPropTypes = React.PropTypes;
 
@@ -28,7 +28,7 @@ var ThreadListItem = React.createClass({
     var lastMessage = thread.lastMessage;
     return (
       <li
-        className={cx({
+        className={classNames({
           'thread-list-item': true,
           'active': thread.id === this.props.currentThreadID
         })}
