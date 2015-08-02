@@ -11,19 +11,19 @@
   "homepage": "http://facebook.github.io/flux/",
   "bugs": "https://github.com/facebook/flux/issues",
   "files": [
+    "LICENSE",
+    "PATENTS",
+    "README.md",
+    "flow/",
     "index.js",
     "lib/",
-    "LICENSE",
-    "PATENTS"
+    "module-map.json",
+    "scripts/"
   ],
   "main": "index.js",
   "scripts": {
     "prepublish": "gulp publish",
-    "test": "jest"
-  },
-  "jest": {
-    "rootDir": "src",
-    "scriptPreprocessor": "../node_modules/babel-jest"
+    "test": "NODE_ENV=test jest"
   },
   "repository": {
     "type": "git",
@@ -33,18 +33,45 @@
   "contributors": [
     "Jing Chen <jingc@fb.com>",
     "Bill Fisher <fisherwebdev@gmail.com>",
-    "Paul O'Shannessy <paul@oshanessy.com>"
+    "Paul O'Shannessy <paul@oshanessy.com>",
+    "Kyle Davis <kyldvs@gmail.com>"
   ],
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "babel-jest": "^5.2.0",
+    "babel": "^5.4.7",
     "browserify": "^9.0.3",
-    "del": "^1.1.1",
+    "del": "^1.2.0",
     "gulp": "^3.8.11",
     "gulp-babel": "^5.1.0",
+    "gulp-flatten": "0.0.4",
     "gulp-replace": "^0.5.3",
-    "jest-cli": "^0.4.3",
+    "gulp-util": "^3.0.4",
+    "jest-cli": "^0.4.5",
+    "object-assign": "^2.0.0",
     "run-sequence": "^1.0.2",
-    "vinyl-source-stream": "^1.0.0"
+    "vinyl-source-stream": "^1.0.0",
+    "through2": "^0.6.5"
+  },
+  "dependencies": {
+    "fbjs": "0.1.0-alpha.4"
+  },
+  "jest": {
+    "modulePathIgnorePatterns": [
+      "/lib/",
+      "/node_modules/"
+    ],
+    "persistModuleRegistryBetweenSpecs": true,
+    "preprocessorIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "rootDir": "",
+    "scriptPreprocessor": "scripts/jest/preprocessor.js",
+    "setupEnvScriptFile": "scripts/jest/environment.js",
+    "testPathDirs": [
+      "<rootDir>/src"
+    ],
+    "unmockedModulePathPatterns": [
+      "<rootDir>/node_modules/"
+    ]
   }
 }

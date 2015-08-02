@@ -4,10 +4,10 @@
 .*/node_modules/gulp-babel/.*
 .*/node_modules/jest-cli/.*
 
-[include]
+.*/flow/include/Dispatcher.js
 
 [libs]
-flow
+flow/lib
 
 [options]
 module.system=haste
