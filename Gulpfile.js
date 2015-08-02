@@ -2,13 +2,11 @@ var babel = require('gulp-babel');
 var browserify = require('browserify');
 var del = require('del');
 var flatten = require('gulp-flatten');
-var gReplace = require('gulp-replace');
 var gulp = require('gulp');
 var runSequence = require('run-sequence');
 var source = require('vinyl-source-stream');
 
 var babelDefaultOptions = require('./scripts/babel/default-options');
-var gulpModuleMap = require('fbjs/scripts/gulp/module-map.js');
 
 var paths = {
   dist: './dist/',
@@ -21,16 +19,9 @@ var paths = {
   ],
 };
 
-var babelOpts = babelDefaultOptions;
-
 var browserifyConfig = {
   entries: ['./index.js'],
   standalone: 'Flux'
-};
-
-var moduleMapOpts = {
-  moduleMapFile: './module-map.json',
-  prefix: 'flux/lib/'
 };
 
 gulp.task('clean', function(cb) {
@@ -40,9 +31,7 @@ gulp.task('clean', function(cb) {
 gulp.task('lib', function() {
   return gulp
     .src(paths.src)
-    .pipe(gReplace(/__DEV__/g, 'false'))
-    .pipe(gulpModuleMap(moduleMapOpts))
-    .pipe(babel(babelOpts))
+    .pipe(babel(babelDefaultOptions))
     .pipe(flatten())
     .pipe(gulp.dest(paths.lib));
 });

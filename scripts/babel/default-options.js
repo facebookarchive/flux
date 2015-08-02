@@ -9,15 +9,17 @@
 
 'use strict';
 
+var babelPluginDEV = require('fbjs/scripts/babel/dev-expression');
 var babelPluginModules = require('fbjs/scripts/babel/rewrite-modules');
 
+var moduleMap = require('fbjs/module-map');
+
 module.exports = {
+  stage: 1,
   blacklist: [
     'spec.functionName',
   ],
   loose: true,
-  plugins: [babelPluginModules],
-  _moduleMap: {
-    'invariant': 'fbjs/lib/invariant',
-  },
+  plugins: [babelPluginDEV, babelPluginModules],
+  _moduleMap: moduleMap,
 };

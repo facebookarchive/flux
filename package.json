@@ -14,14 +14,14 @@
     "LICENSE",
     "PATENTS",
     "README.md",
-    "flow/",
+    "flow",
     "index.js",
-    "lib/",
-    "module-map.json",
-    "scripts/"
+    "lib",
+    "utils.js"
   ],
   "main": "index.js",
   "scripts": {
+    "build": "gulp build",
     "prepublish": "gulp publish",
     "test": "NODE_ENV=test jest"
   },
@@ -41,19 +41,18 @@
     "babel": "^5.4.7",
     "browserify": "^9.0.3",
     "del": "^1.2.0",
-    "gulp": "^3.8.11",
+    "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
-    "gulp-flatten": "0.0.4",
-    "gulp-replace": "^0.5.3",
-    "gulp-util": "^3.0.4",
-    "jest-cli": "^0.4.5",
-    "object-assign": "^2.0.0",
-    "run-sequence": "^1.0.2",
-    "vinyl-source-stream": "^1.0.0",
-    "through2": "^0.6.5"
+    "gulp-flatten": "^0.1.1",
+    "jest-cli": "^0.4.18",
+    "object-assign": "^3.0.0",
+    "run-sequence": "^1.1.0",
+    "vinyl-source-stream": "^1.0.0"
   },
   "dependencies": {
-    "fbjs": "0.1.0-alpha.4"
+    "fbemitter": "^2.0.0",
+    "fbjs": "0.1.0-alpha.7",
+    "immutable": "^3.7.4"
   },
   "jest": {
     "modulePathIgnorePatterns": [
@@ -71,7 +70,7 @@
       "<rootDir>/src"
     ],
     "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/"
+      "<rootDir>/node_modules/(?!fbemitter)"
     ]
   }
 }
