@@ -67,6 +67,10 @@
   cursor: default;
 }
 
+.thread-list-item.unread .thread-name::after {
+  content: ' •';
+}
+
 .message-author-name,
 .thread-name {
   color: #66c;
