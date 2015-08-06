@@ -15,6 +15,7 @@
   50%  { opacity: 1.0; }
   100% { opacity: 0.0; }
 }
+
 @keyframes myanim {
   0%   { opacity: 0.0; }
   50%  { opacity: 1.0; }
