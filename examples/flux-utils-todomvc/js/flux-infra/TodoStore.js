@@ -69,6 +69,7 @@ function createTodo(state: State, text: ?string): State {
   return state.set(newTodo.id, newTodo);
 }
 
-// Export a singleton instance of the store, could do this in another
+// Export a singleton instance of the store, could do this some other way if
+// you want to avoid singletons.
 const instance = new TodoStore(TodoDispatcher);
 export default instance;
