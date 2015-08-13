@@ -9,6 +9,8 @@
 
 'use strict';
 
+var assign = require('object-assign');
+
 var babelPluginDEV = require('fbjs/scripts/babel/dev-expression');
 var babelPluginModules = require('fbjs/scripts/babel/rewrite-modules');
 
@@ -21,5 +23,8 @@ module.exports = {
   ],
   loose: true,
   plugins: [babelPluginDEV, babelPluginModules],
-  _moduleMap: moduleMap,
+  _moduleMap: assign({}, moduleMap, {
+    'fbemitter': 'fbemitter',
+    'immutable': 'immutable',
+  }),
 };
