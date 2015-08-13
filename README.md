@@ -60,7 +60,7 @@ class CounterStore extends ReduceStore<number> {
 }
 ```
 
-Check out the [example](https://github.com/facebook/flux/tree/master/examples/flux-utils-todomvc) and [documentation]((https://github.com/facebook/flux/TODO:add-a-link) for more information.
+Check out the [example](https://github.com/facebook/flux/tree/master/examples/flux-utils-todomvc) and [documentation](https://facebook.github.io/flux/docs/flux-utils.html) for more information.
 
 ## Building Flux from a Cloned Repo
 Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.

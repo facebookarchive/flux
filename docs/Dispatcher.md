@@ -4,7 +4,7 @@ title: Dispatcher
 layout: docs
 category: Reference
 permalink: docs/dispatcher.html
-next: videos
+next: flux-utils
 ---
 
 Dispatcher is used to broadcast payloads to registered callbacks. This is
@@ -125,4 +125,3 @@ FlightPriceStore.dispatchToken =
 The `country-update` payload will be guaranteed to invoke the stores'
 registered callbacks in order: `CountryStore`, `CityStore`, then
 `FlightPriceStore`.
-
