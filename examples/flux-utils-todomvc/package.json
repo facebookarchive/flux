@@ -10,7 +10,7 @@
     "immutable": "^3.7.4",
     "keymirror": "~0.1.0",
     "object-assign": "^1.0.0",
-    "react": "^0.12.0"
+    "react": "^0.13.3"
   },
   "devDependencies": {
     "babel-jest": "^5.3.0",

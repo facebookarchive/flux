@@ -9,6 +9,8 @@
  * @flow
  */
 
+'use strict';
+
 /**
  * This component operates as a "Controller-View".  It listens for changes in
  * the TodoStore and passes the new data to its children.
@@ -37,7 +39,7 @@ class TodoApp extends Component<{}, {}, State> {
 
   static calculateState(prevState: ?State): State {
     return {
-      todos: TodoStore.getAll(),
+      todos: TodoStore.getState(),
       areAllComplete: TodoStore.areAllComplete(),
     };
   }
@@ -56,4 +58,5 @@ class TodoApp extends Component<{}, {}, State> {
   }
 }
 
-export default Container.create(TodoApp);
+const TodoAppContainer = Container.create(TodoApp);
+export default TodoAppContainer;

@@ -9,8 +9,11 @@
  * @flow
  */
 
+'use strict';
+
 import type Todo from '../flux-infra/Todo';
 
+import {dispatch} from '../flux-infra/TodoDispatcher';
 import React, {Component} from 'react';
 import TodoTextInput from './TodoTextInput.react';
 

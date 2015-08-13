@@ -9,17 +9,23 @@
  * @flow
  */
 
+'use strict';
+
 import type {Action} from './TodoActions';
 
 import Immutable from 'immutable';
-import {MapStore} from 'flux/utils';
+import {ReduceStore} from 'flux/utils';
 import Todo from './Todo';
 import TodoDispatcher from './TodoDispatcher';
 
-// Set up the store.
-type State = Immutable.Map<string, Todo>;
+// Set up the store, If we didn't care about order we could just use MapStore
+type State = Immutable.OrderedMap<string, Todo>;
 
-class TodoStore extends MapStore<string, Todo> {
+class TodoStore extends ReduceStore<string, Todo> {
+  getInitialState(): State {
+    return Immutable.OrderedMap();
+  }
+
   reduce (state: State, action: Action): State {
     switch (action.type) {
       case 'todo/complete':
@@ -44,11 +50,6 @@ class TodoStore extends MapStore<string, Todo> {
       case 'todo/update-text':
         return state.setIn([action.id, 'text'], action.text.trim());
 
-      // With flow we get strong type checking, uncomment this case and there
-      // will correctly be flow errors.
-      // case 'todo/create':
-      //   return state.set(action.id, new Todo(action.message));
-
       default:
         return state;
     }
@@ -65,7 +66,7 @@ function createTodo(state: State, text: ?string): State {
     return state;
   }
   var newTodo = new Todo(text);
-  return state.set(todo.id, newTodo);
+  return state.set(newTodo.id, newTodo);
 }
 
 // Export a singleton instance of the store, could do this in another

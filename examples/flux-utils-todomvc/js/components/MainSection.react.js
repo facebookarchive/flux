@@ -9,6 +9,8 @@
  * @flow
  */
 
+'use strict';
+
 import type Immutable from 'immutable';
 import type Todo from '../flux-infra/Todo';
 
@@ -43,7 +45,7 @@ export default class MainSection extends Component<{}, Props, {}> {
           checked={areAllComplete ? 'checked' : ''}
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
-        <ul id="todo-list">{todos}</ul>
+        <ul id="todo-list">{todoItems}</ul>
       </section>
     );
   }

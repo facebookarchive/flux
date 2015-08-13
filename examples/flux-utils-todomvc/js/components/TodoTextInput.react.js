@@ -9,6 +9,8 @@
  * @flow
  */
 
+'use strict';
+
 import React, {Component} from 'react';
 
 const ENTER_KEY_CODE = 13;

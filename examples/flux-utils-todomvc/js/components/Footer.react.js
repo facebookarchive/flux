@@ -9,6 +9,8 @@
  * @flow
  */
 
+'use strict';
+
 import type Immutable from 'immutable';
 import type Todo from '../flux-infra/Todo';
 
@@ -29,7 +31,7 @@ export default class Footer extends Component<{}, Props, {}> {
 
     const completed = todos.reduce((x, todo) => todo.complete ? x + 1 : x, 0);
     const itemsLeft = todos.size - completed;
-    const itemsLeftPhrase = itemsLeft === 1 ? ' item left' : 'items left';
+    const itemsLeftPhrase = itemsLeft === 1 ? ' item left' : ' items left';
 
     let clearCompletedButton;
     if (completed > 0) {

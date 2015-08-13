@@ -9,17 +9,13 @@
  * @flow
  */
 
+'use strict';
+
 import type {Action} from './TodoActions';
 
 import {Dispatcher} from 'flux';
 
-class TodoDispatcher extends Dispatcher<Action> {
-  constructor() {
-    super();
-    // bind to this so we can do: import {dispatch} from './TodoDispatcher';
-    (this: any).dispatch = this.dispatch.bind(this);
-  }
-}
-
-const instance = new TodoDispatcher();
+const instance: Dispatcher<Action> = new Dispatcher();
 export default instance;
+
+export const dispatch = instance.dispatch.bind(instance);

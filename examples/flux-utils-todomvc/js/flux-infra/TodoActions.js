@@ -9,6 +9,8 @@
  * @flow
  */
 
+'use strict';
+
 export type Action =
   {
     type: 'todo/complete',
