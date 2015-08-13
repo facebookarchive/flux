@@ -21,7 +21,7 @@ Flux Utils example : [TodoMVC](https://github.com/facebook/flux/tree/master/exam
 
 
 ## Requirements
-Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module is available here to complete your Flux toolbox.  The Dispatcher's one dependency is the `invariant` module, also included here.
+Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module, along with some other utilities, is available here to complete your Flux toolbox.
 
 
 ## Installing Flux
