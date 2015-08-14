@@ -7,9 +7,8 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-jest.dontMock('../Dispatcher');
-jest.dontMock('../invariant');
-__DEV__ = true; // simulate dev environment to test if errors are thrown
+jest.dontMock('Dispatcher');
+jest.dontMock('invariant');
 
 describe('Dispatcher', () => {
 

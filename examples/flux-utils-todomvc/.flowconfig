@@ -1,0 +1,13 @@
+[ignore]
+.*/node_modules/flux/lib/.*
+.*/node_modules/babel-core/.*
+.*/node_modules/fbjs/lib/.*
+.*/node_modules/react/lib/.*
+.*/node_modules/reactify/.*
+.*/node_modules/jest-cli/.*
+
+[include]
+node_modules/flux/flow/include
+
+[options]
+module.system=haste

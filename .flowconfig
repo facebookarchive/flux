@@ -4,10 +4,18 @@
 .*/node_modules/gulp-babel/.*
 .*/node_modules/jest-cli/.*
 
-[include]
+.*/flow/include/abstractMethod.js
+.*/flow/include/Dispatcher.js
+.*/flow/include/EventEmitter.js
+.*/flow/include/FluxContainer.js
+.*/flow/include/FluxMapStore.js
+.*/flow/include/FluxMixinLegacy.js
+.*/flow/include/FluxReduceStore.js
+.*/flow/include/FluxStore.js
+.*/flow/include/FluxStoreGroup.js
 
 [libs]
-flow
+flow/lib
 
 [options]
 module.system=haste
