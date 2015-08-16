@@ -141,6 +141,12 @@ From the root project directory run these commands from the command line:
 
 This will install all dependencies.
 
+Now run:
+
+    npm install -g watchify
+    
+This will install the missing dependencies. 
+
 To build the project, first run this command:
 
     npm start
