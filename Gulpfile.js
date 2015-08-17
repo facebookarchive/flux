@@ -1,10 +1,11 @@
 var babel = require('gulp-babel');
-var browserify = require('browserify');
 var del = require('del');
 var flatten = require('gulp-flatten');
 var gulp = require('gulp');
+var gulpUtil = require('gulp-util');
 var runSequence = require('run-sequence');
 var source = require('vinyl-source-stream');
+var webpackStream = require('webpack-stream');
 
 var babelDefaultOptions = require('./scripts/babel/default-options');
 
@@ -12,6 +13,7 @@ var paths = {
   dist: './dist/',
   flowInclude: 'flow/include',
   lib: 'lib',
+  entry: './index.js',
   src: [
     'src/**/*.js',
     '!src/**/__tests__/**/*.js',
@@ -19,9 +21,46 @@ var paths = {
   ],
 };
 
-var browserifyConfig = {
-  entries: ['./index.js'],
-  standalone: 'Flux'
+var buildDist = function(opts) {
+  var webpackOpts = {
+    debug: opts.debug,
+    module: {
+      loaders: [
+        {test: /\.js$/, loader: 'babel'}
+      ],
+    },
+    output: {
+      filename: opts.output,
+      libraryTarget: 'umd',
+      library: 'Flux'
+    },
+    plugins: [
+      new webpackStream.webpack.DefinePlugin({
+        'process.env.NODE_ENV': JSON.stringify(
+          opts.debug ? 'development' : 'production'
+        ),
+      })
+    ]
+  };
+  if (!opts.debug) {
+    webpackOpts.plugins.push(
+      new webpackStream.webpack.optimize.UglifyJsPlugin({
+        compress: {
+          hoist_vars: true,
+          screw_ie8: true,
+          warnings: false
+        }
+      })
+    );
+  }
+  return webpackStream(webpackOpts, null, function(err, stats) {
+    if (err) {
+      throw new gulpUtil.PluginError('webpack', err);
+    }
+    if (stats.compilation.errors.length) {
+      gulpUtil.log('webpack', '\n' + stats.toString({colors: true}));
+    }
+  });
 };
 
 gulp.task('clean', function(cb) {
@@ -43,17 +82,32 @@ gulp.task('flow', function() {
     .pipe(gulp.dest(paths.flowInclude));
 });
 
-gulp.task('browserify', ['lib'], function() {
-  return browserify(browserifyConfig)
-    .bundle()
-    .pipe(source('Flux.js'))
-    .pipe(gulp.dest(paths.dist))
+gulp.task('dist', ['lib'], function() {
+  var distOpts = {
+    debug: true,
+    output: 'Flux.js'
+  };
+  return gulp
+    .src(paths.entry)
+    .pipe(buildDist(distOpts))
+    .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', ['lib', 'flow', 'browserify']);
+gulp.task('dist:min', ['lib'], function() {
+  var distOpts = {
+    debug: false,
+    output: 'Flux.min.js'
+  };
+  return gulp
+    .src(paths.entry)
+    .pipe(buildDist(distOpts))
+    .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('build', ['lib', 'flow', 'dist']);
 
 gulp.task('publish', function(cb) {
-  runSequence('clean', 'build', cb);
+  runSequence('clean', 'flow', 'dist', 'dist:min', cb);
 });
 
 gulp.task('default', ['build']);
