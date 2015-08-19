@@ -10,6 +10,9 @@
  */
 
 jest.dontMock('../../constants/TodoConstants');
+jest.dontMock('../../dispatcher/AppDispatcher');
+jest.dontMock('flux/lib/Dispatcher');
+jest.dontMock('flux/lib/FluxStore');
 jest.dontMock('../TodoStore');
 jest.dontMock('object-assign');
 
@@ -32,6 +35,8 @@ describe('TodoStore', function() {
 
   beforeEach(function() {
     AppDispatcher = require('../../dispatcher/AppDispatcher');
+    AppDispatcher.register = jest.genMockFn();
+    AppDispatcher._isDispatching = jest.genMockFn().mockReturnValue(true);
     TodoStore = require('../TodoStore');
     callback = AppDispatcher.register.mock.calls[0][0];
   });
@@ -72,7 +77,7 @@ describe('TodoStore', function() {
     expect(TodoStore.areAllComplete()).toBe(false);
 
     var all = TodoStore.getAll();
-    for (key in all) {
+    for (var key in all) {
       callback({
         actionType: TodoConstants.TODO_COMPLETE,
         id: key

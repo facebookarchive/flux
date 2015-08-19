@@ -35,11 +35,11 @@ var TodoApp = React.createClass({
   },
 
   componentDidMount: function() {
-    TodoStore.addChangeListener(this._onChange);
+    TodoStore.addListener(this._onChange);
   },
 
   componentWillUnmount: function() {
-    TodoStore.removeChangeListener(this._onChange);
+    TodoStore.removeListener(this._onChange);
   },
 
   /**
