@@ -10,11 +10,9 @@
  */
 
 var AppDispatcher = require('../dispatcher/AppDispatcher');
-var EventEmitter = require('events').EventEmitter;
+var FluxStore = require('flux/lib/FluxStore');
 var TodoConstants = require('../constants/TodoConstants');
 var assign = require('object-assign');
-
-var CHANGE_EVENT = 'change';
 
 var _todos = {};
 
@@ -74,101 +72,85 @@ function destroyCompleted() {
   }
 }
 
-var TodoStore = assign({}, EventEmitter.prototype, {
+// create a TodoStore subclass by doing classical inheritance
+// see: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/create
+function TodoStore(dispatcher) {
+  FluxStore.call(this, dispatcher); // call super constructor.
+}
+TodoStore.prototype = Object.create(FluxStore.prototype);
+TodoStore.prototype.constructor = TodoStore;
 
-  /**
-   * Tests whether all the remaining TODO items are marked as completed.
-   * @return {boolean}
-   */
-  areAllComplete: function() {
-    for (var id in _todos) {
-      if (!_todos[id].complete) {
-        return false;
-      }
+/**
+ * Tests whether all the remaining TODO items are marked as completed.
+ * @return {boolean}
+ */
+TodoStore.prototype.areAllComplete = function() {
+  for (var id in _todos) {
+    if (!_todos[id].complete) {
+      return false;
     }
-    return true;
-  },
-
-  /**
-   * Get the entire collection of TODOs.
-   * @return {object}
-   */
-  getAll: function() {
-    return _todos;
-  },
-
-  emitChange: function() {
-    this.emit(CHANGE_EVENT);
-  },
-
-  /**
-   * @param {function} callback
-   */
-  addChangeListener: function(callback) {
-    this.on(CHANGE_EVENT, callback);
-  },
-
-  /**
-   * @param {function} callback
-   */
-  removeChangeListener: function(callback) {
-    this.removeListener(CHANGE_EVENT, callback);
   }
-});
+  return true;
+};
 
-// Register callback to handle all updates
-AppDispatcher.register(function(action) {
-  var text;
+/**
+ * Get the entire collection of TODOs.
+ * @return {object}
+ */
+TodoStore.prototype.getAll = function() {
+  return _todos;
+};
 
+TodoStore.prototype.__onDispatch = function(action) {
   switch(action.actionType) {
     case TodoConstants.TODO_CREATE:
       text = action.text.trim();
       if (text !== '') {
         create(text);
-        TodoStore.emitChange();
+        this.__emitChange();
       }
       break;
 
     case TodoConstants.TODO_TOGGLE_COMPLETE_ALL:
-      if (TodoStore.areAllComplete()) {
+      if (this.areAllComplete()) {
         updateAll({complete: false});
       } else {
         updateAll({complete: true});
       }
-      TodoStore.emitChange();
+      this.__emitChange();
       break;
 
     case TodoConstants.TODO_UNDO_COMPLETE:
       update(action.id, {complete: false});
-      TodoStore.emitChange();
+      this.__emitChange();
       break;
 
     case TodoConstants.TODO_COMPLETE:
       update(action.id, {complete: true});
-      TodoStore.emitChange();
+      this.__emitChange();
       break;
 
     case TodoConstants.TODO_UPDATE_TEXT:
       text = action.text.trim();
       if (text !== '') {
         update(action.id, {text: text});
-        TodoStore.emitChange();
+        this.__emitChange();
       }
       break;
 
     case TodoConstants.TODO_DESTROY:
       destroy(action.id);
-      TodoStore.emitChange();
+      this.__emitChange();
       break;
 
     case TodoConstants.TODO_DESTROY_COMPLETED:
       destroyCompleted();
-      TodoStore.emitChange();
+      this.__emitChange();
       break;
 
     default:
       // no op
   }
-});
+};
 
-module.exports = TodoStore;
+module.exports = new TodoStore(AppDispatcher);
