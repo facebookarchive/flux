@@ -28,6 +28,7 @@ class SimpleStore extends FluxStore {
 describe('FluxStoreGroup', () => {
   var dispatcher;
   var storeA;
+  var storeB;
 
   beforeEach(() => {
     dispatcher = new Dispatcher();
