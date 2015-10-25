@@ -23,19 +23,21 @@ var _currentID = null;
 var _threads = {};
 
 var ThreadStore = assign({}, EventEmitter.prototype, {
-
+  upsertThread: function(rawMessage) {
+    var threadID = rawMessage.threadID;
+    var thread = _threads[threadID];
+    if (thread && thread.lastMessage.timestamp > rawMessage.timestamp) {
+      return;
+    }
+    _threads[threadID] = {
+      id: threadID,
+      name: (thread && thread.name) || rawMessage.threadName,
+      lastMessage: ChatMessageUtils.convertRawMessage(rawMessage, threadID)
+    };
+  },
   init: function(rawMessages) {
     rawMessages.forEach(function(message) {
-      var threadID = message.threadID;
-      var thread = _threads[threadID];
-      if (thread && thread.lastMessage.timestamp > message.timestamp) {
-        return;
-      }
-      _threads[threadID] = {
-        id: threadID,
-        name: message.threadName,
-        lastMessage: ChatMessageUtils.convertRawMessage(message, _currentID)
-      };
+      this.upsertThread(message);
     }, this);
 
     if (!_currentID) {
@@ -114,6 +116,11 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
 
     case ActionTypes.RECEIVE_RAW_MESSAGES:
       ThreadStore.init(action.rawMessages);
+      ThreadStore.emitChange();
+      break;
+
+    case ActionTypes.RECEIVE_RAW_CREATED_MESSAGE:
+      ThreadStore.upsertThread(action.rawMessage);
       ThreadStore.emitChange();
       break;
 
