@@ -86,9 +86,8 @@ Dispatcher.prototype = assign({}, Dispatcher.prototype, {
           : Promise.resolve(result);
       
       resultPromise.catch(function() {
-        var reason = 'Dispatcher callback unsuccessful';
+        var reason = new Error('Dispatcher callback unsuccessful');
         Promise.reject(resultPromise,reason);
-        new Error(reason);
       });
     });
   }
