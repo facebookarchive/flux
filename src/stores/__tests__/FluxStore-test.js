@@ -64,8 +64,7 @@ describe('FluxStore', () => {
     new IncompleteFluxStore(dispatcher);
     var incompleteStoreCallback = dispatcher.register.mock.calls[1][0];
     expect(() => incompleteStoreCallback({type: 'action-type'})).toThrow(
-      'Invariant Violation: IncompleteFluxStore has not overridden ' +
-      'FluxStore.__onDispatch(), which is required'
+      'IncompleteFluxStore has not overridden FluxStore.__onDispatch(), which is required'
     );
     expect(() => registeredCallback({type: 'action-type'})).not.toThrow();
   });
@@ -73,15 +72,13 @@ describe('FluxStore', () => {
   it('throws when __emitChange() is invoked outside of a dispatch', () => {
     var illegalFluxStore = new IllegalFluxStore(dispatcher);
     expect(() => illegalFluxStore.illegalEmit()).toThrow(
-      'Invariant Violation: IllegalFluxStore.__emitChange(): Must be invoked ' +
-      'while dispatching.'
+      'IllegalFluxStore.__emitChange(): Must be invoked while dispatching.'
     );
   });
 
   it('throws when hasChanged() is invoked outside of a dispatch', () => {
     expect(() => fluxStore.hasChanged()).toThrow(
-      'Invariant Violation: TestFluxStore.hasChanged(): Must be invoked ' +
-      'while dispatching.'
+      'TestFluxStore.hasChanged(): Must be invoked while dispatching.'
     );
   });
 

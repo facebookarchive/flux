@@ -1,4 +1,4 @@
-/*
+/**
  * Copyright (c) 2014-2015, Facebook, Inc.
  * All rights reserved.
  *
@@ -10,9 +10,9 @@
 jest.dontMock('Dispatcher');
 jest.dontMock('invariant');
 
-describe('Dispatcher', () => {
+var Dispatcher = require('Dispatcher');
 
-  var Dispatcher = require('Dispatcher');
+describe('Dispatcher', () => {
   var dispatcher;
   var callbackA;
   var callbackB;
@@ -95,8 +95,7 @@ describe('Dispatcher', () => {
     expect(() => {
       dispatcher.dispatch(payload);
     }).toThrow(
-      'Invariant Violation: Dispatch.dispatch(...): Cannot dispatch in the ' +
-      'middle of a dispatch.'
+      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
     );
 
     expect(callbackA.mock.calls.length).toBe(0);
@@ -108,8 +107,7 @@ describe('Dispatcher', () => {
     expect(() => {
       dispatcher.waitFor([tokenA]);
     }).toThrow(
-      'Invariant Violation: Dispatcher.waitFor(...): Must be invoked while ' +
-      'dispatching.'
+      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
     );
 
     expect(callbackA.mock.calls.length).toBe(0);
@@ -126,8 +124,7 @@ describe('Dispatcher', () => {
     expect(() => {
       dispatcher.dispatch(payload);
     }).toThrow(
-      'Invariant Violation: Dispatcher.waitFor(...): `1337` does not map to ' +
-      'a registered callback.'
+      'Dispatcher.waitFor(...): `1337` does not map to a registered callback.'
     );
   });
 
@@ -141,8 +138,8 @@ describe('Dispatcher', () => {
     expect(() => {
       dispatcher.dispatch(payload);
     }).toThrow(
-      'Invariant Violation: Dispatcher.waitFor(...): Circular dependency ' +
-      'detected while waiting for `' + tokenA + '`.'
+      'Dispatcher.waitFor(...): Circular dependency detected while waiting ' +
+      'for `' + tokenA + '`.'
     );
 
     expect(callbackA.mock.calls.length).toBe(0);
@@ -162,8 +159,8 @@ describe('Dispatcher', () => {
     expect(() => {
       dispatcher.dispatch({});
     }).toThrow(
-      'Invariant Violation: Dispatcher.waitFor(...): Circular dependency ' +
-      'detected while waiting for `' + tokenA + '`.'
+      'Dispatcher.waitFor(...): Circular dependency detected while waiting ' +
+      'for `' + tokenA + '`.'
     );
 
     expect(callbackA.mock.calls.length).toBe(0);
@@ -215,5 +212,4 @@ describe('Dispatcher', () => {
 
     expect(callbackB.mock.calls.length).toBe(1);
   });
-
 });
