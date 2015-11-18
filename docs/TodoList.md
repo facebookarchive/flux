@@ -52,93 +52,20 @@ myapp
 Creating a Dispatcher
 ---------------------
 
-Now we are ready to create a dispatcher. Here is a naive example of a Dispatcher class, written with JavaScript promises, polyfilled with Jake Archibald's [ES6-Promises](https://github.com/jakearchibald/ES6-Promises) module.
+Now we are ready to create a dispatcher. The same dispatcher that Facebook uses in production is available through [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), or [GitHub](https://github.com/facebook/flux). It provides you with a default implementation, `Dispatcher`. All we need to do is to instantiate the Dispatcher and export it as a singleton:
 
 ```javascript
-var Promise = require('es6-promise').Promise;
-var assign = require('object-assign');
+var Dispatcher = require('flux').Dispatcher;
 
-var _callbacks = [];
-var _promises = [];
-
-var Dispatcher = function() {};
-Dispatcher.prototype = assign({}, Dispatcher.prototype, {
-
-  /**
-   * Register a Store's callback so that it may be invoked by an action.
-   * @param {function} callback The callback to be registered.
-   * @return {number} The index of the callback within the _callbacks array.
-   */
-  register: function(callback) {
-    _callbacks.push(callback);
-    return _callbacks.length - 1; // index
-  },
-
-  /**
-   * dispatch
-   * @param  {object} payload The data from the action.
-   */
-  dispatch: function(payload) {
-    // First create array of promises for callbacks to reference.
-    var resolves = [];
-    var rejects = [];
-    _promises = _callbacks.map(function(_, i) {
-      return new Promise(function(resolve, reject) {
-        resolves[i] = resolve;
-        rejects[i] = reject;
-      });
-    });
-    // Dispatch to callbacks and resolve/reject promises.
-    _callbacks.forEach(function(callback, i) {
-      // Callback can return an obj, to resolve, or a promise, to chain.
-      // See waitFor() for why this might be useful.
-      Promise.resolve(callback(payload)).then(function() {
-        resolves[i](payload);
-      }, function() {
-        rejects[i](new Error('Dispatcher callback unsuccessful'));
-      });
-    });
-    _promises = [];
-  }
-});
-
-module.exports = Dispatcher;
+module.exports = new Dispatcher();
 ```
 
-The public API of this basic Dispatcher consists of only two methods: register() and dispatch(). We'll use register() within our stores to register each store's callback. We'll use dispatch() within our actions to trigger the invocation of the callbacks.
-
-Now we are all set to create a dispatcher that is more specific to our app, which we'll call AppDispatcher.
-
-```javascript
-var Dispatcher = require('./Dispatcher');
-var assign = require('object-assign');
-
-var AppDispatcher = assign({}, Dispatcher.prototype, {
-
-  /**
-   * A bridge function between the views and the dispatcher, marking the action
-   * as a view action.  Another variant here could be handleServerAction.
-   * @param  {object} action The data coming from the view.
-   */
-  handleViewAction: function(action) {
-    this.dispatch({
-      source: 'VIEW_ACTION',
-      action: action
-    });
-  }
-
-});
-
-module.exports = AppDispatcher;
-```
-
-Now we've created an implementation that is a bit more specific to our needs, with a helper function we can use in the actions coming from our views' event handlers. We might expand on this later to provide a separate helper for server updates, but for now this is all we need.
-
+The public API of the dispatcher consists of two main methods: register() and dispatch(). We'll use register() within our stores to register each store's callback. We'll use dispatch() within our actions to trigger the invocation of the callbacks.
 
 Creating Stores
 ----------------
 
-We can use Node's EventEmitter to get started with a store. We need EventEmitter to broadcast the 'change' event to our controller-views. So let's take a look at what that looks like. I've omitted some of the code for the sake of brevity, but for the full version see [TodoStore.js](https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/stores/TodoStore.js) in the TodoMVC example code.
+A store updates itself in response to some action, and should emit a change event when done with it. We thus can use Node's EventEmitter to get started with a store: we will use EventEmitter to broadcast the 'change' event to our controller-views so that they can re-render, if needed. So let's take a look at what that looks like. I've omitted some of the code for the sake of brevity, but for the full version see [TodoStore.js](https://github.com/facebook/flux/blob/master/examples/flux-todomvc/js/stores/TodoStore.js) in the TodoMVC example code.
 
 ```javascript
 var AppDispatcher = require('../dispatcher/AppDispatcher');
@@ -187,6 +114,8 @@ var TodoStore = assign({}, EventEmitter.prototype, {
   },
 
   /**
+   * Controller-views will use this to listen for any changes on the store and,
+   * maybe, re-render themselves.
    * @param {function} callback
    */
   addChangeListener: function(callback) {
@@ -194,44 +123,45 @@ var TodoStore = assign({}, EventEmitter.prototype, {
   },
 
   /**
+   * Controller-views will use this to stop listening to the store.
    * @param {function} callback
    */
   removeChangeListener: function(callback) {
     this.removeListener(CHANGE_EVENT, callback);
-  },
-
-  dispatcherIndex: AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    var text;
-
-    switch(action.actionType) {
-      case TodoConstants.TODO_CREATE:
-        text = action.text.trim();
-        if (text !== '') {
-          create(text);
-          TodoStore.emitChange();
-        }
-        break;
-
-      case TodoConstants.TODO_DESTROY:
-        destroy(action.id);
-        TodoStore.emitChange();
-        break;
-
-      // add more cases for other actionTypes, like TODO_UPDATE, etc.
-    }
-
-    return true; // No errors. Needed by promise in Dispatcher.
-  })
-
+  }
 });
+
+// Register a callback to handle all updates.
+AppDispatcher.register(function(action) {
+  var text;
+
+  switch(action.actionType) {
+    case TodoConstants.TODO_CREATE:
+      text = action.text.trim();
+      if (text !== '') {
+        create(text);
+      }
+      TodoStore.emitChange();
+      break;
+
+    case TodoConstants.TODO_DESTROY:
+      destroy(action.id);
+      TodoStore.emitChange();
+      break;
+
+    // add more cases for other actionTypes, like TODO_UPDATE, etc.
+
+    default:
+      // no op
+  }
+})
 
 module.exports = TodoStore;
 ```
 
-There are a few important things to note in the above code. To start, we are maintaining a private data structure called _todos. This object contains all the individual to-do items. Because this variable lives outside the class, but within the closure of the module, it remains private — it cannot be directly changed from outside of the module. This helps us preserve a distinct input/output interface for the flow of data by making it impossible to update the store without using an action.
+There are a few important things to note in the above code. To start, we are maintaining a private data structure called \_todos. This object contains all the individual to-do items. Because this variable lives outside the class, but within the closure of the module, it remains private — it cannot be directly changed from outside of the module. This helps us preserve a distinct input/output interface for the flow of data by making it impossible to update the store without using an action.
 
-Another important part is the registration of the store's callback with the dispatcher. We pass in our payload handling callback to the dispatcher and preserve the index that this store has in the dispatcher's registry. The callback function currently only handles two actionTypes, but later we can add as many as we need.
+Another important part is the registration of the store's callback with the dispatcher. The callback function currently only handles two actionTypes, but later we can add as many as we need.
 
 
 Listening to Changes with a Controller-View
@@ -246,6 +176,9 @@ var MainSection = require('./MainSection.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
 
+/**
+ * Retrieve the current TODO data from the TodoStore.
+ */
 function getTodoState() {
   return {
     allTodos: TodoStore.getAll()
@@ -297,6 +230,7 @@ The Header component contains the primary text input for the application, but it
 
 More Views
 ----------
+
 At a high level, the React component hierarchy of the app looks like this:
 
 ```javascript
@@ -313,7 +247,9 @@ At a high level, the React component hierarchy of the app looks like this:
 
 </TodoApp>
 ```
+
 If a TodoItem is in edit mode, it will also render a TodoTextInput as a child. Let's take a look at how some of these components display the data they receive as props, and how they communicate through actions with the dispatcher.
+
 The MainSection needs to iterate over the collection of to-do items it received from TodoApp to create the list of TodoItems. In the component's render() method, we can do that iteration like so:
 
 ```javascript
@@ -329,17 +265,19 @@ return (
   </section>
 );
 ```
+
 Now each TodoItem can display its own text, and perform actions utilizing its own ID. Explaining all the different actions that a TodoItem can invoke in the TodoMVC example goes beyond the scope of this article, but let's just take a look at the action that deletes one of the to-do items. Here is an abbreviated version of the TodoItem:
 
 ```javascript
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoTextInput = require('./TodoTextInput.react');
 
 var TodoItem = React.createClass({
 
   propTypes: {
-    todo: React.PropTypes.object.isRequired
+    todo: ReactPropTypes.object.isRequired
   },
 
   render: function() {
@@ -448,8 +386,7 @@ var TodoTextInput = React.createClass({
 module.exports = TodoTextInput;
 ```
 
-The Header passes in the onSave method as a prop to allow the TodoTextInput to create new
-to-do items:
+The Header passes in the onSave method as a prop to allow the TodoTextInput to create new to-do items:
 
 ```javascript
 var React = require('react');
@@ -511,7 +448,7 @@ var TodoActions = {
    * @param  {string} text
    */
   create: function(text) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_CREATE,
       text: text
     });
@@ -521,7 +458,7 @@ var TodoActions = {
    * @param  {string} id
    */
   destroy: function(id) {
-    AppDispatcher.handleViewAction({
+    AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_DESTROY,
       id: id
     });
@@ -531,27 +468,21 @@ var TodoActions = {
 
 module.exports = TodoActions;
 ```
-
-As you can see, we really would not need to have the helpers AppDispatcher.handleViewAction() or TodoActions.create(). We could, in theory, call AppDispatcher.dispatch() directly and provide a payload. But as our application grows, having these helpers keeps the code clean and semantic. It's just a lot cleaner to write TodoActions.destroy(id) instead of writing a whole lot of things that our TodoItem shouldn't have to know about.
-
-The payload produced by the TodoActions.create() will look like:
+When the user creates a new to-do item, the payload produced by the TodoActions.create() will look like:
 
 ```javascript
 {
-  source: 'VIEW_ACTION',
-  action: {
-    type: 'TODO_CREATE',
-    text: 'Write blog post about Flux'
-  }
+  actionType: 'TODO_CREATE',
+  text: 'Write blog post about Flux'
 }
 ```
 
-This payload is provided to the TodoStore through its registered callback. The TodoStore then broadcasts the 'change' event, and the MainSection responds by fetching the new collection of to-do items from the TodoStore and changing its state. This change in state causes the TodoApp component to call its own render() method, and the render() method of all of its descendants.
+Let's wrap it up. When the user validates the text input in the Header component, TodoActions.create is called with the text for the new-todo. A new action is created, with a payload containing both the text and the action type. This action is dispatched to the stores which registered to the dispatcher, through a callback mechanism. In response to the dispatched action, the TodoStore updates itself by creating a new todo-item, then emits a 'change' event. The controller-view TodoApp, which is the root React component in this application, is listening for such events broadcasted by the store. It responds to the 'change' event by fetching the new collection of to-do items from the TodoStore and changes its state. React kicks in: this change in state automatically causes the TodoApp component to call its own render() method, and the render() method of all of its owned components. Any relevant, required updates to the DOM are performed by React at the end of this unidirectional "Flux chain".
 
 Start Me Up
 -----------
 
-The bootstrap file of our application is app.js. It simply takes the TodoApp component and renders it in the root element of the application.
+The TodoApp component has still to be created. The bootstrap file of our application will be app.js. It simply takes the TodoApp component and renders it in the root element of the application.
 
 ```javascript
 var React = require('react');
@@ -589,6 +520,6 @@ Now within the TodoStore callback we can explicitly wait for any dependencies to
 The Future of Flux
 ------------------
 
-A lot of people ask if Facebook will release Flux as an open source framework. Really, Flux is just an architecture, not a framework.  But perhaps a Flux boilerplate project might make sense, if there is enough interest. Please let us know if you'd like to see us do this.
+A lot of people ask if Facebook will release Flux as an open source framework. Really, Flux is just an architecture, not a framework. But perhaps a Flux boilerplate project might make sense, if there is enough interest. Please let us know if you'd like to see us do this.
 
 Thanks for taking the time to read about how we build client-side applications at Facebook. We hope Flux proves as useful to you as it has to us.
