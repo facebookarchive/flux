@@ -40,7 +40,7 @@ function create<DefaultProps, Props, State>(
 ): ReactClass<DefaultProps, Props, State> {
   enforceInterface(Base);
 
-  // Construct the options using default, override with user values as necessary
+  // Construct the options using default, override with user values as necessary.
   var realOptions = {
     ...DEFAULT_OPTIONS,
     ...(options || {}),
@@ -94,17 +94,17 @@ function create<DefaultProps, Props, State>(
         super.componentWillReceiveProps(nextProps, nextContext);
       }
 
-      // Don't do anything else if the container is not configured to use props
+      // Don't do anything else if the container is not configured to use props.
       if (!realOptions.withProps) {
         return;
       }
 
-      // If it's pure we can potentially optimize out the calculate state
+      // If it's pure we can potentially optimize out the calculate state.
       if (realOptions.pure && shallowEqual(this.props, nextProps)) {
         return;
       }
 
-      // Finally update the state using the new props
+      // Finally update the state using the new props.
       this.setState(prevState => Base.calculateState(prevState, nextProps));
     }
 
@@ -124,19 +124,19 @@ function create<DefaultProps, Props, State>(
   // Make sure we override shouldComponentUpdate only if the pure option is
   // specified. We can't override this above because we don't want to override
   // the default behavior on accident. Super works weird with react ES6 classes
-  // right now
+  // right now.
   var container = realOptions.pure
     ? createPureContainer(FluxContainerClass)
     : (FluxContainerClass: any);
 
-  // Update the name of the container before returning
+  // Update the name of the container before returning.
   var componentName = Base.displayName || Base.name;
   container.displayName = 'FluxContainer(' + componentName + ')';
 
   return container;
 }
 
-// TODO: typecheck this better
+// TODO: typecheck this better.
 function createPureContainer(FluxContainerBase: any): any {
   class PureFluxContainerClass extends FluxContainerBase {
     shouldComponentUpdate(nextProps: any, nextState: any): boolean {
