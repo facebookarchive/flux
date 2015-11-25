@@ -16,13 +16,15 @@ var ChatApp = require('./components/ChatApp.react');
 var ChatExampleData = require('./ChatExampleData');
 var ChatWebAPIUtils = require('./utils/ChatWebAPIUtils');
 var React = require('react');
+var ReactDOM = require('react-dom');
+
 window.React = React; // export for http://fb.me/react-devtools
 
 ChatExampleData.init(); // load example data into localstorage
 
 ChatWebAPIUtils.getAllMessages();
 
-React.render(
+ReactDOM.render(
     <ChatApp />,
     document.getElementById('react')
 );
