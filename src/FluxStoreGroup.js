@@ -18,7 +18,6 @@ import type FluxStore from 'FluxStore';
 var invariant = require('invariant');
 
 type DispatchToken = string;
-type Payload = Object;
 
 /**
  * FluxStoreGroup allows you to execute a callback on every dispatch after
