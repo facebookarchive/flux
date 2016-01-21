@@ -12,7 +12,7 @@
 
 'use strict';
 
-import type * as FluxStore from 'FluxStore';
+import type FluxStore from 'FluxStore';
 
 var FluxStoreGroup = require('FluxStoreGroup');
 
