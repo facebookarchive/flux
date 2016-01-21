@@ -1,6 +1,7 @@
 var babel = require('gulp-babel');
 var del = require('del');
 var flatten = require('gulp-flatten');
+var rename = require('gulp-rename');
 var gulp = require('gulp');
 var gulpUtil = require('gulp-util');
 var runSequence = require('run-sequence');
@@ -11,7 +12,6 @@ var babelDefaultOptions = require('./scripts/babel/default-options');
 
 var paths = {
   dist: './dist/',
-  flowInclude: 'flow/include',
   lib: 'lib',
   entry: './index.js',
   src: [
@@ -64,7 +64,7 @@ var buildDist = function(opts) {
 };
 
 gulp.task('clean', function(cb) {
-  del([paths.lib, paths.flowInclude, 'Flux.js'], cb);
+  del([paths.lib, 'Flux.js'], cb);
 });
 
 gulp.task('lib', function() {
@@ -79,7 +79,8 @@ gulp.task('flow', function() {
   return gulp
     .src(paths.src)
     .pipe(flatten())
-    .pipe(gulp.dest(paths.flowInclude));
+    .pipe(rename({extname: '.js.flow'}))
+    .pipe(gulp.dest(paths.lib));
 });
 
 gulp.task('dist', ['lib'], function() {
