@@ -1,5 +1,5 @@
 var assign = require('object-assign');
-var babel = require('babel');
+var babel = require('babel-core');
 var babelDefaultOptions = require('../babel/default-options');
 
 var babelOpts = babelDefaultOptions;

@@ -63,8 +63,8 @@ var buildDist = function(opts) {
   });
 };
 
-gulp.task('clean', function(cb) {
-  del([paths.lib, 'Flux.js'], cb);
+gulp.task('clean', function() {
+  return del([paths.lib, 'Flux.js']);
 });
 
 gulp.task('lib', function() {
@@ -108,7 +108,7 @@ gulp.task('dist:min', ['lib'], function() {
 gulp.task('build', ['lib', 'flow', 'dist']);
 
 gulp.task('publish', function(cb) {
-  runSequence('clean', 'flow', 'dist', 'dist:min', cb);
+  runSequence('clean', 'flow', ['dist', 'dist:min'], cb);
 });
 
 gulp.task('default', ['build']);
