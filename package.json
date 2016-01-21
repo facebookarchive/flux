@@ -57,7 +57,7 @@
   },
   "dependencies": {
     "fbemitter": "^2.0.0",
-    "fbjs": "^0.4.0",
+    "fbjs": "^0.6.1",
     "immutable": "^3.7.4"
   },
   "jest": {
