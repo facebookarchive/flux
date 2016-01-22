@@ -91,7 +91,7 @@ case 'TODO_CREATE':
   break;
 ```
 
-The arguments for `waitFor()` are an array of dipatcher registry indexes, which we refer to here as each store's dispatchToken. When waitFor() is encountered in a callback, it tells the Dispatcher to invoke the callbacks for the required stores. After these callbacks complete, the original callback can continue to execute. Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
+The arguments for `waitFor()` are an array of dispatcher registry indexes, which we refer to here as each store's dispatchToken. When waitFor() is encountered in a callback, it tells the Dispatcher to invoke the callbacks for the required stores. After these callbacks complete, the original callback can continue to execute. Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
 
 A problem arises if we create circular dependencies. If Store A waits for Store B, and B waits for A, then we could wind up in an endless loop. The Dispatcher will flag these circular dependencies with console errors.
 
