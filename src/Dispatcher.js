@@ -180,7 +180,7 @@ class Dispatcher<TPayload> {
   dispatch(payload: TPayload): void {
     invariant(
       !this._isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+      'Dispatch.dispatch(...): Cannot dispatch action' + payload.type + 'in the middle of a dispatch.'
     );
     this._startDispatching(payload);
     try {
