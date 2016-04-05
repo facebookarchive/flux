@@ -3,7 +3,7 @@
 
 [include]
 ../node_modules/fbjs/lib
-../node_modules/fbjs/node_modules/promise
+../node_modules/promise
 ../node_modules/immutable
 ../node_modules/fbemitter
 
@@ -15,4 +15,4 @@ module.system=haste
 munge_underscores=true
 
 [version]
-0.20.1
+0.22.1

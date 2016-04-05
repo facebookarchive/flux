@@ -23,8 +23,8 @@ type Props = {
   areAllComplete: boolean,
 };
 
-export default class MainSection extends Component<{}, Props, {}> {
-  render(): ?ReactElement {
+export default class MainSection extends Component<void, Props, void> {
+  render(): ?React.Element {
     const {todos, areAllComplete} = this.props;
 
     if (todos.size === 0) {
