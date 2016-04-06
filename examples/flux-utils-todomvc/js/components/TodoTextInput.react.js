@@ -28,12 +28,12 @@ type State = {
   value: string,
 };
 
-export default class TodoTextInput extends Component<{}, Props, State> {
-  state = {
+export default class TodoTextInput extends Component<void, Props, State> {
+  state: State = {
     value: this.props.value || '',
-  }
+  };
 
-  render(): ?ReactElement {
+  render(): ?React.Element {
     return (
       <input
         className={this.props.className}
@@ -48,16 +48,16 @@ export default class TodoTextInput extends Component<{}, Props, State> {
     );
   }
 
-  _save = () => {
+  _save() : void {
     this.props.onSave(this.state.value);
     this.setState({value: ''});
   }
 
-  _onChange = (event) => {
+  _onChange(event: any) : void {
     this.setState({value: event.target.value});
   }
 
-  _onKeyDown = (event) => {
+  _onKeyDown(event: any) : void {
     if (event.keyCode === ENTER_KEY_CODE) {
       this._save();
     }

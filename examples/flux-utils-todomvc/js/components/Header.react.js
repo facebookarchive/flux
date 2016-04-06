@@ -15,8 +15,8 @@ import {dispatch} from '../flux-infra/TodoDispatcher';
 import React, {Component} from 'react';
 import TodoTextInput from './TodoTextInput.react';
 
-export default class Header extends Component<{}, {}, {}> {
-  render(): ?ReactElement {
+export default class Header extends Component<void, any, void> {
+  render(): ?React.Element {
     return (
       <header id="header">
         <h1>todos</h1>

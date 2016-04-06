@@ -1,13 +1,13 @@
 [ignore]
-.*/node_modules/flux/lib/.*
-.*/node_modules/babel-core/.*
-.*/node_modules/fbjs/lib/.*
-.*/node_modules/react/lib/.*
-.*/node_modules/reactify/.*
-.*/node_modules/jest-cli/.*
 
 [include]
-node_modules/flux/flow/include
+
+[libs]
+
 
 [options]
 module.system=haste
+esproposal.class_instance_fields=enable
+
+[version]
+0.22.1

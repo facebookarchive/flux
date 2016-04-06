@@ -32,7 +32,9 @@ type State = {
   areAllComplete: boolean,
 };
 
-class TodoApp extends Component<{}, {}, State> {
+class TodoApp extends Component<void, void, State> {
+  state: State;
+
   static getStores(): Array<Store> {
     return [TodoStore];
   }
@@ -44,7 +46,7 @@ class TodoApp extends Component<{}, {}, State> {
     };
   }
 
-  render(): ?ReactElement {
+  render(): ?React.Element {
     return (
       <div>
         <Header />

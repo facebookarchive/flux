@@ -21,8 +21,8 @@ type Props = {
   todos: Immutable.Map<string, Todo>,
 };
 
-export default class Footer extends Component<{}, Props, {}> {
-  render(): ?ReactElement {
+export default class Footer extends Component<void, Props, void> {
+  render(): ?React.Element {
     const {todos} = this.props;
 
     if (todos.size === 0) {
