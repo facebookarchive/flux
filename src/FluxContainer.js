@@ -50,8 +50,8 @@ function create<DefaultProps, Props, State>(
     _fluxContainerStoreGroup: FluxStoreGroup;
     _fluxContainerSubscriptions: Array<{remove: Function}>;
 
-    constructor(props: any) {
-      super(props);
+    constructor(props: any, ...args) {
+      super(props, ...args);
       this.state = realOptions.withProps
         ? Base.calculateState(null, props)
         : Base.calculateState(null, undefined);
