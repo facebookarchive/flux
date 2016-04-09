@@ -32,13 +32,6 @@ The best way to get your bug fixed is to provide a reduced test case. jsFiddle, 
 
 Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
 
-## Style Guide
-
-Our linter will catch most styling issues that may exist in your code.
-You can check the status of your code styling by simply running: `grunt lint`
-
-However, there are still some styles that the linter cannot pick up. If you are unsure about something, looking at [Airbnb's Style Guide](https://github.com/airbnb/javascript) will guide you in the right direction.
-
 ### Code Conventions
 
 * Use semicolons `;`
