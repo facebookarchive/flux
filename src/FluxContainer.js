@@ -52,9 +52,15 @@ function create<DefaultProps, Props, State>(
 
     constructor(props: any) {
       super(props);
-      this.state = realOptions.withProps
+
+      var calculatedState = realOptions.withProps
         ? Base.calculateState(null, props)
         : Base.calculateState(null, undefined);
+
+      this.state = {
+         ...this.state,
+         ...calculatedState
+      };
     }
 
     componentDidMount(): void {
