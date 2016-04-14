@@ -59,7 +59,7 @@ function create<DefaultProps, Props, State>(
 
       this.state = {
          ...(this.state || {}),
-         ...calculatedState
+         ...calculatedState,
       };
     }
 
