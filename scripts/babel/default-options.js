@@ -26,5 +26,6 @@ module.exports = {
   _moduleMap: assign({}, moduleMap, {
     'fbemitter': 'fbemitter',
     'immutable': 'immutable',
+    'react': 'react',
   }),
 };

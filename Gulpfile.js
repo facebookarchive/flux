@@ -14,6 +14,7 @@ var paths = {
   dist: './dist/',
   lib: 'lib',
   entry: './index.js',
+  entryUtils: './utils.js',
   src: [
     'src/**/*.js',
     '!src/**/__tests__/**/*.js',
@@ -32,7 +33,7 @@ var buildDist = function(opts) {
     output: {
       filename: opts.output,
       libraryTarget: 'umd',
-      library: 'Flux'
+      library: opts.library,
     },
     plugins: [
       new webpackStream.webpack.DefinePlugin({
@@ -86,10 +87,23 @@ gulp.task('flow', function() {
 gulp.task('dist', ['lib'], function() {
   var distOpts = {
     debug: true,
-    output: 'Flux.js'
+    output: 'Flux.js',
+    library: 'Flux',
   };
   return gulp
     .src(paths.entry)
+    .pipe(buildDist(distOpts))
+    .pipe(gulp.dest(paths.dist));
+});
+
+gulp.task('dist:utils', ['lib'], function() {
+  var distOpts = {
+    debug: true,
+    output: 'FluxUtils.js',
+    library: 'FluxUtils',
+  };
+  return gulp
+    .src(paths.entryUtils)
     .pipe(buildDist(distOpts))
     .pipe(gulp.dest(paths.dist));
 });
@@ -97,7 +111,8 @@ gulp.task('dist', ['lib'], function() {
 gulp.task('dist:min', ['lib'], function() {
   var distOpts = {
     debug: false,
-    output: 'Flux.min.js'
+    output: 'Flux.min.js',
+    library: 'Flux',
   };
   return gulp
     .src(paths.entry)
@@ -105,10 +120,28 @@ gulp.task('dist:min', ['lib'], function() {
     .pipe(gulp.dest(paths.dist));
 });
 
-gulp.task('build', ['lib', 'flow', 'dist']);
+gulp.task('dist:utils:min', ['lib'], function() {
+  var distOpts = {
+    debug: false,
+    output: 'FluxUtils.min.js',
+    library: 'FluxUtils',
+  };
+  return gulp
+    .src(paths.entryUtils)
+    .pipe(buildDist(distOpts))
+    .pipe(gulp.dest(paths.dist));
+});
+
+
+gulp.task('build', ['lib', 'flow', 'dist', 'dist:utils']);
 
 gulp.task('publish', function(cb) {
-  runSequence('clean', 'flow', ['dist', 'dist:min'], cb);
+  runSequence(
+    'clean',
+    'flow',
+    ['dist', 'dist:min', 'dist:utils', 'dist:utils:min'],
+    cb
+  );
 });
 
 gulp.task('default', ['build']);
