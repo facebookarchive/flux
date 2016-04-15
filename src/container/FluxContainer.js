@@ -124,8 +124,8 @@ function create<DefaultProps, Props, State>(
   class ContainerClass extends Base {
     _fluxContainerSubscriptions: FluxContainerSubscriptions;
 
-    constructor(props: Props) {
-      super(props);
+    constructor(props: Props, context: any) {
+      super(props, context);
       this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
       this._fluxContainerSubscriptions.setStores(getStores(props));
       this._fluxContainerSubscriptions.addListener(() => {
