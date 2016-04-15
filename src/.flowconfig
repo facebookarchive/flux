@@ -15,4 +15,4 @@ module.system=haste
 munge_underscores=true
 
 [version]
-0.22.1
+0.23.0
