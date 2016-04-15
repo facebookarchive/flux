@@ -1,6 +1,6 @@
 {
   "name": "flux",
-  "version": "2.1.1",
+  "version": "3.0.0",
   "description": "An application architecture based on a unidirectional data flow",
   "keywords": [
     "flux",

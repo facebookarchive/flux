@@ -1,3 +1,6 @@
+/**
+ * Flux v3.0.0
+ */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
 		module.exports = factory();
@@ -220,8 +223,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
 	      this._fluxContainerSubscriptions.setStores(getStores(props));
 	      this._fluxContainerSubscriptions.addListener(function () {
-	        _this.setState(function (prevState) {
-	          return getState(prevState, props);
+	        _this.setState(function (prevState, currentProps) {
+	          return getState(prevState, currentProps);
 	        });
 	      });
 	      var calculatedState = getState(undefined, props);
