@@ -49,6 +49,8 @@
     "gulp-util": "^3.0.6",
     "jest-cli": "^0.5.10",
     "object-assign": "^4.0.1",
+    "react-addons-test-utils": "^15.0.1",
+    "react-dom": "^15.0.1",
     "run-sequence": "^1.1.0",
     "vinyl-source-stream": "^1.0.0",
     "webpack": "^1.11.0",
@@ -57,7 +59,8 @@
   "dependencies": {
     "fbemitter": "^2.0.0",
     "fbjs": "^0.6.1",
-    "immutable": "^3.7.4"
+    "immutable": "^3.7.4",
+    "react": "^15.0.1"
   },
   "jest": {
     "modulePathIgnorePatterns": [
