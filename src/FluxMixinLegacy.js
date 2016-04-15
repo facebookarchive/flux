@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
@@ -17,6 +16,10 @@ import type FluxStore from 'FluxStore';
 var FluxStoreGroup = require('FluxStoreGroup');
 
 var invariant = require('invariant');
+
+type Options = {
+  withProps?: boolean,
+};
 
 /**
  * `FluxContainer` should be preferred over this mixin, but it requires using
@@ -54,14 +57,22 @@ var invariant = require('invariant');
  * returning bar will not delete foo.
  *
  */
-function FluxMixinLegacy(stores: Array<FluxStore>): any {
+function FluxMixinLegacy(
+  stores: Array<FluxStore>,
+  options: Options = {withProps: false}
+): any {
+
+  stores = stores.filter(store => !!store);
+
   return {
     getInitialState(): Object {
       enforceInterface(this);
-      return this.constructor.calculateState(null);
+      return options.withProps
+        ? this.constructor.calculateState(null, this.props)
+        : this.constructor.calculateState(null, undefined);
     },
 
-    componentDidMount(): void {
+    componentWillMount(): void {
       // This tracks when any store has changed and we may need to update.
       var changed = false;
       var setChanged = () => {changed = true;};
@@ -77,7 +88,9 @@ function FluxMixinLegacy(stores: Array<FluxStore>): any {
       var callback = () => {
         if (changed) {
           this.setState(
-            prevState => this.constructor.calculateState(this.state)
+            prevState => options.withProps
+                ? this.constructor.calculateState(prevState, this.props)
+                : this.constructor.calculateState(prevState, undefined)
           );
         }
         changed = false;
