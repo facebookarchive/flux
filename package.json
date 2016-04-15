@@ -47,7 +47,7 @@
     "gulp-flatten": "^0.2.0",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
-    "jest-cli": "^0.5.10",
+    "jest-cli": "^11.0.1",
     "object-assign": "^4.0.1",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",

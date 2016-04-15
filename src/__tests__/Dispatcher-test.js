@@ -92,24 +92,14 @@ describe('Dispatcher', () => {
     });
 
     var payload = {};
-    expect(() => {
-      dispatcher.dispatch(payload);
-    }).toThrow(
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
-    );
-
+    expect(() => dispatcher.dispatch(payload)).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
   it('should throw if waitFor() while not dispatching', () => {
     var tokenA = dispatcher.register(callbackA);
 
-    expect(() => {
-      dispatcher.waitFor([tokenA]);
-    }).toThrow(
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
-    );
-
+    expect(() => dispatcher.waitFor([tokenA])).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
@@ -121,11 +111,7 @@ describe('Dispatcher', () => {
     });
 
     var payload = {};
-    expect(() => {
-      dispatcher.dispatch(payload);
-    }).toThrow(
-      'Dispatcher.waitFor(...): `1337` does not map to a registered callback.'
-    );
+    expect(() => dispatcher.dispatch(payload)).toThrow();
   });
 
   it('should throw on self-circular dependencies', () => {
@@ -135,13 +121,7 @@ describe('Dispatcher', () => {
     });
 
     var payload = {};
-    expect(() => {
-      dispatcher.dispatch(payload);
-    }).toThrow(
-      'Dispatcher.waitFor(...): Circular dependency detected while waiting ' +
-      'for `' + tokenA + '`.'
-    );
-
+    expect(() => dispatcher.dispatch(payload)).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
@@ -156,13 +136,7 @@ describe('Dispatcher', () => {
       callbackB(payload);
     });
 
-    expect(() => {
-      dispatcher.dispatch({});
-    }).toThrow(
-      'Dispatcher.waitFor(...): Circular dependency detected while waiting ' +
-      'for `' + tokenA + '`.'
-    );
-
+    expect(() => dispatcher.dispatch({})).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
     expect(callbackB.mock.calls.length).toBe(0);
   });
@@ -176,9 +150,7 @@ describe('Dispatcher', () => {
       callbackB();
     });
 
-    expect(() => {
-      dispatcher.dispatch({shouldThrow: true});
-    }).toThrow();
+    expect(() => dispatcher.dispatch({shouldThrow: true})).toThrow();
 
     // Cannot make assumptions about a failed dispatch.
     var callbackACount = callbackA.mock.calls.length;
