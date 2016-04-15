@@ -129,7 +129,9 @@ function create<DefaultProps, Props, State>(
       this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
       this._fluxContainerSubscriptions.setStores(getStores(props));
       this._fluxContainerSubscriptions.addListener(() => {
-        this.setState(prevState => getState(prevState, props));
+        this.setState(
+          (prevState, currentProps) => getState(prevState, currentProps)
+        );
       });
       const calculatedState = getState(undefined, props);
       this.state = {
