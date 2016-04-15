@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
@@ -14,11 +13,32 @@
 
 import type Dispatcher from 'Dispatcher';
 
-var FluxStore = require('FluxStore');
+const FluxStore = require('FluxStore');
 
-var abstractMethod = require('abstractMethod');
-var invariant = require('invariant');
+const abstractMethod = require('abstractMethod');
+const invariant = require('invariant');
 
+/**
+ * This is the basic building block of a Flux application. All of your stores
+ * should extend this class.
+ *
+ *   class CounterStore extends FluxReduceStore<number> {
+ *     getInitialState(): number {
+ *       return 1;
+ *     }
+ *
+ *     reduce(state: number, action: Object): number {
+ *       switch(action.type) {
+ *         case: 'add':
+ *           return state + action.value;
+ *         case: 'double':
+ *           return state * 2;
+ *         default:
+ *           return state;
+ *       }
+ *     }
+ *   }
+ */
 class FluxReduceStore<TState> extends FluxStore {
 
   _state: TState;
@@ -46,7 +66,7 @@ class FluxReduceStore<TState> extends FluxStore {
 
   /**
    * Used to reduce a stream of actions coming from the dispatcher into a
-   * single state object
+   * single state object.
    */
   reduce(state: TState, action: Object): TState {
     return abstractMethod('FluxReduceStore', 'reduce');
@@ -60,22 +80,19 @@ class FluxReduceStore<TState> extends FluxStore {
     return one === two;
   }
 
-  /**
-   * Use reduce and track _state instead of using __onDispatch
-   */
   __invokeOnDispatch(action: Object): void {
     this.__changed = false;
 
-    // reduce the stream of incoming actions to state, update when necessary
-    var startingState = this._state;
-    var endingState = this.reduce(startingState, action);
+    // Reduce the stream of incoming actions to state, update when necessary.
+    const startingState = this._state;
+    const endingState = this.reduce(startingState, action);
 
-    // This means your ending state should never be undefined
+    // This means your ending state should never be undefined.
     invariant(
       endingState !== undefined,
       '%s returned undefined from reduce(...), did you forget to return ' +
       'state in the default case? (use null if this was intentional)',
-      this.constructor.name
+      this.constructor.name,
     );
 
     if (!this.areEqual(startingState, endingState)) {

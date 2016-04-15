@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
@@ -14,14 +13,14 @@
 
 import type Dispatcher from 'Dispatcher';
 
-var FluxReduceStore = require('FluxReduceStore');
-var Immutable = require('immutable');
+const FluxReduceStore = require('FluxReduceStore');
+const Immutable = require('immutable');
 
-var invariant = require('invariant');
+const invariant = require('invariant');
 
 /**
- * This is a simple store. It allows caching key value pairs. An implementation
- * of a store using this might look like:
+ * This is an example of how to build off of FluxReduceStore. It allows storing
+ * key-value pairs in an Immutable.Map.
  *
  *   class FooStore extends FluxMapStore {
  *     reduce(state, action) {
@@ -79,20 +78,20 @@ class FluxMapStore<K, V> extends FluxReduceStore<Immutable.Map<K, V>> {
    * reference if the keys did not change.
    */
   getAll(keys: Iterable<K>, prev?: ?Immutable.Map<K, V>): Immutable.Map<K, V> {
-    var newKeys = Immutable.Set(keys);
-    var start = prev || Immutable.Map();
+    const newKeys = Immutable.Set(keys);
+    const start = prev || Immutable.Map();
     return start.withMutations((map) => {
       // remove any old keys that are not in new keys or are no longer in
       // the cache
-      for (var entry of start) {
-        var [oldKey] = entry;
+      for (const entry of start) {
+        const [oldKey] = entry;
         if (!newKeys.has(oldKey) || !this.has(oldKey)) {
           map.delete(oldKey);
         }
       }
 
       // then add all of the new keys that exist in the cache
-      for (var key of newKeys) {
+      for (const key of newKeys) {
         if (this.has(key)) {
           map.set(key, this.at(key));
         }

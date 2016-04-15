@@ -1,6 +1,5 @@
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
- * All rights reserved.
+ * Copyright (c) 2014-present, Facebook, Inc. All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
@@ -14,44 +13,14 @@
 
 import type Dispatcher from 'Dispatcher';
 
-var {EventEmitter} = require('fbemitter');
-var invariant = require('invariant');
+const {EventEmitter} = require('fbemitter');
+
+const invariant = require('invariant');
 
 /**
- * This class should be extended by the stores in your application, like so:
- *
- * var FluxStore = require('FluxStore');
- * var MyDispatcher = require('MyDispatcher');
- *
- * var _foo;
- *
- * class MyStore extends FluxStore {
- *
- *   getFoo() {
- *     return _foo;
- *   }
- *
- *   __onDispatch = function(action) {
- *     switch(action.type) {
- *
- *       case 'an-action':
- *         changeState(action.someData);
- *         this.__emitChange();
- *         break;
- *
- *       case 'another-action':
- *         changeStateAnotherWay(action.otherData);
- *         this.__emitChange();
- *         break;
- *
- *       default:
- *         // no op
- *     }
- *   }
- *
- * }
- *
- * module.exports = new MyStore(MyDispatcher);
+ * This class represents the most basic functionality for a FluxStore. Do not
+ * extend this store directly; instead extend FluxReduceStore when creating a
+ * new store.
  */
 class FluxStore {
 
@@ -65,10 +34,6 @@ class FluxStore {
   __dispatcher: Dispatcher;
   __emitter: EventEmitter;
 
-  /**
-   * @public
-   * @param {Dispatcher} dispatcher
-   */
   constructor(dispatcher: Dispatcher): void {
     this.__className = this.constructor.name;
 
@@ -81,38 +46,25 @@ class FluxStore {
     });
   }
 
-  /**
-   * @public
-   * @param {function} callback
-   * @return {object} EmitterSubscription that can be used with
-   *   SubscriptionsHandler or directly used to release the subscription.
-   */
-  addListener(callback: (eventType?: string) => void): Object {
+  addListener(callback: (eventType?: string) => void): {remove: () => void} {
     return this.__emitter.addListener(this.__changeEvent, callback);
   }
 
-  /**
-   * @public
-   * @return {Dispatcher} The dispatcher that this store is registered with.
-   */
   getDispatcher(): Dispatcher {
     return this.__dispatcher;
   }
 
   /**
-   * @public
-   * @return {string} A string the dispatcher uses to identify each store's
-   *   registered callback. This is used with the dispatcher's waitFor method
-   *   to declaratively depend on other stores updating themselves first.
+   * This exposes a unique string to identify each store's registered callback.
+   * This is used with the dispatcher's waitFor method to devlaratively depend
+   * on other stores updating themselves first.
    */
   getDispatchToken(): string {
     return this._dispatchToken;
   }
 
   /**
-   * @public
-   * @return {boolean} Whether the store has changed during the most recent
-   *   dispatch.
+   * Returns whether the store has changed during the most recent dispatch.
    */
   hasChanged(): boolean {
     invariant(
@@ -123,10 +75,6 @@ class FluxStore {
     return this.__changed;
   }
 
-  /**
-   * @protected
-   * Emit an event notifying listeners that the state of the store has changed.
-   */
   __emitChange(): void {
     invariant(
       this.__dispatcher.isDispatching(),
@@ -140,11 +88,6 @@ class FluxStore {
    * This method encapsulates all logic for invoking __onDispatch. It should
    * be used for things like catching changes and emitting them after the
    * subclass has handled a payload.
-   *
-   * @protected
-   * @param {object} payload The data dispatched by the dispatcher, describing
-   *   something that has happened in the real world: the user clicked, the
-   *   server responded, time passed, etc.
    */
   __invokeOnDispatch(payload: Object): void {
     this.__changed = false;
@@ -158,12 +101,6 @@ class FluxStore {
    * The callback that will be registered with the dispatcher during
    * instantiation. Subclasses must override this method. This callback is the
    * only way the store receives new data.
-   *
-   * @protected
-   * @override
-   * @param {object} payload The data dispatched by the dispatcher, describing
-   *   something that has happened in the real world: the user clicked, the
-   *   server responded, time passed, etc.
    */
   __onDispatch(payload: Object): void {
     invariant(
