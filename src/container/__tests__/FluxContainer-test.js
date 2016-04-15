@@ -200,6 +200,26 @@ describe('FluxContainer', () => {
     expect(dangerouslyGetState().someOtherValue).toBe(42);
   });
 
+  it('should respect changes in componentWillMount', () => {
+    // Setup the container.
+    class SimpleContainer extends BaseContainer {
+      static calculateState(prevState, props) {
+        return {
+          value: FooStore.getState(),
+        };
+      }
+
+      componentWillMount() {
+        dispatch({
+          type: 'set',
+          value: 'bar',
+        });
+      }
+    }
+    var getValue = createContainer(SimpleContainer);
+    expect(getValue()).toBe('bar');
+  });
+
   // Still need to write a test for changing props. Can't figure out how to do
   // that with react test utils at the moment...
 

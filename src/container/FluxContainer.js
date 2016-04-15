@@ -127,22 +127,15 @@ function create<DefaultProps, Props, State>(
     constructor(props: Props) {
       super(props);
       this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
+      this._fluxContainerSubscriptions.setStores(getStores(props));
+      this._fluxContainerSubscriptions.addListener(() => {
+        this.setState(prevState => getState(prevState, props));
+      });
       const calculatedState = getState(undefined, props);
       this.state = {
         ...(this.state || {}),
         ...calculatedState,
       };
-    }
-
-    componentWillMount() {
-      if (super.componentWillMount) {
-        super.componentWillMount();
-      }
-
-      this._fluxContainerSubscriptions.setStores(getStores(this.props));
-      this._fluxContainerSubscriptions.addListener(() => {
-        this.setState(prevState => getState(prevState, this.props));
-      });
     }
 
     componentWillReceiveProps(nextProps: any, nextContext: any): void {
@@ -241,7 +234,7 @@ function enforceInterface(o: any): void {
  *
  */
 function createFunctional<Props, State, A, B>(
-  viewFn: (props: State) => ReactElement<State>,
+  viewFn: (props: State) => React.Element<State>,
   getStores: (props?: ?Props) => Array<FluxStore>,
   calculateState: (prevState?: ?State, props?: ?Props) => State,
   options?: Options,
@@ -256,7 +249,7 @@ function createFunctional<Props, State, A, B>(
       return calculateState(prevState, props);
     }
 
-    render(): ReactElement<State> {
+    render(): React.Element<State> {
       return viewFn(this.state);
     }
   }
