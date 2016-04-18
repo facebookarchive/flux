@@ -4,7 +4,6 @@ title: Examples and Tools
 layout: docs
 category: Community Resources
 permalink: docs/examples-and-tools.html
-next: react
 ---
 
 In addition to the TodoMVC and Chat examples, here are some more examples to help demonstrate how to use the Flux architectural pattern.

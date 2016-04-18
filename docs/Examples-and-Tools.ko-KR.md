@@ -4,7 +4,6 @@ title: 예제와 도구
 layout: docs
 category: Community Resources
 permalink: docs/examples-and-tools-ko-KR.html
-next: react-ko-KR
 lang: ko-KR
 ---
 
