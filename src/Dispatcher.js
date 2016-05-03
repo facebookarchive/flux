@@ -127,6 +127,10 @@ class Dispatcher<TPayload> {
    * a token that can be used with `waitFor()`.
    */
   register(callback: (payload: TPayload) => void): DispatchToken {
+    invariant(
+      !this._isDispatching,
+      'Dispatcher.register(...): Cannot register in the middle of a dispatch.'
+    );
     var id = _prefix + this._lastID++;
     this._callbacks[id] = callback;
     return id;
@@ -136,6 +140,10 @@ class Dispatcher<TPayload> {
    * Removes a callback based on its token.
    */
   unregister(id: DispatchToken): void {
+    invariant(
+      !this._isDispatching,
+      'Dispatcher.unregister(...): Cannot unregister in the middle of a dispatch.'
+    );
     invariant(
       this._callbacks[id],
       'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
