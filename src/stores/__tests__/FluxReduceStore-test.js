@@ -12,13 +12,17 @@
 jest
   .dontMock('Dispatcher')
   .dontMock('FluxReduceStore')
-  .dontMock('FluxMapStore')
   .dontMock('FluxStore');
 
 var Dispatcher = require('Dispatcher');
-var FluxMapStore = require('FluxMapStore');
+var FluxReduceStore = require('FluxReduceStore');
+var Immutable = require('immutable');
 
-class FooStore extends FluxMapStore {
+class FooStore extends FluxReduceStore {
+  getInitialState() {
+    return Immutable.Map();
+  }
+
   reduce(state, action) {
     switch (action.type) {
       case 'foo':
@@ -35,7 +39,7 @@ class FooStore extends FluxMapStore {
   }
 }
 
-describe('FluxMapStore', () => {
+describe('FluxReduceStore', () => {
   var dispatch;
   var onChange;
   var store;
@@ -48,16 +52,16 @@ describe('FluxMapStore', () => {
   });
 
   it('should respond to actions', () => {
-    expect(store.get('foo')).toBe(undefined);
-    expect(store.has('foo')).toBe(false);
+    expect(store.getState().get('foo')).toBe(undefined);
+    expect(store.getState().has('foo')).toBe(false);
 
     dispatch({
       type: 'foo',
       foo: 100,
     });
 
-    expect(store.get('foo')).toBe(100);
-    expect(store.has('foo')).toBe(true);
+    expect(store.getState().get('foo')).toBe(100);
+    expect(store.getState().has('foo')).toBe(true);
   });
 
   it('should only emit one change for multiple cache changes', () => {
@@ -67,7 +71,7 @@ describe('FluxMapStore', () => {
     });
 
     expect(onChange.mock.calls.length).toBe(1);
-    expect(store.get('foo')).toBe(100);
+    expect(store.getState().get('foo')).toBe(100);
 
     dispatch({
       type: 'foobar',
@@ -76,8 +80,8 @@ describe('FluxMapStore', () => {
     });
 
     expect(onChange.mock.calls.length).toBe(2);
-    expect(store.get('foo')).toBe(200);
-    expect(store.get('bar')).toBe(400);
+    expect(store.getState().get('foo')).toBe(200);
+    expect(store.getState().get('bar')).toBe(400);
   });
 
   it('should not emit for empty changes', () => {
@@ -87,7 +91,7 @@ describe('FluxMapStore', () => {
     });
 
     expect(onChange.mock.calls.length).toBe(1);
-    expect(store.get('foo')).toBe(100);
+    expect(store.getState().get('foo')).toBe(100);
 
     dispatch({
       type: 'foo',
@@ -95,7 +99,7 @@ describe('FluxMapStore', () => {
     });
 
     expect(onChange.mock.calls.length).toBe(1);
-    expect(store.get('foo')).toBe(100);
+    expect(store.getState().get('foo')).toBe(100);
   });
 
   it('should clear the cache', () => {
@@ -105,12 +109,12 @@ describe('FluxMapStore', () => {
     });
 
     expect(onChange.mock.calls.length).toBe(1);
-    expect(store.get('foo')).toBe(100);
+    expect(store.getState().get('foo')).toBe(100);
 
     dispatch({type: 'boom'});
 
     expect(onChange.mock.calls.length).toBe(2);
-    expect(store.get('foo')).toBe(undefined);
-    expect(store.has('foo')).toBe(false);
+    expect(store.getState().get('foo')).toBe(undefined);
+    expect(store.getState().has('foo')).toBe(false);
   });
 });

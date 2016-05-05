@@ -2,6 +2,7 @@
 
 ### 3.0.0
 
+* `FluxMapStore`: Removed. It added very little value over `FluxReduceStore`.
 * `FluxContainer`: Subscriptions are setup in constructor rather than
  `componentDidMount`
 * `FluxContainer`: Can create containers using stateless functional components
