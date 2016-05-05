@@ -18,7 +18,6 @@ import {ReduceStore} from 'flux/utils';
 import Todo from './Todo';
 import TodoDispatcher from './TodoDispatcher';
 
-// Set up the store, If we didn't care about order we could just use MapStore
 type State = Immutable.OrderedMap<string, Todo>;
 
 class TodoStore extends ReduceStore<string, Todo> {
