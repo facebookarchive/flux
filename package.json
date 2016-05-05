@@ -60,7 +60,9 @@
   "dependencies": {
     "fbemitter": "^2.0.0",
     "fbjs": "^0.8.0",
-    "immutable": "^3.7.4",
+    "immutable": "^3.7.4"
+  },
+  "peerDependencies": {
     "react": "^15.0.1"
   },
   "jest": {

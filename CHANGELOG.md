@@ -10,7 +10,7 @@
  `componentDidMount`
 * `Dispatcher`: Methods `register` and `unregister` can not be called in the
  middle of a dispatch
-* `React` added as dependency to `flux/utils`
+* `React` added as peer dependency to `flux/utils`
 * Package `dist/FluxUtils.js` alongside `dist/Flux.js`
 
 _**Note**: This is marked as a breaking change due to the large number of small
