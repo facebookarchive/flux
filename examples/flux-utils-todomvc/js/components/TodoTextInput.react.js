@@ -48,16 +48,16 @@ export default class TodoTextInput extends Component<void, Props, State> {
     );
   }
 
-  _save() : void {
+  _save = () : void => {
     this.props.onSave(this.state.value);
     this.setState({value: ''});
   }
 
-  _onChange(event: any) : void {
+  _onChange = (event: any) : void => {
     this.setState({value: event.target.value});
   }
 
-  _onKeyDown(event: any) : void {
+  _onKeyDown = (event: any) : void => {
     if (event.keyCode === ENTER_KEY_CODE) {
       this._save();
     }

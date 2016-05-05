@@ -69,7 +69,7 @@ export default class TodoItem extends Component<void, Props, State> {
     );
   }
 
-  _onToggleComplete(): void {
+  _onToggleComplete = (): void => {
     const {todo} = this.props;
     if (todo.complete) {
       dispatch({
@@ -84,11 +84,11 @@ export default class TodoItem extends Component<void, Props, State> {
     }
   }
 
-  _onDoubleClick(): void {
+  _onDoubleClick = (): void => {
     this.setState({isEditing: true});
   }
 
-  _onSave(text: string): void {
+  _onSave = (text: string): void => {
     const {todo} = this.props;
     dispatch({
       type: 'todo/update-text',
@@ -98,7 +98,7 @@ export default class TodoItem extends Component<void, Props, State> {
     this.setState({isEditing: false});
   }
 
-  _onDestroyClick(): void {
+  _onDestroyClick = (): void => {
     const {todo} = this.props;
     dispatch({
       type: 'todo/destroy',
