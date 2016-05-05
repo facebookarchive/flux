@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "fbemitter": "^2.0.0",
-    "fbjs": "^0.8.0",
+    "fbjs": "^0.8.0"
   },
   "peerDependencies": {
     "react": "^15.0.1"
