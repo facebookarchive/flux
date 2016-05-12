@@ -25,11 +25,13 @@ const {Component} = React;
 type Options = {
   pure?: ?boolean,
   withProps?: ?boolean,
+  withContext?: ?boolean,
 };
 
 const DEFAULT_OPTIONS = {
   pure: true,
   withProps: false,
+  withContext: false,
 };
 
 /**
@@ -110,14 +112,16 @@ function create<DefaultProps, Props, State>(
     ...(options || {}),
   };
 
-  const getState = (state, maybeProps) => {
+  const getState = (state, maybeProps, maybeContext) => {
     const props = realOptions.withProps ? maybeProps : undefined;
-    return Base.calculateState(state, props);
+    const context = realOptions.withContext ? maybeContext : undefined;
+    return Base.calculateState(state, props, context);
   };
 
-  const getStores = (maybeProps) => {
+  const getStores = (maybeProps, maybeContext) => {
     const props = realOptions.withProps ? maybeProps : undefined;
-    return Base.getStores(props);
+    const context = realOptions.withContext ? maybeContext : undefined;
+    return Base.getStores(props, context);
   };
 
   // Build the container class.
@@ -130,10 +134,14 @@ function create<DefaultProps, Props, State>(
       this._fluxContainerSubscriptions.setStores(getStores(props));
       this._fluxContainerSubscriptions.addListener(() => {
         this.setState(
-          (prevState, currentProps) => getState(prevState, currentProps)
+          (prevState, currentProps) => getState(
+            prevState,
+            currentProps,
+            context,
+          ),
         );
       });
-      const calculatedState = getState(undefined, props);
+      const calculatedState = getState(undefined, props, context);
       this.state = {
         ...(this.state || {}),
         ...calculatedState,
@@ -145,14 +153,13 @@ function create<DefaultProps, Props, State>(
         super.componentWillReceiveProps(nextProps, nextContext);
       }
 
-      // Don't do anything else if the container is not configured to use props.
-      if (!realOptions.withProps) {
-        return;
+      if (realOptions.withProps || realOptions.withContext) {
+        // Update both stores and state.
+        this._fluxContainerSubscriptions.setStores(
+          getStores(nextProps, nextContext),
+        );
+        this.setState(prevState => getState(prevState, nextProps, nextContext));
       }
-
-      // Update both stores and state.
-      this._fluxContainerSubscriptions.setStores(getStores(nextProps));
-      this.setState(prevState => getState(prevState, nextProps));
     }
 
     componentWillUnmount() {
@@ -237,18 +244,22 @@ function enforceInterface(o: any): void {
  */
 function createFunctional<Props, State, A, B>(
   viewFn: (props: State) => React.Element<State>,
-  getStores: (props?: ?Props) => Array<FluxStore>,
-  calculateState: (prevState?: ?State, props?: ?Props) => State,
+  getStores: (props?: ?Props, context?: any) => Array<FluxStore>,
+  calculateState: (prevState?: ?State, props?: ?Props, context?: any) => State,
   options?: Options,
 ): ReactClass<Props> {
   class FunctionalContainer extends Component<void, Props, State> {
     state: State;
-    static getStores(props?: ?Props): Array<FluxStore> {
-      return getStores(props);
+    static getStores(props?: ?Props, context?: any): Array<FluxStore> {
+      return getStores(props, context);
     }
 
-    static calculateState(prevState?: ?State, props?: ?Props): State {
-      return calculateState(prevState, props);
+    static calculateState(
+      prevState?: ?State,
+      props?: ?Props,
+      context?: any,
+    ): State {
+      return calculateState(prevState, props, context);
     }
 
     render(): React.Element<State> {
