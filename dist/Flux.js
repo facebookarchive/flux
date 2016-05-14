@@ -206,6 +206,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Dispatcher.prototype.register = function register(callback) {
+	    !!this._isDispatching ?  true ? invariant(false, 'Dispatcher.register(...): Cannot register in the middle of a dispatch.') : invariant(false) : undefined;
 	    var id = _prefix + this._lastID++;
 	    this._callbacks[id] = callback;
 	    return id;
@@ -216,6 +217,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 	  Dispatcher.prototype.unregister = function unregister(id) {
+	    !!this._isDispatching ?  true ? invariant(false, 'Dispatcher.unregister(...): Cannot unregister in the middle of a dispatch.') : invariant(false) : undefined;
 	    !this._callbacks[id] ?  true ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
 	    delete this._callbacks[id];
 	  };
