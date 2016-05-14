@@ -23,7 +23,7 @@ npm run watch
 
 Open `examples/my-todomvc/index.html` in your browser.
 
-[ ] **You should see a blank page that says "Hello World!"**
+- [ ] **You should see a blank page that says "Hello World!"**
 
 ## 2. Set up TodoMVC assets
 
@@ -62,6 +62,5 @@ ReactDOM.render(<div>Hello World!</div>, document.getElementById('todoapp'));
 
 Refresh `examples/my-todomvc/index.html` in your browser.
 
-[ ] **The page should now have some styling and still say "Hello World!" in the center.**
-
-_(If it doesn't, make sure `npm run watch` is still running)_
+- [ ] **The page should now have some styling and still say "Hello World!" in the center.**
+  - _(If it doesn't, make sure `npm run watch` is still running)_
