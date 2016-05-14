@@ -9,8 +9,15 @@
 
 'use strict';
 
-import AppContainer from './containers/AppContainer';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import TodoActionTypes from './TodoActionTypes';
 
-ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+const Actions = {
+  addTodo(text) {
+    return {
+      type: TodoActionTypes.ADD_TODO,
+      text,
+    };
+  },
+};
+
+export default Actions;

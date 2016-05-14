@@ -9,8 +9,6 @@
 
 'use strict';
 
-import AppContainer from './containers/AppContainer';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import {Dispatcher} from 'flux';
 
-ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+export default new Dispatcher();
