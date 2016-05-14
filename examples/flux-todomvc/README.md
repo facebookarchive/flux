@@ -27,13 +27,13 @@ Open `examples/my-todomvc/index.html` in your browser.
 
 ## 2. Set up TodoMVC assets
 
-Copy assets from `./examples/todomvc-common`
+Copy assets from `examples/todomvc-common`
 
 ```bash
-cp -R examples/todomvc-common examples/my-todomvc/todomvc-common
+cp -R ../todomvc-common todomvc-common
 ```
 
-Update `./examples/my-todomvc/index.html` to include the assets:
+Update `examples/my-todomvc/index.html` to include the assets:
 
 ```html
 <!doctype html>
@@ -54,7 +54,7 @@ Update `./examples/my-todomvc/index.html` to include the assets:
 </html>
 ```
 
-Update `./examples/my-todomvc/src/root.js` to render into correct element:
+Update `examples/my-todomvc/src/root.js` to render into correct element:
 
 ```js
 ReactDOM.render(<div>Hello World!</div>, document.getElementById('todoapp'));
