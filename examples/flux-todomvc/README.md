@@ -4,10 +4,12 @@ This is the simplest example. It walks you through creating the classic [TodoMVC
 
 ## Prerequisites
 
-- Be comfortable with ES6
+- ES6
   - [ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6)
   - [Additional Resources](https://github.com/ericdouglas/ES6-Learning)
-- Understand the basics of flux at a high-level, this guide will be an application of those basics
+- React
+  - [Getting Started](https://facebook.github.io/react/docs/getting-started.html)
+- Exposure to the high-level concepts of Flux, this tutorial will be an application of those concepts
   - TODO: Write and link to a proper guide
   - [Flux Utils](../../docs/Flux-Utils.md)
 
@@ -72,7 +74,7 @@ ReactDOM.render(<div>Hello World!</div>, document.getElementById('todoapp'));
 Refresh `examples/my-todomvc/index.html` in your browser.
 
 - [ ] **The page should now have some styling and still say "Hello World!" in the center.**
-  - _(If it doesn't, make sure `npm run watch` is still running)_
+  - _If it doesn't, make sure `npm run watch` is still running_
 
 ## 3. Setting up Flux
 
@@ -214,3 +216,143 @@ ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
 ```
 
 - [ ] **Reload the page, it should look basically the same as the last step but say "Hello from Flux!"**
+
+## 4. Rendering some Todos
+
+We will use Immutable.js to hold onto data about each Todo. This will give us
+a nice API to update their information without needing to worry about
+accidentally mutating the Todo. Create `data/Todo.js`.
+
+```js
+import Immutable from 'immutable';
+
+const Todo = Immutable.Record({
+  id: '',
+  complete: false,
+  text: '',
+});
+
+export default Todo;
+```
+
+Now we can use this structure, along with a simple
+[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Update
+`data/TodoStore.js`.
+
+```js
+class TodoStore extends ReduceStore {
+  ...
+  reduce(state, action) {
+    switch (action.type) {
+      case TodoActionTypes.ADD_TODO:
+        // Don't add todos with no text.
+        if (!action.text) {
+          return state;
+        }
+        const id = Counter.increment();
+        return state.set(id, new Todo({
+          id,
+          text: action.text,
+          complete: false,
+        }));
+
+      default:
+        return state;
+    }
+  }
+}
+```
+
+Let's update our view to actually render the Todos that are being stored. Update
+`views/AppView.js`.
+
+```js
+function AppView(props) {
+  return (
+    <div>
+      <Header {...props} />
+      <Main {...props} />
+      <Footer {...props} />
+    </div>
+  );
+}
+
+function Header(props) {
+  return (
+    <header id="header">
+      <h1>todos</h1>
+    </header>
+  );
+}
+
+function Main(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <section id="main">
+      <ul id="todo-list">
+        {[...props.todos.values()].reverse().map(todo => (
+          <li key={todo.id}>
+            <div className="view">
+              <input
+                className="toggle"
+                type="checkbox"
+                checked={todo.complete}
+                onChange={
+                  // Empty function for now, we will implement this later.
+                  () => {}
+                }
+              />
+              <label>{todo.text}</label>
+              <button
+                className="destroy"
+                onClick={
+                  // Empty function for now, we will implement this later.
+                  () => {}
+                }
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Footer(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <footer id="footer">
+      <span id="todo-count">
+        <strong>
+          {props.todos.size}
+        </strong>
+        {' items left'}
+      </span>
+    </footer>
+  );
+}
+```
+
+To make sure it all works we have to create some fake data for now. Modify
+`root.js` to create some fake Todos after the initial render.
+
+```js
+import AppContainer from './containers/AppContainer';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import TodoActions from './data/TodoActions';
+import TodoDispatcher from './data/TodoDispatcher';
+
+ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+
+TodoDispatcher.dispatch(TodoActions.addTodo('My first task'));
+TodoDispatcher.dispatch(TodoActions.addTodo('Another task'));
+TodoDispatcher.dispatch(TodoActions.addTodo('Finish this tutorial'));
+```
+
+- [ ] Refresh the page and you should see some data that is coming from your `TodoStore`!
+  - _Keep in mind that it's not interactive yet, so no buttons will work_
