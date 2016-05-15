@@ -2,6 +2,15 @@
 
 This is the simplest example. It walks you through creating the classic [TodoMVC](http://todomvc.com/) application using a reference Flux implementation. It does not describe how to create the reference Flux implementation, that will be saved for a later example.
 
+## Prerequisites
+
+- Be comfortable with ES6
+  - [ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6)
+  - [Additional Resources](https://github.com/ericdouglas/ES6-Learning)
+- Understand the basics of flux at a high-level, this guide will be an application of those basics
+  - TODO: Write and link to a proper guide
+  - [Flux Utils](../../docs/Flux-Utils.md)
+
 ## 1. Getting started
 
 Clone and build the flux repo:
