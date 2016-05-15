@@ -506,7 +506,7 @@ implementation as needed.
   - Create the `TodoDraftStore` which tracks the contents of the NewTodo input, it will respond to two actions:
     - UPDATE_DRAFT which changes the draft contents
     _ ADD_TODO which clears the draft contents (because the todo was added and is no longer a draft)
-    - _It would also be reasonable to keep track of this in React state, but in this tutorial we will make an effort to have all components be controlled so you get more experience dealing with stores._
+    - _Note: It would also be reasonable to keep track of this in React state, but in this tutorial we will make an effort to have all components be controlled so you get more experience dealing with stores._
   - Create the `updateDraft` action and pass through container
   - Hook everything up to the view
 2. Add clear completed button to the Footer
@@ -517,3 +517,8 @@ implementation as needed.
     - If any todos are incomplete, this marks them all as complete
     - If all todos are complete, this marks them all as incomplete
   - Hook it up to Main view
+4. Add ability to edit todos on double click
+  - Create the `TodoEditStore` which tracks the ID of the Todo currently being edited
+  - Create `startEditingTodo` and `stopEditingTodo` actions
+  - Create `editTodo` action
+  - Create TodoItem view component with editing functionality
