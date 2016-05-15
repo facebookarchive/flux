@@ -30,6 +30,7 @@ function getState() {
     onAdd: TodoActions.addTodo,
     onDeleteCompletedTodos: TodoActions.deleteCompletedTodos,
     onDeleteTodo: TodoActions.deleteTodo,
+    onToggleAllTodos: TodoActions.toggleAllTodos,
     onToggleTodo: TodoActions.toggleTodo,
     onUpdateDraft: TodoActions.updateDraft,
   };

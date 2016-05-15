@@ -512,3 +512,8 @@ implementation as needed.
 2. Add clear completed button to the Footer
   - Create `deleteCompletedTodos` action
   - Add button to fire action to the footer
+3. Add Mark all as complete button
+  - Create `toggleAllTodos` action
+    - If any todos are incomplete, this marks them all as complete
+    - If all todos are complete, this marks them all as incomplete
+  - Hook it up to Main view

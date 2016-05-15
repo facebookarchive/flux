@@ -33,6 +33,12 @@ const Actions = {
     });
   },
 
+  toggleAllTodos() {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.TOGGLE_ALL_TODOS,
+    });
+  },
+
   toggleTodo(id) {
     TodoDispatcher.dispatch({
       type: TodoActionTypes.TOGGLE_TODO,
