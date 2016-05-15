@@ -20,6 +20,12 @@ const Actions = {
     });
   },
 
+  deleteCompletedTodos() {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.DELETE_COMPLETED_TODOS,
+    });
+  },
+
   deleteTodo(id) {
     TodoDispatcher.dispatch({
       type: TodoActionTypes.DELETE_TODO,

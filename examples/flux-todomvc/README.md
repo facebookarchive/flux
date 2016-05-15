@@ -500,12 +500,15 @@ function Footer(props) {
 Now you should be familiar enough with the structure of the todo app to
 implement the remaining pieces on your own. This last step outlines a good
 ordering for completing them. Make sure to reference the full example
-implementation here as needed.
+implementation as needed.
 
-- Create the NewTodo view
+1. Create the NewTodo view
   - Create the `TodoDraftStore` which tracks the contents of the NewTodo input, it will respond to two actions:
     - UPDATE_DRAFT which changes the draft contents
     _ ADD_TODO which clears the draft contents (because the todo was added and is no longer a draft)
     - _It would also be reasonable to keep track of this in React state, but in this tutorial we will make an effort to have all components be controlled so you get more experience dealing with stores._
   - Create the `updateDraft` action and pass through container
   - Hook everything up to the view
+2. Add clear completed button to the Footer
+  - Create `deleteCompletedTodos` action
+  - Add button to fire action to the footer
