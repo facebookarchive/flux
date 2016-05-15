@@ -16,7 +16,3 @@ import TodoActions from './data/TodoActions';
 import TodoDispatcher from './data/TodoDispatcher';
 
 ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
-
-TodoDispatcher.dispatch(TodoActions.addTodo('My first task'));
-TodoDispatcher.dispatch(TodoActions.addTodo('Another task'));
-TodoDispatcher.dispatch(TodoActions.addTodo('Finish this tutorial'));

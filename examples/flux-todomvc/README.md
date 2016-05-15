@@ -117,18 +117,18 @@ const ActionTypes = {
 export default ActionTypes;
 ```
 
-Set up `data/TodoActions.js`. Each function here returns an action that we can
-then dispatch.
+Set up `data/TodoActions.js`. Each function here dispatches an action.
 
 ```js
 import TodoActionTypes from './TodoActionTypes';
+import TodoDispatcher from './TodoDispatcher';
 
 const Actions = {
   addTodo(text) {
-    return {
+    TodoDispatcher.dispatch({
       type: TodoActionTypes.ADD_TODO,
       text,
-    };
+    });
   },
 };
 
@@ -349,9 +349,9 @@ import TodoDispatcher from './data/TodoDispatcher';
 
 ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
 
-TodoDispatcher.dispatch(TodoActions.addTodo('My first task'));
-TodoDispatcher.dispatch(TodoActions.addTodo('Another task'));
-TodoDispatcher.dispatch(TodoActions.addTodo('Finish this tutorial'));
+TodoActions.addTodo('My first task');
+TodoActions.addTodo('Another task');
+TodoActions.addTodo('Finish this tutorial');
 ```
 
 - [ ] **Refresh the page and you should see some data that is coming from your `TodoStore`!**
@@ -376,24 +376,24 @@ Update `data/TodoActions.js`
 ```js
 const Actions = {
   addTodo(text) {
-    return {
+    TodoDispatcher.dispatch({
       type: TodoActionTypes.ADD_TODO,
       text,
-    };
+    });
   },
 
   deleteTodo(id) {
-    return {
+    TodoDispatcher.dispatch({
       type: TodoActionTypes.DELETE_TODO,
       id,
-    };
+    });
   },
 
   toggleTodo(id) {
-    return {
+    TodoDispatcher.dispatch({
       type: TodoActionTypes.TOGGLE_TODO,
       id,
-    };
+    });
   },
 };
 ```
@@ -433,8 +433,8 @@ function getState() {
   return {
     todos: TodoStore.getState(),
 
-    onDeleteTodo: id => dispatch(deleteTodo(id)),
-    onToggleTodo: id => dispatch(toggleTodo(id)),
+    onDeleteTodo: TodoActions.deleteTodo,
+    onToggleTodo: TodoActions.toggleTodo,
   };
 }
 ```
@@ -494,3 +494,18 @@ function Footer(props) {
 ```
 
 - [ ] **Refresh the page and you should be able to toggle todos and delete them. Toggling todos should also update the counter of todos remaining in the footer.**
+
+## 6. Remaining functionality
+
+Now you should be familiar enough with the structure of the todo app to
+implement the remaining pieces on your own. This last step outlines a good
+ordering for completing them. Make sure to reference the full example
+implementation here as needed.
+
+- Create the NewTodo view
+  - Create the `TodoDraftStore` which tracks the contents of the NewTodo input, it will respond to two actions:
+    - UPDATE_DRAFT which changes the draft contents
+    _ ADD_TODO which clears the draft contents (because the todo was added and is no longer a draft)
+    - _It would also be reasonable to keep track of this in React state, but in this tutorial we will make an effort to have all components be controlled so you get more experience dealing with stores._
+  - Create the `updateDraft` action and pass through container
+  - Hook everything up to the view
