@@ -18,6 +18,20 @@ const Actions = {
       text,
     };
   },
+
+  deleteTodo(id) {
+    return {
+      type: TodoActionTypes.DELETE_TODO,
+      id,
+    };
+  },
+
+  toggleTodo(id) {
+    return {
+      type: TodoActionTypes.TOGGLE_TODO,
+      id,
+    };
+  },
 };
 
 export default Actions;

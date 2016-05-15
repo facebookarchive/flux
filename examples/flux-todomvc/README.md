@@ -354,5 +354,143 @@ TodoDispatcher.dispatch(TodoActions.addTodo('Another task'));
 TodoDispatcher.dispatch(TodoActions.addTodo('Finish this tutorial'));
 ```
 
-- [ ] Refresh the page and you should see some data that is coming from your `TodoStore`!
+- [ ] **Refresh the page and you should see some data that is coming from your `TodoStore`!**
   - _Keep in mind that it's not interactive yet, so no buttons will work_
+
+## 5. Adding some interactivity
+
+Let's add a few more actions so that the buttons do something.
+
+Update `data/TodoActionTypes.js`
+
+```js
+const ActionTypes = {
+  ADD_TODO: 'ADD_TODO',
+  DELETE_TODO: 'DELETE_TODO',
+  TOGGLE_TODO: 'TOGGLE_TODO',
+};
+```
+
+Update `data/TodoActions.js`
+
+```js
+const Actions = {
+  addTodo(text) {
+    return {
+      type: TodoActionTypes.ADD_TODO,
+      text,
+    };
+  },
+
+  deleteTodo(id) {
+    return {
+      type: TodoActionTypes.DELETE_TODO,
+      id,
+    };
+  },
+
+  toggleTodo(id) {
+    return {
+      type: TodoActionTypes.TOGGLE_TODO,
+      id,
+    };
+  },
+};
+```
+
+Update `data/TodoStore.js`
+
+```js
+class TodoStore extends ReduceStore {
+  ...
+  reduce(state, action) {
+    switch (action.type) {
+      ...
+      case TodoActionTypes.DELETE_TODO:
+        return state.delete(action.id);
+
+      case TodoActionTypes.TOGGLE_TODO:
+        return state.update(
+          action.id,
+          todo => todo.set('complete', !todo.complete),
+        );
+      ...
+    }
+  }
+}
+```
+
+Now our store is capable of deleting or toggling a Todo. Let's hook it up to
+our view now. In a Flux app the **only** place that should have knowledge of
+Flux is the container, this means we have to define the callbacks in
+`AppContainer` and pass them down to `AppView`, the view does not dispatch the
+actions directly. This makes it easier to reuse, test, and change views.
+
+Update `containers/AppContainer.js`
+
+```js
+function getState() {
+  return {
+    todos: TodoStore.getState(),
+
+    onDeleteTodo: id => dispatch(deleteTodo(id)),
+    onToggleTodo: id => dispatch(toggleTodo(id)),
+  };
+}
+```
+
+Now we need to use the callbacks and update a small amount of rendering logic
+that displays the number of completed todos. Update `views/AppView.js`
+
+```js
+function Main(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <section id="main">
+      <ul id="todo-list">
+        {[...props.todos.values()].reverse().map(todo => (
+          <li key={todo.id}>
+            <div className="view">
+              <input
+                className="toggle"
+                type="checkbox"
+                checked={todo.complete}
+                onChange={() => props.onToggleTodo(todo.id)}
+              />
+              <label>{todo.text}</label>
+              <button
+                className="destroy"
+                onClick={() => props.onDeleteTodo(todo.id)}
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Footer(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+
+  const remaining = props.todos.filter(todo => !todo.complete).size;
+  const phrase = remaining === 1 ? ' item left' : ' items left';
+
+  return (
+    <footer id="footer">
+      <span id="todo-count">
+        <strong>
+          {remaining}
+        </strong>
+        {phrase}
+      </span>
+    </footer>
+  );
+}
+```
+
+- [ ] **Refresh the page and you should be able to toggle todos and delete them. Toggling todos should also update the counter of todos remaining in the footer.**

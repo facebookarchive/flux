@@ -43,18 +43,12 @@ function Main(props) {
                 className="toggle"
                 type="checkbox"
                 checked={todo.complete}
-                onChange={
-                  // Empty function for now, we will implement this later.
-                  () => {}
-                }
+                onChange={() => props.onToggleTodo(todo.id)}
               />
               <label>{todo.text}</label>
               <button
                 className="destroy"
-                onClick={
-                  // Empty function for now, we will implement this later.
-                  () => {}
-                }
+                onClick={() => props.onDeleteTodo(todo.id)}
               />
             </div>
           </li>
@@ -68,13 +62,17 @@ function Footer(props) {
   if (props.todos.size === 0) {
     return null;
   }
+
+  const remaining = props.todos.filter(todo => !todo.complete).size;
+  const phrase = remaining === 1 ? ' item left' : ' items left';
+
   return (
     <footer id="footer">
       <span id="todo-count">
         <strong>
-          {props.todos.size}
+          {remaining}
         </strong>
-        {' items left'}
+        {phrase}
       </span>
     </footer>
   );

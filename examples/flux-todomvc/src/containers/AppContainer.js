@@ -11,7 +11,12 @@
 
 import AppView from '../views/AppView';
 import {Container} from 'flux/utils';
+import TodoActions from '../data/TodoActions';
+import TodoDispatcher from '../data/TodoDispatcher';
 import TodoStore from '../data/TodoStore';
+
+const {deleteTodo, toggleTodo} = TodoActions;
+const dispatch = TodoDispatcher.dispatch.bind(TodoDispatcher);
 
 function getStores() {
   return [
@@ -22,6 +27,9 @@ function getStores() {
 function getState() {
   return {
     todos: TodoStore.getState(),
+
+    onDeleteTodo: id => dispatch(deleteTodo(id)),
+    onToggleTodo: id => dispatch(toggleTodo(id)),
   };
 }
 
