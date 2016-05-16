@@ -110,7 +110,7 @@ class FluxContainer extends Component<DefaultProps, Props, State> {
 
   componentWillReceiveProps(nextProps: Props, nextContext: any): void {
     this._fluxContainerSubscriptions.setStores(this.getStores());
-    this.setState(this.calculateState(nextProps, nextContext));
+    this.setState((prevState) => this.calculateState(prevState, nextProps, nextContext));
   }
 
   componentWillUnmount(): void {
