@@ -21,16 +21,16 @@ var ReactDOM = require('react-dom');
 var ReactTestUtils = require('react-addons-test-utils');
 
 var {Component} = React;
+var {Container} = FluxContainer;
 
 /**
  * Helper to create a container. The container must render a single div with
  * textContaner, this will return a function to access that content.
  */
-function createContainer(containerClass, options, props, context) {
-  var container = FluxContainer.create(containerClass, options);
-  var element = React.createElement(container, props);
+function createContainer(containerClass, props, context) {
+  var element = React.createElement(containerClass, props);
   var tag;
-  if (options && options.withContext) {
+  if (context) {
     // Create a new component that provides the child context.
     var ComponentWithContext = React.createClass({
       childContextTypes: {
@@ -58,8 +58,8 @@ describe('FluxContainer', () => {
   var dispatch;
   var FooStore;
 
-  class BaseContainer extends Component {
-    static getStores() {
+  class BaseContainer extends Container {
+    getStores() {
       return [FooStore];
     }
 
@@ -101,7 +101,7 @@ describe('FluxContainer', () => {
   it('should update the state', () => {
     // Setup the container.
     class SimpleContainer extends BaseContainer {
-      static calculateState(prevState) {
+      calculateState() {
         return {
           value: FooStore.getState(),
         };
@@ -121,7 +121,7 @@ describe('FluxContainer', () => {
   it('should work with prevState', () => {
     // Setup the container.
     class SimpleContainer extends BaseContainer {
-      static calculateState(prevState) {
+      calculateState(prevState) {
         if (!prevState) {
           return {
             value: 'one',
@@ -159,16 +159,15 @@ describe('FluxContainer', () => {
   it('should get access to props', () => {
     // Setup the container.
     class SimpleContainer extends BaseContainer {
-      static calculateState(prevState, props) {
+      calculateState() {
         return {
-          value: props.value + '-' + FooStore.getState(),
+          value: this.props.value + '-' + FooStore.getState(),
         };
       }
     }
 
     var getValue = createContainer(
       SimpleContainer,
-      {withProps: true}, // options
       {value: 'prop'}, // props
     );
 
@@ -181,47 +180,10 @@ describe('FluxContainer', () => {
     expect(getValue()).toBe('prop-bar');
   });
 
-  it('should preserve initial state set in constructor', () => {
-    // Hack to expose internal state for testing.
-    let dangerouslyGetState = () => ({});
-
-    // Setup the container.
-    class SimpleContainer extends BaseContainer {
-      static calculateState(prevState, props) {
-        return {
-          value: FooStore.getState(),
-        };
-      }
-
-      constructor(props) {
-        super(props);
-        this.state = {
-          someOtherValue: 42,
-        };
-        dangerouslyGetState = () => this.state;
-      }
-    }
-    var getValue = createContainer(SimpleContainer);
-
-    // Make sure our other value is there initially.
-    expect(dangerouslyGetState().someOtherValue).toBe(42);
-
-    // Standard test.
-    expect(getValue()).toBe('foo');
-    dispatch({
-      type: 'set',
-      value: 'bar',
-    });
-    expect(getValue()).toBe('bar');
-
-    // And make sure other value persists after changes.
-    expect(dangerouslyGetState().someOtherValue).toBe(42);
-  });
-
   it('should respect changes in componentWillMount', () => {
     // Setup the container.
     class SimpleContainer extends BaseContainer {
-      static calculateState(prevState, props) {
+      calculateState() {
         return {
           value: FooStore.getState(),
         };
@@ -245,16 +207,15 @@ describe('FluxContainer', () => {
         value: React.PropTypes.string,
       };
 
-      static calculateState(prevState, props, context) {
+      calculateState() {
         return {
-          value: context.value + '-' + FooStore.getState(),
+          value: this.context.value + '-' + FooStore.getState(),
         };
       }
     }
 
     var getValue = createContainer(
       SimpleContainer,
-      {withProps: true, withContext: true}, // options
       {}, // props
       {
         value: 'context',
