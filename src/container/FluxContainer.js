@@ -17,22 +17,10 @@ import type FluxStore from 'FluxStore';
 const FluxContainerSubscriptions = require('FluxContainerSubscriptions');
 const React = require('react');
 
-const invariant = require('invariant');
 const shallowEqual = require('shallowEqual');
+const abstractMethod = require('abstractMethod');
 
 const {Component} = React;
-
-type Options = {
-  pure?: ?boolean,
-  withProps?: ?boolean,
-  withContext?: ?boolean,
-};
-
-const DEFAULT_OPTIONS = {
-  pure: true,
-  withProps: false,
-  withContext: false,
-};
 
 /**
  * A FluxContainer is used to subscribe a react component to multiple stores.
@@ -42,12 +30,12 @@ const DEFAULT_OPTIONS = {
  * is generated using a static `calculateState()` method that each container
  * must implement. A simple container may look like:
  *
- *   class FooContainer extends Component {
- *     static getStores() {
+ *   class FooContainer extends Container {
+ *     getStores() {
  *       return [FooStore];
  *     }
  *
- *     static calculateState() {
+ *     calculateState() {
  *       return {
  *         foo: FooStore.getState(),
  *       };
@@ -58,37 +46,37 @@ const DEFAULT_OPTIONS = {
  *     }
  *   }
  *
- *   module.exports = FluxContainer.create(FooContainer);
+ *   module.exports = FooContainer;
  *
  * Flux container also supports some other, more advanced use cases. If you need
  * to base your state off of props as well:
  *
- *   class FooContainer extends Component {
+ *   class FooContainer extends Container {
  *     ...
  *
- *     static calculateState(prevState, props) {
+ *     calculateState() {
  *       return {
- *         foo: FooStore.getSpecificFoo(props.id),
+ *         foo: FooStore.getSpecificFoo(this.props.id),
  *       };
  *     }
  *
  *     ...
  *   }
  *
- *   module.exports = FluxContainer.create(FooContainer, {withProps: true});
+ *   module.exports = FooContainer;
  *
  * Or if your stores are passed through your props:
  *
- *   class FooContainer extends Component {
+ *   class FooContainer extends Container {
  *     ...
  *
- *     static getStores(props) {
- *       const {BarStore, FooStore} = props.stores;
+ *     getStores() {
+ *       const {BarStore, FooStore} = this.props.stores;
  *       return [BarStore, FooStore];
  *     }
  *
- *     statc calculateState(prevState, props) {
- *       const {BarStore, FooStore} = props.stores;
+ *     calculateState() {
+ *       const {BarStore, FooStore} = this.props.stores;
  *       return {
  *         bar: BarStore.getState(),
  *         foo: FooStore.getState(),
@@ -98,116 +86,43 @@ const DEFAULT_OPTIONS = {
  *     ...
  *   }
  *
- *   module.exports = FluxContainer.create(FooContainer, {withProps: true});
+ *   module.exports = FooContainer;
  */
-function create<DefaultProps, Props, State>(
-  Base: ReactClass<Props>,
-  options?: ?Options,
-): ReactClass<Props> {
-  enforceInterface(Base);
-
-  // Construct the options using default, override with user values as necessary.
-  const realOptions = {
-    ...DEFAULT_OPTIONS,
-    ...(options || {}),
-  };
-
-  const getState = (state, maybeProps, maybeContext) => {
-    const props = realOptions.withProps ? maybeProps : undefined;
-    const context = realOptions.withContext ? maybeContext : undefined;
-    return Base.calculateState(state, props, context);
-  };
-
-  const getStores = (maybeProps, maybeContext) => {
-    const props = realOptions.withProps ? maybeProps : undefined;
-    const context = realOptions.withContext ? maybeContext : undefined;
-    return Base.getStores(props, context);
-  };
-
-  // Build the container class.
-  class ContainerClass extends Base {
-    _fluxContainerSubscriptions: FluxContainerSubscriptions;
-
-    constructor(props: Props, context: any) {
-      super(props, context);
-      this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
-      this._fluxContainerSubscriptions.setStores(getStores(props));
-      this._fluxContainerSubscriptions.addListener(() => {
-        this.setState(
-          (prevState, currentProps) => getState(
-            prevState,
-            currentProps,
-            context,
-          ),
-        );
-      });
-      const calculatedState = getState(undefined, props, context);
-      this.state = {
-        ...(this.state || {}),
-        ...calculatedState,
-      };
-    }
-
-    componentWillReceiveProps(nextProps: any, nextContext: any): void {
-      if (super.componentWillReceiveProps) {
-        super.componentWillReceiveProps(nextProps, nextContext);
-      }
-
-      if (realOptions.withProps || realOptions.withContext) {
-        // Update both stores and state.
-        this._fluxContainerSubscriptions.setStores(
-          getStores(nextProps, nextContext),
-        );
-        this.setState(prevState => getState(prevState, nextProps, nextContext));
-      }
-    }
-
-    componentWillUnmount() {
-      if (super.componentWillUnmount) {
-        super.componentWillUnmount();
-      }
-
-      this._fluxContainerSubscriptions.reset();
-    }
+class FluxContainer extends Component<DefaultProps, Props, State> {
+  state: State;
+  constructor(props: Props, context: any) {
+    super(props, context);
+    this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
+    this._fluxContainerSubscriptions.setStores(this.getStores());
+    this._fluxContainerSubscriptions.addListener(() => {
+      this.setState((prevState) => this.calculateState(prevState));
+    });
+    this.state = this.calculateState();
   }
 
-  // Make sure we override shouldComponentUpdate only if the pure option is
-  // specified. We can't override this above because we don't want to override
-  // the default behavior on accident. Super works weird with react ES6 classes.
-  const container = realOptions.pure
-    ? createPureComponent(ContainerClass)
-    : ContainerClass;
-
-  // Update the name of the container before returning
-  const componentName = Base.displayName || Base.name;
-  container.displayName = 'FluxContainer(' + componentName + ')';
-  return container;
-}
-
-function createPureComponent<DefaultProps, Props, State>(
-  BaseComponent: ReactClass<Props>
-): ReactClass<Props> {
-  class PureComponent extends BaseComponent {
-    shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
-      return (
-        !shallowEqual(this.props, nextProps) ||
-        !shallowEqual(this.state, nextState)
-      );
-    }
+  getStores(): Array<FluxStore> {
+    return abstractMethod('FluxContainer', 'getStores');
   }
-  return PureComponent;
-}
 
+  calculateState(): State {
+    return abstractMethod('FluxContainer', 'calculateState');
+  }
 
-function enforceInterface(o: any): void {
-  invariant(
-    o.getStores,
-    'Components that use FluxContainer must implement `static getStores()`'
-  );
-  invariant(
-    o.calculateState,
-    'Components that use FluxContainer must implement `static calculateState()`'
-  );
+  componentWillReceiveProps(nextProps: Props, nextContext: any): void {
+    this._fluxContainerSubscriptions.setStores(this.getStores());
+    this.setState(this.calculateState(nextProps, nextContext));
+  }
+
+  componentWillUnmount(): void {
+    this._fluxContainerSubscriptions.reset();
+  }
+
+  shouldComponentUpdate(nextProps: Props, nextState: State): boolean {
+    return (
+      !shallowEqual(this.props, nextProps) ||
+      !shallowEqual(this.state, nextState)
+    );
+  }
 }
 
 /**
@@ -246,30 +161,23 @@ function createFunctional<Props, State, A, B>(
   viewFn: (props: State) => React.Element<State>,
   getStores: (props?: ?Props, context?: any) => Array<FluxStore>,
   calculateState: (prevState?: ?State, props?: ?Props, context?: any) => State,
-  options?: Options,
 ): ReactClass<Props> {
-  class FunctionalContainer extends Component<void, Props, State> {
+  class FunctionalContainer extends FluxContainer<void, Props, State> {
     state: State;
-    static getStores(props?: ?Props, context?: any): Array<FluxStore> {
-      return getStores(props, context);
+    getStores(): Array<FluxStore> {
+      return getStores(this.props, this.context);
     }
 
-    static calculateState(
-      prevState?: ?State,
-      props?: ?Props,
-      context?: any,
-    ): State {
-      return calculateState(prevState, props, context);
+    calculateState(): State {
+      return calculateState(this.state, this.props, this.context);
     }
 
     render(): React.Element<State> {
       return viewFn(this.state);
     }
   }
-  // Update the name of the component before creating the container.
-  const viewFnName = viewFn.displayName || viewFn.name || 'FunctionalContainer';
-  FunctionalContainer.displayName = viewFnName;
-  return create(FunctionalContainer, options);
+
+  return FunctionalContainer;
 }
 
-module.exports = {create, createFunctional};
+module.exports = {Container: FluxContainer, createFunctional};
