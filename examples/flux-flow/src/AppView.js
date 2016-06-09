@@ -11,9 +11,11 @@
 
 'use strict';
 
+import React from 'react';
+
 export type Props = {value: string};
 
-function AppView(props: Props): ReactElement {
+function AppView(props: Props): React.Element {
   return <div>{props.value}</div>;
 }
 
