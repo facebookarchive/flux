@@ -56,12 +56,13 @@ var TodoItem = React.createClass({
         key={todo.id}>
         <div className="view">
           <input
+            ref="toggleCompleted"
             className="toggle"
             type="checkbox"
             checked={todo.complete}
             onChange={this._onToggleComplete}
           />
-          <label onDoubleClick={this._onDoubleClick}>
+          <label onDoubleClick={this._onDoubleClick} onClick={this._onClick}>
             {todo.text}
           </label>
           <button className="destroy" onClick={this._onDestroyClick} />
@@ -73,6 +74,14 @@ var TodoItem = React.createClass({
 
   _onToggleComplete: function() {
     TodoActions.toggleComplete(this.props.todo);
+  },
+
+  _onClick: function() {
+    setTimeout(function () {
+        if(!this.state.isEditing){
+            this.refs.toggleCompleted.getDOMNode().click();
+        }
+    }.bind(this), 200);
   },
 
   _onDoubleClick: function() {

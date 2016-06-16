@@ -12,7 +12,7 @@ var ReactPropTypes = React.PropTypes;
 var TodoActions = require('../actions/TodoActions');
 var TodoItem = require('./TodoItem.react');
 
-var MainSection = React.createClass({
+var TodoList = React.createClass({
 
   propTypes: {
     allTodos: ReactPropTypes.object.isRequired,
@@ -59,4 +59,4 @@ var MainSection = React.createClass({
 
 });
 
-module.exports = MainSection;
+module.exports = TodoList;

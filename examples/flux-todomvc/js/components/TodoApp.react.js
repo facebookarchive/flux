@@ -14,7 +14,7 @@
 
 var Footer = require('./Footer.react');
 var Header = require('./Header.react');
-var MainSection = require('./MainSection.react');
+var TodoList = require('./TodoList.react');
 var React = require('react');
 var TodoStore = require('../stores/TodoStore');
 
@@ -49,7 +49,7 @@ var TodoApp = React.createClass({
     return (
       <div>
         <Header />
-        <MainSection
+        <TodoList
           allTodos={this.state.allTodos}
           areAllComplete={this.state.areAllComplete}
         />
