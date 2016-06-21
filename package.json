@@ -45,7 +45,7 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-flatten": "^0.2.0",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "1.8.2",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
     "immutable": "^3.7.4",
