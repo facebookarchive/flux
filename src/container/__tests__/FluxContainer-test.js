@@ -24,7 +24,7 @@ var {Component} = React;
 
 /**
  * Helper to create a container. The container must render a single div with
- * textContaner, this will return a function to access that content.
+ * textContainer, this will return a function to access that content.
  */
 function createContainer(containerClass, options, props, context) {
   var container = FluxContainer.create(containerClass, options);
