@@ -49,7 +49,7 @@
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
     "immutable": "^3.7.4",
-    "jest-cli": "^11.0.1",
+    "jest-cli": "^12.1.1",
     "object-assign": "^4.0.1",
     "react": "^15.0.2",
     "react-addons-test-utils": "^15.0.1",
