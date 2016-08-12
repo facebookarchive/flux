@@ -72,7 +72,7 @@ describe('TodoStore', function() {
     expect(TodoStore.areAllComplete()).toBe(false);
 
     var all = TodoStore.getAll();
-    for (key in all) {
+    for (var key in all) {
       callback({
         actionType: TodoConstants.TODO_COMPLETE,
         id: key
