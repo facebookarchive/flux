@@ -10,29 +10,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var React = require('react');
+import React from 'react';
+import ThreadSection from '../thread/ThreadSection.react';
+import MessageSection from '../message/MessageSection.react';
 
-var ReactPropTypes = React.PropTypes;
-
-var MessageListItem = React.createClass({
-
-  propTypes: {
-    message: ReactPropTypes.object
-  },
-
-  render: function() {
-    var message = this.props.message;
-    return (
-      <li className="message-list-item">
-        <h5 className="message-author-name">{message.authorName}</h5>
-        <div className="message-time">
-          {message.date.toLocaleTimeString()}
-        </div>
-        <div className="message-text">{message.text}</div>
-      </li>
-    );
-  }
-
-});
-
-module.exports = MessageListItem;
+export default function ChatApp() {
+  return (
+    <article className="chatapp">
+      <ThreadSection />
+      <MessageSection />
+    </article>
+  );
+}

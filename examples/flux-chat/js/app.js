@@ -10,19 +10,14 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-// This file bootstraps the entire application.
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ChatApp from './core/ChatApp.react';
+import { loadChatData } from './core/ChatAppActions';
+import chatAppData from './core/ChatAppData';
 
-var ChatApp = require('./components/ChatApp.react');
-var ChatExampleData = require('./ChatExampleData');
-var ChatWebAPIUtils = require('./utils/ChatWebAPIUtils');
-var React = require('react');
-window.React = React; // export for http://fb.me/react-devtools
+const rootEl = document.querySelector('main');
+const mainEl = React.createElement(ChatApp);
 
-ChatExampleData.init(); // load example data into localstorage
-
-ChatWebAPIUtils.getAllMessages();
-
-React.render(
-    <ChatApp />,
-    document.getElementById('react')
-);
+loadChatData(chatAppData);
+ReactDOM.render(mainEl, rootEl);
