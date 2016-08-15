@@ -10,18 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+import Dispatcher from './AppDispatcher';
+import { List } from 'immutable';
+import { loadMessages } from '../message/MessageActions';
+import { loadThreads } from '../thread/ThreadActions';
 
-var ActionTypes = ChatConstants.ActionTypes;
-
-module.exports = {
-
-  clickThread: function(threadID) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.CLICK_THREAD,
-      threadID: threadID
-    });
-  }
-
-};
+export function loadChatData(chatAppData) {
+  loadMessages(new List(chatAppData.messages));
+  loadThreads(new List(chatAppData.threads));
+}
