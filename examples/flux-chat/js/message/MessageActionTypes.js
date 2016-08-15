@@ -10,15 +10,10 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var keyMirror = require('keymirror');
+import keyMirror from 'keymirror';
 
-module.exports = {
-
-  ActionTypes: keyMirror({
-    CLICK_THREAD: null,
-    CREATE_MESSAGE: null,
-    RECEIVE_RAW_CREATED_MESSAGE: null,
-    RECEIVE_RAW_MESSAGES: null
-  })
-
-};
+export default keyMirror({
+  MESSAGE_CREATED: null,
+  MESSAGE_BUFFER_UPDATED: null,
+  MESSAGES_LOADED: null
+});
