@@ -1,21 +1,37 @@
-# flux-shell
+# flux-flow
 
-This is a very simple hello world app that you can use as a starting point for your application.
+This is a simple application demonstrating how to use Flow types with Flux.
 
-# usage
+# Usage
 
 ```bash
-cd path/to/flux-shell
-npm install
-npm run build
-# open path/to/flux-shell/index.html in your browser
+cd path/to/flux-flow
+flow
 ```
 
-# watch
+_Note: Since flow is a static analysis tool you don't actually need to build
+anything for this example._
 
-Instead of manually building after each change it's possible to automatically recompile the javascript bundle when files change:
+# Kinds of errors caught by flow
 
-```bash
-npm run watch
-# make javascript changes, then refresh path/to/flux-shell/index.html
+- Check out: [`__flowtests__/App-flowtest.js`](./src/__flowtests__/App-flowtest.js)
+- Or remove the `suppress_comment` line from [`.flowconfig`](./.flowconfig)
+
+# To set up Flow in your own project
+
+Copy the [`./flow`](./flow) folder's library definitions, and
+the [`./.flowconfig`](./.flowconfig) file.
+
+### Const params
+
+You may notice that `.flowconfig` has `experimental.const_params=true` in it.
+This is generally necessary to make refinements on the payload stronger. If for
+other reasons it's not possible to use this options in your project you may
+need to do this to work around Flow refinement issues:
+
+```
+function reduce(state: State, _action: Action): State {
+  const action = _action;
+  ...
+}
 ```

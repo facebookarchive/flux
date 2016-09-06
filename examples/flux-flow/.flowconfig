@@ -9,3 +9,4 @@ flow
 [options]
 
 suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
+experimental.const_params=true
