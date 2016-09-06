@@ -1,6 +1,6 @@
 {
-  "name": "flux-shell",
-  "version": "0.0.0",
+  "name": "flux-todomvc",
+  "version": "1.0.0",
   "description": "Basic shell application for the Flux architecture",
   "repository": "https://github.com/facebook/flux",
   "author": "Kyle Davis",

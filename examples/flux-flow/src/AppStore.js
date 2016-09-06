@@ -16,7 +16,7 @@ import type {Action} from './AppActions';
 import {ReduceStore} from 'flux/utils';
 import AppDispatcher from './AppDispatcher';
 
-class AppStore extends ReduceStore<string> {
+class AppStore extends ReduceStore<Action, string> {
   constructor() {
     super(AppDispatcher);
   }
@@ -32,7 +32,8 @@ class AppStore extends ReduceStore<string> {
 
       // This is an error that should be caught by flow.
       case 'bar':
-       return action.foo;
+        // $FlowExpectedError: action type 'bar' does not have a 'foo' property.
+        return action.foo;
 
       // This case is okay though, bar actions have a bar property.
       case 'bar':

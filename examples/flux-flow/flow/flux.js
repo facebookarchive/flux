@@ -9,14 +9,14 @@
  * @flow
  */
 
-'use strict';
+type DispatchToken = string;
 
-import React from 'react';
-
-export type Props = {value: string};
-
-function AppView(props: Props): React.Element<*> {
-  return <div>{props.value}</div>;
+declare module 'flux' {
+  declare class Dispatcher<TPayload> {
+    register(callback: (payload: TPayload) => void): DispatchToken;
+    unregister(id: DispatchToken): void;
+    waitFor(ids: Array<DispatchToken>): void;
+    dispatch(payload: TPayload): void;
+    isDispatching(): boolean;
+  }
 }
-
-export default AppView;

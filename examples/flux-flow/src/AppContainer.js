@@ -26,8 +26,7 @@ function getState() {
   return {
     value: AppStore.getState(),
 
-    // This is an error that should be caught by flow. Cannot dispatch an
-    // incorrectly formed action.
+    // $FlowExpectedError: Cannot dispatch an incorrectly formed action.
     onFooChange: () => AppDispatcher.dispatch({
       type: 'foo',
       bar: 'Hello Bar!',
