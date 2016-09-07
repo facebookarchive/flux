@@ -27,7 +27,7 @@ type string.
 
 So far we've only dealt with synchronous actions, but what if we need to make
 an API call to access data from our server? This example will create a real
-server and demonstrate how to save that data into a Flux store.
+server and demonstrate how to access that data from a Flux store.
 
 ## [./flux-logging](./flux-logging) - Add logging to Flux apps
 
