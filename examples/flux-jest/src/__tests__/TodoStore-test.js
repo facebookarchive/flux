@@ -18,7 +18,11 @@ describe('TodoStore', function() {
 
   // Before each test case we set up some helper functions that makes the tests
   // easier to read. It's okay to have a fair amount of helper functions as long
-  // as they make the tests simpler to read and write.
+  // as they make the tests simpler to read and write. Depending on the
+  // complexity of your store it is perfectly reasonable to factor these out
+  // into a separate `TodoTestHelpers.js` file that can be reused -- and then
+  // you could write tests for the helpers too! :P (we actually do this for our
+  // main stores)
   beforeEach(function() {
     // Always start with the initial state.
     this.state = TodoStore.getInitialState();
