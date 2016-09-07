@@ -21,3 +21,9 @@ logging printed to the console for each action that is fired.
 To see how this is accomplished in code look at the logger store we created:
 
 - [`TodoLoggerStore.js`](./src/TodoLoggerStore.js)
+
+When creating a logger store you will also need to make sure it is explicitly
+initialized at the root of your application. This is because no container will
+directly use the logger store.
+
+- See: [`root.js`](./src/root.js)
