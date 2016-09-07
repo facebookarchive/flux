@@ -8,9 +8,10 @@ This example is where you should start. It walks you through creating the
 classic [TodoMVC](http://todomvc.com/) application using a simple Flux
 implementation.
 
-## [./flux-jest](./flux-jest) - Unit Testing
+## [./flux-jest](./flux-jest) - Unit Testing Stores
 
-**TODO: Write this.**
+Being able to unit test stores is critical. This example shows you how to write
+tests for the TodoMVC stores we created in an earlier example.
 
 ## [./flux-flow](./flux-flow) - Static typing
 
@@ -22,10 +23,22 @@ type string.
 
 ## [./flux-async](./flux-async) - Flux with async requests
 
-**TODO: Write this.**
+- [ ] TODO: Write this example.
+
+So far we've only dealt with synchronous actions, but what if we need to make
+an API call to access data from our server? This example will create a real
+server and demonstrate how to save that data into a Flux store.
 
 ## [./flux-logging](./flux-logging) - Add logging to Flux apps
 
 Taking advantage of the fact that a store gets every action makes it easy to
 add logging to a Flux application. Check out this quick example where we add
 a logger store to the TodoMVC app we created in an earlier example.
+
+## [./flux-jest-containers](./flux-jest-containers) - Unit Testing Containers
+
+- [ ] TODO: Write this example.
+
+Testing the container logic that connects stores to views can be tricky. This
+example shows you how to create some utilities to help mock out store data in
+order to write these kinds of tests effectively.
