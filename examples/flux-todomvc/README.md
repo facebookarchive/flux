@@ -206,7 +206,7 @@ function getState() {
 export default Container.createFunctional(AppView, getStores, getState);
 ```
 
-Then finally, let's update the root of our application to render this new
+Finally, let's update the root of our application to render this new
 `AppContainer`. Open `root.js`:
 
 ```js
@@ -346,10 +346,12 @@ To make sure it all works we have to create some fake data for now. Modify
 import AppContainer from './containers/AppContainer';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TodoActions from './data/TodoActions';
-import TodoDispatcher from './data/TodoDispatcher';
 
 ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+
+// We will remove these lines later:
+
+import TodoActions from './data/TodoActions';
 
 TodoActions.addTodo('My first task');
 TodoActions.addTodo('Another task');
