@@ -35,9 +35,7 @@ Taking advantage of the fact that a store gets every action makes it easy to
 add logging to a Flux application. Check out this quick example where we add
 a logger store to the TodoMVC app we created in an earlier example.
 
-## [./flux-jest-containers](./flux-jest-containers) - Unit Testing Containers
-
-- [ ] TODO: Write this example.
+## [./flux-jest-container](./flux-jest-container) - Unit Testing Containers
 
 Testing the container logic that connects stores to views can be tricky. This
 example shows you how to create some utilities to help mock out store data in
