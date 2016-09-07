@@ -30,3 +30,4 @@ Check out the test file and make sure to read through the comments in
 we did.
 
 - [`TodoStore-test.js`](./src/__tests__/TodoStore-test.js)
+- [`TodoStore.js`](../flux-todomvc/src/data/TodoStore.js)
