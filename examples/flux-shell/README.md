@@ -2,7 +2,7 @@
 
 This is a very simple hello world app that you can use as a starting point for your application.
 
-# usage
+# Usage
 
 ```bash
 cd path/to/flux-shell
@@ -11,7 +11,7 @@ npm run build
 # open path/to/flux-shell/index.html in your browser
 ```
 
-# watch
+# Watch
 
 Instead of manually building after each change it's possible to automatically recompile the javascript bundle when files change:
 

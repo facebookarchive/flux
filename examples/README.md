@@ -8,7 +8,7 @@ This example is where you should start. It walks you through creating the
 classic [TodoMVC](http://todomvc.com/) application using a simple Flux
 implementation.
 
-## [./flux-jest](./flux-jest) - Testing
+## [./flux-jest](./flux-jest) - Unit Testing
 
 **TODO: Write this.**
 
@@ -23,3 +23,9 @@ type string.
 ## [./flux-async](./flux-async) - Flux with async requests
 
 **TODO: Write this.**
+
+## [./flux-logging](./flux-logging) - Add logging to Flux apps
+
+Taking advantage of the fact that a store gets every action makes it easy to
+add logging to a Flux application. Check out this quick example where we add
+a logger store to the TodoMVC app we created in an earlier example.

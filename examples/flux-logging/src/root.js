@@ -9,8 +9,12 @@
 
 'use strict';
 
-import AppContainer from './containers/AppContainer';
+import AppContainer from '../../flux-todomvc/src/containers/AppContainer';
+import {Container} from 'flux/utils';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+// Import the logger store explicitly so that it registers with the dispatcher.
+import TodoLoggerStore from './TodoLoggerStore';
+
+ReactDOM.render(<AppContainer/>, document.getElementById('todoapp'));
