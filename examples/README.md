@@ -23,8 +23,6 @@ type string.
 
 ## [./flux-async](./flux-async) - Flux with async requests
 
-- [ ] TODO: Write this example.
-
 So far we've only dealt with synchronous actions, but what if we need to make
 an API call to access data from our server? This example will create a real
 server and demonstrate how to access that data from a Flux store.
