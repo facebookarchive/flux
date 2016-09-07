@@ -102,7 +102,7 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('can edit task tat is not complete', function() {
+  it('can edit task that is not complete', function() {
     this.setTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: true},
@@ -115,7 +115,7 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('can edit task tat is complete', function() {
+  it('can edit task that is complete', function() {
     this.setTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: true},
