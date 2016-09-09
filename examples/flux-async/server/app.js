@@ -25,8 +25,8 @@ const app = express();
 
 app.use('/home', express.static('.'));
 
-// Add a random delay to all requests. Set SHOULD_DELAY to true for a more
-// responsive server.
+// Add a random delay to all requests. Set SHOULD_DELAY to false for a more
+// responsive server, or play around with the delay RANGE.
 const SHOULD_DELAY = true;
 const RANGE = [250, 2000];
 app.use((req, res, next) => {
