@@ -5,30 +5,39 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @flow
  */
 
 'use strict';
 
-import {ReduceStore} from 'flux/utils';
-import TodoActionTypes from './TodoActionTypes';
-import TodoDispatcher from './TodoDispatcher';
+import type {Action} from '../TodoActions';
 
-class TodoDraftStore extends ReduceStore {
+import {ReduceStore} from 'flux/utils';
+import TodoDataManager from '../data_managers/TodoDataManager';
+import TodoDispatcher from '../TodoDispatcher';
+
+type State = string;
+
+class TodoDraftStore extends ReduceStore<Action, State> {
   constructor() {
     super(TodoDispatcher);
   }
 
-  getInitialState() {
+  getInitialState(): State {
     return '';
   }
 
-  reduce(state, action) {
+  reduce(state: State, action: Action): State {
     switch (action.type) {
-      case TodoActionTypes.ADD_TODO:
+      case 'draft/create':
+        if (state.trim()) {
+          TodoDataManager.create(state);
+        }
         return '';
 
-      case TodoActionTypes.UPDATE_DRAFT:
-        return action.text;
+      case 'draft/set':
+        return action.value;
 
       default:
         return state;

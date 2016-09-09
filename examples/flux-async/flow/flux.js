@@ -9,12 +9,14 @@
  * @flow
  */
 
-'use strict';
+type DispatchToken = string;
 
-import AppContainer from './containers/AppContainer';
-import React from 'react';
-import ReactDOM from 'react-dom';
-
-import TodoLoggerStore from './stores/TodoLoggerStore';
-
-ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+declare module 'flux' {
+  declare class Dispatcher<TPayload> {
+    register(callback: (payload: TPayload) => void): DispatchToken;
+    unregister(id: DispatchToken): void;
+    waitFor(ids: Array<DispatchToken>): void;
+    dispatch(payload: TPayload): void;
+    isDispatching(): boolean;
+  }
+}

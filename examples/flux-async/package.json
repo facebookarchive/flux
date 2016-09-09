@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack ./src/root.js ./bundle.js",
     "watch": "webpack ./src/root.js ./bundle.js --watch",
-    "server": "node ./server/app.js",
+    "start": "node ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -17,16 +17,19 @@
     "flux": "../../.",
     "immutable": "^3.8.0",
     "react": "^15.0.2",
-    "react-dom": "^15.0.1"
+    "react-dom": "^15.0.1",
+    "xhr": "^2.2.2"
   },
   "devDependencies": {
     "babel-core": "^6.7.6",
     "babel-loader": "^6.2.4",
     "babel-plugin-syntax-async-functions": "^6.5.0",
+    "babel-plugin-syntax-class-properties": "^6.13.0",
     "babel-plugin-syntax-flow": "^6.5.0",
     "babel-plugin-syntax-jsx": "^6.5.0",
     "babel-plugin-syntax-object-rest-spread": "^6.5.0",
     "babel-plugin-syntax-trailing-function-commas": "^6.5.0",
+    "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-flow-strip-types": "^6.5.0",
     "babel-plugin-transform-object-rest-spread": "^6.6.5",
     "babel-plugin-transform-react-jsx": "^6.7.5",

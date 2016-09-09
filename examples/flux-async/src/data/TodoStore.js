@@ -9,10 +9,10 @@
 
 'use strict';
 
-import Counter from './Counter';
-import Immutable from 'immutable';
+import LoadObjectMap from '../load_object/LoadObjectMap';
 import {ReduceStore} from 'flux/utils';
 import Todo from './Todo';
+import TodoActions from './TodoActions';
 import TodoActionTypes from './TodoActionTypes';
 import TodoDispatcher from './TodoDispatcher';
 
@@ -22,41 +22,70 @@ class TodoStore extends ReduceStore {
   }
 
   getInitialState() {
-    return Immutable.OrderedMap();
+    return new LoadObjectMap(todoIDs => TodoActions.loadAll(todoIDs));
   }
 
   reduce(state, action) {
     switch (action.type) {
+
+      // These actions deal with getting data from data manager.
+
+      case TodoActionTypes.LOAD_TODOS:
+        // Tell the data manager to load all of these ids, and then mark them
+        // as loading in the store.
+        TodoDataManager.loadTodos(todoIDs);
+        return state.merge(action.todoIDs.map(todoID => [
+          todoID,
+          LoadObject.loading(),
+        ]));
+
+      // TODO: Move some of this load object stuff into data manager, it is
+      // tightly coupled to a request so it's okay for data manager to know
+      // about LoadObject.
+      case TodoActionTypes.TODOS_LOADED:
+        // Mark all of these as loaded and then merge with current state.
+        const loaded = Array.from(action.todos.values()).map(todo => [
+          todo.id,
+          LoadObject.withValue(todo),
+        ]);
+        return state.merge(loaded);
+
+      case TodoActionTypes.TODOS_LOAD_ERROR:
+        const errors = Array.from(action.errors.values()).map((error, key) => [
+          key,
+          LoadObject.withError(error),
+        ]);
+        return state.merge(errors);
+
+      // These handle UI actions that do things.
+
       case TodoActionTypes.ADD_TODO:
-        // Don't add todos with no text.
-        if (!action.text) {
-          return state;
+        if (action.text && action.text.trim()) {
+          TodoDataManager.create(action.text, false);
         }
-        const id = Counter.increment();
-        return state.set(id, new Todo({
-          id,
-          text: action.text,
-          complete: false,
-        }));
+        return state;
 
       case TodoActionTypes.DELETE_COMPLETED_TODOS:
-        return state.filter(todo => !todo.complete);
+        const idsToDelete = state
+          .filter(lo => (!lo.hasValue() || lo.getValue().complete))
+          .getKeys();
+        TodoDataManager.deleteAll(idsToDelete);
+        return state;
 
       case TodoActionTypes.DELETE_TODO:
-        return state.delete(action.id);
-
-      case TodoActionTypes.EDIT_TODO:
-        return state.setIn([action.id, 'text'], action.text);
+        TodoDataManager.deleteAll([action.id]);
+        return state;
 
       case TodoActionTypes.TOGGLE_ALL_TODOS:
-        const areAllComplete = state.every(todo => todo.complete);
-        return state.map(todo => todo.set('complete', !areAllComplete));
-
-      case TodoActionTypes.TOGGLE_TODO:
-        return state.update(
-          action.id,
-          todo => todo.set('complete', !todo.complete),
-        );
+        const allComplete = state
+          .filter(lo => lo.hasValue())
+          .every(lo => lo.getValue().complete);
+        if (allComplete) {
+          // Do something.
+        } else {
+          // Do something else.
+        }
+        return state;
 
       default:
         return state;

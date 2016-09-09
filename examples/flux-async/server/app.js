@@ -23,137 +23,353 @@ const DATA_FILE = path.join(__dirname, 'data.json');
 
 const app = express();
 
+app.use('/home', express.static('.'));
+
+// Add a random delay to all requests. Set SHOULD_DELAY to true for a more
+// responsive server.
+const SHOULD_DELAY = true;
+const RANGE = [250, 2000];
+app.use((req, res, next) => {
+  if (SHOULD_DELAY) {
+    const delay = Math.random() * (RANGE[1] - RANGE[0]) + RANGE[0];
+    const start = Date.now();
+    while (Date.now() - start < delay) {}
+  }
+  next();
+});
+
 /**
  * Set up some help when you navigate to locahost:3000.
  */
 app.get('/', (req, res) => {
   res.send(`<pre>
 
+To view the todo app go to http://localhost:${PORT}/home.
+
+==========
+
+GET /ids
+  Descriptiong:
+    Gets a list of all known todo ids.
+
+  Query Params:
+    None
+
+  Response:
+    (list<string>): ids of all todos
+
+GET /todo
+  Description:
+    This is a way to request data for a single todo.
+
+  Query Params:
+    id (string): the id to get data for
+
+  Response:
+    (Todo): todo for given id
+
 GET /todos
-  Returns an array of strings that are the ids of all known todos. The array is
-  empty if no todos have been saved.
+  Description:
+    This is a way to request data for multiple todos.
 
-GET /todo/$ID
-  Returns the todo of the given $ID. The object returned has the shape:
+  Query Params:
+    ids (list<string>): the ids to get data for
 
-    {
-      id: string,
-      text: string,
-      complete: boolean,
-    }
+  Response:
+    (list<Todo>): todos for given ids
 
-POST /todo/create?text=$TEXT&complete=$COMPLETE
-  Creates a todo with the given $TEXT, and $COMPLETE status. The entire
-  todo, including id, will be sent back in the response.
+POST /todo/create
+  Description:
+    Creates a new todo. The ID will be created on the server. Text is the only
+    input. All todos start out with complete being false.
 
-POST /todo/update/$ID?text=$TEXT&complete=$COMPLETE
-  Updates a todo with the given $TET, and $COMPLETE status. The entire
-  todo, including id, will be sent back in the response.
+  Query Params:
+    text (string): text content for the new todo
 
-POST /todo/delete/$ID
-  Removes the todo of the given $ID.
+  Response:
+    (Todo): the created todo
+
+POST /todos/create
+  Description:
+    Creates many new todos. The IDs will be created on the server. Text is the
+    only input. All todos start out with complete being false.
+
+  Query Params:
+    texts (list<string>): text content for the new todos
+
+  Response:
+    (list<Todo>): the created todos
+
+POST /todo/update
+  Description:
+    Updates a single todo. The todo must already exist.
+
+  Query Params:
+    id (string): the id to update
+    text (string): the new text value
+    complete (bool): the new complete value
+
+  Response:
+    (Todo): the updated todo
+
+POST /todos/update
+  Description:
+    Updates multiple todos. The todos must already exist. All of the following
+    lists must be the same size and in the same order.
+
+  Query Params:
+    ids (list<string>): the ids to update
+    texts (list<string>): the new text values
+    completes (list<bool>): the new complete values
+
+  Response:
+    (list<Todo>): the updated todos
+
+POST /todo/delete
+  Description:
+    Deletes a single todo. The todo must already exist.
+
+  Query Params:
+    id (string): the id to delete
+
+  Response:
+    (none): no response, just check the status code
+
+POST /todos/delete
+  Description:
+    Deletes multiple todos. The todos must already exist.
+
+  Query Params:
+    ids (list<string>): the ids to delete
+
+  Response:
+    (none): no response, just check the status code
 
 </pre>`);
 });
 
-/**
- * Read all the ids of todos. These will just be the keys of the json blob.
- */
-app.get('/todos', (req, res) => {
+app.get('/ids', (req, res) => {
   res.status(200).send(Object.keys(getTodos()));
 });
 
-/**
- * Return data for particular todo or a 404
- */
-app.get('/todo/:id', (req, res) => {
-  const todos = getTodos();
+app.get('/todo', (req, res) => {
+  const rawID = req.query.id;
+  if (rawID == null) {
+    missing(res, 'id');
+    return;
+  }
+  const id = JSON.parse(rawID);
 
-  if (!todos[req.params.id]) {
-    res.status(404).send(`Todo "${req.params.id}" does not exist.`);
+  const todos = getTodos();
+  if (todos[id] == null) {
+    missingID(res, id);
     return;
   }
 
-  res.status(200).send(todos[req.params.id]);
+  res.status(200).send(todos[id]);
 });
 
-/**
- * Create todo with text, and complete.
- */
+app.get('/todos', (req, res) => {
+  const rawIDs = req.query.ids;
+  if (rawIDs == null) {
+    missing(res, 'ids');
+    return;
+  }
+
+  const ids = JSON.parse(rawIDs);
+  if (!unique(ids)) {
+    res.status(400).send('ids contains duplicates');
+    return;
+  }
+  const todos = getTodos();
+  const result = [];
+  for (const id of ids) {
+    if (todos[id] == null) {
+      missingID(res, id);
+      return;
+    }
+    result.push(todos[id]);
+  }
+
+  res.status(200).send(result);
+});
+
 app.post('/todo/create', (req, res) => {
-  const todos = getTodos();
-
-  const id = nextID();
-  const text = req.query.text;
-  const complete = req.query.complete;
-
-  if (text == null) {
-    res.status(400).send(`\`text\` query parameter is missing.`);
+  const rawText = req.query.text;
+  if (rawText == null) {
+    missing(res, 'text');
     return;
   }
+  const text = JSON.parse(rawText);
 
-  if (complete == null) {
-    res.status(400).send(`\`complete\` query parameter is missing.`);
-    return;
-  }
-
-  todos[id] = {
-    id: id,
-    text: text,
-    complete: !!complete,
+  const newTodo = {
+    id: nextID(),
+    text: String(text),
+    complete: false,
   };
 
+  const todos = getTodos();
+  todos[newTodo.id] = newTodo;
   setTodos(todos);
+
+  res.status(200).send(newTodo);
+});
+
+app.post('todos/create', (req, res) => {
+  const rawTexts = req.query.texts;
+  if (rawTexts == null) {
+    missing(res, 'texts');
+    return;
+  }
+
+  const texts = JSON.parse(rawTexts);
+  const newTodos = [];
+  for (const text of texts) {
+    newTodos.push({
+      id: nextID(),
+      text: String(text),
+      complete: false,
+    });
+  }
+
+  const todos = getTodos();
+  for (const newTodo of newTodos) {
+    todos[newTodo.id] = newTodo;
+  }
+  setTodos(todos);
+
+  res.status(200).send(newTodos);
+});
+
+app.post('todo/update', (req, res) => {
+  const rawID = req.query.id;
+  if (rawID == null) {
+    missing(res, 'id');
+    return;
+  }
+  const id = JSON.parse(rawID);
+
+  const rawText = req.query.text;
+  if (rawText == null) {
+    missing(res, 'text');
+    return;
+  }
+  const text = JSON.parse(rawText);
+
+  const rawComplete = req.query.complete;
+  if (rawComplete == null) {
+    missing(res, 'complete');
+    return;
+  }
+  const complete = JSON.parse(rawComplete);
+
+  const todos = getTodos();
+  if (todos[id] == null) {
+    missingID(res, id);
+    return;
+  }
+
+  todos[id].text = String(text);
+  todos[id].complete = Boolean(complete);
+  setTodos(todos);
+
   res.status(200).send(todos[id]);
 });
 
-/**
- * Update todo with given id, text, and complete.
- */
-app.post('/todo/update/:id', (req, res) => {
+app.post('todos/update', (req, res) => {
+  const rawIDs = req.query.ids;
+  const rawTexts = req.query.texts;
+  const rawCompletes = req.query.completes;
+  if (rawIDs == null) {
+    missing(res, 'ids');
+    return;
+  }
+  if (rawTexts == null) {
+    missing(res, 'texts');
+    return;
+  }
+  if (rawCompletes == null) {
+    missing(res, 'completes');
+    return;
+  }
+  const ids = JSON.parse(rawIDs);
+  if (!unique(ids)) {
+    res.status(400).send('ids contains duplicates');
+    return;
+  }
+  const texts = JSON.parse(rawTexts);
+  const completes = JSON.prase(rawCompletes);
+  if (ids.length !== texts.length) {
+    res.status(400).send("The number of ids does not match number of texts.");
+    return;
+  }
+  if (ids.length !== completes.length) {
+    res
+      .status(400)
+      .send("The number of ids does not match number of completes.");
+    return;
+  }
+
+  const results = [];
   const todos = getTodos();
-
-  const id = req.params.id;
-  const text = req.query.text;
-  const complete = req.query.complete;
-
-  if (!todos[id]) {
-    res.status(404).send(`Todo "${req.params.id}" does not exist.`);
-    return;
+  for (let i = 0; i < ids.length; i++) {
+    const id = ids[i];
+    const text = texts[i];
+    const complete = completes[i];
+    if (todos[id] == null) {
+      missingID(res, id);
+      return;
+    }
+    todos[id].text = String(text);
+    todos[id].complete = Boolean(complete);
+    results.push(todos[id]);
   }
-
-  if (text == null) {
-    res.status(400).send(`\`text\` query parameter is missing.`);
-    return;
-  }
-
-  if (complete == null) {
-    res.status(400).send(`\`complete\` query parameter is missing.`);
-    return;
-  }
-
-  todos[id] = {
-    id: id,
-    text: text,
-    complete: !!complete,
-  };
 
   setTodos(todos);
-  res.status(200).send(todos[id]);
+  res.status(200).send(results);
 });
 
-/**
- * Delete an existing todo or 404 if the id doesn't exist.
- */
-app.post('/todo/delete/:id', (req, res) => {
-  const todos = getTodos();
+app.post('todo/delete', (req, res) => {
+  const rawID = req.query.id;
+  if (rawID == null) {
+    missing(res, 'id');
+    return;
+  }
+  const id = JSON.parse(rawID);
 
-  if (!todos[req.params.id]) {
-    res.status(404).send(`Todo "${req.params.id}" does not exist.`);
+  const todos = getTodos();
+  if (todos[id] == null) {
+    missingID(res, id);
     return;
   }
 
-  delete todos[req.params.id];
+  delete todos[id];
+  setTodos(todos);
+  res.status(200).send();
+});
+
+app.post('todos/delete', (req, res) => {
+  const rawIDs = req.query.ids;
+  if (rawIDs == null) {
+    missing(res, 'ids');
+    return;
+  }
+
+  const ids = JSON.parse(rawIDs);
+  if (!unique(ids)) {
+    res.status(400).send('ids contains duplicates');
+    return;
+  }
+
+  const todos = getTodos();
+  for (const id of ids) {
+    if (todos[id] == null) {
+      missingID(res, id);
+      return;
+    }
+    delete todos[id];
+  }
+
   setTodos(todos);
   res.status(200).send();
 });
@@ -167,6 +383,19 @@ app.listen(PORT, () => {
 
 ///// Some helper functions /////
 
+function unique(arr) {
+  const set = new Set(arr);
+  return set.size === arr.length;
+}
+
+function missing(res, field) {
+  res.status(400).send(`Missing required query param: ${field}.`);
+}
+
+function missingID(res, id) {
+  res.status(404).send('Todo not found for ID: ${id}.');
+}
+
 function getTodos() {
   try {
     return JSON.parse(fs.readFileSync(DATA_FILE, 'utf8'));
@@ -176,7 +405,7 @@ function getTodos() {
 }
 
 function setTodos(todos) {
-  fs.writeFileSync(DATA_FILE, JSON.strinify(todos, null, 2), 'utf8');
+  fs.writeFileSync(DATA_FILE, JSON.stringify(todos, null, 2), 'utf8');
 }
 
 let max = null;

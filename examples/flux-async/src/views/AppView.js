@@ -5,15 +5,32 @@
  * This source code is licensed under the BSD-style license found in the
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
+ *
+ * @flow
  */
 
 'use strict';
+
+import type Immutable from 'immutable';
+import type LoadObject from '../load_object/LoadObject';
+import type LoadObjectMap from '../load_object/LoadObjectMap';
+import type LoadObjectState from '../load_object/LoadObjectState';
+import type Todo from '../records/Todo';
 
 import React from 'react';
 
 import classnames from 'classnames';
 
-function AppView(props) {
+type AppViewProps = {
+  draft: string,
+  ids: LoadObjectState<Immutable.List<string>>,
+  todos: LoadObjectMap<string, Todo>,
+
+  onDraftCreate: (value: string) => void,
+  onDraftSet: (value: string) => void,
+};
+
+function AppView(props: AppViewProps): ?React.Element<*> {
   return (
     <div>
       <Header {...props} />
@@ -23,7 +40,14 @@ function AppView(props) {
   );
 }
 
-function Header(props) {
+type HeaderProps = {
+  draft: string,
+
+  onDraftCreate: (value: string) => void,
+  onDraftSet: (value: string) => void,
+};
+
+function Header(props: HeaderProps): ?React.Element<*> {
   return (
     <header id="header">
       <h1>todos</h1>
@@ -32,13 +56,37 @@ function Header(props) {
   );
 }
 
-function Main(props) {
-  if (props.todos.size === 0) {
+type MainProps = {
+  ids: LoadObjectState<Immutable.List<string>>,
+  todos: LoadObjectMap<string, Todo>,
+};
+
+function Main(props: MainProps): ?React.Element<*> {
+  const {ids, todos} = props;
+  if (!ids.getLoadObject().hasValue()) {
     return null;
   }
 
-  // If this were expensive we could move it to the container.
-  const areAllComplete = props.todos.every(todo => todo.complete);
+  const list = ids.getLoadObject().getValueEnforcing();
+  if (list.size === 0) {
+    return null;
+  }
+
+  const areAllComplete = list.every(id => {
+    const todo = todos.get(id);
+    return !todo.hasValue() || todo.getValueEnforcing().complete;
+  });
+
+  const listItems = [];
+  list.forEach((id, i) => {
+    listItems.push(
+      <TodoItem
+        key={id}
+        todo={todos.get(id)}
+        todoBeingEdited={null}
+      />
+    );
+  });
 
   return (
     <section id="main">
@@ -46,30 +94,26 @@ function Main(props) {
         checked={areAllComplete ? 'checked' : ''}
         id="toggle-all"
         type="checkbox"
-        onChange={props.onToggleAllTodos}
+        onChange={() => {}}
       />
       <label htmlFor="toggle-all">
         Mark all as complete
       </label>
       <ul id="todo-list">
-        {[...props.todos.values()].reverse().map(todo => (
-          <TodoItem
-            key={todo.id}
-            editing={props.editing}
-            todo={todo}
-            onDeleteTodo={props.onDeleteTodo}
-            onEditTodo={props.onEditTodo}
-            onStartEditingTodo={props.onStartEditingTodo}
-            onStopEditingTodo={props.onStopEditingTodo}
-            onToggleTodo={props.onToggleTodo}
-          />
-        ))}
+        {listItems.reverse()}
       </ul>
     </section>
   );
 }
 
-function Footer(props) {
+type FooterProps = {
+
+};
+
+function Footer(props: FooterProps): ?React.Element<*> {
+  return null;
+
+  /*
   if (props.todos.size === 0) {
     return null;
   }
@@ -99,16 +143,24 @@ function Footer(props) {
       {clearCompletedButton}
     </footer>
   );
+  */
 }
 
+type NewTodoProps = {
+  draft: string,
+
+  onDraftCreate: (value: string) => void,
+  onDraftSet: (value: string) => void,
+};
+
 const ENTER_KEY_CODE = 13;
-function NewTodo(props) {
-  const addTodo = () => props.onAdd(props.draft);
-  const onBlur = () => addTodo();
-  const onChange = (event) => props.onUpdateDraft(event.target.value);
+function NewTodo(props: NewTodoProps): ?React.Element<*> {
+  const create = () => props.onDraftCreate(props.draft);
+  const onBlur = () => create();
+  const onChange = (event) => props.onDraftSet(event.target.value);
   const onKeyDown = (event) => {
     if (event.keyCode === ENTER_KEY_CODE) {
-      addTodo();
+      create();
     }
   };
   return (
@@ -124,8 +176,36 @@ function NewTodo(props) {
   );
 }
 
-function TodoItem(props) {
-  const {editing, todo} = props;
+type TodoItemProps = {
+  todo: LoadObject<Todo>,
+  todoBeingEdited: ?string,
+};
+
+function TodoItem(props: TodoItemProps): ?React.Element<*> {
+  const {
+    todo,
+    todoBeingEdited,
+  } = props;
+
+  if (!todo.hasValue()) {
+    return (
+      <li>
+        <div className="view">
+          <label>Loading...</label>
+        </div>
+      </li>
+    );
+  } else {
+    return (
+      <li>
+        <div className="view">
+          <label>{todo.getValueEnforcing().text}</label>
+        </div>
+      </li>
+    );
+  }
+
+  /*
   const isEditing = editing === todo.id;
   const onDeleteTodo = () => props.onDeleteTodo(todo.id);
   const onStartEditingTodo = () => props.onStartEditingTodo(todo.id);
@@ -173,7 +253,7 @@ function TodoItem(props) {
       {input}
     </li>
   );
+  */
 }
-
 
 export default AppView;

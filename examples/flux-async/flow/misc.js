@@ -9,12 +9,12 @@
  * @flow
  */
 
-'use strict';
+// Don't really care about these modules.
 
-import AppContainer from './containers/AppContainer';
-import React from 'react';
-import ReactDOM from 'react-dom';
+declare module 'xhr' {
+  declare var exports: any;
+}
 
-import TodoLoggerStore from './stores/TodoLoggerStore';
-
-ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+declare module 'classnames' {
+  declare var exports: any;
+}
