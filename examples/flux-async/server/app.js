@@ -49,7 +49,7 @@ To view the todo app go to http://localhost:${PORT}/home.
 ==========
 
 GET /ids
-  Descriptiong:
+  Description:
     Gets a list of all known todo ids.
 
   Query Params:
