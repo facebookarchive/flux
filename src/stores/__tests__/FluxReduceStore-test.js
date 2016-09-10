@@ -9,11 +9,6 @@
  * @emails oncall+uiecommd
  */
 
-jest
-  .dontMock('Dispatcher')
-  .dontMock('FluxReduceStore')
-  .dontMock('FluxStore');
-
 var Dispatcher = require('Dispatcher');
 var FluxReduceStore = require('FluxReduceStore');
 var Immutable = require('immutable');
@@ -48,6 +43,7 @@ describe('FluxReduceStore', () => {
     var dispatcher = new Dispatcher();
     store = new FooStore(dispatcher);
     dispatch = dispatcher.dispatch.bind(dispatcher);
+    store.__emitter.emit = jest.fn();
     onChange = store.__emitter.emit;
   });
 
