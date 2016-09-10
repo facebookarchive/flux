@@ -92,7 +92,6 @@ function promiseXHR(method: 'get' | 'post', uri, data) {
           return;
         }
         if (res.statusCode !== 200) {
-          console.log(res);
           reject(new Error(
             '[status: ' + res.statusCode + '] ' + res.body,
           ));

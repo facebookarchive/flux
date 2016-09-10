@@ -13,6 +13,10 @@ const express = require('express');
 const fs = require('fs');
 const path = require('path');
 
+// We simulate an error a percentage of the time, this helps show how our app
+// is robust to network errors.
+const ERROR_PCT = 30.0;
+
 // The port is hard coded in the client too. If you change it make sure to
 // update it there as well.
 const PORT = 3000;
@@ -37,6 +41,17 @@ app.use((req, res, next) => {
   }
   next();
 });
+
+// Ideally we would uncomment this, for now we only use random error in
+// particular endpoints.
+/*
+app.use((req, res, next) => {
+  if (randomError(res)) {
+    return;
+  }
+  next();
+});
+*/
 
 /**
  * Set up some help when you navigate to locahost:3000.
@@ -195,6 +210,10 @@ app.get('/todos', (req, res) => {
 });
 
 app.post('/todo/create', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawText = req.query.text;
   if (rawText == null) {
     missing(res, 'text');
@@ -382,6 +401,16 @@ app.listen(PORT, () => {
 });
 
 ///// Some helper functions /////
+
+function randomError(res) {
+  if (Math.random() * 100 <= ERROR_PCT) {
+    res
+      .status(400)
+      .send('A random error occurred. Adjust frequency of these in app.js.');
+    return true;
+  }
+  return false;
+}
 
 function unique(arr) {
   const set = new Set(arr);

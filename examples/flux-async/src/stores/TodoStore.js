@@ -37,6 +37,17 @@ class TodoStore extends ReduceStore<Action, State> {
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
+      case 'draft/create':
+        // Optimistically create the todo with the fakeID.
+        return state.set(
+          action.fakeID,
+          LoadObject.creating().setValue(new Todo({
+            id: action.fakeID,
+            text: action.value,
+            complete: false,
+          })),
+        );
+
       case 'todos/start-load':
         TodoDataManager.loadTodos(action.ids);
         return state.merge(action.ids.map(id => [id, LoadObject.loading()]));
@@ -52,6 +63,19 @@ class TodoStore extends ReduceStore<Action, State> {
           id,
           LoadObject.withError(action.error),
         ]));
+
+      case 'todo/created':
+        // Replace the optimistic todo with the real data.
+        return state
+          .delete(action.fakeID)
+          .set(action.todo.id, LoadObject.withValue(action.todo));
+
+      case 'todo/create-error':
+        // Clear the operation and save the error when there is one.
+        return state.update(
+          action.fakeID,
+          lo => lo.setError(action.error).done(),
+        );
 
       default:
         return state;

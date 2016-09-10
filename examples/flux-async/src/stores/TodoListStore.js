@@ -35,6 +35,9 @@ class TodoListStore extends ReduceStore<Action, State> {
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
+      case 'draft/create':
+        return state.map(list => list.push(action.fakeID));
+
       case 'ids/start-load':
         TodoDataManager.loadIDs();
         return state.setLoadObject(LoadObject.loading());
@@ -48,9 +51,15 @@ class TodoListStore extends ReduceStore<Action, State> {
         return state.setLoadObject(LoadObject.withError(action.error));
 
       case 'todo/created':
-        return state.setLoadObject(state.getLoadObject().map(
-          value => value.push(action.todo.id)
+        // This replaces the fake ID we added optimistically with the real id.
+        return state.map(list => list.map(
+          id => id === action.fakeID ? action.todo.id : id
         ));
+
+      case 'todo/create-error':
+        // We don't need to remove the id on an error. It will be updated to
+        // have an error and the user can explicitly remove it.
+        return state;
 
       default:
         return state;

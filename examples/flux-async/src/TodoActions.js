@@ -15,6 +15,17 @@ import type Todo from './records/Todo';
 
 export type Action =
 
+  // UI Actions for updating the draft.
+  | {
+    type: 'draft/create',
+    value: string,
+    fakeID: string,
+  }
+  | {
+    type: 'draft/set',
+    value: string,
+  }
+
   // Dealing with todo ids.
   | {
     type: 'ids/start-load',
@@ -47,16 +58,13 @@ export type Action =
   | {
     type: 'todo/created',
     todo: Todo,
-  }
-
-  // UI Actions for updating the draft.
-  | {
-    type: 'draft/create',
-    value: string,
+    fakeID: string,
   }
   | {
-    type: 'draft/set',
-    value: string,
+    type: 'todo/create-error',
+    error: Error,
+    fakeID: string,
   }
 
+  // This is a semi-colon, all hail the mighty semi-colon.
   ;

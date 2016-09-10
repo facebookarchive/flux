@@ -92,6 +92,10 @@ class LoadObjectMap<K, V> {
 
   ////////// A selection of mutation functions found on Immutable.Map //////////
 
+  delete(key: K): LoadObjectMap<K, V> {
+    return this._mutate(() => this._data.delete(key));
+  }
+
   set(key: K, lo: LoadObject<V>): LoadObjectMap<K, V> {
     return this._mutate(() => this._data.set(key, lo));
   }
@@ -102,6 +106,13 @@ class LoadObjectMap<K, V> {
 
   filter(fn: (lo: LoadObject<V>, key: K) => boolean): LoadObjectMap<K, V> {
     return this._mutate(() => this._data.filter(fn));
+  }
+
+  update(
+    key: K,
+    fn: (lo: LoadObject<V>) => LoadObject<V>,
+  ): LoadObjectMap<K, V> {
+    return this._mutate(() => this._data.update(key, fn));
   }
 
   _mutate(fn: () => Immutable.Map<K, LoadObject<V>>): LoadObjectMap<K, V> {

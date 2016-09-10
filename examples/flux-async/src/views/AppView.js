@@ -189,7 +189,9 @@ function TodoItem(props: TodoItemProps): ?React.Element<*> {
 
   if (!todo.hasValue()) {
     return (
-      <li>
+      <li className={classnames({
+        hasError: todo.hasError(),
+      })}>
         <div className="view">
           <label>Loading...</label>
         </div>
@@ -197,7 +199,9 @@ function TodoItem(props: TodoItemProps): ?React.Element<*> {
     );
   } else {
     return (
-      <li>
+      <li className={classnames({
+        hasError: todo.hasError(),
+      })}>
         <div className="view">
           <label>{todo.getValueEnforcing().text}</label>
         </div>

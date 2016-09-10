@@ -16,17 +16,22 @@ import TodoAPI from './TodoAPI';
 import TodoDispatcher from '../TodoDispatcher';
 
 const TodoDataManager = {
-  create(text: string) {
+  create(text: string, fakeID: string) {
     TodoAPI
       .post('/todo/create', {text})
       .then(rawTodo => {
         TodoDispatcher.dispatch({
           type: 'todo/created',
           todo: new Todo(rawTodo),
+          fakeID,
         });
       })
       .catch(error => {
-        throw error;
+        TodoDispatcher.dispatch({
+          type: 'todo/create-error',
+          error,
+          fakeID,
+        });
       });
   },
 

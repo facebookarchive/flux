@@ -13,6 +13,7 @@
 
 import AppView from '../views/AppView';
 import {Container} from 'flux/utils';
+import FakeID from '../utils/FakeID';
 import TodoDispatcher from '../TodoDispatcher';
 import TodoDraftStore from '../stores/TodoDraftStore';
 import TodoListStore from '../stores/TodoListStore';
@@ -38,10 +39,13 @@ function getState() {
 }
 
 function onDraftCreate(value: string) {
-  TodoDispatcher.dispatch({
-    type: 'draft/create',
-    value,
-  });
+  if (value && value.trim()) {
+    TodoDispatcher.dispatch({
+      type: 'draft/create',
+      fakeID: FakeID.next(),
+      value,
+    });
+  }
 }
 
 function onDraftSet(value: string) {

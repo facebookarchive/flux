@@ -13,9 +13,11 @@
 
 type LoadObjectOperation =
   | 'NONE'
+  | 'CREATING'
   | 'LOADING'
   | 'UPDATING'
-  | 'DELETING';
+  | 'DELETING'
+  ;
 
 /**
  * A secret key that is used to prevent direct construction of these objects,
@@ -213,6 +215,10 @@ class LoadObject<V> {
     return !this.hasOperation();
   }
 
+  isCreating(): boolean {
+    return this.getOperation() === 'CREATING';
+  }
+
   isLoading(): boolean {
     return this.getOperation() === 'LOADING';
   }
@@ -229,6 +235,10 @@ class LoadObject<V> {
 
   done(): LoadObject<V> {
     return this.removeOperation();
+  }
+
+  creating(): LoadObject<V> {
+    return this.setOperation('CREATING');
   }
 
   loading(): LoadObject<V> {
@@ -252,6 +262,16 @@ class LoadObject<V> {
       undefined,
       undefined,
       false,
+    );
+  }
+
+  static creating<V>(): LoadObject<V> {
+    return new LoadObject(
+      SECRET,
+      'CREATING',
+      undefined,
+      undefined,
+      false
     );
   }
 

@@ -58,6 +58,16 @@ class LoadObjectState<V> {
     next._data = lo;
     return next;
   }
+
+  map(fn: (value: V) => V): LoadObjectState<V> {
+    const lo = this.getLoadObject().map(fn);
+    if (lo === this._data) {
+      return this;
+    }
+    const next = new LoadObjectState(this._load, this._shouldLoad);
+    next._data = lo;
+    return next;
+  }
 }
 
 export default LoadObjectState;
