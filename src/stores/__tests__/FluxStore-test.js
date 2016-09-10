@@ -10,9 +10,8 @@
  * @typechecks
  */
 
-jest
-  .dontMock('FluxStore')
-  .dontMock('invariant'); // This shouldn't be necessary. Not sure why it is.
+jest.mock('fbemitter');
+jest.mock('Dispatcher');
 
 var FluxStore = require('FluxStore');
 var Dispatcher = require('Dispatcher');

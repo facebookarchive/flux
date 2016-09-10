@@ -10,11 +10,6 @@
  * @typechecks
  */
 
-jest
-  .dontMock('Dispatcher')
-  .dontMock('FluxStore')
-  .dontMock('FluxStoreGroup');
-
 var Dispatcher = require('Dispatcher');
 var FluxStore = require('FluxStore');
 var FluxStoreGroup = require('FluxStoreGroup');
