@@ -35,6 +35,47 @@ const TodoDataManager = {
       });
   },
 
+  deleteTodos(ids: Array<string>) {
+    TodoAPI
+      .post('/todos/delete', {ids})
+      .then(() => {
+        TodoDispatcher.dispatch({
+          type: 'todos/deleted',
+          ids,
+        });
+      })
+      .catch(error => {
+        TodoDispatcher.dispatch({
+          type: 'todos/delete-error',
+          error,
+          ids,
+        });
+      });
+  },
+
+  updateTodos(
+    ids: Array<string>,
+    texts: Array<string>,
+    completes: Array<boolean>,
+    originalTodos: Array<Todo>,
+  ) {
+    TodoAPI
+      .post('/todos/update', {ids, texts, completes})
+      .then(rawTodos => {
+        TodoDispatcher.dispatch({
+          type: 'todos/updated',
+          todos: rawTodos.map(rawTodo => new Todo(rawTodo)),
+        });
+      })
+      .catch(error => {
+        TodoDispatcher.dispatch({
+          type: 'todos/update-error',
+          originalTodos,
+          error,
+        });
+      });
+  },
+
   loadIDs() {
     TodoAPI
       .get('/ids')

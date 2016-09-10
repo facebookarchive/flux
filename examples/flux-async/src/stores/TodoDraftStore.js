@@ -30,8 +30,7 @@ class TodoDraftStore extends ReduceStore<Action, State> {
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
-      case 'draft/create':
-        TodoDataManager.create(state, action.fakeID);
+      case 'todo/start-create':
         return '';
 
       case 'draft/set':

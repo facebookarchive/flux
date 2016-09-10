@@ -78,12 +78,20 @@ class LoadObjectMap<K, V> {
     return Array.from(this._data.keys());
   }
 
+  getValues(): Array<LoadObject<V>> {
+    return Array.from(this._data.values());
+  }
+
   every(fn: (lo: LoadObject<V>, key: K) => boolean): boolean {
     return this._data.every(fn);
   }
 
   some(fn: (lo: LoadObject<V>, key: K) => boolean): boolean {
     return this._data.some(fn);
+  }
+
+  forEach(fn: (lo: LoadObject<V>, key: K) => any): void {
+    this._data.forEach(fn);
   }
 
   get size(): number {

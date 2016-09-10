@@ -259,12 +259,43 @@ label[for='toggle-all'] {
 	text-decoration: line-through;
 }
 
+#todo-list li .retry {
+	display: none;
+	position: absolute;
+	top: 0;
+	right: 50px;
+	bottom: 0;
+	width: 40px;
+	height: 40px;
+	margin: auto 0;
+	font-size: 22px;
+	color: #b4dfb5;
+	-webkit-transition: all 0.2s;
+	transition: all 0.2s;
+}
+
+#todo-list li .retry:hover {
+	text-shadow: 0 0 1px #ccc,
+				 0 0 10px rgba(180, 223, 181, 0.8);
+	-webkit-transform: scale(1.3);
+	-ms-transform: scale(1.3);
+	transform: scale(1.3);
+}
+
+#todo-list li .retry:after {
+	content: '↺';
+}
+
+#todo-list li:hover .retry {
+	display: inline-block;
+}
+
 #todo-list li .destroy {
 	display: none;
 	position: absolute;
 	top: 0;
 	right: 10px;
-	bottom: 0;
+	bottom: 2px;
 	width: 40px;
 	height: 40px;
 	margin: auto 0;
@@ -275,7 +306,7 @@ label[for='toggle-all'] {
 }
 
 #todo-list li .destroy:hover {
-	text-shadow: 0 0 1px #000,
+	text-shadow: 0 0 1px #333,
 				 0 0 10px rgba(199, 107, 107, 0.8);
 	-webkit-transform: scale(1.3);
 	-ms-transform: scale(1.3);
@@ -283,11 +314,11 @@ label[for='toggle-all'] {
 }
 
 #todo-list li .destroy:after {
-	content: '✖';
+	content: '×';
 }
 
 #todo-list li:hover .destroy {
-	display: block;
+	display: inline-block;
 }
 
 #todo-list li .edit {
@@ -380,6 +411,43 @@ label[for='toggle-all'] {
 
 #info a {
 	color: inherit;
+}
+
+.shimmer {
+	color: rgba(255, 255, 255, 0.1);
+
+	background: -webkit-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #999));
+  background: -moz-gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #999));
+  background: gradient(linear, left top, right top, from(#222), to(#222), color-stop(0.5, #999));
+
+	-webkit-background-size: 125px 100%;
+  -moz-background-size: 125px 100%;
+  background-size: 125px 100%;
+
+	-webkit-background-clip: text;
+  -moz-background-clip: text;
+  background-clip: text;
+
+	-webkit-animation-name: shimmer;
+  -moz-animation-name: shimmer;
+  animation-name: shimmer;
+
+	-webkit-animation-duration: 5s;
+  -moz-animation-duration: 5s;
+  animation-duration: 5s;
+
+	-webkit-animation-iteration-count: infinite;
+  -moz-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+	background-repeat: no-repeat
+	background-position: 0 0
+	background-color: #222
+}
+
+@keyframes shimmer {
+	0% { background-position: top left; }
+	100% { background-position: top right; }
 }
 
 /*

@@ -17,6 +17,7 @@ import type LoadObjectMap from '../load_object/LoadObjectMap';
 import type LoadObjectState from '../load_object/LoadObjectState';
 import type Todo from '../records/Todo';
 
+import FakeID from '../utils/FakeID';
 import React from 'react';
 
 import classnames from 'classnames';
@@ -26,8 +27,11 @@ type AppViewProps = {
   ids: LoadObjectState<Immutable.List<string>>,
   todos: LoadObjectMap<string, Todo>,
 
+  onDelete: (ids: Array<string>) => void,
   onDraftCreate: (value: string) => void,
   onDraftSet: (value: string) => void,
+  onRetry: (todo: Todo) => void,
+  onUpdateTodos: (todos: Array<Todo>) => void,
 };
 
 function AppView(props: AppViewProps): ?React.Element<*> {
@@ -59,10 +63,21 @@ function Header(props: HeaderProps): ?React.Element<*> {
 type MainProps = {
   ids: LoadObjectState<Immutable.List<string>>,
   todos: LoadObjectMap<string, Todo>,
+
+  onDelete: (ids: Array<string>) => void,
+  onRetry: (todo: Todo) => void,
+  onUpdateTodos: (todos: Array<Todo>) => void,
 };
 
 function Main(props: MainProps): ?React.Element<*> {
-  const {ids, todos} = props;
+  const {
+    ids,
+    todos,
+    onDelete,
+    onRetry,
+    onUpdateTodos,
+  } = props;
+
   if (!ids.getLoadObject().hasValue()) {
     return null;
   }
@@ -73,17 +88,29 @@ function Main(props: MainProps): ?React.Element<*> {
   }
 
   const areAllComplete = list.every(id => {
-    const todo = todos.get(id);
-    return !todo.hasValue() || todo.getValueEnforcing().complete;
+    const todoLo = todos.get(id);
+    return !todoLo.hasValue() || todoLo.getValueEnforcing().complete;
   });
+
+  const onToggleAll = () => {
+    const toUpdate = todos
+      .filter(lo => lo.hasValue() && lo.isDone())
+      .getValues()
+      .map(lo => lo.getValueEnforcing())
+      .filter(todo => areAllComplete ? todo.complete : !todo.complete)
+      .map(todo => todo.set('complete', !todo.complete));
+    onUpdateTodos(toUpdate);
+  };
 
   const listItems = [];
   list.forEach((id, i) => {
     listItems.push(
       <TodoItem
         key={id}
-        todo={todos.get(id)}
-        todoBeingEdited={null}
+        todoLo={todos.get(id)}
+        onDelete={onDelete}
+        onRetry={onRetry}
+        onUpdateTodos={onUpdateTodos}
       />
     );
   });
@@ -94,7 +121,7 @@ function Main(props: MainProps): ?React.Element<*> {
         checked={areAllComplete ? 'checked' : ''}
         id="toggle-all"
         type="checkbox"
-        onChange={() => {}}
+        onChange={onToggleAll}
       />
       <label htmlFor="toggle-all">
         Mark all as complete
@@ -107,27 +134,34 @@ function Main(props: MainProps): ?React.Element<*> {
 }
 
 type FooterProps = {
+  todos: LoadObjectMap<string, Todo>,
 
+  onDelete: (ids: Array<string>) => void,
 };
 
 function Footer(props: FooterProps): ?React.Element<*> {
-  return null;
+  const todos = props.todos
+    .filter(lo => lo.hasValue())
+    .getValues()
+    .map(lo => lo.getValueEnforcing());
 
-  /*
-  if (props.todos.size === 0) {
+  if (todos.length === 0) {
     return null;
   }
 
-  const remaining = props.todos.filter(todo => !todo.complete).size;
-  const completed = props.todos.size - remaining;
+  const remaining = todos.filter(todo => !todo.complete).length;
+  const completed = todos.length - remaining;
   const phrase = remaining === 1 ? ' item left' : ' items left';
 
   let clearCompletedButton = null;
   if (completed > 0) {
+    const completedIDs = todos
+      .filter(todo => todo.complete)
+      .map(todo => todo.id);
     clearCompletedButton =
       <button
         id="clear-completed"
-        onClick={props.onDeleteCompletedTodos}>
+        onClick={() => props.onDelete(completedIDs)}>
         Clear completed ({completed})
       </button>
   }
@@ -143,7 +177,6 @@ function Footer(props: FooterProps): ?React.Element<*> {
       {clearCompletedButton}
     </footer>
   );
-  */
 }
 
 type NewTodoProps = {
@@ -177,87 +210,71 @@ function NewTodo(props: NewTodoProps): ?React.Element<*> {
 }
 
 type TodoItemProps = {
-  todo: LoadObject<Todo>,
-  todoBeingEdited: ?string,
+  todoLo: LoadObject<Todo>,
+
+  onDelete: (ids: Array<string>) => void,
+  onRetry: (todo: Todo) => void,
+  onUpdateTodos: (todos: Array<Todo>) => void,
 };
 
 function TodoItem(props: TodoItemProps): ?React.Element<*> {
   const {
-    todo,
-    todoBeingEdited,
+    todoLo,
+    onDelete,
+    onRetry,
+    onUpdateTodos,
   } = props;
 
-  if (!todo.hasValue()) {
+  if (!todoLo.hasValue()) {
     return (
       <li className={classnames({
-        hasError: todo.hasError(),
+        hasError: todoLo.hasError(),
+        shimmer: todoLo.hasOperation(),
       })}>
         <div className="view">
           <label>Loading...</label>
         </div>
       </li>
     );
-  } else {
-    return (
-      <li className={classnames({
-        hasError: todo.hasError(),
-      })}>
-        <div className="view">
-          <label>{todo.getValueEnforcing().text}</label>
-        </div>
-      </li>
+  }
+
+  const todo = todoLo.getValueEnforcing();
+
+  let boundOnToggle = () => {};
+  let buttons = null;
+  if (todoLo.isDone()) {
+    // Can only toggle real todos.
+    if (!FakeID.isFake(todo.id)) {
+      boundOnToggle = () => onUpdateTodos([todo.set(
+        'complete',
+        !todo.complete,
+      )]);
+    }
+    buttons = (
+      <div className="todo-buttons">
+        <button className="retry" onClick={() => onRetry(todo)} />
+        <button className="destroy" onClick={() => onDelete([todo.id])} />
+      </div>
     );
   }
 
-  /*
-  const isEditing = editing === todo.id;
-  const onDeleteTodo = () => props.onDeleteTodo(todo.id);
-  const onStartEditingTodo = () => props.onStartEditingTodo(todo.id);
-  const onToggleTodo = () => props.onToggleTodo(todo.id);
-
-  // Construct the input for editing a task if necessary.
-  let input = null;
-  if (isEditing) {
-    const onChange = (event) => props.onEditTodo(todo.id, event.target.value);
-    const onStopEditingTodo = props.onStopEditingTodo;
-    const onKeyDown = (event) => {
-      if (event.keyCode === ENTER_KEY_CODE) {
-        onStopEditingTodo();
-      }
-    };
-    input =
-      <input
-        autoFocus={true}
-        className="edit"
-        value={todo.text}
-        onBlur={onStopEditingTodo}
-        onChange={onChange}
-        onKeyDown={onKeyDown}
-      />;
-  }
-
   return (
-    <li
-      className={classnames({
-        completed: todo.complete,
-        editing: isEditing,
-      })}>
+    <li className={classnames({
+      hasError: todoLo.hasError(),
+      shimmer: todoLo.hasOperation(),
+    })}>
       <div className="view">
         <input
           className="toggle"
           type="checkbox"
           checked={todo.complete}
-          onChange={onToggleTodo}
+          onChange={boundOnToggle}
         />
-        <label onDoubleClick={onStartEditingTodo}>
-          {todo.text}
-        </label>
-        <button className="destroy" onClick={onDeleteTodo} />
+        <label>{todo.text}</label>
+        {buttons}
       </div>
-      {input}
     </li>
   );
-  */
 }
 
 export default AppView;

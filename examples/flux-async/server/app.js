@@ -15,7 +15,7 @@ const path = require('path');
 
 // We simulate an error a percentage of the time, this helps show how our app
 // is robust to network errors.
-const ERROR_PCT = 30.0;
+const ERROR_PCT = 25.0;
 
 // The port is hard coded in the client too. If you change it make sure to
 // update it there as well.
@@ -41,17 +41,6 @@ app.use((req, res, next) => {
   }
   next();
 });
-
-// Ideally we would uncomment this, for now we only use random error in
-// particular endpoints.
-/*
-app.use((req, res, next) => {
-  if (randomError(res)) {
-    return;
-  }
-  next();
-});
-*/
 
 /**
  * Set up some help when you navigate to locahost:3000.
@@ -234,7 +223,11 @@ app.post('/todo/create', (req, res) => {
   res.status(200).send(newTodo);
 });
 
-app.post('todos/create', (req, res) => {
+app.post('/todos/create', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawTexts = req.query.texts;
   if (rawTexts == null) {
     missing(res, 'texts');
@@ -260,7 +253,11 @@ app.post('todos/create', (req, res) => {
   res.status(200).send(newTodos);
 });
 
-app.post('todo/update', (req, res) => {
+app.post('/todo/update', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawID = req.query.id;
   if (rawID == null) {
     missing(res, 'id');
@@ -295,7 +292,11 @@ app.post('todo/update', (req, res) => {
   res.status(200).send(todos[id]);
 });
 
-app.post('todos/update', (req, res) => {
+app.post('/todos/update', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawIDs = req.query.ids;
   const rawTexts = req.query.texts;
   const rawCompletes = req.query.completes;
@@ -317,7 +318,7 @@ app.post('todos/update', (req, res) => {
     return;
   }
   const texts = JSON.parse(rawTexts);
-  const completes = JSON.prase(rawCompletes);
+  const completes = JSON.parse(rawCompletes);
   if (ids.length !== texts.length) {
     res.status(400).send("The number of ids does not match number of texts.");
     return;
@@ -348,7 +349,11 @@ app.post('todos/update', (req, res) => {
   res.status(200).send(results);
 });
 
-app.post('todo/delete', (req, res) => {
+app.post('/todo/delete', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawID = req.query.id;
   if (rawID == null) {
     missing(res, 'id');
@@ -367,7 +372,11 @@ app.post('todo/delete', (req, res) => {
   res.status(200).send();
 });
 
-app.post('todos/delete', (req, res) => {
+app.post('/todos/delete', (req, res) => {
+  if (randomError(res)) {
+    return;
+  }
+
   const rawIDs = req.query.ids;
   if (rawIDs == null) {
     missing(res, 'ids');
@@ -381,7 +390,7 @@ app.post('todos/delete', (req, res) => {
   }
 
   const todos = getTodos();
-  for (const id of ids) {
+  for (let id of ids) {
     if (todos[id] == null) {
       missingID(res, id);
       return;

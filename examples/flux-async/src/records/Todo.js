@@ -23,6 +23,10 @@ declare class Todo {
     complete: boolean;
     text: string;
   }): void;
+
+  set(key: 'id', value: string): Todo;
+  set(key: 'complete', value: boolean): Todo;
+  set(key: 'text', value: string): Todo;
 }
 
 // $FlowExpectedError: Intentional rebinding for flow.

@@ -13,6 +13,7 @@
 
 import type {Action} from '../TodoActions';
 
+import FakeID from '../utils/FakeID';
 import Immutable from 'immutable';
 import LoadObject from '../load_object/LoadObject';
 import LoadObjectState from '../load_object/LoadObjectState';
@@ -35,8 +36,8 @@ class TodoListStore extends ReduceStore<Action, State> {
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
-      case 'draft/create':
-        return state.map(list => list.push(action.fakeID));
+
+      ///// Loading /////
 
       case 'ids/start-load':
         TodoDataManager.loadIDs();
@@ -50,6 +51,13 @@ class TodoListStore extends ReduceStore<Action, State> {
       case 'ids/load-error':
         return state.setLoadObject(LoadObject.withError(action.error));
 
+      ///// Creating /////
+
+      case 'todo/start-create':
+        return state.map(
+          list => list.contains(action.fakeID) ? list : list.push(action.fakeID)
+        );
+
       case 'todo/created':
         // This replaces the fake ID we added optimistically with the real id.
         return state.map(list => list.map(
@@ -59,6 +67,23 @@ class TodoListStore extends ReduceStore<Action, State> {
       case 'todo/create-error':
         // We don't need to remove the id on an error. It will be updated to
         // have an error and the user can explicitly remove it.
+        return state;
+
+      ///// Deleting /////
+
+      case 'todos/start-delete':
+        // Optimistically remove any fake ids.
+        const fakeIDs = action.ids.filter(id => FakeID.isFake(id));
+        const fakeIDSet = new Set(fakeIDs);
+        return state.map(list => list.filter(id => !fakeIDSet.has(id)));
+
+      case 'todos/deleted':
+        const idSet = new Set(action.ids);
+        return state.map(list => list.filter(id => !idSet.has(id)));
+
+      case 'todo/delete-error':
+        // No need to remove any ids when the delete fails, user will have to
+        // retry in order to delete the items.
         return state;
 
       default:

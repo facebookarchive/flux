@@ -17,11 +17,6 @@ export type Action =
 
   // UI Actions for updating the draft.
   | {
-    type: 'draft/create',
-    value: string,
-    fakeID: string,
-  }
-  | {
     type: 'draft/set',
     value: string,
   }
@@ -39,6 +34,38 @@ export type Action =
     error: Error,
   }
 
+  // Creating todos.
+  | {
+    type: 'todo/start-create',
+    value: string,
+    fakeID: string,
+  }
+  | {
+    type: 'todo/created',
+    todo: Todo,
+    fakeID: string,
+  }
+  | {
+    type: 'todo/create-error',
+    error: Error,
+    fakeID: string,
+  }
+
+  // Deleting todos.
+  | {
+    type: 'todos/start-delete',
+    ids: Array<string>,
+  }
+  | {
+    type: 'todos/deleted',
+    ids: Array<string>,
+  }
+  | {
+    type: 'todos/delete-error',
+    error: Error,
+    ids: Array<string>,
+  }
+
   // Reading todos.
   | {
     type: 'todos/start-load',
@@ -54,16 +81,21 @@ export type Action =
     error: Error,
   }
 
-  // Creating todos.
+  // Updating todos.
   | {
-    type: 'todo/created',
-    todo: Todo,
-    fakeID: string,
+    type: 'todos/start-update',
+    ids: Array<string>,
+    texts: Array<string>,
+    completes: Array<boolean>,
   }
   | {
-    type: 'todo/create-error',
+    type: 'todos/updated',
+    todos: Array<Todo>,
+  }
+  | {
+    type: 'todos/update-error',
+    originalTodos: Array<Todo>,
     error: Error,
-    fakeID: string,
   }
 
   // This is a semi-colon, all hail the mighty semi-colon.
