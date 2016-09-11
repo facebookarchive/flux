@@ -21,12 +21,6 @@ checking tool that will help catch errors in your code statically. It
 complements Flux well since it supports refining the action based on a
 type string.
 
-## [./flux-async](./flux-async) - Flux with async requests
-
-So far we've only dealt with synchronous actions, but what if we need to make
-an API call to access data from our server? This example will create a real
-server and demonstrate how to access that data from a Flux store.
-
 ## [./flux-logging](./flux-logging) - Add logging to Flux apps
 
 Taking advantage of the fact that a store gets every action makes it easy to
@@ -38,3 +32,11 @@ a logger store to the TodoMVC app we created in an earlier example.
 Testing the container logic that connects stores to views can be tricky. This
 example shows you how to create some utilities to help mock out store data in
 order to write these kinds of tests effectively.
+
+## [./flux-async](./flux-async) - Flux with async requests
+
+This is an advanced example. It pulls a lot of the concepts from previous
+examples into a single application. This implements TodoMVC where the data
+is persisted and requested through a simple server. The server simulates
+delays and errors. In the example we will handle things like optimistic
+updates, loading states, and failing API requests.
