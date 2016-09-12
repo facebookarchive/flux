@@ -2,7 +2,12 @@
 
 This directory contains examples that should help get you started with Flux.
 
-## [./flux-todomvc](./flux-todomvc) - Start here
+## [./flux-concepts](./flux-concepts) - Basic concepts (no code)
+
+These are the important high-level concepts and principles you should know
+about when writing applications that use Flux.
+
+## [./flux-todomvc](./flux-todomvc) - Start coding here
 
 This example is where you should start. It walks you through creating the
 classic [TodoMVC](http://todomvc.com/) application using a simple Flux
