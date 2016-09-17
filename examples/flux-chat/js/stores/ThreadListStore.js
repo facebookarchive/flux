@@ -10,11 +10,11 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Dispatcher from '../core/AppDispatcher';
+import Dispatcher from '../ChatAppDispatcher';
 import { ReduceStore } from 'flux/utils';
 import { Map, List } from 'immutable';
-import ActionTypes from './ThreadActionTypes';
-import MessageActionTypes from '../message/MessageActionTypes';
+import ActionTypes from '../actions/ThreadActionTypes';
+import MessageActionTypes from '../actions/MessageActionTypes';
 
 class ThreadListStore extends ReduceStore {
   getInitialState() {

@@ -12,10 +12,10 @@
 
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
-import ThreadList from './ThreadList.react';
-import ThreadListStore from './ThreadListStore';
-import ActiveThreadStore from './ActiveThreadStore';
-import { selectThread } from './ThreadActions';
+import ThreadList from '../components/ThreadList.react';
+import ThreadListStore from '../stores/ThreadListStore';
+import ActiveThreadStore from '../stores/ActiveThreadStore';
+import { selectThread } from '../actions/ThreadActions';
 
 class ThreadSection extends Component {
   static getStores() {

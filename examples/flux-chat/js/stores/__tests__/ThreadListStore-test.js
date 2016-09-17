@@ -13,9 +13,9 @@
 jest.disableAutomock();
 
 import ThreadListStore from '../ThreadListStore';
-import ActionTypes from '../ThreadActionTypes';
-import MessageActionTypes from '../../message/MessageActionTypes';
-import Thread from '../ThreadRecord';
+import ActionTypes from '../../actions/ThreadActionTypes';
+import MessageActionTypes from '../../actions/MessageActionTypes';
+import Thread from '../../records/ThreadRecord';
 import { Map, Record } from 'immutable';
 
 describe('ThreadListStore', () => {

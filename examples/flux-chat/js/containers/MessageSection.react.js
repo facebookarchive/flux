@@ -12,11 +12,11 @@
 
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
-import MessageList from './MessageList.react';
+import MessageList from '../components/MessageList.react';
 import MessageComposer from './MessageComposer.react';
-import ActiveThreadStore from '../thread/ActiveThreadStore';
-import ThreadListStore from '../thread/ThreadListStore';
-import MessageListStore from './MessageListStore';
+import ActiveThreadStore from '../stores/ActiveThreadStore';
+import ThreadListStore from '../stores/ThreadListStore';
+import MessageListStore from '../stores/MessageListStore';
 
 class MessageSection extends Component {
   static getStores() {

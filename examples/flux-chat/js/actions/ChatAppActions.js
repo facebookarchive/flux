@@ -10,20 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Dispatcher from '../core/AppDispatcher';
-import ActionTypes from './ThreadActionTypes';
-import Thread from './ThreadRecord';
+import Dispatcher from '../ChatAppDispatcher';
+import { List } from 'immutable';
+import { loadMessages } from './MessageActions';
+import { loadThreads } from './ThreadActions';
 
-export function selectThread(thread) {
-  Dispatcher.dispatch({
-    type: ActionTypes.THREAD_SELECTED,
-    thread
-  });
-}
-
-export function loadThreads(threads) {
-  Dispatcher.dispatch({
-    type: ActionTypes.THREADS_LOADED,
-    threads: threads.map(data => new Thread(data))
-  });
+export function loadChatData(chatAppData) {
+  loadMessages(new List(chatAppData.messages));
+  loadThreads(new List(chatAppData.threads));
 }

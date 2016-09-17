@@ -10,15 +10,20 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import React from 'react';
-import ThreadSection from '../thread/ThreadSection.react';
-import MessageSection from '../message/MessageSection.react';
+import Dispatcher from '../ChatAppDispatcher';
+import ActionTypes from './ThreadActionTypes';
+import Thread from '../records/ThreadRecord';
 
-export default function ChatApp() {
-  return (
-    <article className="chatapp">
-      <ThreadSection />
-      <MessageSection />
-    </article>
-  );
+export function selectThread(thread) {
+  Dispatcher.dispatch({
+    type: ActionTypes.THREAD_SELECTED,
+    thread
+  });
+}
+
+export function loadThreads(threads) {
+  Dispatcher.dispatch({
+    type: ActionTypes.THREADS_LOADED,
+    threads: threads.map(data => new Thread(data))
+  });
 }

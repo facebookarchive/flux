@@ -10,9 +10,9 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Dispatcher from '../core/AppDispatcher';
+import Dispatcher from '../ChatAppDispatcher';
 import ActionTypes from './MessageActionTypes';
-import Message from './MessageRecord';
+import Message from '../records/MessageRecord';
 
 export function createMessage(text, threadId, authorName) {
   // Please don't do this in your projects.

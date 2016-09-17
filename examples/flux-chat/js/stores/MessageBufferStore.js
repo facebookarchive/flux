@@ -10,35 +10,32 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import Dispatcher from '../core/AppDispatcher';
+import Dispatcher from '../ChatAppDispatcher';
 import { ReduceStore } from 'flux/utils';
 import { Map } from 'immutable';
-import ActionTypes from './ThreadActionTypes';
+import ActionTypes from '../actions/MessageActionTypes';
 
-class ActiveThreadStore extends ReduceStore {
+class MessageBufferStore extends ReduceStore {
   getInitialState() {
-    return new Map({
-      threadId: null
-    });
+    return new Map();
   }
 
-  getThreadId() {
-    return this.getState().get('threadId');
+  getBufferByThread(id) {
+    return this.getState().get(id);
   }
 
-  reduce(state, action) {
+  reduce(buffers, action) {
     switch (action.type) {
-    case ActionTypes.THREAD_SELECTED:
-      return state.set('threadId', action.thread.id);
+    case ActionTypes.MESSAGE_BUFFER_UPDATED:
+      return buffers.set(action.threadId, action.text);
 
-    case ActionTypes.THREADS_LOADED:
-      const thread = action.threads.first();
-      return thread ? state.set('threadId', thread.id) : state;
+    case ActionTypes.MESSAGE_CREATED:
+      return buffers.set(action.message.threadId, '');
 
     default:
-      return state;
+      return buffers;
     }
   }
 }
 
-export default new ActiveThreadStore(Dispatcher);
+export default new MessageBufferStore(Dispatcher);

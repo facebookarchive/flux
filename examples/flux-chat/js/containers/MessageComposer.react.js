@@ -12,9 +12,9 @@
 
 import React, { Component } from 'react';
 import { Container } from 'flux/utils';
-import ActiveThreadStore from '../thread/ActiveThreadStore';
-import MessageBufferStore from './MessageBufferStore';
-import { createMessage, updateMessageBuffer } from './MessageActions';
+import ActiveThreadStore from '../stores/ActiveThreadStore';
+import MessageBufferStore from '../stores/MessageBufferStore';
+import { createMessage, updateMessageBuffer } from '../actions/MessageActions';
 
 const ENTER_KEY_CODE = 13;
 

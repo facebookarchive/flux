@@ -10,19 +10,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-jest.disableAutomock();
+import React from 'react';
+import ThreadSection from '../containers/ThreadSection.react';
+import MessageSection from '../containers/MessageSection.react';
 
-import MessageBufferStore from '../MessageBufferStore';
-import ActionTypes from '../MessageActionTypes';
-import { Map } from 'immutable';
-
-describe('MessageBufferStore', () => {
-  it('should clear the buffer when new message is created', () => {
-    const initialState = new Map({ t1: 'hello' });
-    const action = { type: ActionTypes.MESSAGE_CREATED, message: { threadId: 't1' } };
-
-    const newState = MessageBufferStore.reduce(initialState, action);
-
-    expect(newState.toJS()).toEqual({ t1: '' });
-  });
-});
+export default function ChatApp() {
+  return (
+    <article className="chatapp">
+      <ThreadSection />
+      <MessageSection />
+    </article>
+  );
+}

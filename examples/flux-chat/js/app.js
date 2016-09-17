@@ -12,9 +12,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import ChatApp from './core/ChatApp.react';
-import { loadChatData } from './core/ChatAppActions';
-import chatAppData from './core/ChatAppData';
+import ChatApp from './components/ChatApp.react';
+import { loadChatData } from './actions/ChatAppActions';
+import chatAppData from './actions/ChatAppData';
 
 const rootEl = document.querySelector('main');
 const mainEl = React.createElement(ChatApp);
