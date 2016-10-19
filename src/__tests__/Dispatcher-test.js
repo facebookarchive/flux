@@ -181,28 +181,4 @@ describe('Dispatcher', () => {
 
     expect(callbackB.mock.calls.length).toBe(1);
   });
-
-  it('should throw if register() while dispatching', () => {
-    dispatcher.register((payload) => {
-      dispatcher.register(callbackB);
-      callbackA();
-    });
-
-    var payload = {};
-    expect(() => dispatcher.dispatch(payload)).toThrow();
-    expect(callbackA.mock.calls.length).toBe(0);
-  });
-
-  it('should throw if unregister() while dispatching', () => {
-    var tokenA = dispatcher.register(callbackA);
-    dispatcher.register((payload) => {
-      dispatcher.unregister(tokenA);
-      callbackB();
-    });
-
-    var payload = {};
-    expect(() => dispatcher.dispatch(payload)).toThrow();
-    expect(callbackA.mock.calls.length).toBe(1);
-    expect(callbackB.mock.calls.length).toBe(0);
-  });
 });

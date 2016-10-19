@@ -1,5 +1,10 @@
 # Changelog
 
+### 3.1.0
+
+* `Dispatcher`: Methods `register` and `unregister` can once again be called in
+ the middle of a dispatch.
+
 ### 3.0.0
 
 * `FluxMapStore`: Removed. It added very little value over `FluxReduceStore`.
