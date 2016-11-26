@@ -30,7 +30,8 @@ var ThreadListItem = React.createClass({
       <li
         className={classNames({
           'thread-list-item': true,
-          'active': thread.id === this.props.currentThreadID
+          'active': thread.id === this.props.currentThreadID,
+          'unread': !(thread.lastMessage.isRead)
         })}
         onClick={this._onClick}>
         <h5 className="thread-name">{thread.name}</h5>

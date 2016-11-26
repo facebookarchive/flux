@@ -10,6 +10,18 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
+@-webkit-keyframes myanim {
+  0%   { opacity: 0.0; }
+  50%  { opacity: 1.0; }
+  100% { opacity: 0.0; }
+}
+
+@keyframes myanim {
+  0%   { opacity: 0.0; }
+  50%  { opacity: 1.0; }
+  100% { opacity: 0.0; }
+}
+
 .chatapp {
   font-family: 'Muli', 'Helvetica Neue', helvetica, arial;
   max-width: 760px;
@@ -65,6 +77,12 @@
 .thread-list:hover .thread-list-item.active:hover {
   background-color: #efefff;
   cursor: default;
+}
+
+.thread-list-item.unread .thread-name::after {
+  content: ' •';
+  -webkit-animation: myanim 1s infinite;
+          animation: myanim 1s infinite;
 }
 
 .message-author-name,
