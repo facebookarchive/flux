@@ -10,8 +10,8 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var MessageSection = require('./MessageSection.react');
 var React = require('react');
+var MessageSection = require('./MessageSection.react');
 var ThreadSection = require('./ThreadSection.react');
 
 var ChatApp = React.createClass({
