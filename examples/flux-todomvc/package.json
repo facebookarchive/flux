@@ -17,7 +17,7 @@
     "jest-cli": "^0.4.3",
     "reactify": "^0.15.2",
     "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d js/app.js",
