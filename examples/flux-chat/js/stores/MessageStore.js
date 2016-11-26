@@ -76,14 +76,7 @@ var MessageStore = assign({}, EventEmitter.prototype, {
         threadMessages.push(_messages[id]);
       }
     }
-    threadMessages.sort(function(a, b) {
-      if (a.date < b.date) {
-        return -1;
-      } else if (a.date > b.date) {
-        return 1;
-      }
-      return 0;
-    });
+    threadMessages.sort(function(a, b) {return a.date - b.date;});
     return threadMessages;
   },
 
