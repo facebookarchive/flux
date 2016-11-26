@@ -1,23 +1,23 @@
 {
   "name": "flux-chat",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Example Flux chat application primarily intended to explain the use of Dispatcher.waitFor().",
   "repository": "https://github.com/facebook/flux",
   "main": "js/app.js",
   "dependencies": {
-    "classnames": "^2.1.3",
-    "flux": "^2.0.0",
-    "keymirror": "~0.1.0",
-    "object-assign": "^1.0.0",
-    "react": "^0.12.0"
+    "classnames": "^2.2.3",
+    "flux": "^2.1.1",
+    "keymirror": "~0.1.1",
+    "object-assign": "^4.0.1",
+    "react": "^0.14.6"
   },
   "devDependencies": {
-    "browserify": "^6.2.0",
-    "envify": "^3.0.0",
-    "jest-cli": "^0.4.3",
-    "reactify": "^0.15.2",
-    "uglify-js": "~2.4.15",
-    "watchify": "^2.1.1"
+    "browserify": "^13.0.0",
+    "envify": "^3.4.0",
+    "jest-cli": "^0.8.1",
+    "reactify": "^1.1.1",
+    "uglify-js": "~2.6.1",
+    "watchify": "^3.7.0"
   },
   "scripts": {
     "start": "watchify -o js/bundle.js -v -d js/app.js",

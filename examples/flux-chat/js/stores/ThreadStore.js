@@ -106,6 +106,16 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
 
   switch(action.type) {
 
+    case ActionTypes.CREATE_MESSAGE:
+      var threadID = action.currentThreadID;
+      var MessageStore = require('./MessageStore');
+      ChatAppDispatcher.waitFor([MessageStore.dispatchToken]);
+      var messages = MessageStore.getAllForThread(threadID);
+      var mostRecentMessage = messages[messages.length - 1];
+      _threads[threadID].lastMessage = mostRecentMessage;
+      ThreadStore.emitChange();
+      break;
+
     case ActionTypes.CLICK_THREAD:
       _currentID = action.threadID;
       _threads[_currentID].lastMessage.isRead = true;
