@@ -22,6 +22,7 @@ var TodoActions = {
       actionType: TodoConstants.TODO_CREATE,
       text: text
     });
+    console.log(TodoConstants.TODO_CREATE);
   },
 
   /**
@@ -34,6 +35,7 @@ var TodoActions = {
       id: id,
       text: text
     });
+    console.log(TodoConstants.TODO_UPDATE_TEXT);
   },
 
   /**
@@ -50,6 +52,7 @@ var TodoActions = {
       actionType: actionType,
       id: id
     });
+    console.log(actionType);
   },
 
   /**
@@ -59,6 +62,7 @@ var TodoActions = {
     AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_TOGGLE_COMPLETE_ALL
     });
+    console.log(TodoConstants.TODO_TOGGLE_COMPLETE_ALL);
   },
 
   /**
@@ -69,6 +73,7 @@ var TodoActions = {
       actionType: TodoConstants.TODO_DESTROY,
       id: id
     });
+    console.log(TodoConstants.TODO_DESTROY);
   },
 
   /**
@@ -78,6 +83,7 @@ var TodoActions = {
     AppDispatcher.dispatch({
       actionType: TodoConstants.TODO_DESTROY_COMPLETED
     });
+    console.log(TodoConstants.TODO_DESTROY_COMPLETED);
   }
 
 };
