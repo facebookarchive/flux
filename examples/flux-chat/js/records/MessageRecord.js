@@ -10,18 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+import { Record } from 'immutable';
 
-var ActionTypes = ChatConstants.ActionTypes;
+const shape = { id: '', threadId: '', authorName: '', timestamp: '', text: '' };
 
-module.exports = {
-
-  clickThread: function(threadID) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.CLICK_THREAD,
-      threadID: threadID
-    });
+export default class Message extends Record(shape) {
+  get timestamp() {
+    return new Date(this.get('timestamp'));
   }
-
-};
+}

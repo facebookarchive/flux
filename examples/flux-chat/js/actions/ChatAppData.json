@@ -1,0 +1,16 @@
+{
+  "threads": [
+    { "id": "t1", "name": "Jing and Bill", "timestamp": "2016/05/14 13:48:05", "lastMessage": "Sounds good.  Will they be serving dessert?", "isRead": true },
+    { "id": "t2", "name": "Dave and Bill", "timestamp": "2016/06/01 10:20:50", "lastMessage": "Totally!  Meet you at the hotel bar.", "isRead": false },
+    { "id": "t3", "name": "Bill and Brian", "timestamp": "2016/06/02 17:12:00", "lastMessage": "At ForwardJS?  Yeah, of course.  See you there!", "isRead": false }
+  ],
+  "messages": [
+    { "id": "m1", "threadId": "t1", "authorName": "Bill", "timestamp": "2016/05/14 13:46:00", "text": "Hey Jing, want to give a Flux talk at ForwardJS?" },
+    { "id": "m2", "threadId": "t1", "authorName": "Bill", "timestamp": "2016/05/14 13:46:10", "text": "Seems like a pretty cool conference." },
+    { "id": "m3", "threadId": "t1", "authorName": "Jing", "timestamp": "2016/05/14 13:48:05", "text": "Sounds good.  Will they be serving dessert?" },
+    { "id": "m4", "threadId": "t2", "authorName": "Bill", "timestamp": "2016/06/01 10:03:45", "text": "Hey Dave, want to get a beer after the conference?" },
+    { "id": "m5", "threadId": "t2", "authorName": "Dave", "timestamp": "2016/06/01 10:20:50", "text": "Totally!  Meet you at the hotel bar." },
+    { "id": "m6", "threadId": "t3", "authorName": "Bill", "timestamp": "2016/06/02 16:54:50", "text": "Hey Brian, are you going to be talking about functional stuff?" },
+    { "id": "m7", "threadId": "t3", "authorName": "Brian", "timestamp": "2016/06/02 17:12:00", "text": "At ForwardJS?  Yeah, of course.  See you there!" }
+  ]
+}

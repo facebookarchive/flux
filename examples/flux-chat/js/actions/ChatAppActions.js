@@ -10,25 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var ChatAppDispatcher = require('../dispatcher/ChatAppDispatcher');
-var ChatConstants = require('../constants/ChatConstants');
+import Dispatcher from '../ChatAppDispatcher';
+import { List } from 'immutable';
+import { loadMessages } from './MessageActions';
+import { loadThreads } from './ThreadActions';
 
-var ActionTypes = ChatConstants.ActionTypes;
-
-module.exports = {
-
-  receiveAll: function(rawMessages) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_MESSAGES,
-      rawMessages: rawMessages
-    });
-  },
-
-  receiveCreatedMessage: function(createdMessage) {
-    ChatAppDispatcher.dispatch({
-      type: ActionTypes.RECEIVE_RAW_CREATED_MESSAGE,
-      rawMessage: createdMessage
-    });
-  }
-
-};
+export function loadChatData(chatAppData) {
+  loadMessages(new List(chatAppData.messages));
+  loadThreads(new List(chatAppData.threads));
+}

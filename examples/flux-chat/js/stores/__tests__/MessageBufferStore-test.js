@@ -10,6 +10,19 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var Dispatcher = require('flux').Dispatcher;
+jest.disableAutomock();
 
-module.exports = new Dispatcher();
+import MessageBufferStore from '../MessageBufferStore';
+import ActionTypes from '../../actions/MessageActionTypes';
+import { Map } from 'immutable';
+
+describe('MessageBufferStore', () => {
+  it('should clear the buffer when new message is created', () => {
+    const initialState = new Map({ t1: 'hello' });
+    const action = { type: ActionTypes.MESSAGE_CREATED, message: { threadId: 't1' } };
+
+    const newState = MessageBufferStore.reduce(initialState, action);
+
+    expect(newState.toJS()).toEqual({ t1: '' });
+  });
+});

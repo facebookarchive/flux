@@ -10,21 +10,15 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-var MessageSection = require('./MessageSection.react');
-var React = require('react');
-var ThreadSection = require('./ThreadSection.react');
+import React from 'react';
+import ThreadSection from '../containers/ThreadSection.react';
+import MessageSection from '../containers/MessageSection.react';
 
-var ChatApp = React.createClass({
-
-  render: function() {
-    return (
-      <div className="chatapp">
-        <ThreadSection />
-        <MessageSection />
-      </div>
-    );
-  }
-
-});
-
-module.exports = ChatApp;
+export default function ChatApp() {
+  return (
+    <article className="chatapp">
+      <ThreadSection />
+      <MessageSection />
+    </article>
+  );
+}

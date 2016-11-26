@@ -10,14 +10,12 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ChatApp from './components/ChatApp.react';
-import { loadChatData } from './actions/ChatAppActions';
-import chatAppData from './actions/ChatAppData';
+import { Record } from 'immutable';
 
-const rootEl = document.querySelector('main');
-const mainEl = React.createElement(ChatApp);
+const shape = { id: '', name: '', timestamp: '', lastMessage: '', isRead: true };
 
-loadChatData(chatAppData);
-ReactDOM.render(mainEl, rootEl);
+export default class Thread extends Record(shape) {
+  get timestamp() {
+    return new Date(this.get('timestamp'));
+  }
+}

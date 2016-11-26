@@ -10,14 +10,20 @@
  * CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-import React from 'react';
-import ReactDOM from 'react-dom';
-import ChatApp from './components/ChatApp.react';
-import { loadChatData } from './actions/ChatAppActions';
-import chatAppData from './actions/ChatAppData';
+import Dispatcher from '../ChatAppDispatcher';
+import ActionTypes from './ThreadActionTypes';
+import Thread from '../records/ThreadRecord';
 
-const rootEl = document.querySelector('main');
-const mainEl = React.createElement(ChatApp);
+export function selectThread(thread) {
+  Dispatcher.dispatch({
+    type: ActionTypes.THREAD_SELECTED,
+    thread
+  });
+}
 
-loadChatData(chatAppData);
-ReactDOM.render(mainEl, rootEl);
+export function loadThreads(threads) {
+  Dispatcher.dispatch({
+    type: ActionTypes.THREADS_LOADED,
+    threads: threads.map(data => new Thread(data))
+  });
+}
