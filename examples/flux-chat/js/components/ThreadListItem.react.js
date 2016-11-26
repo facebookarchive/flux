@@ -26,6 +26,7 @@ var ThreadListItem = React.createClass({
   render: function() {
     var thread = this.props.thread;
     var lastMessage = thread.lastMessage;
+    var title = (lastMessage.isRead ? '' : '* ') + thread.name;
     return (
       <li
         className={classNames({
@@ -33,7 +34,7 @@ var ThreadListItem = React.createClass({
           'active': thread.id === this.props.currentThreadID
         })}
         onClick={this._onClick}>
-        <h5 className="thread-name">{thread.name}</h5>
+        <h5 className="thread-name">{title}</h5>
         <div className="thread-time">
           {lastMessage.date.toLocaleTimeString()}
         </div>
