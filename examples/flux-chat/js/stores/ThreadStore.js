@@ -117,6 +117,12 @@ ThreadStore.dispatchToken = ChatAppDispatcher.register(function(action) {
       ThreadStore.emitChange();
       break;
 
+    case ActionTypes.CREATE_MESSAGE:
+      _threads[_currentID].lastMessage = ChatMessageUtils.getCreatedMessageData(
+        action.text, action.currentThreadID);
+      ThreadStore.emitChange();
+      break;
+
     default:
       // do nothing
   }
