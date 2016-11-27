@@ -32,6 +32,8 @@
     ]
   },
   "jest": {
-    "rootDir": "./js"
+    "rootDir": "./js",
+    "scriptPreprocessor": "<rootDir>/jest-preprocessor.js",
+    "unmockedModulePathPatterns": ["<rootDir>/node_modules/react"]
   }
 }
