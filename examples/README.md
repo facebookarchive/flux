@@ -1,6 +1,7 @@
 # Examples
 
 This directory contains examples that should help get you started with Flux.
+They are listed in the order you should complete them.
 
 ## [./flux-concepts](./flux-concepts) - Basic concepts (no code)
 
