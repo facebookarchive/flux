@@ -6,6 +6,12 @@ is persisted and requested through a simple server. The server simulates
 delays and errors. In the example we will handle things like optimistic
 updates, loading states, and failing API requests.
 
+# Disclaimer
+
+This is just one way to handle asynchronous actions. It is not the only way,
+and may not be the best way. This is simply how we deal with asynchronous
+actions most commonly at Facebook.
+
 # Usage
 
 ```bash
