@@ -12,7 +12,7 @@ implementation.
 - React
   - [Getting Started](https://facebook.github.io/react/docs/getting-started.html)
 - Exposure to the high-level concepts of Flux, this tutorial will be an application of those concepts
-  - TODO: Write and link to a proper guide
+  - [Flux Concepts](../flux-concepts)
   - [Flux Utils](../../docs/Flux-Utils.md)
 
 ## 1. Getting started
