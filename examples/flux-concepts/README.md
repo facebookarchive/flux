@@ -37,7 +37,8 @@ with the application's dispatcher so that they can receive actions. **The
 data in a store must only be mutated by responding to an action.** There
 should not be any public setters on a store, only getters. Stores decide
 what actions they want to respond to. **Every time a store's data changes it
-must emit a "change" event.**
+must emit a "change" event.** There should be many stores in each
+application.
 
 Examples:
 
