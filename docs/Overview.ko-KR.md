@@ -4,7 +4,7 @@ title: 개요
 layout: docs
 category: Quick Start
 permalink: docs/overview-ko-KR.html
-next: todo-list-ko-KR
+next: dispatcher-ko-KR
 lang: ko-KR
 ---
 
