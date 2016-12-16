@@ -1,5 +1,5 @@
 /**
- * Flux v3.0.0
+ * Flux v3.1.1
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
