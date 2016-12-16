@@ -5,7 +5,7 @@ An application architecture for React utilizing a unidirectional data flow.
 
 ## Getting Started
 
-Guides and examples can be found on github: [here](./examples). For more resources and API docs check out [facebook.github.io/flux](http://facebook.github.io/flux).
+Start by looking through the [guides and examples](./examples) on Github. For more resources and API docs check out [facebook.github.io/flux](http://facebook.github.io/flux).
 
 ## How Flux works
 
