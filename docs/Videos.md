@@ -2,9 +2,9 @@
 id: videos
 title: Videos
 layout: docs
-category: Community Resources
+category: Resources
 permalink: docs/videos.html
-next: examples-and-tools
+next: react
 ---
 
 ### "Rethinking Web App Development at Facebook" - Facebook F8 Conference 2014

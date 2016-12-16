@@ -1,0 +1,12 @@
+[ignore]
+
+.*/node_modules/.*
+
+[libs]
+
+flow
+
+[options]
+
+suppress_comment=\\(.\\|\n\\)*\\$FlowExpectedError
+experimental.const_params=true

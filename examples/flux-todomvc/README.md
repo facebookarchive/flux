@@ -1,159 +1,528 @@
-# Flux TodoMVC Example
+# flux-todomvc
 
-> An application architecture for React utilizing a unidirectional data flow.
+This example is where you should start. It walks you through creating the
+classic [TodoMVC](http://todomvc.com/) application using a simple Flux
+implementation.
 
-This is what a running Flux TodoMVC example looks like:
-<img src="screenshot.png" style="width: 100%;" />
+## Prerequisites
 
-## Learning Flux
+- ES6
+  - [ES6 Overview in 350 Bullet Points](https://ponyfoo.com/articles/es6)
+  - [Additional Resources](https://github.com/ericdouglas/ES6-Learning)
+- React
+  - [Getting Started](https://facebook.github.io/react/docs/getting-started.html)
+- Exposure to the high-level concepts of Flux, this tutorial will be an application of those concepts
+  - [Flux Concepts](../flux-concepts)
+  - [Flux Utils](../../docs/Flux-Utils.md)
 
-The [Flux](http://facebook.github.io/flux) and [React](http://facebook.github.io/react) websites are great resources for getting started.
+## 1. Getting started
 
-Read the blog post announcing Flux: ["An Application Architecture for React"](http://facebook.github.io/react/blog/2014/05/06/flux.html), then read more about the [Flux architecture](http://facebook.github.io/flux/docs/overview.html) and a [TodoMVC tutorial](http://facebook.github.io/flux/docs/todo-list.html) explaining the structure of the files in this folder.  After you feel comfortable with the TodoMVC example, you may be interested in the [Chat App example](../flux-chat), which is more complex.
+Clone and build the flux repo:
 
-
-## Overview
-
-Flux applications have three major parts: the ___dispatcher___, the ___stores___, and the ___views___ (React components).  These should not be confused with Model-View-Controller.  Controllers do exist in a Flux application, but they are ___controller-views___ -- views often found at the top of the hierarchy that retrieve data from the stores and pass this data down to their children.  Additionally, ___action creators___ — dispatcher helper methods — are often used to support a semantic dispatcher API.  It can be useful to think of them as a fourth part of the Flux update cycle.
-
-Flux eschews MVC in favor of a unidirectional data flow. When a user interacts with a React ___view___, the view propagates an ___action___ through a central ___dispatcher___, to the various ___stores___ that hold the application's data and business logic, which updates all of the views that are affected. This works especially well with React's declarative programming style, which allows the store to send updates without specifying how to transition views between states.
-
-We originally set out to deal correctly with derived data: for example, we wanted to show an unread count for message threads while another view showed a list of threads, with the unread ones highlighted. This was difficult to handle with MVC — marking a single thread as read would update the thread model, and then also need to update the unread count model.  These dependencies and cascading updates often occur in a large MVC application, leading to a tangled weave of data flow and unpredictable results.
-
-Control is inverted with ___stores___: the stores accept updates and reconcile them as appropriate, rather than depending on something external to update its data in a consistent way. Nothing outside the store has any insight into how it manages the data for its domain, helping to keep a clear separation of concerns. This also makes stores more testable than models, especially since stores have no direct setter methods like `setAsRead()`, but instead have only an input point for a data payload, which is delivered through the ___dispatcher___ and originates with ___action creators___.
-
-
-## Structure and Data Flow
-
-Data in a Flux application flows in a single direction, in a cycle:
-
-<img src="../../docs/img/flux-diagram-white-background.png" style="width: 100%;" />
-
-A unidirectional data flow is central to the Flux pattern, and in fact Flux takes its name from the Latin word for flow. In the above diagram, the ___dispatcher___, ___stores___ and ___views___ are independent nodes with distinct inputs and outputs. The ___action creators___ are simply discrete, semantic helper functions that facilitate passing data to the ___dispatcher___ in the form of an ___action___.
-
-All data flows through the ___dispatcher___ as a central hub.  ___Actions___ most often originate from user interactions with the ___views___, and ___action creators___ are nothing more than a call into the ___dispatcher___.  The ___dispatcher___ then invokes the callbacks that the ___stores___ have registered with it, effectively dispatching the data payload contained in the ___actions___ to all ___stores___.  Within their registered callbacks, ___stores___ determine which ___actions___ they are interested in, and respond accordingly.  The ___stores___ then emit a "change" event to alert the ___controller-views___ that a change to the data layer has occurred.  ___Controller-views___ listen for these events and retrieve data from the ___stores___ in an event handler.  The ___controller-views___ call their own `render()` method via `setState()` or `forceUpdate()`, updating themselves and all of their children.
-
-This structure allows us to reason easily about our application in a way that is reminiscent of functional reactive programming, or more specifically data-flow programming or flow-based programming, where data flows through the application in a single direction — there are no two-way bindings. Application state is maintained only in the ___stores___, allowing the different parts of the application to remain highly decoupled. Where dependencies do occur between ___stores___, they are kept in a strict hierarchy, with synchronous updates managed by the ___dispatcher___.
-
-We found that two-way data bindings led to cascading updates, where changing one object led to another object changing, which could also trigger more updates. As applications grew, these cascading updates made it very difficult to predict what would change as the result of one user interaction. When updates can only change data within a single round, the system as a whole becomes more predictable.
-
-Let's look at the various parts of the Flux update cycle up close. A good place to start is the dispatcher.
-
-
-### A Single Dispatcher
-
-The dispatcher is the central hub that manages all data flow in a Flux application. It is essentially a registry of callbacks into the stores. Each store registers itself and provides a callback. When the dispatcher is invoked in an action creator method, all stores in the application are sent a data payload via the callbacks in the registry.
-
-As an application grows, the dispatcher becomes more vital, as it can manage dependencies between stores by invoking the registered callbacks in a specific order.  Stores can declaratively wait for other stores to finish updating, and then update themselves accordingly.
-
-
-### Stores
-
-Stores contain the application state and logic. Their role is somewhat similar to a model in a traditional MVC, but they manage the state of many objects — they are not instances of one object. Nor are they the same as Backbone's collections. More than simply managing a collection of ORM-style objects, stores manage the application state for a particular __domain__ within the application.
-
-For example, Facebook's [Lookback Video Editor](https://facebook.com/lookback/edit) utilized a TimeStore that kept track of the playback time position and the playback state. On the other hand, the same application's ImageStore kept track of a collection of images.  The TodoStore in our TodoMVC example is similar in that it manages a collection of to-do items.  A store exhibits characteristics of both a collection of models and a singleton model of a logical domain.
-
-As mentioned above, a store registers itself with the dispatcher and provides it with a callback. This callback receives a data payload as a parameter. The payload contains an action with an attribute identifying the action's type. Within the store's registered callback, a switch statement based on the action's type is used to interpret the payload and to provide the proper hooks into the store's internal methods. This allows an action to result in an update to the state of the store, via the dispatcher. After the stores are updated, they broadcast an event declaring that their state has changed, so the views may query the new state and update themselves.
-
-
-### Views and Controller-Views
-
-React provides the kind of composable views we need for the view layer. Close to the top of the nested view hierarchy, a special kind of view listens for events that are broadcast by the stores that it depends on. One could call this a ___controller-view___, as it provides the glue code to get the data from the stores and to pass this data down the chain of its descendants. We might have one of these controller-views governing any significant section of the page.
-
-When it receives the event from the store, it first requests the new data it needs via the stores' public getter methods. It then calls its own `setState()` or `forceUpdate()` methods, causing its `render()` method and the `render()` method of all its descendants to run.
-
-We often pass the entire state of the store down the chain of views in a single object, allowing different descendants to use what they need. In addition to keeping the controller-like behavior at the top of the hierarchy, and thus keeping our descendant views as functionally pure as possible, passing down the entire state of the store in a single object also has the effect of reducing the number of props we need to manage.
-
-Occasionally we may need to add additional controller-views deeper in the hierarchy to keep components simple.  This might help us to better encapsulate a section of the hierarchy related to a specific  data domain.  Be aware, however, that controller-views deeper in the hierarchy can violate the singular flow of data by introducing a new, potentially conflicting entry point for the data flow.  In making the decision of whether to add a deep controller-view, balance the gain of simpler components against the complexity of multiple data updates flowing into the hierarchy at different points.  These multiple data updates can lead to odd effects, with React's render method getting invoked repeatedly by updates from different controller-views, potentially increasing the difficulty of debugging.
-
-
-### Actions and Action Creators
-
-The dispatcher exposes a method that allows a view to trigger a dispatch to the stores, and to include a payload of data.  This data payload contains an action, an object literal containing the various fields of data and a specific action type. The action construction may be wrapped into a semantic helper method, which we refer to as action creators. These methods provide the payload to the dispatcher. For example, we may want to change the text of a to-do item in a to-do list application. We would create an action creator method like `updateText(todoId, newText)` in our `TodoActions` module. This method may be invoked from within our views' event handlers, so we can call it in response to a user interaction. The action creator method also adds the type to the action, so that when the payload is interpreted in the store, it can respond appropriately to a payload with a particular action type. In our example, this type might be named something like `TODO_UPDATE_TEXT`.
-
-Actions may also come from other places, such as the server. This happens, for example, during data initialization. It may also happen when the server returns an error code or when the server has updates to provide to the application. We'll talk more about server actions in a future article. In this example application we're only concerned with the basics of the data flow.
-
-
-### What About that Dispatcher?
-
-As mentioned earlier, the dispatcher is also able to manage dependencies between stores. This functionality is available through the Dispatcher's `waitFor()` method.  The TodoMVC application is extremely simple, so we did not need to use this method, but in a larger, more complex application, this method becomes vital.
-
-Within the TodoStore's registered callback we can explicitly wait for any dependencies to first update before moving forward:
-
-```
-case 'TODO_CREATE':
-  Dispatcher.waitFor([
-    PrependedTextStore.dispatchToken,
-    YetAnotherStore.dispatchToken
-  ]);
-  TodoStore.create(PrependedTextStore.getText() + ' ' + action.text);
-  TodoStore.emit('change');
-  break;
+```bash
+git clone https://github.com/facebook/flux.git
+cd flux
+npm install
 ```
 
-The arguments for `waitFor()` are an array of dispatcher registry indexes, which we refer to here as each store's dispatchToken. When waitFor() is encountered in a callback, it tells the Dispatcher to invoke the callbacks for the required stores. After these callbacks complete, the original callback can continue to execute. Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
+Copy and build [flux-shell](../flux-shell):
 
-A problem arises if we create circular dependencies. If Store A waits for Store B, and B waits for A, then we could wind up in an endless loop. The Dispatcher will flag these circular dependencies with console errors.
+```bash
+cp -R examples/flux-shell examples/my-todomvc
+cd examples/my-todomvc
+npm install
+npm run watch
+```
 
+Open `examples/my-todomvc/index.html` in your browser.
 
-## TodoMVC Example Implementation
+- [ ] **You should see a blank page that says "Hello World!"**
 
-In this TodoMVC example application, we can see the elements of Flux in our directory structure. Views here are referred to as "components" as they are React components.
+## 2. Set up TodoMVC assets
 
-<pre>
-./
-  index.html
-  js/
-    actions/
-      TodoActions.js
-    app.js
-    bundle.js
-    dispatcher/
-      AppDispatcher.js
-    components/
-      Footer.react.js
-      Header.react.js
-      MainSection.react.js
-      TodoApp.react.js
-      TodoItem.react.js
-      TodoTextInput.react.js
-    stores/
-      TodoStore.js
-</pre>
+Copy assets from `examples/todomvc-common`
 
-The primary entry point into the application is app.js.  This file bootstraps the React rendering inside of index.html.  TodoApp.react.js is our controller-view and it passes all data down into its child React components.
+```bash
+cp -R ../todomvc-common todomvc-common
+```
 
-TodoActions.js is a collection of action creator methods that views may call from within their event handlers, in response to user interactions.  They are nothing more than helpers that call into the AppDispatcher.
+Update `examples/my-todomvc/index.html` to include the assets:
 
-Dispatcher.js is a base class for AppDispatcher.js which extends it with a small amount of application-specific code.
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Flux • TodoMVC</title>
+    <link rel="stylesheet" href="todomvc-common/base.css">
+  </head>
+  <body>
+    <section id="todoapp"></section>
+    <footer id="info">
+      <p>Double-click to edit a todo</p>
+      <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+    </footer>
+    <script src="./bundle.js"></script>
+  </body>
+</html>
+```
 
-TodoStore.js is our only store.  It provides all of the application logic and in-memory storage.  Based on EventEmitter from Node.js, it emits "change" events after responding to actions in the callback it registers with the dispatcher.
+Update `examples/my-todomvc/src/root.js` to render into correct element:
 
-The bundle.js file is automatically genenerated by the build process, explained below.
+```js
+ReactDOM.render(<div>Hello World!</div>, document.getElementById('todoapp'));
+```
 
+Refresh `examples/my-todomvc/index.html` in your browser.
 
-## Running
+- [ ] **The page should now have some styling and still say "Hello World!" in the center.**
+  - _If it doesn't, make sure `npm run watch` is still running_
 
-You must have [npm](https://www.npmjs.org/) installed on your computer.
-From the root project directory run these commands from the command line:
+## 3. Setting up Flux
 
-    npm install
+Set up folder structure:
 
-This will install all dependencies.
+```
+src
+├── containers
+│   └── AppContainer.js
+├── data
+│   ├── TodoActions.js
+│   ├── TodoActionTypes.js
+│   ├── TodoDispatcher.js
+│   └── TodoStore.js
+├── root.js
+└── views
+    └── AppView.js
+```
 
-To build the project, first run this command:
+Set up `TodoDispatcher`. Here we just need to import dispatcher from Flux
+and instantiate a new dispatcher to use throughout the application.
 
-    npm start
+```js
+import {Dispatcher} from 'flux';
 
-This will perform an initial build and start a watcher process that will update bundle.js with any changes you wish to make.  This watcher is based on [Browserify](http://browserify.org/) and [Watchify](https://github.com/substack/watchify), and it transforms React's JSX syntax into standard JavaScript with [Reactify](https://github.com/andreypopp/reactify).
+export default new Dispatcher();
+```
 
-To run the app, spin up an HTTP server and visit http://localhost/.../todomvc-flux/.  Or simply open the index.html file in a browser.
+Create the actions and action types. Let's set up the files that will eventually
+contain all of the actions in the application.
 
+Set up `data/TodoActionTypes.js`. This is a simple enum to list the kinds of
+actions we will be creating.
 
-## Credit
+```js
+const ActionTypes = {
+  ADD_TODO: 'ADD_TODO',
+};
 
-This TodoMVC application was created by [Bill Fisher](https://www.facebook.com/bill.fisher.771).  This README document was written by Bill Fisher and the principal creator of Flux, [Jing Chen](https://www.facebook.com/jing).
+export default ActionTypes;
+```
 
+Set up `data/TodoActions.js`. Each function here dispatches an action.
 
-## License
-Flux is BSD-licensed. We also provide an additional patent grant.
+```js
+import TodoActionTypes from './TodoActionTypes';
+import TodoDispatcher from './TodoDispatcher';
+
+const Actions = {
+  addTodo(text) {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.ADD_TODO,
+      text,
+    });
+  },
+};
+
+export default Actions;
+```
+
+Now we can set up our first store! Open `data/TodoStore.js`. This will save
+information about all of the Todo objects in our application. It will use an
+Immutable map as the state.
+
+```js
+import Immutable from 'immutable';
+import {ReduceStore} from 'flux/utils';
+import TodoActionTypes from './TodoActionTypes';
+import TodoDispatcher from './TodoDispatcher';
+
+class TodoStore extends ReduceStore {
+  constructor() {
+    super(TodoDispatcher);
+  }
+
+  getInitialState() {
+    return Immutable.OrderedMap();
+  }
+
+  reduce(state, action) {
+    switch (action.type) {
+      case TodoActionTypes.ADD_TODO:
+        // Do nothing for now, we will add logic here soon!
+        return state;
+
+      default:
+        return state;
+    }
+  }
+}
+
+export default new TodoStore();
+```
+
+Let's set up a really simple view using React. Open `views/AppView.js`.
+
+```js
+import React from 'react';
+
+function AppView() {
+  return <div>Hello from Flux!</div>;
+}
+
+export default AppView;
+```
+
+Containers are what connects the state from stores to views, let's set up
+`containers/AppContainer.js` now.
+
+```js
+import AppView from '../views/AppView';
+import {Container} from 'flux/utils';
+import TodoStore from '../data/TodoStore';
+
+function getStores() {
+  return [
+    TodoStore,
+  ];
+}
+
+function getState() {
+  return {
+    todos: TodoStore.getState(),
+  };
+}
+
+export default Container.createFunctional(AppView, getStores, getState);
+```
+
+Finally, let's update the root of our application to render this new
+`AppContainer`. Open `root.js`:
+
+```js
+import AppContainer from './containers/AppContainer';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+```
+
+- [ ] **Reload the page, it should look basically the same as the last step but say "Hello from Flux!"**
+
+## 4. Rendering some Todos
+
+We will use Immutable.js to hold onto data about each Todo. This will give us
+a nice API to update their information without needing to worry about
+accidentally mutating the Todo. Create `data/Todo.js`.
+
+```js
+import Immutable from 'immutable';
+
+const Todo = Immutable.Record({
+  id: '',
+  complete: false,
+  text: '',
+});
+
+export default Todo;
+```
+
+Now we can use this structure, along with a simple
+[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Update
+`data/TodoStore.js`.
+
+```js
+class TodoStore extends ReduceStore {
+  ...
+  reduce(state, action) {
+    switch (action.type) {
+      case TodoActionTypes.ADD_TODO:
+        // Don't add todos with no text.
+        if (!action.text) {
+          return state;
+        }
+        const id = Counter.increment();
+        return state.set(id, new Todo({
+          id,
+          text: action.text,
+          complete: false,
+        }));
+
+      default:
+        return state;
+    }
+  }
+}
+```
+
+Let's update our view to actually render the Todos that are being stored. Update
+`views/AppView.js`.
+
+```js
+function AppView(props) {
+  return (
+    <div>
+      <Header {...props} />
+      <Main {...props} />
+      <Footer {...props} />
+    </div>
+  );
+}
+
+function Header(props) {
+  return (
+    <header id="header">
+      <h1>todos</h1>
+    </header>
+  );
+}
+
+function Main(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <section id="main">
+      <ul id="todo-list">
+        {[...props.todos.values()].reverse().map(todo => (
+          <li key={todo.id}>
+            <div className="view">
+              <input
+                className="toggle"
+                type="checkbox"
+                checked={todo.complete}
+                onChange={
+                  // Empty function for now, we will implement this later.
+                  () => {}
+                }
+              />
+              <label>{todo.text}</label>
+              <button
+                className="destroy"
+                onClick={
+                  // Empty function for now, we will implement this later.
+                  () => {}
+                }
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Footer(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <footer id="footer">
+      <span id="todo-count">
+        <strong>
+          {props.todos.size}
+        </strong>
+        {' items left'}
+      </span>
+    </footer>
+  );
+}
+```
+
+To make sure it all works we have to create some fake data for now. Modify
+`root.js` to create some fake Todos after the initial render.
+
+```js
+import AppContainer from './containers/AppContainer';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));
+
+// We will remove these lines later:
+
+import TodoActions from './data/TodoActions';
+
+TodoActions.addTodo('My first task');
+TodoActions.addTodo('Another task');
+TodoActions.addTodo('Finish this tutorial');
+```
+
+- [ ] **Refresh the page and you should see some data that is coming from your `TodoStore`!**
+  - _Keep in mind that it's not interactive yet, so no buttons will work_
+
+## 5. Adding some interactivity
+
+Let's add a few more actions so that the buttons do something.
+
+Update `data/TodoActionTypes.js`
+
+```js
+const ActionTypes = {
+  ADD_TODO: 'ADD_TODO',
+  DELETE_TODO: 'DELETE_TODO',
+  TOGGLE_TODO: 'TOGGLE_TODO',
+};
+```
+
+Update `data/TodoActions.js`
+
+```js
+const Actions = {
+  addTodo(text) {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.ADD_TODO,
+      text,
+    });
+  },
+
+  deleteTodo(id) {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.DELETE_TODO,
+      id,
+    });
+  },
+
+  toggleTodo(id) {
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.TOGGLE_TODO,
+      id,
+    });
+  },
+};
+```
+
+Update `data/TodoStore.js`
+
+```js
+class TodoStore extends ReduceStore {
+  ...
+  reduce(state, action) {
+    switch (action.type) {
+      ...
+      case TodoActionTypes.DELETE_TODO:
+        return state.delete(action.id);
+
+      case TodoActionTypes.TOGGLE_TODO:
+        return state.update(
+          action.id,
+          todo => todo.set('complete', !todo.complete),
+        );
+      ...
+    }
+  }
+}
+```
+
+Now our store is capable of deleting or toggling a Todo. Let's hook it up to
+our view now. In a Flux app the **only** place that should have knowledge of
+Flux is the container, this means we have to define the callbacks in
+`AppContainer` and pass them down to `AppView`, the view does not dispatch the
+actions directly. This makes it easier to reuse, test, and change views.
+
+Update `containers/AppContainer.js`
+
+```js
+function getState() {
+  return {
+    todos: TodoStore.getState(),
+
+    onDeleteTodo: TodoActions.deleteTodo,
+    onToggleTodo: TodoActions.toggleTodo,
+  };
+}
+```
+
+Now we need to use the callbacks and update a small amount of rendering logic
+that displays the number of completed todos. Update `views/AppView.js`
+
+```js
+function Main(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+  return (
+    <section id="main">
+      <ul id="todo-list">
+        {[...props.todos.values()].reverse().map(todo => (
+          <li key={todo.id}>
+            <div className="view">
+              <input
+                className="toggle"
+                type="checkbox"
+                checked={todo.complete}
+                onChange={() => props.onToggleTodo(todo.id)}
+              />
+              <label>{todo.text}</label>
+              <button
+                className="destroy"
+                onClick={() => props.onDeleteTodo(todo.id)}
+              />
+            </div>
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
+function Footer(props) {
+  if (props.todos.size === 0) {
+    return null;
+  }
+
+  const remaining = props.todos.filter(todo => !todo.complete).size;
+  const phrase = remaining === 1 ? ' item left' : ' items left';
+
+  return (
+    <footer id="footer">
+      <span id="todo-count">
+        <strong>
+          {remaining}
+        </strong>
+        {phrase}
+      </span>
+    </footer>
+  );
+}
+```
+
+- [ ] **Refresh the page and you should be able to toggle todos and delete them. Toggling todos should also update the counter of todos remaining in the footer.**
+
+## 6. Remaining functionality
+
+Now you should be familiar enough with the structure of the todo app to
+implement the remaining pieces on your own. This last step outlines a good
+ordering for completing them. Make sure to reference the full example
+implementation as needed.
+
+1. Create the NewTodo view
+  - Create the `TodoDraftStore` which tracks the contents of the NewTodo input, it will respond to two actions:
+    - `UPDATE_DRAFT` which changes the draft contents
+    - `ADD_TODO` which clears the draft contents (because the todo was added and is no longer a draft)
+    - _Note: It would also be reasonable to keep track of this in React state, but in this tutorial we will make an effort to have all components be controlled so you get more experience dealing with stores._
+  - Create the `updateDraft` action and pass through container
+  - Hook everything up to the view
+2. Add clear completed button to the Footer
+  - Create `deleteCompletedTodos` action
+  - Add button to fire action to the footer
+3. Add Mark all as complete button
+  - Create `toggleAllTodos` action
+    - If any todos are incomplete, this marks them all as complete
+    - If all todos are complete, this marks them all as incomplete
+  - Hook it up to Main view
+4. Add ability to edit todos on double click
+  - Create the `TodoEditStore` which tracks the ID of the Todo currently being edited
+  - Create `startEditingTodo` and `stopEditingTodo` actions
+  - Create `editTodo` action
+  - Create TodoItem view component with editing functionality

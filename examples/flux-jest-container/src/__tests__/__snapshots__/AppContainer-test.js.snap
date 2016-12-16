@@ -1,0 +1,649 @@
+exports[`AppContainer can edit task tat is complete 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test3
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test2
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed editing">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test1
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+        <input
+          autoFocus={true}
+          className="edit"
+          onBlur={[Function stopEditingTodo]}
+          onChange={[Function onChange]}
+          onKeyDown={[Function onKeyDown]}
+          value="test1" />
+      </li>
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test0
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        2
+      </strong>
+       items left
+    </span>
+    <button
+      id="clear-completed"
+      onClick={[Function deleteCompletedTodos]}>
+      Clear completed (
+      2
+      )
+    </button>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer can edit task tat is not complete 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test3
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test2
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test1
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="editing">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test0
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+        <input
+          autoFocus={true}
+          className="edit"
+          onBlur={[Function stopEditingTodo]}
+          onChange={[Function onChange]}
+          onKeyDown={[Function onKeyDown]}
+          value="test0" />
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        2
+      </strong>
+       items left
+    </span>
+    <button
+      id="clear-completed"
+      onClick={[Function deleteCompletedTodos]}>
+      Clear completed (
+      2
+      )
+    </button>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer renders draft with no todos 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="test0" />
+  </header>
+</div>
+`;
+
+exports[`AppContainer renders draft with todos 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="test1" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test0
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        1
+      </strong>
+       item left
+    </span>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer renders draft with todos while editing 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="test1 edit" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="editing">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test1
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+        <input
+          autoFocus={true}
+          className="edit"
+          onBlur={[Function stopEditingTodo]}
+          onChange={[Function onChange]}
+          onKeyDown={[Function onKeyDown]}
+          value="test1" />
+      </li>
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test0
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        2
+      </strong>
+       items left
+    </span>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer renders some todos 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            World!
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            Hello
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        2
+      </strong>
+       items left
+    </span>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer renders todos that are complete 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="" />
+  </header>
+  <section
+    id="main">
+    <input
+      checked=""
+      id="toggle-all"
+      onChange={[Function toggleAllTodos]}
+      type="checkbox" />
+    <label
+      htmlFor="toggle-all">
+      Mark all as complete
+    </label>
+    <ul
+      id="todo-list">
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test3
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test2
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="completed">
+        <div
+          className="view">
+          <input
+            checked={true}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test1
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+      <li
+        className="">
+        <div
+          className="view">
+          <input
+            checked={false}
+            className="toggle"
+            onChange={[Function onToggleTodo]}
+            type="checkbox" />
+          <label
+            onDoubleClick={[Function onStartEditingTodo]}>
+            test0
+          </label>
+          <button
+            className="destroy"
+            onClick={[Function onDeleteTodo]} />
+        </div>
+      </li>
+    </ul>
+  </section>
+  <footer
+    id="footer">
+    <span
+      id="todo-count">
+      <strong>
+        2
+      </strong>
+       items left
+    </span>
+    <button
+      id="clear-completed"
+      onClick={[Function deleteCompletedTodos]}>
+      Clear completed (
+      2
+      )
+    </button>
+  </footer>
+</div>
+`;
+
+exports[`AppContainer renders with no todos 1`] = `
+<div>
+  <header
+    id="header">
+    <h1>
+      todos
+    </h1>
+    <input
+      autoFocus={true}
+      id="new-todo"
+      onBlur={[Function onBlur]}
+      onChange={[Function onChange]}
+      onKeyDown={[Function onKeyDown]}
+      placeholder="What needs to be done?"
+      value="" />
+  </header>
+</div>
+`;
