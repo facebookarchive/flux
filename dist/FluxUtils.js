@@ -4971,7 +4971,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  /**
 	   * This exposes a unique string to identify each store's registered callback.
-	   * This is used with the dispatcher's waitFor method to devlaratively depend
+	   * This is used with the dispatcher's waitFor method to declaratively depend
 	   * on other stores updating themselves first.
 	   */
 
