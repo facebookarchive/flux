@@ -34,7 +34,7 @@ function createContainer(containerClass, options, props, context) {
     // Create a new component that provides the child context.
     var ComponentWithContext = React.createClass({
       childContextTypes: {
-        value: React.PropTypes.string,
+        value: React.PropTypes.any,
       },
       getChildContext: function() {
         return context;
@@ -238,7 +238,38 @@ describe('FluxContainer', () => {
     expect(getValue()).toBe('bar');
   });
 
-  it('should get access to context', () => {
+  it('should get access to context in getStores', () => {
+    // Setup the container.
+    class SimpleContainer extends BaseContainer {
+      static contextTypes = {
+        value: React.PropTypes.array,
+      };
+
+      static getStores(props, context) {
+        return context.value;
+      }
+
+      static calculateState(prevState, props, context) {
+        return {
+          value: FooStore.getState(),
+        };
+      }
+    }
+
+    var getValue = createContainer(
+      SimpleContainer,
+      {withContext: true}, // options
+      {}, // props
+      {
+        value: [FooStore],
+      }, // context
+    );
+
+    // Test it.
+    expect(getValue()).toBe('foo');
+  });
+
+  it('should get access to context in calculateState', () => {
     // Setup the container.
     class SimpleContainer extends BaseContainer {
       static contextTypes = {
