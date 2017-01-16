@@ -31,10 +31,10 @@ class FluxStore {
   __changed: boolean;
   __changeEvent: string;
   __className: any;
-  __dispatcher: Dispatcher;
+  __dispatcher: Dispatcher<any>;
   __emitter: EventEmitter;
 
-  constructor(dispatcher: Dispatcher): void {
+  constructor(dispatcher: Dispatcher<any>): void {
     this.__className = this.constructor.name;
 
     this.__changed = false;
@@ -50,7 +50,7 @@ class FluxStore {
     return this.__emitter.addListener(this.__changeEvent, callback);
   }
 
-  getDispatcher(): Dispatcher {
+  getDispatcher(): Dispatcher<any> {
     return this.__dispatcher;
   }
 
