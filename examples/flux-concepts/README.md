@@ -89,7 +89,7 @@ Example:
 2. It accesses a list of the Todos and renders them in a readable format for
    the user to interact with.
 3. When a user types in the title of a new Todo and hits enter the view will
-   dispatch an action notifying all stores.
+   send an action to the dispatcher, which will notify all stores.
 4. The TodoStore handles the action and adds another Todo to its internal
    data structure, then emits a "change" event.
 5. The main view is listening for the "change" event. It gets the event,
