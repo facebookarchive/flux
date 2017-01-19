@@ -88,11 +88,12 @@ Example:
 1. The main view subscribes to the TodoStore.
 2. It accesses a list of the Todos and renders them in a readable format for
    the user to interact with.
-3. When a user types in the title of a new Todo and hits enter the view will
-   dispatch an action notifying all stores.
-4. The TodoStore handles the action and adds another Todo to its internal
+3. When a user types in the title of a new Todo and hits enter the view tells 
+   the Dispatcher to dispatch an action.
+4. All stores receive the dispatched action.
+5. The TodoStore handles the action and adds another Todo to its internal
    data structure, then emits a "change" event.
-5. The main view is listening for the "change" event. It gets the event,
+6. The main view is listening for the "change" event. It gets the event,
    gets new data from the TodoStore, and then re-renders the list of Todos
    in the user interface.
    
