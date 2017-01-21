@@ -7,7 +7,7 @@ permalink: docs/flux-utils.html
 next: videos
 ---
 
-Flux Utils is a set of basic utility classes to help get you started with Flux. These base classes are a solid foundation for a simple Flux application, but they are **not** a feature-complete framework that will handle all use cases. There are many other great Flux frameworks out there if these utilities do not fulfill your needs.
+Flux Utils is a set of basic utility classes to help you get started with Flux. These base classes are a solid foundation for a simple Flux application, but they are **not** a feature-complete framework that will handle all use cases. There are many other great Flux frameworks out there if these utilities do not fulfill your needs.
 
 ## Usage
 
