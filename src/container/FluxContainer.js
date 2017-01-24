@@ -87,7 +87,7 @@ const DEFAULT_OPTIONS = {
  *       return [BarStore, FooStore];
  *     }
  *
- *     statc calculateState(prevState, props) {
+ *     static calculateState(prevState, props) {
  *       const {BarStore, FooStore} = props.stores;
  *       return {
  *         bar: BarStore.getState(),
