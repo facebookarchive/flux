@@ -238,10 +238,12 @@ export default Todo;
 ```
 
 Now we can use this structure, along with a simple
-[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Update
+[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Add the `flux-todomvc/src/data/Counter.js` file to your `my-todomvc/src/data` folder. Then update
 `data/TodoStore.js`.
 
 ```js
+import Counter from '../data/Counter';
+import Todo from '../data/Todo';
 class TodoStore extends ReduceStore {
   ...
   reduce(state, action) {
