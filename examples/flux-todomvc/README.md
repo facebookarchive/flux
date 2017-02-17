@@ -237,11 +237,15 @@ const Todo = Immutable.Record({
 export default Todo;
 ```
 
+
 Now we can use this structure, along with a simple
-[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Update
-`data/TodoStore.js`.
+[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Create
+or copy [`Counter`](./src/data/Counter.js) then update `data/TodoStore.js`
 
 ```js
+import Counter from '../data/Counter';
+import Todo from '../data/Todo';
+
 class TodoStore extends ReduceStore {
   ...
   reduce(state, action) {
