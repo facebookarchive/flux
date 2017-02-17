@@ -237,9 +237,10 @@ const Todo = Immutable.Record({
 export default Todo;
 ```
 
+
 Now we can use this structure, along with a simple
-[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Add the `flux-todomvc/src/data/Counter.js` file to your `my-todomvc/src/data` folder. Then update
-`data/TodoStore.js`.
+[`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Create
+or copy [`Counter`](./src/data/Counter.js) then update `data/TodoStore.js`
 
 ```js
 import Counter from '../data/Counter';
