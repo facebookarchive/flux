@@ -244,6 +244,7 @@ Now we can use this structure, along with a simple
 ```js
 import Counter from '../data/Counter';
 import Todo from '../data/Todo';
+
 class TodoStore extends ReduceStore {
   ...
   reduce(state, action) {
