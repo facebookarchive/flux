@@ -4,6 +4,7 @@
   "description": "Basic shell application for the Flux architecture",
   "repository": "https://github.com/facebook/flux",
   "author": "Kyle Davis",
+  "license": "BSD-3-Clause",
   "main": "bundle.js",
   "scripts": {
     "build": "webpack ./src/root.js ./bundle.js",
