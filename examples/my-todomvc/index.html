@@ -3,9 +3,31 @@
   <head>
     <meta charset="utf-8">
     <title>Flux • Shell</title>
+    <link rel="stylesheet" href="todomvc-common/base.css">
   </head>
   <body>
-    <div id="root"></div>
+    <section id="todoapp"></section> <!-- a thematic section of a page: can be used to divide
+    a whole page into sections or even be nested under article to divide that into sections
+    
+    <article> is for self-contained works that can stand alone or be reused in different context;
+      type of section element that can appear on other sites 
+    
+    sections can have their own internal heading hierarchy, no matter where in the document it is
+    (for example, could be under some heading in the original document, but can start its own
+    heading hierarchy at h1) - this is because HTML actually sets up an entry in the document
+    hierarchy for a new section element (article also) 
+    
+    footer element you can have within document or within sectioning element like section or
+    article; for stuff that usually comes at end of page/section (though no rule of course saying
+    that it must go at the end)
+    
+    both of these are pretty straightforward, but use these rather than just division elements! 
+    
+    section is a thematic group of content-->
+    <footer id="info">
+      <p>Double-click to edit a todo</p>
+      <p>Part of <a href="http://todomvc.com">TodoMVC</a></p>
+    </footer>
     <script src="./bundle.js"></script>
   </body>
 </html>
