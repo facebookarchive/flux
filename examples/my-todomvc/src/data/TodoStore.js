@@ -12,6 +12,13 @@ import Counter from './Counter';
 // the store will save info about all Todo objects in app
 // remember: applications can and should have many stores
 
+// ReduceStore makes sense: just invokes a reduce-like operation:
+// we have our accumulated state store (accumulator) and our curren action
+// that has been dispatched, and we want to run the combiner to give us the
+// new state of the store (notice how we are returning either the same
+// state/identity operation in the case where it didn't make sense to get
+// and updated state store and then returning back the new state store value
+// on cases where an update was intended)
 class TodoStore extends ReduceStore {
   constructor() {
     super(TodoDispatcher); // create a store that has a link to the dispatcher
