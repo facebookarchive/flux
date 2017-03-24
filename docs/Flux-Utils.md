@@ -11,11 +11,14 @@ Flux Utils is a set of basic utility classes to help get you started with Flux. 
 
 ## Usage
 
-There are four main classes exposed in Flux Utils:
+There are three main classes exposed in Flux Utils:
 
 1. Store
 2. ReduceStore
 3. Container
+
+Note: `MapStore`, which was earlier exposed, was removed in 3.0.0 as it did not add much value over `ReduceStore`. [See changelog](https://github.com/facebook/flux/blob/master/CHANGELOG.md#300)   
+
 
 These base classes can be imported from `flux/utils` like this:
 
