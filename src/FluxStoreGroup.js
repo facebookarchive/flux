@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-2015, Facebook, Inc.
+ * Copyright (c) 2014-present, Facebook, Inc.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -24,7 +24,7 @@ type DispatchToken = string;
  * waiting for each of the given stores.
  */
 class FluxStoreGroup {
-  _dispatcher: Dispatcher;
+  _dispatcher: Dispatcher<any>;
   _dispatchToken: DispatchToken;
 
   constructor(stores: Array<FluxStore>, callback: Function): void {
@@ -45,7 +45,7 @@ class FluxStoreGroup {
   }
 }
 
-function _getUniformDispatcher(stores: Array<FluxStore>): Dispatcher {
+function _getUniformDispatcher(stores: Array<FluxStore>): Dispatcher<any> {
   invariant(
     stores && stores.length,
     'Must provide at least one store to FluxStoreGroup'

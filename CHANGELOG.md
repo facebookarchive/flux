@@ -1,14 +1,26 @@
 # Changelog
 
+### 3.1.1
+
+* No meaningful changes.
+
+### 3.1.0
+
+* `Dispatcher`: Methods `register` and `unregister` can once again be called in
+ the middle of a dispatch.
+
 ### 3.0.0
 
+* `FluxMapStore`: Removed. It added very little value over `FluxReduceStore`.
 * `FluxContainer`: Subscriptions are setup in constructor rather than
  `componentDidMount`
 * `FluxContainer`: Can create containers using stateless functional components
 * `FluxContainer`: Uses functional version of `setState`
 * `FluxMixin`: Subscriptions are setup in `componentWillMount` rather than
  `componentDidMount`
-* `React` added as dependency to `flux/utils`
+* `Dispatcher`: Methods `register` and `unregister` can not be called in the
+ middle of a dispatch
+* `React` added as peer dependency to `flux/utils`
 * Package `dist/FluxUtils.js` alongside `dist/Flux.js`
 
 _**Note**: This is marked as a breaking change due to the large number of small

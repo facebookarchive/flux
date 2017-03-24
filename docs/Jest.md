@@ -2,6 +2,6 @@
 id: jest
 title: Jest – Unit Testing
 layout: docs
-category: Complementary
+category: Resources
 permalink: http://facebook.github.io/jest/
 ---

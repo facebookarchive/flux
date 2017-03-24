@@ -1,6 +1,6 @@
 {
   "name": "flux",
-  "version": "3.0.0",
+  "version": "3.1.2",
   "description": "An application architecture based on a unidirectional data flow",
   "keywords": [
     "flux",
@@ -45,11 +45,13 @@
     "gulp": "^3.9.0",
     "gulp-babel": "^5.1.0",
     "gulp-flatten": "^0.2.0",
-    "gulp-header": "^1.7.1",
+    "gulp-header": "1.8.2",
     "gulp-rename": "^1.2.2",
     "gulp-util": "^3.0.6",
-    "jest-cli": "^11.0.1",
+    "immutable": "^3.7.4",
+    "jest": "^15.1.1",
     "object-assign": "^4.0.1",
+    "react": "^15.0.2",
     "react-addons-test-utils": "^15.0.1",
     "react-dom": "^15.0.1",
     "run-sequence": "^1.1.0",
@@ -59,27 +61,24 @@
   },
   "dependencies": {
     "fbemitter": "^2.0.0",
-    "fbjs": "^0.8.0",
-    "immutable": "^3.7.4",
-    "react": "^15.0.1"
+    "fbjs": "^0.8.0"
+  },
+  "peerDependencies": {
+    "react": "^15.0.2"
   },
   "jest": {
     "modulePathIgnorePatterns": [
       "/lib/",
       "/node_modules/"
     ],
-    "persistModuleRegistryBetweenSpecs": true,
     "preprocessorIgnorePatterns": [
       "/node_modules/"
     ],
-    "rootDir": "",
+    "rootDir": "./",
     "scriptPreprocessor": "scripts/jest/preprocessor.js",
-    "setupEnvScriptFile": "scripts/jest/environment.js",
+    "setupFiles": ["scripts/jest/environment.js"],
     "testPathDirs": [
       "<rootDir>/src"
-    ],
-    "unmockedModulePathPatterns": [
-      "<rootDir>/node_modules/(?!fbemitter)"
     ]
   }
 }

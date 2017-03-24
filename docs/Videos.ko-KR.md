@@ -2,9 +2,9 @@
 id: videos-ko-KR
 title: 비디오
 layout: docs
-category: Community Resources
+category: Resources
 permalink: docs/videos-ko-KR.html
-next: examples-and-tools-ko-KR
+next: react-ko-KR
 lang: ko-KR
 ---
 

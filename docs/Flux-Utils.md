@@ -15,8 +15,7 @@ There are four main classes exposed in Flux Utils:
 
 1. Store
 2. ReduceStore
-3. MapStore
-4. Container
+3. Container
 
 These base classes can be imported from `flux/utils` like this:
 
@@ -115,23 +114,6 @@ Checks if two versions of state are the same. You do not need to override this i
 
 - **Doesn't need to emit a change**
 Note that any store that extends `ReduceStore` does not need to manually emit changes in `reduce()` (you still can if you want to though). The state is compared before and after each dispatch and changes are emitted automatically. If you need to control this behavior (perhaps because your state is mutable) override `areEqual()`.
-
-## MapStore<K, V>
-
-- **extends ReduceStore<Immutable.Map<K, V>>**
-This class extends ReduceStore and defines the state as an immutable map.
-
-- **at(key: K): V**
-Access the value at the given key. throws an error if the key does not exist in the cache.
-
-- **has(key: K): boolean**
-Check if the cache has a particular key
-
-- **get(key: K): ?V**
-Get the value of a particular key. Returns undefined if the key does not exist in the cache.
-
-- **getAll(keys: Iterable<K>, prev: ?Immutable.Map<K, V>): Immutable.Map<K, V>**
-Gets an array of keys and puts the values in a map if they exist, it allows providing a previous result to update instead of generating a new map. Providing a previous result allows the possibility of keeping the same reference if the keys did not change.
 
 ## Container
 

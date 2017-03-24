@@ -1,0 +1,17 @@
+{
+  "presets": ["es2015"],
+  "plugins": [
+    "syntax-async-functions",
+    "syntax-class-properties",
+    "syntax-flow",
+    "syntax-jsx",
+    "syntax-object-rest-spread",
+    "syntax-trailing-function-commas",
+    "transform-class-properties",
+    "transform-flow-strip-types",
+    "transform-object-rest-spread",
+    "transform-react-jsx",
+    "transform-regenerator",
+    "transform-runtime"
+  ]
+}

@@ -24,12 +24,30 @@ var {Component} = React;
 
 /**
  * Helper to create a container. The container must render a single div with
- * textContaner, this will return a function to access that content.
+ * text content, this will return a function to access that content.
  */
-function createContainer(containerClass, options, props) {
+function createContainer(containerClass, options, props, context) {
   var container = FluxContainer.create(containerClass, options);
   var element = React.createElement(container, props);
-  var tag = ReactTestUtils.renderIntoDocument(element);
+  var tag;
+  if (options && options.withContext) {
+    // Create a new component that provides the child context.
+    var ComponentWithContext = React.createClass({
+      childContextTypes: {
+        value: React.PropTypes.string,
+      },
+      getChildContext: function() {
+        return context;
+      },
+      render: function() {
+        return <span>{this.props.children}</span>;
+      },
+    });
+    var wrapper = React.createElement(ComponentWithContext, {}, element);
+    tag = ReactTestUtils.renderIntoDocument(wrapper);
+  } else {
+    tag = ReactTestUtils.renderIntoDocument(element);
+  }
   var component = ReactTestUtils.findRenderedDOMComponentWithTag(tag, 'div');
   var simpleDOMNode = ReactDOM.findDOMNode(component);
   return () => simpleDOMNode.textContent;
@@ -218,6 +236,38 @@ describe('FluxContainer', () => {
     }
     var getValue = createContainer(SimpleContainer);
     expect(getValue()).toBe('bar');
+  });
+
+  it('should get access to context', () => {
+    // Setup the container.
+    class SimpleContainer extends BaseContainer {
+      static contextTypes = {
+        value: React.PropTypes.string,
+      };
+
+      static calculateState(prevState, props, context) {
+        return {
+          value: context.value + '-' + FooStore.getState(),
+        };
+      }
+    }
+
+    var getValue = createContainer(
+      SimpleContainer,
+      {withProps: true, withContext: true}, // options
+      {}, // props
+      {
+        value: 'context',
+      }, // context
+    );
+
+    // Test it.
+    expect(getValue()).toBe('context-foo');
+    dispatch({
+      type: 'set',
+      value: 'bar',
+    });
+    expect(getValue()).toBe('context-bar');
   });
 
   // Still need to write a test for changing props. Can't figure out how to do

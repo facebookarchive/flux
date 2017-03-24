@@ -10,27 +10,43 @@ We actively welcome your pull requests.
 3. If you've changed APIs, update the documentation.
 4. Ensure the test suite passes.
 5. Make sure your code lints.
-6. If you haven't already, complete the Contributor License Agreement ("CLA").
+6. If you haven't already, complete the Contributor License Agreement (CLA).
 
-## Contributor License Agreement ("CLA")
+## Contributor License Agreement (CLA)
 In order to accept your pull request, we need you to submit a CLA. You only need
 to do this once to work on any of Facebook's open source projects.
 
 Complete your CLA here: <https://code.facebook.com/cla>
 
-## Issues
-We use GitHub issues to track public bugs. Please ensure your description is
-clear and has sufficient instructions to be able to reproduce the issue.
+## Bugs
 
-Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe
-disclosure of security bugs. In those cases, please go through the process
-outlined on that page and do not file a public issue.
+### Where to Find Known Issues
 
-## Coding Style
-* 2 spaces for indentation rather than tabs
+We will be using GitHub Issues for our public bugs. We will keep a close eye on this and try to make it clear when we have an internal fix in progress. Before filing a new task, try to make sure your problem doesn't already exist.
+
+### Reporting New Issues
+
+The best way to get your bug fixed is to provide a reduced test case. jsFiddle, jsBin, and other sites provide a way to give live examples. Those are especially helpful though may not work for `JSX`-based code.
+
+### Security Bugs
+
+Facebook has a [bounty program](https://www.facebook.com/whitehat/) for the safe disclosure of security bugs. With that in mind, please do not file public issues; go through the process outlined on that page.
+
+### Code Conventions
+
+* Use semicolons `;`
+* Commas last `,`
+* 2 spaces for indentation (no tabs)
+* Prefer `'` over `"`
+* `'use strict';`
 * 80 character line length
-* ...
+* Write "attractive" code
+* Do not use the optional parameters of `setTimeout` and `setInterval`
+
+### Documentation
+
+* Do not wrap lines at 80 characters
 
 ## License
-By contributing to Flux, you agree that your contributions will be licensed
-under its BSD license.
+
+By contributing to Flux, you agree that your contributions will be licensed under its BSD license.
