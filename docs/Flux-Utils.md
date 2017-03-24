@@ -11,7 +11,7 @@ Flux Utils is a set of basic utility classes to help get you started with Flux. 
 
 ## Usage
 
-There are four main classes exposed in Flux Utils:
+There are three main classes exposed in Flux Utils:
 
 1. Store
 2. ReduceStore
