@@ -128,6 +128,7 @@ class Dispatcher<TPayload> {
    */
   register(callback: (payload: TPayload) => void): DispatchToken {
     var id = _prefix + this._lastID++;
+    //Dispatcher shouldn't add a duplicate callback, right?
     this._callbacks[id] = callback;
     return id;
   }
