@@ -182,6 +182,10 @@ class Dispatcher<TPayload> {
       !this._isDispatching,
       'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
     );
+    invariant(
+        typeof payload.action === 'undefined',
+        'Dispatch.dispatch(...): Cannot dispatch payload with missing action.'
+    );
     this._startDispatching(payload);
     try {
       for (var id in this._callbacks) {
