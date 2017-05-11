@@ -80,7 +80,7 @@ var _prefix = 'ID_';
  *   CityStore.dispatchToken = flightDispatcher.register(function(payload) {
  *     if (payload.actionType === 'country-update') {
  *       // `CountryStore.country` may not be updated.
- *       flightDispatcher.waitFor([CountryStore.dispatchToken]);
+ *       flightDispatcher.waitFor([CountryStore.getDispatchToken()]);
  *       // `CountryStore.country` is now guaranteed to be updated.
  *
  *       // Select the default city for the new country
@@ -95,7 +95,7 @@ var _prefix = 'ID_';
  *       switch (payload.actionType) {
  *         case 'country-update':
  *         case 'city-update':
- *           flightDispatcher.waitFor([CityStore.dispatchToken]);
+ *           flightDispatcher.waitFor([CityStore.getDispatchToken()]);
  *           FlightPriceStore.price =
  *             getFlightPriceStore(CountryStore.country, CityStore.city);
  *           break;
