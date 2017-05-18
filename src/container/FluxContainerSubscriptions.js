@@ -15,10 +15,26 @@ import type FluxStore from 'FluxStore';
 
 const FluxStoreGroup = require('FluxStoreGroup');
 
+function shallowArrayEqual(a: Array<FluxStore>, b: Array<FluxStore>): boolean {
+  if (a === b) {
+    return true;
+  }
+  if (a.length !== b.length) {
+    return false;
+  }
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] !== b[i]) {
+      return false;
+    }
+  }
+  return true;
+}
+
 class FluxContainerSubscriptions {
 
   _callbacks: Array<() => void>;
   _storeGroup: ?FluxStoreGroup;
+  _stores: ?Array<FluxStore>;
   _tokens: ?Array<{remove: () => void}>;
 
   constructor() {
@@ -26,6 +42,10 @@ class FluxContainerSubscriptions {
   }
 
   setStores(stores: Array<FluxStore>): void {
+    if (this._stores && shallowArrayEqual(this._stores, stores)) {
+      return;
+    }
+    this._stores = stores;
     this._resetTokens();
     this._resetStoreGroup();
 
@@ -65,6 +85,7 @@ class FluxContainerSubscriptions {
     this._resetTokens();
     this._resetStoreGroup();
     this._resetCallbacks();
+    this._resetStores();
   }
 
   _resetTokens() {
@@ -79,6 +100,10 @@ class FluxContainerSubscriptions {
       this._storeGroup.release();
       this._storeGroup = null;
     }
+  }
+
+  _resetStores(): void {
+    this._stores = null;
   }
 
   _resetCallbacks(): void {
