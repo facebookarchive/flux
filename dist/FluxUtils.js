@@ -3229,7 +3229,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	/**
-	 * ReactElementValidator provides a wrapper around a element factory
+	 * ReactElementValidator provides a wrapper around an element factory
 	 * which validates the props passed to the element. This is intended to be
 	 * used only in DEV and could be replaced by a static type checker for languages
 	 * that support it.
@@ -5083,7 +5083,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @description
 	 * An EventEmitter is responsible for managing a set of listeners and publishing
 	 * events to them when it is told that such events happened. In addition to the
-	 * data for the given event it also sends a event control object which allows
+	 * data for the given event it also sends an event control object which allows
 	 * the listeners/handlers to prevent the default behavior of the given event.
 	 *
 	 * The emitter is designed to be generic enough to support all the different
