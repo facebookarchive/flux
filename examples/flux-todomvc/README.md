@@ -240,11 +240,11 @@ export default Todo;
 
 Now we can use this structure, along with a simple
 [`Counter`](./src/data/Counter.js) to implement the `ADD_TODO` action. Create
-or copy [`Counter`](./src/data/Counter.js) then update `data/TodoStore.js`
+or copy [`Counter`](./src/data/Counter.js) into the src/data folder then update `data/TodoStore.js`
 
 ```js
-import Counter from '../data/Counter';
-import Todo from '../data/Todo';
+import Counter from './Counter';
+import Todo from './Todo';
 
 class TodoStore extends ReduceStore {
   ...
