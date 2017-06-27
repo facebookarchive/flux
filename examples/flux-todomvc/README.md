@@ -243,8 +243,8 @@ Now we can use this structure, along with a simple
 or copy [`Counter`](./src/data/Counter.js) then update `data/TodoStore.js`
 
 ```js
-import Counter from '../data/Counter';
-import Todo from '../data/Todo';
+import Counter from './Counter';
+import Todo from './Todo';
 
 class TodoStore extends ReduceStore {
   ...
