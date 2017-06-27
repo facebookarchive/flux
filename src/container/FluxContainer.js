@@ -153,7 +153,10 @@ function create<DefaultProps, Props, State>(
         super.componentWillReceiveProps(nextProps, nextContext);
       }
 
-      if (realOptions.withProps || realOptions.withContext) {
+      if (
+        realOptions.withProps && !shallowEqual(this.props, nextProps) ||
+        realOptions.withContext && !shallowEqual(this.context, nextContext)
+      ) {
         // Update both stores and state.
         this._fluxContainerSubscriptions.setStores(
           getStores(nextProps, nextContext),
