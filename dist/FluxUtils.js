@@ -1,5 +1,5 @@
 /**
- * Flux v3.1.1
+ * Flux v3.1.3
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -180,7 +180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *       return [BarStore, FooStore];
 	 *     }
 	 *
-	 *     statc calculateState(prevState, props) {
+	 *     static calculateState(prevState, props) {
 	 *       const {BarStore, FooStore} = props.stores;
 	 *       return {
 	 *         bar: BarStore.getState(),
@@ -386,6 +386,21 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var FluxStoreGroup = __webpack_require__(3);
 
+	function shallowArrayEqual(a, b) {
+	  if (a === b) {
+	    return true;
+	  }
+	  if (a.length !== b.length) {
+	    return false;
+	  }
+	  for (var i = 0; i < a.length; i++) {
+	    if (a[i] !== b[i]) {
+	      return false;
+	    }
+	  }
+	  return true;
+	}
+
 	var FluxContainerSubscriptions = (function () {
 	  function FluxContainerSubscriptions() {
 	    _classCallCheck(this, FluxContainerSubscriptions);
@@ -396,6 +411,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	  FluxContainerSubscriptions.prototype.setStores = function setStores(stores) {
 	    var _this = this;
 
+	    if (this._stores && shallowArrayEqual(this._stores, stores)) {
+	      return;
+	    }
+	    this._stores = stores;
 	    this._resetTokens();
 	    this._resetStoreGroup();
 
@@ -445,6 +464,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._resetTokens();
 	    this._resetStoreGroup();
 	    this._resetCallbacks();
+	    this._resetStores();
 	  };
 
 	  FluxContainerSubscriptions.prototype._resetTokens = function _resetTokens() {
@@ -461,6 +481,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      this._storeGroup.release();
 	      this._storeGroup = null;
 	    }
+	  };
+
+	  FluxContainerSubscriptions.prototype._resetStores = function _resetStores() {
+	    this._stores = null;
 	  };
 
 	  FluxContainerSubscriptions.prototype._resetCallbacks = function _resetCallbacks() {
@@ -1548,7 +1572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright 2014-present, Facebook, Inc.
+	 * Copyright 2014-2015, Facebook, Inc.
 	 * All rights reserved.
 	 *
 	 * This source code is licensed under the BSD-style license found in the
