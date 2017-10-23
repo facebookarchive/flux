@@ -8,14 +8,18 @@ var HeaderLinks = require('HeaderLinks');
 
 var Site = React.createClass({
   render: function() {
+    var pageTitle = this.props.title
+      ? `${this.props.title} | Flux`
+      : 'Flux | Application Architecture for Building User Interfaces'
+    ;
     return (
       <html>
         <head>
           <meta charSet="utf-8" />
           <meta httpEquiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-          <title>Flux | Application Architecture for Building User Interfaces</title>
+          <title>{pageTitle}</title>
           <meta name="viewport" content="width=device-width" />
-          <meta property="og:title" content="Flux | Application Architecture for Building User Interfaces" />
+          <meta property="og:title" content={pageTitle} />
           <meta property="og:type" content="website" />
           <meta property="og:url" content="http://facebook.github.io/flux/index.html" />
           <meta property="og:description" content="Application Architecture for Building User Interfaces" />
