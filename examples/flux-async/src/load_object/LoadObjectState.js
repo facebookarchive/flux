@@ -38,6 +38,7 @@ class LoadObjectState<V> {
 
   getLoadObject(): LoadObject<V> {
     if (!this._preventLoadsForThisFrame && this._shouldLoad(this._data)) {
+      this._preventLoadsForThisFrame = true;
       this._clearPreventLoadsForThisFrame = setTimeout(
         () => {
           this._load();
