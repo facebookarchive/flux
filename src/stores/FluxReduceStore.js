@@ -43,7 +43,7 @@ class FluxReduceStore<TState> extends FluxStore {
 
   _state: TState;
 
-  constructor(dispatcher: Dispatcher<any>) {
+  constructor(dispatcher: Dispatcher<Object>) {
     super(dispatcher);
     this._state = this.getInitialState();
   }
