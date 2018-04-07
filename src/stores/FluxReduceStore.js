@@ -80,9 +80,7 @@ class FluxReduceStore<TState> extends FluxStore {
     return one === two;
   }
 
-  __invokeOnDispatch(action: Object): void {
-    this.__changed = false;
-
+  __onDispatch(action: Object): void {
     // Reduce the stream of incoming actions to state, update when necessary.
     const startingState = this._state;
     const endingState = this.reduce(startingState, action);
@@ -102,10 +100,6 @@ class FluxReduceStore<TState> extends FluxStore {
       // change will be fired from the emitter at the end of the dispatch, this
       // is required in order to support methods like `hasChanged()`
       this.__emitChange();
-    }
-
-    if (this.__changed) {
-      this.__emitter.emit(this.__changeEvent);
     }
   }
 }
