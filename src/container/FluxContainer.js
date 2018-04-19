@@ -131,7 +131,7 @@ function create<DefaultProps, Props, State>(
     constructor(props: Props, context: any) {
       super(props, context);
       this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
-      this._fluxContainerSubscriptions.setStores(getStores(props));
+      this._fluxContainerSubscriptions.setStores(getStores(props, context));
       this._fluxContainerSubscriptions.addListener(() => {
         this.setState(
           (prevState, currentProps) => getState(
