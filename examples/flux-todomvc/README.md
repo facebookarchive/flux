@@ -112,11 +112,11 @@ Set up `data/TodoActionTypes.js`. This is a simple enum to list the kinds of
 actions we will be creating.
 
 ```js
-const ActionTypes = {
+const TodoActionTypes = {
   ADD_TODO: 'ADD_TODO',
 };
 
-export default ActionTypes;
+export default TodoActionTypes;
 ```
 
 Set up `data/TodoActions.js`. Each function here dispatches an action.
