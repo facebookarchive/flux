@@ -112,11 +112,11 @@ Set up `data/TodoActionTypes.js`. This is a simple enum to list the kinds of
 actions we will be creating.
 
 ```js
-const ActionTypes = {
+const TodoActionTypes = {
   ADD_TODO: 'ADD_TODO',
 };
 
-export default ActionTypes;
+export default TodoActionTypes;
 ```
 
 Set up `data/TodoActions.js`. Each function here dispatches an action.
@@ -125,7 +125,7 @@ Set up `data/TodoActions.js`. Each function here dispatches an action.
 import TodoActionTypes from './TodoActionTypes';
 import TodoDispatcher from './TodoDispatcher';
 
-const Actions = {
+const TodoActions = {
   addTodo(text) {
     TodoDispatcher.dispatch({
       type: TodoActionTypes.ADD_TODO,
@@ -134,7 +134,7 @@ const Actions = {
   },
 };
 
-export default Actions;
+export default TodoActions;
 ```
 
 Now we can set up our first store! Open `data/TodoStore.js`. This will save
