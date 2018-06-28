@@ -273,6 +273,8 @@ Let's update our view to actually render the Todos that are being stored. Update
 `views/AppView.js`.
 
 ```js
+import React from 'react';
+
 function AppView(props) {
   return (
     <div>
@@ -341,6 +343,8 @@ function Footer(props) {
     </footer>
   );
 }
+
+export default AppView;
 ```
 
 To make sure it all works we have to create some fake data for now. Modify
