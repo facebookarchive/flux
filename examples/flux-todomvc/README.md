@@ -70,6 +70,8 @@ Update `examples/my-todomvc/index.html` to include the assets:
 Update `examples/my-todomvc/src/root.js` to render into correct element:
 
 ```js
+...
+
 ReactDOM.render(<div>Hello World!</div>, document.getElementById('todoapp'));
 ```
 
@@ -243,6 +245,7 @@ Now we can use this structure, along with a simple
 or copy [`Counter`](./src/data/Counter.js) then update `data/TodoStore.js`
 
 ```js
+...
 import Counter from './Counter';
 import Todo from './Todo';
 
@@ -267,12 +270,16 @@ class TodoStore extends ReduceStore {
     }
   }
 }
+
+...
 ```
 
 Let's update our view to actually render the Todos that are being stored. Update
 `views/AppView.js`.
 
 ```js
+import React from 'react';
+
 function AppView(props) {
   return (
     <div>
@@ -341,6 +348,8 @@ function Footer(props) {
     </footer>
   );
 }
+
+export default AppView;
 ```
 
 To make sure it all works we have to create some fake data for now. Modify
@@ -377,11 +386,15 @@ const ActionTypes = {
   DELETE_TODO: 'DELETE_TODO',
   TOGGLE_TODO: 'TOGGLE_TODO',
 };
+
+export default ActionTypes;
 ```
 
 Update `data/TodoActions.js`
 
 ```js
+...
+
 const Actions = {
   addTodo(text) {
     TodoDispatcher.dispatch({
@@ -404,11 +417,14 @@ const Actions = {
     });
   },
 };
+
+export default Actions;
 ```
 
 Update `data/TodoStore.js`
 
 ```js
+...
 class TodoStore extends ReduceStore {
   ...
   reduce(state, action) {
@@ -426,6 +442,8 @@ class TodoStore extends ReduceStore {
     }
   }
 }
+
+export default new TodoStore();
 ```
 
 Now our store is capable of deleting or toggling a Todo. Let's hook it up to
@@ -437,8 +455,10 @@ actions directly. This makes it easier to reuse, test, and change views.
 Update `containers/AppContainer.js`
 
 ```js
+...
 import TodoActions from '../data/TodoActions';
 
+...
 function getState() {
   return {
     todos: TodoStore.getState(),
@@ -447,12 +467,16 @@ function getState() {
     onToggleTodo: TodoActions.toggleTodo,
   };
 }
+
+...
 ```
 
 Now we need to use the callbacks and update a small amount of rendering logic
 that displays the number of completed todos. Update `views/AppView.js`
 
 ```js
+...
+
 function Main(props) {
   if (props.todos.size === 0) {
     return null;
@@ -501,6 +525,8 @@ function Footer(props) {
     </footer>
   );
 }
+
+export default AppView;
 ```
 
 - [ ] **Refresh the page and you should be able to toggle todos and delete them. Toggling todos should also update the counter of todos remaining in the footer.**
