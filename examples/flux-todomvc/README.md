@@ -98,7 +98,7 @@ src
     └── AppView.js
 ```
 
-Set up `TodoDispatcher`. Here we just need to import dispatcher from Flux
+Set up `data/TodoDispatcher.js`. Here we just need to import dispatcher from Flux
 and instantiate a new dispatcher to use throughout the application.
 
 ```js
