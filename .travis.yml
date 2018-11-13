@@ -3,7 +3,9 @@ sudo: false
 language: node_js
 
 node_js:
-  - "4"
+  - "node"
+  - "10"
+  - "8"
   - "6"
 
 script:
