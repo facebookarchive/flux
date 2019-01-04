@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "examples": "docusaurus-examples",
+    "examples": "flux website",
     "start": "docusaurus-start",
     "build": "docusaurus-build",
     "publish-gh-pages": "docusaurus-publish",
