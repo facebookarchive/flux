@@ -21,19 +21,21 @@ function Help(props) {
 
   const supportLinks = [
     {
-      content: `Learn more using the [documentation on this site.](${docUrl(
-        'overview.html',
-      )})`,
-      title: 'Browse Docs',
+      content: `Many members of the community use Stack Overflow to ask questions. Read through the [existing questions](https://stackoverflow.com/questions/tagged/reactjs) tagged with reactjs or [ask your own!](https://stackoverflow.com/questions/ask)`,
+      title: 'StackOverflow',
     },
     {
-      content: 'Ask questions about the documentation and project',
-      title: 'Join the community',
+      content: '[The reactjs Google Group](https://groups.google.com/forum/#!forum/reactjs) is also a good place to ask questions and find answers.',
+      title: 'Google Groups mailing list',
     },
     {
-      content: "Find out what's new with this project",
-      title: 'Stay up to date',
+      content: 'Many developers and users idle on Freenode.net\'s IRC network in [#reactjs on freenode.](irc://chat.freenode.net/reactjs)',
+      title: 'IRC',
     },
+    {
+      content: '[#fluxjs hash tag on Twitter](https://twitter.com/search?q=%23fluxjs) is used to keep up with the latest Flux news.',
+      title: 'Twitter',
+    }
   ];
 
   return (
@@ -43,8 +45,8 @@ function Help(props) {
           <header className="postHeader">
             <h1>Need help?</h1>
           </header>
-          <p>This project is maintained by a dedicated group of people.</p>
-          <GridBlock contents={supportLinks} layout="threeColumn" />
+          <p>Flux is worked on full-time by Facebook's product infrastructure user interface engineering teams. They're often around and available for questions.</p>
+          <GridBlock contents={supportLinks} layout="twoColumn" />
         </div>
       </Container>
     </div>

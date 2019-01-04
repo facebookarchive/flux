@@ -14,7 +14,7 @@ const siteConfig = {
 
   headerLinks: [
     { doc: "overview", label: "Docs" },
-    { doc: "support", label: "Support" },
+    { href: "/flux/help", label: "Support" },
     { href: "https://github.com/facebook/flux", label: "GitHub" }
   ],
 
