@@ -1,0 +1,55 @@
+/* your custom css */
+
+.homeContainer {
+  background-color: #f0f0f0;
+  background-image: linear-gradient(to right bottom, #07341d, #00322a, #003035, #002c3c, #00273d, #0a2338, #111f33, #151b2e, #161826, #15161f, #131318, #101010);
+}
+
+.homeDescription {
+  width: 50%;
+  margin: 0 auto;
+  max-width: 700px;
+  color: #c4c4c4;
+  font-weight: 100;
+}
+
+.fluxLogo {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.homeVideo {
+  margin-top: 1.3em;
+  width: 560px;
+}
+
+.projectTitle {
+  color: #f5f5f5;
+}
+
+.homeButton {
+  border: 1px solid #e3e3e3;
+  color: #e3e3e3;
+}
+
+@media only screen and (min-device-width: 360px) and (max-device-width: 736px) {
+  .homeVideo {
+    max-width: 90%;
+  }
+
+  .homeDescription {
+    width: 90%;
+  }
+}
+
+@media only screen and (min-width: 1024px) {
+}
+
+@media only screen and (max-width: 1023px) {
+}
+
+@media only screen and (min-width: 1400px) {
+}
+
+@media only screen and (min-width: 1500px) {
+}

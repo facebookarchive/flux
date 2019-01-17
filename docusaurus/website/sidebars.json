@@ -1,0 +1,15 @@
+{
+  "docs": {
+    "Quick Start": [
+      "overview",
+      "in-depth-overview"
+    ],
+    "Reference": [
+      "dispatcher", 
+      "flux-utils"
+    ],
+    "Resources": [
+      "videos"
+    ]
+  }
+}
