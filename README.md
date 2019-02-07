@@ -5,14 +5,14 @@ An application architecture for React utilizing a unidirectional data flow.
 
 ## Getting Started
 
-Start by looking through the [guides and examples](./examples) on Github. For more resources and API docs check out [facebook.github.io/flux](http://facebook.github.io/flux).
+Start by looking through the [guides and examples](./examples) on Github. For more resources and API docs check out [facebook.github.io/flux](https://facebook.github.io/flux).
 
 ## How Flux works
 
 For more information on how Flux works check out the [Flux Concepts](./examples/flux-concepts) guide, or the [In Depth Overview](https://facebook.github.io/flux/docs/in-depth-overview.html#content).
 
 ## Requirements
-Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](http://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module, along with some other utilities, is available here to complete your Flux toolbox.
+Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module, along with some other utilities, is available here to complete your Flux toolbox.
 
 ## Installing Flux
 Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you can add it to your package.json file or run `npm install flux`.  The dispatcher will be available as `Flux.Dispatcher` and can be required like this:
@@ -21,7 +21,7 @@ Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you 
 const Dispatcher = require('flux').Dispatcher;
 ```
 
-Take a look at the [dispatcher API and some examples](http://facebook.github.io/flux/docs/dispatcher.html#content).
+Take a look at the [dispatcher API and some examples](https://facebook.github.io/flux/docs/dispatcher.html#content).
 
 ## Flux Utils
 
@@ -55,7 +55,7 @@ Check out the [examples](./examples) and [documentation](https://facebook.github
 ## Building Flux from a Cloned Repo
 Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
 
-This will run [Gulp](http://gulpjs.com/)-based build tasks automatically and produce the file Flux.js, which you can then require as a module.
+This will run [Gulp](https://gulpjs.com/)-based build tasks automatically and produce the file Flux.js, which you can then require as a module.
 
 You could then require the Dispatcher like so:
 
