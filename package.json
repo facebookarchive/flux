@@ -8,7 +8,7 @@
     "facebook",
     "dispatcher"
   ],
-  "homepage": "http://facebook.github.io/flux/",
+  "homepage": "https://facebook.github.io/flux/",
   "bugs": "https://github.com/facebook/flux/issues",
   "files": [
     "LICENSE",
