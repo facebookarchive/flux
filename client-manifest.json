@@ -1,0 +1,436 @@
+{
+  "entrypoints": [
+    "main"
+  ],
+  "origins": {
+    "@theme/DocPage": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      0
+    ],
+    "@theme/DocItem": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      0
+    ],
+    "@theme/NotFound": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      0
+    ],
+    "react-helmet": [
+      0,
+      2,
+      3,
+      4,
+      1
+    ],
+    "common": [
+      0,
+      1,
+      3,
+      4,
+      2
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/src/pages/index.js": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/src/pages/support.js": [
+      0,
+      1,
+      2,
+      4
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Dispatcher.md": [
+      0,
+      5
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Dispatcher.ko-KR.md": [
+      0,
+      6
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Flux-Utils.md": [
+      0,
+      7
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/In-Depth-Overview.md": [
+      0,
+      8
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Overview.ko-KR.md": [
+      0,
+      9
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Overview.md": [
+      0,
+      10
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Related-Libraries.md": [
+      0,
+      11
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Videos.md": [
+      0,
+      12
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/docs/Videos.ko-KR.md": [
+      0,
+      13
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-823.json": [
+      14
+    ],
+    "main": [
+      27,
+      15
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-pages/flux-f92.json": [
+      16
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-dispatcher-6eb.json": [
+      17
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-dispatcher-ko-kr-1a8.json": [
+      18
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-flux-utils-773.json": [
+      19
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-in-depth-overview-e57.json": [
+      20
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-overview-ko-kr-5dd.json": [
+      21
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-overview-2bb.json": [
+      22
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-related-libraries-f8c.json": [
+      23
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-videos-2b7.json": [
+      24
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-docs/flux-docs-videos-ko-kr-747.json": [
+      25
+    ],
+    "/Users/yangshun/Developer/docusaurus-users/flux/website/.docusaurus/docusaurus-plugin-content-pages/flux-support-0f1.json": [
+      26
+    ],
+    "runtime~main": [
+      15,
+      27
+    ]
+  },
+  "assets": {
+    "0": {
+      "css": [
+        {
+          "file": "vendors.c3b31fcaeb26b9b31962.css",
+          "hash": "c3b31fcaeb26b9b31962",
+          "publicPath": "/flux/vendors.c3b31fcaeb26b9b31962.css"
+        }
+      ],
+      "js": [
+        {
+          "file": "vendors.c3b31fcaeb26b9b31962.js",
+          "hash": "c3b31fcaeb26b9b31962",
+          "publicPath": "/flux/vendors.c3b31fcaeb26b9b31962.js"
+        }
+      ]
+    },
+    "1": {
+      "js": [
+        {
+          "file": "react-helmet.c1d668295127802faf17.js",
+          "hash": "c1d668295127802faf17",
+          "publicPath": "/flux/react-helmet.c1d668295127802faf17.js"
+        }
+      ]
+    },
+    "2": {
+      "css": [
+        {
+          "file": "common.b7f3c54850c434c2d821.css",
+          "hash": "b7f3c54850c434c2d821",
+          "publicPath": "/flux/common.b7f3c54850c434c2d821.css"
+        }
+      ],
+      "js": [
+        {
+          "file": "common.b7f3c54850c434c2d821.js",
+          "hash": "b7f3c54850c434c2d821",
+          "publicPath": "/flux/common.b7f3c54850c434c2d821.js"
+        }
+      ]
+    },
+    "3": {
+      "js": [
+        {
+          "file": "component---users-yangshun-developer-docusaurus-users-flux-website-src-pages-index-js-026-3d0.f1ea1e87767f0b3313fe.js",
+          "hash": "f1ea1e87767f0b3313fe",
+          "publicPath": "/flux/component---users-yangshun-developer-docusaurus-users-flux-website-src-pages-index-js-026-3d0.f1ea1e87767f0b3313fe.js"
+        }
+      ]
+    },
+    "4": {
+      "js": [
+        {
+          "file": "component---users-yangshun-developer-docusaurus-users-flux-website-src-pages-support-js-898-3f4.dae85e265ef533a5dfd0.js",
+          "hash": "dae85e265ef533a5dfd0",
+          "publicPath": "/flux/component---users-yangshun-developer-docusaurus-users-flux-website-src-pages-support-js-898-3f4.dae85e265ef533a5dfd0.js"
+        }
+      ]
+    },
+    "5": {
+      "js": [
+        {
+          "file": "content---flux-docs-dispatcher-893-6c7.b4c4f53aaab4fd9e242d.js",
+          "hash": "b4c4f53aaab4fd9e242d",
+          "publicPath": "/flux/content---flux-docs-dispatcher-893-6c7.b4c4f53aaab4fd9e242d.js"
+        }
+      ]
+    },
+    "6": {
+      "js": [
+        {
+          "file": "content---flux-docs-dispatcher-ko-kr-3-a-1-aac.b43d2b870db3b780ab4b.js",
+          "hash": "b43d2b870db3b780ab4b",
+          "publicPath": "/flux/content---flux-docs-dispatcher-ko-kr-3-a-1-aac.b43d2b870db3b780ab4b.js"
+        }
+      ]
+    },
+    "7": {
+      "js": [
+        {
+          "file": "content---flux-docs-flux-utils-57-f-310.3e5b651c04ff8e228de8.js",
+          "hash": "3e5b651c04ff8e228de8",
+          "publicPath": "/flux/content---flux-docs-flux-utils-57-f-310.3e5b651c04ff8e228de8.js"
+        }
+      ]
+    },
+    "8": {
+      "js": [
+        {
+          "file": "content---flux-docs-in-depth-overview-151-3dc.16e4ba526eb83132d4fe.js",
+          "hash": "16e4ba526eb83132d4fe",
+          "publicPath": "/flux/content---flux-docs-in-depth-overview-151-3dc.16e4ba526eb83132d4fe.js"
+        }
+      ]
+    },
+    "9": {
+      "js": [
+        {
+          "file": "content---flux-docs-overview-ko-k-rc-6-f-a37.746f46cd1bfc3d518657.js",
+          "hash": "746f46cd1bfc3d518657",
+          "publicPath": "/flux/content---flux-docs-overview-ko-k-rc-6-f-a37.746f46cd1bfc3d518657.js"
+        }
+      ]
+    },
+    "10": {
+      "js": [
+        {
+          "file": "content---flux-docs-overviewa-0-f-9fd.9d032a0eb360c01109f2.js",
+          "hash": "9d032a0eb360c01109f2",
+          "publicPath": "/flux/content---flux-docs-overviewa-0-f-9fd.9d032a0eb360c01109f2.js"
+        }
+      ]
+    },
+    "11": {
+      "js": [
+        {
+          "file": "content---flux-docs-related-libraries-5-cc-35b.093c60316fe0eb83ae16.js",
+          "hash": "093c60316fe0eb83ae16",
+          "publicPath": "/flux/content---flux-docs-related-libraries-5-cc-35b.093c60316fe0eb83ae16.js"
+        }
+      ]
+    },
+    "12": {
+      "js": [
+        {
+          "file": "content---flux-docs-videos-39-a-847.a8af90937ec58132dbb1.js",
+          "hash": "a8af90937ec58132dbb1",
+          "publicPath": "/flux/content---flux-docs-videos-39-a-847.a8af90937ec58132dbb1.js"
+        }
+      ]
+    },
+    "13": {
+      "js": [
+        {
+          "file": "content---flux-docs-videos-ko-kr-5-da-f4f.a8a620b95eae17771752.js",
+          "hash": "a8a620b95eae17771752",
+          "publicPath": "/flux/content---flux-docs-videos-ko-kr-5-da-f4f.a8a620b95eae17771752.js"
+        }
+      ]
+    },
+    "14": {
+      "js": [
+        {
+          "file": "docsMetadata---flux-docsc-1-a-26d.4f60439756f7034552ec.js",
+          "hash": "4f60439756f7034552ec",
+          "publicPath": "/flux/docsMetadata---flux-docsc-1-a-26d.4f60439756f7034552ec.js"
+        }
+      ]
+    },
+    "15": {
+      "css": [
+        {
+          "file": "main.6add3412b85326998e11.css",
+          "hash": "6add3412b85326998e11",
+          "publicPath": "/flux/main.6add3412b85326998e11.css"
+        }
+      ],
+      "js": [
+        {
+          "file": "main.6add3412b85326998e11.js",
+          "hash": "6add3412b85326998e11",
+          "publicPath": "/flux/main.6add3412b85326998e11.js"
+        }
+      ]
+    },
+    "16": {
+      "js": [
+        {
+          "file": "metadata---flux-2-c-4-960.baf2fc157a5d0380cd75.js",
+          "hash": "baf2fc157a5d0380cd75",
+          "publicPath": "/flux/metadata---flux-2-c-4-960.baf2fc157a5d0380cd75.js"
+        }
+      ]
+    },
+    "17": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-dispatcher-832-d67.91dbfd1843519d554535.js",
+          "hash": "91dbfd1843519d554535",
+          "publicPath": "/flux/metadata---flux-docs-dispatcher-832-d67.91dbfd1843519d554535.js"
+        }
+      ]
+    },
+    "18": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-dispatcher-ko-kr-913-c18.e37b65ed614ffc066a6b.js",
+          "hash": "e37b65ed614ffc066a6b",
+          "publicPath": "/flux/metadata---flux-docs-dispatcher-ko-kr-913-c18.e37b65ed614ffc066a6b.js"
+        }
+      ]
+    },
+    "19": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-flux-utils-91-b-c19.f67be8bb6204c9da37cf.js",
+          "hash": "f67be8bb6204c9da37cf",
+          "publicPath": "/flux/metadata---flux-docs-flux-utils-91-b-c19.f67be8bb6204c9da37cf.js"
+        }
+      ]
+    },
+    "20": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-in-depth-overview-852-934.250c2e304cce65d325a1.js",
+          "hash": "250c2e304cce65d325a1",
+          "publicPath": "/flux/metadata---flux-docs-in-depth-overview-852-934.250c2e304cce65d325a1.js"
+        }
+      ]
+    },
+    "21": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-overview-ko-kr-3-c-5-0a8.e017545daefd5856879c.js",
+          "hash": "e017545daefd5856879c",
+          "publicPath": "/flux/metadata---flux-docs-overview-ko-kr-3-c-5-0a8.e017545daefd5856879c.js"
+        }
+      ]
+    },
+    "22": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-overviewcd-6-0ab.3e77acfb663d63a555b9.js",
+          "hash": "3e77acfb663d63a555b9",
+          "publicPath": "/flux/metadata---flux-docs-overviewcd-6-0ab.3e77acfb663d63a555b9.js"
+        }
+      ]
+    },
+    "23": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-related-librariesef-2-884.3da1cea7246a9d9c4f5c.js",
+          "hash": "3da1cea7246a9d9c4f5c",
+          "publicPath": "/flux/metadata---flux-docs-related-librariesef-2-884.3da1cea7246a9d9c4f5c.js"
+        }
+      ]
+    },
+    "24": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-videos-451-dd0.a6042825cbac1ff6505a.js",
+          "hash": "a6042825cbac1ff6505a",
+          "publicPath": "/flux/metadata---flux-docs-videos-451-dd0.a6042825cbac1ff6505a.js"
+        }
+      ]
+    },
+    "25": {
+      "js": [
+        {
+          "file": "metadata---flux-docs-videos-ko-kr-1-d-7-9e2.2bf895725a317565cf64.js",
+          "hash": "2bf895725a317565cf64",
+          "publicPath": "/flux/metadata---flux-docs-videos-ko-kr-1-d-7-9e2.2bf895725a317565cf64.js"
+        }
+      ]
+    },
+    "26": {
+      "js": [
+        {
+          "file": "metadata---flux-supportbc-0-089.9805a651e30241c06561.js",
+          "hash": "9805a651e30241c06561",
+          "publicPath": "/flux/metadata---flux-supportbc-0-089.9805a651e30241c06561.js"
+        }
+      ]
+    },
+    "27": {
+      "js": [
+        {
+          "file": "runtime~main.5d0e3e52f50acbbacb5c.js",
+          "hash": "5d0e3e52f50acbbacb5c",
+          "publicPath": "/flux/runtime~main.5d0e3e52f50acbbacb5c.js"
+        }
+      ]
+    }
+  }
+}

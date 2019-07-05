@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[26],{39:function(s){s.exports={permalink:"/flux/support",source:"/Users/yangshun/Developer/docusaurus-users/flux/website/src/pages/support.js"}}}]);

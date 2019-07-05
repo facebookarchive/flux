@@ -1,0 +1,1 @@
+(window.webpackJsonp=window.webpackJsonp||[]).push([[18],{42:function(s){s.exports={id:"dispatcher-ko-KR",title:"Dispatcher",description:"Dispatcher는 등록된 callback에 데이터를 중계할 때 사용된다. 일반적인 pub-sub 시스템과는 다음 두 항목이 다르다:",source:"/Users/yangshun/Developer/docusaurus-users/flux/docs/Dispatcher.ko-KR.md",permalink:"/flux/docs/dispatcher-ko-KR"}}}]);
