@@ -5,7 +5,7 @@ title: In-Depth Overview
 
 Flux is the application architecture that Facebook uses for building client-side web applications. It complements React's composable view components by utilizing a unidirectional data flow. It's more of a pattern rather than a formal framework, and you can start using Flux immediately without a lot of new code.
 
-<figure className="video-container">
+<figure class="video-container">
   <iframe src="//www.youtube.com/embed/nYkdrAPrdcw?list=PLb0IAmt7-GS188xDYE-u1ShQmFFGbrk0v&start=621" frameborder="0" allowfullscreen width="100%"></iframe>
 </figure>
 
