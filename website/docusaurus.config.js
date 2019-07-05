@@ -11,6 +11,8 @@ module.exports = {
   url: 'https://facebook.github.io',
   baseUrl: '/flux/',
   favicon: 'img/favicon.ico',
+  organizationName: 'facebook',
+  projectName: 'flux',
   themeConfig: {
     navbar: {
       title: 'Flux',
