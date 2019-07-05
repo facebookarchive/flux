@@ -1,43 +1,39 @@
 ---
 id: dispatcher
 title: Dispatcher
-layout: docs
-category: Reference
-permalink: docs/dispatcher.html
-next: flux-utils
 ---
 
 Dispatcher is used to broadcast payloads to registered callbacks. This is
 different from generic pub-sub systems in two ways:
 
 - Callbacks are not subscribed to particular events. Every payload is
-     dispatched to every registered callback.
+  dispatched to every registered callback.
 - Callbacks can be deferred in whole or part until other callbacks have
-     been executed.
+  been executed.
 
 Check out [Dispatcher.js](https://github.com/facebook/flux/blob/master/src/Dispatcher.js) for the source code.
 
 ## API
 
-- **register(function callback): string**
-Registers a callback to be invoked with every dispatched payload. Returns a token that can be used with `waitFor()`.
+- **`register(function callback): string`**
+  Registers a callback to be invoked with every dispatched payload. Returns a token that can be used with `waitFor()`.
 
-- **unregister(string id): void**
-Removes a callback based on its token.
+- **`unregister(string id): void`**
+  Removes a callback based on its token.
 
-- **waitFor(array<string> ids): void**
-Waits for the callbacks specified to be invoked before continuing execution of the current callback. This method should only be used by a callback in response to a dispatched payload.
+- **`waitFor(array<string> ids): void`**
+  Waits for the callbacks specified to be invoked before continuing execution of the current callback. This method should only be used by a callback in response to a dispatched payload.
 
-- **dispatch(object payload): void** Dispatches a payload to all registered callbacks.
+- **`dispatch(object payload): void`** Dispatches a payload to all registered callbacks.
 
-- **isDispatching(): boolean** Is this Dispatcher currently dispatching.
+- **`isDispatching(): boolean`** Is this Dispatcher currently dispatching.
 
 ## Example
 
 For example, consider this hypothetical flight destination form, which
 selects a default city when a country is selected:
 
-```
+```js
 var flightDispatcher = new Dispatcher();
 
 // Keeps track of which country is selected
@@ -52,7 +48,7 @@ var FlightPriceStore = {price: null};
 
 When a user changes the selected city, we dispatch the payload:
 
-```
+```js
 flightDispatcher.dispatch({
   actionType: 'city-update',
   selectedCity: 'paris'
@@ -61,7 +57,7 @@ flightDispatcher.dispatch({
 
 This payload is digested by `CityStore`:
 
-```
+```js
 flightDispatcher.register(function(payload) {
   if (payload.actionType === 'city-update') {
     CityStore.city = payload.selectedCity;
@@ -71,7 +67,7 @@ flightDispatcher.register(function(payload) {
 
 When the user selects a country, we dispatch the payload:
 
-```
+```js
 flightDispatcher.dispatch({
   actionType: 'country-update',
   selectedCountry: 'australia'
@@ -80,7 +76,7 @@ flightDispatcher.dispatch({
 
 This payload is digested by both stores:
 
-```
+```js
  CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
   if (payload.actionType === 'country-update') {
     CountryStore.country = payload.selectedCountry;
@@ -93,7 +89,7 @@ to the returned token. Using this token with `waitFor()`, we can guarantee
 that `CountryStore` is updated before the callback that updates `CityStore`
 needs to query its data.
 
-```
+```js
 CityStore.dispatchToken = flightDispatcher.register(function(payload) {
   if (payload.actionType === 'country-update') {
     // `CountryStore.country` may not be updated.
@@ -108,7 +104,7 @@ CityStore.dispatchToken = flightDispatcher.register(function(payload) {
 
 The usage of `waitFor()` can be chained, for example:
 
-```
+```js
 FlightPriceStore.dispatchToken =
   flightDispatcher.register(function(payload) {
     switch (payload.actionType) {

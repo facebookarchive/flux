@@ -1,10 +1,6 @@
 ---
 id: videos
 title: Videos
-layout: docs
-category: Resources
-permalink: docs/videos.html
-next: react
 ---
 
 ### "Rethinking Web App Development at Facebook" - Facebook F8 Conference 2014
