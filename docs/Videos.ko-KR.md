@@ -1,14 +1,9 @@
 ---
 id: videos-ko-KR
 title: 비디오
-layout: docs
-category: Resources
-permalink: docs/videos-ko-KR.html
-next: react-ko-KR
-lang: ko-KR
 ---
 
-### "Rethinking Web App Development at Facebook" - Facebook F8 Conference 2014
+### Rethinking Web App Development at Facebook - Facebook F8 Conference 2014
 
 <figure class="video-container disassociated-with-next-sibling">
   <iframe src="//www.youtube.com/embed/nYkdrAPrdcw" frameborder="0" allowfullscreen></iframe>

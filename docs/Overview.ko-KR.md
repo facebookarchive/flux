@@ -3,7 +3,6 @@ id: overview-ko-KR
 title: 개요
 layout: docs
 category: Quick Start
-permalink: docs/overview-ko-KR.html
 next: dispatcher-ko-KR
 lang: ko-KR
 ---
@@ -32,7 +31,7 @@ Flux 애플리케이션에서의 데이터는 단방향으로 흐른다:
   <img src="/flux/img/flux-simple-f8-diagram-1300w.png" alt="Flux에서의 단방향 데이터 흐름" />
 </figure>
 
-단방향 데이터 흐름은 Flux 패턴의 핵심인데 위 다이어그램은 __Flux 프로그래머를 위한 제일의 멘탈 모델__이 된다. dispatcher, store와 view는 독립적인 노드로 입력과 출력이 완전히 구분된다. action은 새로운 데이터를 포함하고 있는 간단한 객체로 _type_ 프로퍼티로 구분할 수 있다.
+단방향 데이터 흐름은 Flux 패턴의 핵심인데 위 다이어그램은 **Flux 프로그래머를 위한 제일의 멘탈 모델**이 된다. dispatcher, store와 view는 독립적인 노드로 입력과 출력이 완전히 구분된다. action은 새로운 데이터를 포함하고 있는 간단한 객체로 _type_ 프로퍼티로 구분할 수 있다.
 
 <p class="associated-with-next-sibling">
 view는 사용자의 상호작용에 응답하기 위해 새로운 action을 만들어 시스템에 전파한다:
@@ -50,7 +49,7 @@ view는 사용자의 상호작용에 응답하기 위해 새로운 action을 만
   <img src="/flux/img/flux-simple-f8-diagram-explained-1300w.png" alt="flux 데이터 흐름의 각각 순서에서 다양하게 전달되는 데이터" />
 </figure>
 
-Action creator는 라이브러리에서 제공하는 도움 메소드로 메소드 파라미터에서 action을 생성하고 _type_을 설정하거나 dispatcher에게 제공하는 역할을 한다.
+Action creator는 라이브러리에서 제공하는 도움 메소드로 메소드 파라미터에서 action을 생성하고 *type*을 설정하거나 dispatcher에게 제공하는 역할을 한다.
 
 모든 action은 store가 dispatcher에 등록해둔 callback을 통해 모든 store에 전송된다.
 
@@ -60,7 +59,7 @@ controller-view라고 불리는 특별한 view가 변경 이벤트를 듣고 새
 
 이 구조는 함수형 반응 프로그래밍을 다시 재현하는 것을 쉽게 만들거나 데이터-흐름 프로그래밍, 흐름 기반 프로그래밍을 만드는데 쉽도록 돕는다. 애플리케이션에 흐르는 데이터 흐름이 양방향 바인딩이 아닌 단방향으로 흐르기 때문이다. 애플리케이션의 상태는 store에 의해서 관리되고 애플리케이션의 다른 부분과는 완전히 분리된 상태로 남는다. 두 store 사이에 의존성이 나타나도 둘은 엄격하게 위계가 관리되어 dispatcher에 의해 동기적으로 변경되는 방법으로 관리된다.
 
-이와 같은 구조는 우리의 애플리케이션이 _함수형 반응 프로그래밍(functional reactive programming)_이나 더 세부적으로 _데이터-흐름 프로그래밍(data-flow programming)_ 또는 _흐름 기반 프로그래밍(Flow-based programming)_을 연상하게 한다는 사실을 쉽게 떠올리게 한다. 즉 데이터의 흐름이 양방향 바인딩이 아닌 단일 방향으로 흐른다. 애플리케이션의 상태는 store에 의해 관리를 해서 애플리케이션의 다른 부분들과 결합도를 극히 낮춘 상태로 유지될 수 있다. store의 사이에서 의존성이 생긴다고 해도 dispachter에 의해 엄격한 위계가 유지되어 동기적으로 갱신되는 방식으로 관리된다.
+이와 같은 구조는 우리의 애플리케이션이 *함수형 반응 프로그래밍(functional reactive programming)*이나 더 세부적으로 _데이터-흐름 프로그래밍(data-flow programming)_ 또는 *흐름 기반 프로그래밍(Flow-based programming)*을 연상하게 한다는 사실을 쉽게 떠올리게 한다. 즉 데이터의 흐름이 양방향 바인딩이 아닌 단일 방향으로 흐른다. 애플리케이션의 상태는 store에 의해 관리를 해서 애플리케이션의 다른 부분들과 결합도를 극히 낮춘 상태로 유지될 수 있다. store의 사이에서 의존성이 생긴다고 해도 dispachter에 의해 엄격한 위계가 유지되어 동기적으로 갱신되는 방식으로 관리된다.
 
 양방향 데이터 바인딩은 연속적인 갱신이 발생하고 객체 하나의 변경이 다른 객체를 변경하게 되어 실제 필요한 업데이트보다 더 많은 분량을 실행하게 된다. 애플리케이션의 규모가 커지면 데이터의 연속적인 갱신이 되는 상황에서는 사용자 상호작용의 결과가 어떤 변화를 만드는지 예측하는데 어려워진다. 갱신으로 인한 데이터 변경이 단 한 차례만 이뤄진다면 전체 시스템은 좀 더 예측 가능하게 된다.
 
@@ -76,7 +75,7 @@ Facebook이 실제로 사용하는 dispatcher는 [npm](https://www.npmjs.com/pac
 
 ### Stores
 
-Store는 애플리케이션의 상태와 로직을 포함하고 있다. store의 역할은 전통적인 MVC의 모델과 비슷하지만 많은 객체의 상태를 관리할 수 있는데 ORM 모델이 하는 것처럼 단일 레코드의 데이터를 표현하는 것도 아니고 Backbone의 컬렉션과도 다르다. store는 단순히 ORM 스타일의 객체 컬렉션을 관리하는 것을 넘어 애플리케이션 내의 개별적인 __도메인__에서 애플리케이션의 상태를 관리한다.
+Store는 애플리케이션의 상태와 로직을 포함하고 있다. store의 역할은 전통적인 MVC의 모델과 비슷하지만 많은 객체의 상태를 관리할 수 있는데 ORM 모델이 하는 것처럼 단일 레코드의 데이터를 표현하는 것도 아니고 Backbone의 컬렉션과도 다르다. store는 단순히 ORM 스타일의 객체 컬렉션을 관리하는 것을 넘어 애플리케이션 내의 개별적인 **도메인**에서 애플리케이션의 상태를 관리한다.
 
 예를 들면, Facebook의 [돌아보기 편집기](https://facebook.com/lookback/edit) 에서 지속해서 재생된 시간과 플레이어 상태를 지속해서 추적하기 위해 TimeStore를 활용한다. 같은 애플리케이션에서 ImageStore는 이미지 콜랙션을 지속해서 추적한다. [TodoMVC 예제](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/)의 TodoStore도 비슷하게 할 일 항목의 콜랙션을 관리한다. store는 두 모델 컬렉션의 특징을 보여주는 것과 동시에 싱글턴 모델의 논리적 도메인으로 역할을 한다.
 
@@ -97,10 +96,9 @@ store에게 이벤트를 받으면 store의 퍼블릭 getter 메소드를 통해
 
 ### Actions
 
-dispatcher는 action을 호출해 데이터를 불러오고 store로 전달할 수 있도록 메소드를 제공한다. action의 생성은 dispatcher로 action을 보낼 때 의미 있는 헬퍼 메소드로 포개진다. 할 일 목록 애플리케이션에서 할 일 아이템의 문구를 변경하고 싶다고 가정하자. `updateText(todoId, newText)`와 같은 함수 시그니처를 이용해 `TodoActions` 모듈 내에 action을 만든다. 이 메소드는 view의 이벤트 핸들러로부터 호출되어 실행할 수 있고 그 결과로 사용자 상호작용에 응답할 수 있게 된다. 이 action creator 메소드는 _type_을 추가할 수 있다. 이 type을 이용해 action이 store에서 해석될 수 있도록, 적절한 응답이 가능하도록 한다. 예시에서와같이 `TODO_UPDATE_TEXT`와 같은 이름의 타입을 사용한다.
+dispatcher는 action을 호출해 데이터를 불러오고 store로 전달할 수 있도록 메소드를 제공한다. action의 생성은 dispatcher로 action을 보낼 때 의미 있는 헬퍼 메소드로 포개진다. 할 일 목록 애플리케이션에서 할 일 아이템의 문구를 변경하고 싶다고 가정하자. `updateText(todoId, newText)`와 같은 함수 시그니처를 이용해 `TodoActions` 모듈 내에 action을 만든다. 이 메소드는 view의 이벤트 핸들러로부터 호출되어 실행할 수 있고 그 결과로 사용자 상호작용에 응답할 수 있게 된다. 이 action creator 메소드는 *type*을 추가할 수 있다. 이 type을 이용해 action이 store에서 해석될 수 있도록, 적절한 응답이 가능하도록 한다. 예시에서와같이 `TODO_UPDATE_TEXT`와 같은 이름의 타입을 사용한다.
 
 action은 서버와 같은 다른 장소에서 올 수 있다. 예를 들면 data를 초기화할 때 이런 과정이 발생할 수 있다. 또한, 서버에서 에러 코드를 반환하거나 애플리케이션이 제공된 후에 업데이트가 있을 때 나타날 수 있다.
-
 
 ### Dispatcher에 대해서
 
@@ -119,12 +117,12 @@ case 'TODO_CREATE':
   break;
 ```
 
-`waitFor()`는 단일 인수만 받는데 disaptcher에 등록된 인덱스를 배열로 받는다. 이 인덱스를 대개 _dispatch token_이라 부른다. 그러므로 `waitForm()`을 호출하는 store는 다른 store의 상태에 따라 어떤 방식으로 자신의 상태를 갱신할 수 있는지 알 수 있게 된다.
+`waitFor()`는 단일 인수만 받는데 disaptcher에 등록된 인덱스를 배열로 받는다. 이 인덱스를 대개 *dispatch token*이라 부른다. 그러므로 `waitForm()`을 호출하는 store는 다른 store의 상태에 따라 어떤 방식으로 자신의 상태를 갱신할 수 있는지 알 수 있게 된다.
 
 dispatch token은 `register()` 메소드에서 반환하는데 이 메소드는 callback을 dispatcher에 등록할 때 사용된다:
 
 ```javascript
-PrependedTextStore.dispatchToken = Dispatcher.register(function (payload) {
+PrependedTextStore.dispatchToken = Dispatcher.register(function(payload) {
   // ...
 });
 ```
