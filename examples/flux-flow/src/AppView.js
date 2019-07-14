@@ -11,7 +11,7 @@
 
 'use strict';
 
-import React from 'react';
+import * as React from 'react';
 
 export type Props = {value: string};
 

@@ -19,7 +19,7 @@
 
 import AppDispatcher from '../AppDispatcher';
 import AppStore from '../AppStore';
-import React from 'react';
+import * as React from 'react';
 import {Container} from 'flux/utils';
 
 /**

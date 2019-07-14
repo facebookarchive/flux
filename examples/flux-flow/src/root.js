@@ -15,4 +15,5 @@ import AppContainer from './AppContainer';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+// $FlowExpectedError: element with id `root' maybe not exist.
 ReactDOM.render(<AppContainer />, document.getElementById('root'));
