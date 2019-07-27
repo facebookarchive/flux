@@ -23,7 +23,7 @@ React brings about many radical ideas and encourages developers to [rethink best
 
 ### Immutable.js – Immutable Data
 
-[Immutable.js](https://immutable-js.github.io/immutable-js/) is a library for creating immutable data structues. Immutable data cannot be changed once created, leading to much simpler application development, no defensive copying, and enabling advanced memoization and change detection techniques with simple logic. Persistent data presents a mutative API which does not update the data in-place, but instead always yields new updated data.
+[Immutable.js](https://immutable-js.github.io/immutable-js/) is a library for creating immutable data structures. Immutable data cannot be changed once created, leading to much simpler application development, no defensive copying, and enabling advanced memoization and change detection techniques with simple logic. Persistent data presents a mutative API which does not update the data in-place, but instead always yields new updated data.
 
 ### Jest – Unit Testing
 
