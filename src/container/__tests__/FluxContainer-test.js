@@ -261,7 +261,7 @@ describe('FluxContainer', () => {
     var getValue = createContainer(
       SimpleContainer,
       {withContext: true}, // options
-      {} // props
+      {}, // props
     );
 
     expect(getValue()).toBe('foo');
@@ -286,7 +286,7 @@ describe('FluxContainer', () => {
     var getValue = createContainer(
       SimpleContainer,
       {withProps: true, withContext: true}, // options
-      {} // props
+      {}, // props
     );
 
     // Test it.
