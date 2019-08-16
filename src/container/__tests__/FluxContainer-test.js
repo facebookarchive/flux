@@ -18,7 +18,7 @@ var FluxContainer = require('FluxContainer');
 var FluxReduceStore = require('FluxReduceStore');
 var React = require('react');
 var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-addons-test-utils');
+var ReactTestUtils = require('react-dom/test-utils');
 
 var {Component} = React;
 
@@ -26,28 +26,10 @@ var {Component} = React;
  * Helper to create a container. The container must render a single div with
  * text content, this will return a function to access that content.
  */
-function createContainer(containerClass, options, props, context) {
+function createContainer(containerClass, options, props) {
   var container = FluxContainer.create(containerClass, options);
   var element = React.createElement(container, props);
-  var tag;
-  if (options && options.withContext) {
-    // Create a new component that provides the child context.
-    var ComponentWithContext = React.createClass({
-      childContextTypes: {
-        value: React.PropTypes.any,
-      },
-      getChildContext: function() {
-        return context;
-      },
-      render: function() {
-        return <span>{this.props.children}</span>;
-      },
-    });
-    var wrapper = React.createElement(ComponentWithContext, {}, element);
-    tag = ReactTestUtils.renderIntoDocument(wrapper);
-  } else {
-    tag = ReactTestUtils.renderIntoDocument(element);
-  }
+  var tag = ReactTestUtils.renderIntoDocument(element);
   var component = ReactTestUtils.findRenderedDOMComponentWithTag(tag, 'div');
   var simpleDOMNode = ReactDOM.findDOMNode(component);
   return () => simpleDOMNode.textContent;
@@ -239,11 +221,13 @@ describe('FluxContainer', () => {
   });
 
   it('should get access to context in getStores', () => {
-    // Setup the container.
+    const MyContext = React.createContext(
+      {value: FooStore}
+    );
+
     class SimpleContainer extends BaseContainer {
-      static contextTypes = {
-        value: React.PropTypes.any,
-      };
+
+      static contextType = MyContext;
 
       static getStores(props, context) {
         return [context.value];
@@ -255,24 +239,25 @@ describe('FluxContainer', () => {
         };
       }
     }
+    SimpleContainer.contextType = MyContext;
 
     var getValue = createContainer(
       SimpleContainer,
       {withContext: true}, // options
-      {}, // props
-      {value: FooStore}, // context
+      {} // props
     );
 
-    // Test it.
     expect(getValue()).toBe('foo');
   });
 
   it('should get access to context in calculateState', () => {
-    // Setup the container.
+    const MyContext = React.createContext(
+      {value: "context"}
+    );
+
     class SimpleContainer extends BaseContainer {
-      static contextTypes = {
-        value: React.PropTypes.any,
-      };
+
+      static contextType = MyContext;
 
       static calculateState(prevState, props, context) {
         return {
@@ -284,8 +269,7 @@ describe('FluxContainer', () => {
     var getValue = createContainer(
       SimpleContainer,
       {withProps: true, withContext: true}, // options
-      {}, // props
-      {value: 'context'}, // context
+      {} // props
     );
 
     // Test it.

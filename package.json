@@ -51,9 +51,9 @@
     "immutable": "^3.7.4",
     "jest": "^15.1.1",
     "object-assign": "^4.0.1",
-    "react": "^15.0.2",
-    "react-addons-test-utils": "^15.0.1",
-    "react-dom": "^15.0.1",
+    "react": "^16.9.0",
+    "react-addons-test-utils": "^15.6.2",
+    "react-dom": "^16.9.0",
     "run-sequence": "^1.1.0",
     "vinyl-source-stream": "^1.0.0",
     "webpack": "^1.11.0",
@@ -76,7 +76,9 @@
     ],
     "rootDir": "./",
     "scriptPreprocessor": "scripts/jest/preprocessor.js",
-    "setupFiles": ["scripts/jest/environment.js"],
+    "setupFiles": [
+      "scripts/jest/environment.js"
+    ],
     "testPathDirs": [
       "<rootDir>/src"
     ]

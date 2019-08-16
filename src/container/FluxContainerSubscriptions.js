@@ -52,16 +52,16 @@ class FluxContainerSubscriptions {
     let changed = false;
     let changedStores = [];
 
-    if (__DEV__) {
-      // Keep track of the stores that changed for debugging purposes only
-      this._tokens = stores.map(store => store.addListener(() => {
-        changed = true;
-        changedStores.push(store);
-      }));
-    } else {
+    // if (__DEV__) {
+    //   // Keep track of the stores that changed for debugging purposes only
+    //   this._tokens = stores.map(store => store.addListener(() => {
+    //     changed = true;
+    //     changedStores.push(store);
+    //   }));
+    // } else {
       const setChanged = () => { changed = true; };
       this._tokens = stores.map(store => store.addListener(setChanged));
-    }
+    // }
 
     const callCallbacks = () => {
       if (changed) {
