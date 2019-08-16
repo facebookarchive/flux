@@ -163,6 +163,23 @@ describe('FluxContainer', () => {
     expect(getValue()).toBe('prop-bar');
   });
 
+  it('should react to props changes', () => {
+    class SimpleContainer extends BaseContainer {
+      static calculateState(prevState, props) {
+        return {
+          value: props.value + '-' + FooStore.getState(),
+        };
+      }
+    }
+    const SimpleContainerComponent = FluxContainer.create(SimpleContainer, {withProps: true});
+
+    const node = document.createElement('div');
+    const component = ReactDOM.render(<SimpleContainerComponent value="initial" />, node);
+    ReactDOM.render(<SimpleContainerComponent value="changed" />, node);
+    const text = ReactDOM.findDOMNode(component).textContent;
+    expect(text).toBe('changed-foo');
+  });
+
   it('should preserve initial state set in constructor', () => {
     // Hack to expose internal state for testing.
     let dangerouslyGetState = () => ({});
