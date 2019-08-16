@@ -226,7 +226,7 @@ describe('FluxContainer', () => {
         };
       }
 
-      componentWillMount() {
+      UNSAFE_componentWillMount() {
         dispatch({
           type: 'set',
           value: 'bar',

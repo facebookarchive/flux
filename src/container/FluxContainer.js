@@ -148,7 +148,7 @@ function create<DefaultProps, Props, State>(
       };
     }
 
-    componentWillReceiveProps(nextProps: any, nextContext: any): void {
+    UNSAFE_componentWillReceiveProps(nextProps: any, nextContext: any): void {
       if (super.componentWillReceiveProps) {
         super.componentWillReceiveProps(nextProps, nextContext);
       }
