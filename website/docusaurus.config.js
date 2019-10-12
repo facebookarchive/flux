@@ -46,9 +46,9 @@ module.exports = {
         docs: {
           path: '../docs',
           sidebarPath: require.resolve('./sidebars.js'),
-        },
-        pages: {
-          path: 'src/pages',
+          editUrl: 'https://github.com/facebook/flux/edit/master/docs/',
+          showLastUpdateAuthor: true,
+          showLastUpdateTime: true,
         },
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
