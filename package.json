@@ -40,8 +40,8 @@
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/preset-env": "^7.6.3",
-    "babel-loader": "^8.0.6",
     "@babel/preset-react": "^7.6.3",
+    "babel-loader": "^8.0.6",
     "babel-plugin-dev-expression": "^0.2.2",
     "babel-plugin-module-resolver": "^3.2.0",
     "babel-plugin-module-rewrite": "^0.2.0",
@@ -57,9 +57,9 @@
     "immutable": "^3.7.4",
     "jest": "^15.1.1",
     "object-assign": "^4.0.1",
-    "react": "^16.9.0",
+    "react": "^16.11.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-dom": "^16.9.0",
+    "react-dom": "^16.11.0",
     "webpack": "^1.11.0",
     "webpack-stream": "^3.1.0"
   },
