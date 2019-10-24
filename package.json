@@ -60,7 +60,7 @@
     "react": "^16.11.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.11.0",
-    "webpack": "^1.11.0",
+    "webpack": "^4.41.2",
     "webpack-stream": "^5.2.1"
   },
   "dependencies": {
