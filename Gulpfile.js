@@ -1,15 +1,11 @@
-const babel = require('gulp-babel');
-const del = require('del');
-const flatten = require('gulp-flatten');
 const gulp = require('gulp');
+const babel = require('gulp-babel');
+const flatten = require('gulp-flatten');
 const gulpUtil = require('gulp-util');
 const header = require('gulp-header');
 const rename = require('gulp-rename');
-const runSequence = require('run-sequence');
-const source = require('vinyl-source-stream');
+const del = require('del');
 const webpackStream = require('webpack-stream');
-
-const babelDefaultOptions = require('./scripts/babel/default-options');
 
 const DEVELOPMENT_HEADER = [
   '/**',
@@ -82,27 +78,28 @@ const buildDist = function(opts) {
   });
 };
 
-gulp.task('clean', function() {
+function clean() {
   return del([paths.lib, 'Flux.js']);
-});
+};
 
-gulp.task('lib', function() {
+function libs() {
   return gulp
     .src(paths.src)
-    .pipe(babel(babelDefaultOptions))
+    // .pipe(babel(babelDefaultOptions))
     .pipe(flatten())
     .pipe(gulp.dest(paths.lib));
-});
+};
 
-gulp.task('flow', function() {
+function flow() {
   return gulp
     .src(paths.src)
     .pipe(flatten())
     .pipe(rename({extname: '.js.flow'}))
     .pipe(gulp.dest(paths.lib));
-});
+};
 
-gulp.task('dist', ['lib'], function() {
+async function distDefault() {
+  gulp.series(libs,function() {
   const distOpts = {
     debug: true,
     output: 'Flux.js',
@@ -115,9 +112,11 @@ gulp.task('dist', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+  })
+}
 
-gulp.task('dist:utils', ['lib'], function() {
+async function distUtils() {
+  gulp.series(libs,function() {
   const distOpts = {
     debug: true,
     output: 'FluxUtils.js',
@@ -130,10 +129,12 @@ gulp.task('dist:utils', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+  })
+}
 
-gulp.task('dist:min', ['lib'], function() {
-  const distOpts = {
+async function distMin() {
+  gulp.series(libs,function() {
+    const distOpts = {
     debug: false,
     output: 'Flux.min.js',
     library: 'Flux',
@@ -145,10 +146,12 @@ gulp.task('dist:min', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+  })
+}
 
-gulp.task('dist:utils:min', ['lib'], function() {
-  const distOpts = {
+async function distUtilsMin() {
+  gulp.series(libs,function() {
+    const distOpts = {
     debug: false,
     output: 'FluxUtils.min.js',
     library: 'FluxUtils',
@@ -160,18 +163,31 @@ gulp.task('dist:utils:min', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+  })
+}
+
+var build = gulp.series(
+  libs,
+  flow,
+  distDefault,
+  distUtils
+);
+
+var publish = gulp.series(
+  clean,
+  flow,
+  distDefault,
+  gulp.parallel(distMin,distUtilsMin,distUtilsMin)
+);
 
 
-gulp.task('build', ['lib', 'flow', 'dist', 'dist:utils']);
-
-gulp.task('publish', function(cb) {
-  runSequence(
-    'clean',
-    'flow',
-    ['dist', 'dist:min', 'dist:utils', 'dist:utils:min'],
-    cb
-  );
-});
-
-gulp.task('default', ['build']);
+exports.clean = clean;
+exports.libs = libs;
+exports.flow = flow;
+exports.distDefault = distDefault;
+exports.distUtils = distUtils;
+exports.distMin = distMin;
+exports.distUtilsMin = distUtilsMin;
+exports.publish = publish;
+exports.build = build;
+exports.default = build;
