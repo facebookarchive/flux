@@ -9,10 +9,10 @@ Start by looking through the [guides and examples](./examples) on Github. For mo
 
 ## How Flux works
 
-For more information on how Flux works check out the [Flux Concepts](./examples/flux-concepts) guide, or the [In Depth Overview](https://facebook.github.io/flux/docs/in-depth-overview.html#content).
+For more information on how Flux works check out the [Flux Concepts](./examples/flux-concepts) guide, or the [In Depth Overview](https://facebook.github.io/flux/docs/in-depth-overview).
 
 ## Requirements
-Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](https://nodejs.org/api/events.html#events_class_events_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module, along with some other utilities, is available here to complete your Flux toolbox.
+Flux is more of a pattern than a framework, and does not have any hard dependencies.  However, we often use [EventEmitter](https://nodejs.org/api/events.html#events_class_eventemitter) as a basis for `Stores` and [React](https://github.com/facebook/react) for our `Views`.  The one piece of Flux not readily available elsewhere is the `Dispatcher`.  This module, along with some other utilities, is available here to complete your Flux toolbox.
 
 ## Installing Flux
 Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you can add it to your package.json file or run `npm install flux`.  The dispatcher will be available as `Flux.Dispatcher` and can be required like this:
@@ -21,7 +21,7 @@ Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you 
 const Dispatcher = require('flux').Dispatcher;
 ```
 
-Take a look at the [dispatcher API and some examples](https://facebook.github.io/flux/docs/dispatcher.html#content).
+Take a look at the [dispatcher API and some examples](https://facebook.github.io/flux/docs/dispatcher).
 
 ## Flux Utils
 
@@ -50,7 +50,7 @@ class CounterStore extends ReduceStore<number> {
 }
 ```
 
-Check out the [examples](./examples) and [documentation](https://facebook.github.io/flux/docs/flux-utils.html) for more information.
+Check out the [examples](./examples) and [documentation](https://facebook.github.io/flux/docs/flux-utils) for more information.
 
 ## Building Flux from a Cloned Repo
 Clone the repo and navigate into the resulting `flux` directory.  Then run `npm install`.
