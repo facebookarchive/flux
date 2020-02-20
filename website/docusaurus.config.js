@@ -13,6 +13,10 @@ module.exports = {
   favicon: 'img/favicon.ico',
   organizationName: 'facebook',
   projectName: 'flux',
+  algolia: {
+      apiKey: '6dab6b592e7b8e994dc2cff2aadc3cf2',
+      indexName: 'flux',
+    },
   themeConfig: {
     navbar: {
       title: 'Flux',
