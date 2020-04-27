@@ -10,4 +10,4 @@ In order to get started check out the [overview and guides](https://github.com/f
 
 Or continue on to the in-depth overview, which explores in more detail how the pieces of the Flux architecture work together.
 
-> Note: The In Depth Overview was formerly the normal Overview landing page but was replaced with the more terse and up-to-date guides on GitHub that are linked above.
+> Note:Hello this is Abhishek i am using flux and i am new here to undrstand what is flux and how it use.
