@@ -42,7 +42,7 @@
     "babel-loader": "^5.3.2",
     "del": "^2.2.0",
     "fbjs-scripts": "^0.5.0",
-    "gulp": "^3.9.0",
+    "gulp": "^4.0.2",
     "gulp-babel": "^5.1.0",
     "gulp-flatten": "^0.2.0",
     "gulp-header": "1.8.2",
@@ -54,7 +54,6 @@
     "react": "^16.9.0",
     "react-addons-test-utils": "^15.6.2",
     "react-dom": "^16.9.0",
-    "run-sequence": "^1.1.0",
     "vinyl-source-stream": "^1.0.0",
     "webpack": "^1.11.0",
     "webpack-stream": "^3.1.0"

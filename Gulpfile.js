@@ -5,7 +5,6 @@ const gulp = require('gulp');
 const gulpUtil = require('gulp-util');
 const header = require('gulp-header');
 const rename = require('gulp-rename');
-const runSequence = require('run-sequence');
 const source = require('vinyl-source-stream');
 const webpackStream = require('webpack-stream');
 
@@ -102,7 +101,7 @@ gulp.task('flow', function() {
     .pipe(gulp.dest(paths.lib));
 });
 
-gulp.task('dist', ['lib'], function() {
+gulp.task('dist', gulp.series('lib', function() {
   const distOpts = {
     debug: true,
     output: 'Flux.js',
@@ -115,9 +114,9 @@ gulp.task('dist', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+}));
 
-gulp.task('dist:utils', ['lib'], function() {
+gulp.task('dist:utils', gulp.series('lib', function() {
   const distOpts = {
     debug: true,
     output: 'FluxUtils.js',
@@ -130,9 +129,9 @@ gulp.task('dist:utils', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+}));
 
-gulp.task('dist:min', ['lib'], function() {
+gulp.task('dist:min', gulp.series('lib', function() {
   const distOpts = {
     debug: false,
     output: 'Flux.min.js',
@@ -145,9 +144,9 @@ gulp.task('dist:min', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+}));
 
-gulp.task('dist:utils:min', ['lib'], function() {
+gulp.task('dist:utils:min', gulp.series('lib', function() {
   const distOpts = {
     debug: false,
     output: 'FluxUtils.min.js',
@@ -160,18 +159,15 @@ gulp.task('dist:utils:min', ['lib'], function() {
       version: process.env.npm_package_version,
     }))
     .pipe(gulp.dest(paths.dist));
-});
+}));
 
 
-gulp.task('build', ['lib', 'flow', 'dist', 'dist:utils']);
+gulp.task('build', gulp.series('lib', 'flow', 'dist', 'dist:utils'));
 
-gulp.task('publish', function(cb) {
-  runSequence(
+gulp.task('publish', gulp.series(
     'clean',
     'flow',
-    ['dist', 'dist:min', 'dist:utils', 'dist:utils:min'],
-    cb
-  );
-});
+    gulp.parallel('dist', 'dist:min', 'dist:utils', 'dist:utils:min'),
+));
 
-gulp.task('default', ['build']);
+gulp.task('default', gulp.series('build'));

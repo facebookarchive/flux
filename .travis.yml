@@ -4,9 +4,10 @@ language: node_js
 
 node_js:
   - "node"
+  - "13"
+  - "12"
   - "10"
   - "8"
-  - "6"
 
 script:
   - npm run build
