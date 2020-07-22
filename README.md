@@ -1,5 +1,12 @@
-# Flux
-An application architecture for React utilizing a unidirectional data flow.
+<p align="center">
+  <img src="https://facebook.github.io/flux/img/flux-logo-color.svg" alt="logo" width="20%" />
+</p>
+<h1 align="center">
+  Flux
+</h1>
+<p align="center">
+  An application architecture for React utilizing a unidirectional data flow.
+</p>
 
 <img src="./img/flux-diagram-white-background.png" style="width: 100%;" />
 
