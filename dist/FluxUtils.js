@@ -359,7 +359,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return create(FunctionalContainer, options);
 	}
 
-	module.exports = { create: create, createFunctional: createFunctional };
+	module.exports = { create , createFunctional };
 
 /***/ }),
 /* 2 */
@@ -621,7 +621,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (!condition) {
 	    var error;
 	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	      error = new Error('Minified exception occurred; use the non-minified dev environment for the full error message and additional helpful warnings.');
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
@@ -768,7 +768,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 
-	        sourceInfo = ' (at ' + fileName + ':' + source.lineNumber + ')';
+	        sourceInfo = ` (at ${fileName}:${source.lineNumber})`;
+		      
 	      } else if (ownerName) {
 	        sourceInfo = ' (created by ' + ownerName + ')';
 	      }
@@ -975,7 +976,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          return '' + item;
 	        }); // Careful: RN currently depends on this prefix
 
-	        argsWithFormat.unshift('Warning: ' + format); // We intentionally don't use spread (or .apply) directly because it
+	        argsWithFormat.unshift(`Warning: ${format}`); // We intentionally don't use spread (or .apply) directly because it
 	        // breaks IE9: https://github.com/facebook/react/issues/13610
 	        // eslint-disable-next-line react-internal/no-production-logging
 
