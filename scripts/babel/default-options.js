@@ -9,23 +9,19 @@
 
 'use strict';
 
-var assign = require('object-assign');
-
-var babelPluginDEV = require('fbjs-scripts/babel/dev-expression');
-var babelPluginModules = require('fbjs-scripts/babel/rewrite-modules');
-
-var moduleMap = require('fbjs/module-map');
-
 module.exports = {
-  stage: 1,
-  blacklist: [
-    'spec.functionName',
-  ],
-  loose: true,
-  plugins: [babelPluginDEV, babelPluginModules],
-  _moduleMap: assign({}, moduleMap, {
-    'fbemitter': 'fbemitter',
-    'immutable': 'immutable',
-    'react': 'react',
-  }),
+  presets: [
+    require('babel-preset-fbjs/configure')({
+      rewriteModules: {
+        map: {
+          react: 'react',
+          fbemitter: 'fbemitter',
+          immutable: 'immutable',
+          invariant: 'fbjs/lib/invariant',
+          shallowEqual: 'fbjs/lib/shallowEqual'
+        }
+      },
+      stripDEV: true
+    })
+  ]
 };

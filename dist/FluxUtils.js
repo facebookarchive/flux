@@ -65,9 +65,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
-
-	'use strict';
-
 	module.exports.Container = __webpack_require__(1);
 	module.exports.Mixin = __webpack_require__(11);
 	module.exports.ReduceStore = __webpack_require__(12);
@@ -88,45 +85,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxContainer
 	 * 
 	 */
-
 	'use strict';
 
-	var _extends = Object.assign || function (target) {
-	  for (var i = 1; i < arguments.length; i++) {
-	    var source = arguments[i];for (var key in source) {
-	      if (Object.prototype.hasOwnProperty.call(source, key)) {
-	        target[key] = source[key];
-	      }
-	    }
-	  }return target;
-	};
-
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _assertThisInitialized(self) {
+	  if (self === void 0) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	  }
+
+	  return self;
 	}
 
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== 'function' && superClass !== null) {
-	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	function _inheritsLoose(subClass, superClass) {
+	  subClass.prototype = Object.create(superClass.prototype);
+	  subClass.prototype.constructor = subClass;
+	  subClass.__proto__ = superClass;
+	}
+
+	function ownKeys(object, enumerableOnly) {
+	  var keys = Object.keys(object);
+
+	  if (Object.getOwnPropertySymbols) {
+	    var symbols = Object.getOwnPropertySymbols(object);
+	    if (enumerableOnly) symbols = symbols.filter(function (sym) {
+	      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+	    });
+	    keys.push.apply(keys, symbols);
+	  }
+
+	  return keys;
+	}
+
+	function _objectSpread(target) {
+	  for (var i = 1; i < arguments.length; i++) {
+	    var source = arguments[i] != null ? arguments[i] : {};
+
+	    if (i % 2) {
+	      ownKeys(Object(source), true).forEach(function (key) {
+	        _defineProperty(target, key, source[key]);
+	      });
+	    } else if (Object.getOwnPropertyDescriptors) {
+	      Object.defineProperties(target, Object.getOwnPropertyDescriptors(source));
+	    } else {
+	      ownKeys(Object(source)).forEach(function (key) {
+	        Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+	      });
+	    }
+	  }
+
+	  return target;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
 	}
 
 	var FluxContainerSubscriptions = __webpack_require__(2);
+
 	var React = __webpack_require__(5);
 
 	var invariant = __webpack_require__(4);
+
 	var shallowEqual = __webpack_require__(10);
 
 	var Component = React.Component;
-
 	var DEFAULT_OPTIONS = {
 	  pure: true,
 	  withProps: false,
 	  withContext: false
 	};
-
 	/**
 	 * A FluxContainer is used to subscribe a react component to multiple stores.
 	 * The stores that are used must be returned from a static `getStores()` method.
@@ -193,11 +230,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *
 	 *   module.exports = FluxContainer.create(FooContainer, {withProps: true});
 	 */
-	function create(Base, options) {
-	  enforceInterface(Base);
 
-	  // Construct the options using default, override with user values as necessary.
-	  var realOptions = _extends({}, DEFAULT_OPTIONS, options || {});
+	function create(Base, options) {
+	  enforceInterface(Base); // Construct the options using default, override with user values as necessary.
+
+	  var realOptions = _objectSpread(_objectSpread({}, DEFAULT_OPTIONS), options || {});
 
 	  var getState = function getState(state, maybeProps, maybeContext) {
 	    var props = realOptions.withProps ? maybeProps : undefined;
@@ -209,35 +246,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var props = realOptions.withProps ? maybeProps : undefined;
 	    var context = realOptions.withContext ? maybeContext : undefined;
 	    return Base.getStores(props, context);
-	  };
+	  }; // Build the container class.
 
-	  // Build the container class.
 
-	  var ContainerClass = (function (_Base) {
-	    _inherits(ContainerClass, _Base);
+	  var ContainerClass = /*#__PURE__*/function (_Base) {
+	    _inheritsLoose(ContainerClass, _Base);
 
 	    function ContainerClass(props, context) {
-	      var _this = this;
+	      var _this;
 
-	      _classCallCheck(this, ContainerClass);
+	      _this = _Base.call(this, props, context) || this;
 
-	      _Base.call(this, props, context);
-	      this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
-	      this._fluxContainerSubscriptions.setStores(getStores(props, context));
-	      this._fluxContainerSubscriptions.addListener(function () {
+	      _defineProperty(_assertThisInitialized(_this), "_fluxContainerSubscriptions", void 0);
+
+	      _this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
+
+	      _this._fluxContainerSubscriptions.setStores(getStores(props, context));
+
+	      _this._fluxContainerSubscriptions.addListener(function () {
 	        _this.setState(function (prevState, currentProps) {
 	          return getState(prevState, currentProps, context);
 	        });
 	      });
+
 	      var calculatedState = getState(undefined, props, context);
-	      this.state = _extends({}, this.state || {}, calculatedState);
+	      _this.state = _objectSpread(_objectSpread({}, _this.state || {}), calculatedState);
+	      return _this;
 	    }
 
-	    // Make sure we override shouldComponentUpdate only if the pure option is
-	    // specified. We can't override this above because we don't want to override
-	    // the default behavior on accident. Super works weird with react ES6 classes.
+	    var _proto = ContainerClass.prototype;
 
-	    ContainerClass.prototype.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+	    _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
 	      if (_Base.prototype.componentWillReceiveProps) {
 	        _Base.prototype.componentWillReceiveProps.call(this, nextProps, nextContext);
 	      }
@@ -245,13 +284,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (realOptions.withProps || realOptions.withContext) {
 	        // Update both stores and state.
 	        this._fluxContainerSubscriptions.setStores(getStores(nextProps, nextContext));
+
 	        this.setState(function (prevState) {
 	          return getState(prevState, nextProps, nextContext);
 	        });
 	      }
 	    };
 
-	    ContainerClass.prototype.componentWillUnmount = function componentWillUnmount() {
+	    _proto.componentWillUnmount = function componentWillUnmount() {
 	      if (_Base.prototype.componentWillUnmount) {
 	        _Base.prototype.componentWillUnmount.call(this);
 	      }
@@ -260,41 +300,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	    };
 
 	    return ContainerClass;
-	  })(Base);
+	  }(Base); // Make sure we override shouldComponentUpdate only if the pure option is
+	  // specified. We can't override this above because we don't want to override
+	  // the default behavior on accident. Super works weird with react ES6 classes.
 
-	  var container = realOptions.pure ? createPureComponent(ContainerClass) : ContainerClass;
 
-	  // Update the name of the container before returning
+	  var container = realOptions.pure ? createPureComponent(ContainerClass) : ContainerClass; // Update the name of the container before returning
+
 	  var componentName = Base.displayName || Base.name;
 	  container.displayName = 'FluxContainer(' + componentName + ')';
 	  return container;
 	}
 
 	function createPureComponent(BaseComponent) {
-	  var PureComponent = (function (_BaseComponent) {
-	    _inherits(PureComponent, _BaseComponent);
+	  var PureComponent = /*#__PURE__*/function (_BaseComponent) {
+	    _inheritsLoose(PureComponent, _BaseComponent);
 
 	    function PureComponent() {
-	      _classCallCheck(this, PureComponent);
-
-	      _BaseComponent.apply(this, arguments);
+	      return _BaseComponent.apply(this, arguments) || this;
 	    }
 
-	    PureComponent.prototype.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
+	    var _proto2 = PureComponent.prototype;
+
+	    _proto2.shouldComponentUpdate = function shouldComponentUpdate(nextProps, nextState) {
 	      return !shallowEqual(this.props, nextProps) || !shallowEqual(this.state, nextState);
 	    };
 
 	    return PureComponent;
-	  })(BaseComponent);
+	  }(BaseComponent);
 
 	  return PureComponent;
 	}
 
 	function enforceInterface(o) {
-	  !o.getStores ?  true ? invariant(false, 'Components that use FluxContainer must implement `static getStores()`') : invariant(false) : undefined;
-	  !o.calculateState ?  true ? invariant(false, 'Components that use FluxContainer must implement `static calculateState()`') : invariant(false) : undefined;
+	  !o.getStores ?  true ? invariant(false, 'Components that use FluxContainer must implement `static getStores()`') : invariant(false) : void 0;
+	  !o.calculateState ?  true ? invariant(false, 'Components that use FluxContainer must implement `static calculateState()`') : invariant(false) : void 0;
 	}
-
 	/**
 	 * This is a way to connect stores to a functional stateless view. Here's a
 	 * simple example:
@@ -327,17 +368,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   );
 	 *
 	 */
+
+
 	function createFunctional(viewFn, _getStores, _calculateState, options) {
-	  var FunctionalContainer = (function (_Component) {
-	    _inherits(FunctionalContainer, _Component);
+	  var FunctionalContainer = /*#__PURE__*/function (_Component) {
+	    _inheritsLoose(FunctionalContainer, _Component);
 
 	    function FunctionalContainer() {
-	      _classCallCheck(this, FunctionalContainer);
+	      var _this2;
 
-	      _Component.apply(this, arguments);
+	      for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+	        args[_key] = arguments[_key];
+	      }
+
+	      _this2 = _Component.call.apply(_Component, [this].concat(args)) || this;
+
+	      _defineProperty(_assertThisInitialized(_this2), "state", void 0);
+
+	      return _this2;
 	    }
-
-	    // Update the name of the component before creating the container.
 
 	    FunctionalContainer.getStores = function getStores(props, context) {
 	      return _getStores(props, context);
@@ -347,19 +396,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return _calculateState(prevState, props, context);
 	    };
 
-	    FunctionalContainer.prototype.render = function render() {
+	    var _proto3 = FunctionalContainer.prototype;
+
+	    _proto3.render = function render() {
 	      return viewFn(this.state);
 	    };
 
 	    return FunctionalContainer;
-	  })(Component);
+	  }(Component); // Update the name of the component before creating the container.
+
 
 	  var viewFnName = viewFn.displayName || viewFn.name || 'FunctionalContainer';
 	  FunctionalContainer.displayName = viewFnName;
 	  return create(FunctionalContainer, options);
 	}
 
-	module.exports = { create: create, createFunctional: createFunctional };
+	module.exports = {
+	  create: create,
+	  createFunctional: createFunctional
+	};
 
 /***/ }),
 /* 2 */
@@ -375,13 +430,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxContainerSubscriptions
 	 * 
 	 */
-
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
 	  }
+
+	  return obj;
 	}
 
 	var FluxStoreGroup = __webpack_require__(3);
@@ -390,32 +453,46 @@ return /******/ (function(modules) { // webpackBootstrap
 	  if (a === b) {
 	    return true;
 	  }
+
 	  if (a.length !== b.length) {
 	    return false;
 	  }
+
 	  for (var i = 0; i < a.length; i++) {
 	    if (a[i] !== b[i]) {
 	      return false;
 	    }
 	  }
+
 	  return true;
 	}
 
-	var FluxContainerSubscriptions = (function () {
+	var FluxContainerSubscriptions = /*#__PURE__*/function () {
 	  function FluxContainerSubscriptions() {
-	    _classCallCheck(this, FluxContainerSubscriptions);
+	    _defineProperty(this, "_callbacks", void 0);
+
+	    _defineProperty(this, "_storeGroup", void 0);
+
+	    _defineProperty(this, "_stores", void 0);
+
+	    _defineProperty(this, "_tokens", void 0);
 
 	    this._callbacks = [];
 	  }
 
-	  FluxContainerSubscriptions.prototype.setStores = function setStores(stores) {
+	  var _proto = FluxContainerSubscriptions.prototype;
+
+	  _proto.setStores = function setStores(stores) {
 	    var _this = this;
 
 	    if (this._stores && shallowArrayEqual(this._stores, stores)) {
 	      return;
 	    }
+
 	    this._stores = stores;
+
 	    this._resetTokens();
+
 	    this._resetStoreGroup();
 
 	    var changed = false;
@@ -430,14 +507,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        });
 	      });
 	    } else {
-	      (function () {
-	        var setChanged = function setChanged() {
-	          changed = true;
-	        };
-	        _this._tokens = stores.map(function (store) {
-	          return store.addListener(setChanged);
-	        });
-	      })();
+	      var setChanged = function setChanged() {
+	        changed = true;
+	      };
+
+	      this._tokens = stores.map(function (store) {
+	        return store.addListener(setChanged);
+	      });
 	    }
 
 	    var callCallbacks = function callCallbacks() {
@@ -445,7 +521,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _this._callbacks.forEach(function (fn) {
 	          return fn();
 	        });
+
 	        changed = false;
+
 	        if (true) {
 	          // Uncomment this to print the stores that changed.
 	          // console.log(changedStores);
@@ -453,46 +531,52 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      }
 	    };
+
 	    this._storeGroup = new FluxStoreGroup(stores, callCallbacks);
 	  };
 
-	  FluxContainerSubscriptions.prototype.addListener = function addListener(fn) {
+	  _proto.addListener = function addListener(fn) {
 	    this._callbacks.push(fn);
 	  };
 
-	  FluxContainerSubscriptions.prototype.reset = function reset() {
+	  _proto.reset = function reset() {
 	    this._resetTokens();
+
 	    this._resetStoreGroup();
+
 	    this._resetCallbacks();
+
 	    this._resetStores();
 	  };
 
-	  FluxContainerSubscriptions.prototype._resetTokens = function _resetTokens() {
+	  _proto._resetTokens = function _resetTokens() {
 	    if (this._tokens) {
 	      this._tokens.forEach(function (token) {
 	        return token.remove();
 	      });
+
 	      this._tokens = null;
 	    }
 	  };
 
-	  FluxContainerSubscriptions.prototype._resetStoreGroup = function _resetStoreGroup() {
+	  _proto._resetStoreGroup = function _resetStoreGroup() {
 	    if (this._storeGroup) {
 	      this._storeGroup.release();
+
 	      this._storeGroup = null;
 	    }
 	  };
 
-	  FluxContainerSubscriptions.prototype._resetStores = function _resetStores() {
+	  _proto._resetStores = function _resetStores() {
 	    this._stores = null;
 	  };
 
-	  FluxContainerSubscriptions.prototype._resetCallbacks = function _resetCallbacks() {
+	  _proto._resetCallbacks = function _resetCallbacks() {
 	    this._callbacks = [];
 	  };
 
 	  return FluxContainerSubscriptions;
-	})();
+	}();
 
 	module.exports = FluxContainerSubscriptions;
 
@@ -511,70 +595,156 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxStoreGroup
 	 * 
 	 */
-
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _createForOfIteratorHelper(o, allowArrayLike) {
+	  var it;
+
+	  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+	    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+	      if (it) o = it;
+	      var i = 0;
+
+	      var F = function F() {};
+
+	      return {
+	        s: F,
+	        n: function n() {
+	          if (i >= o.length) return {
+	            done: true
+	          };
+	          return {
+	            done: false,
+	            value: o[i++]
+	          };
+	        },
+	        e: function e(_e) {
+	          throw _e;
+	        },
+	        f: F
+	      };
+	    }
+
+	    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 	  }
+
+	  var normalCompletion = true,
+	      didErr = false,
+	      err;
+	  return {
+	    s: function s() {
+	      it = o[Symbol.iterator]();
+	    },
+	    n: function n() {
+	      var step = it.next();
+	      normalCompletion = step.done;
+	      return step;
+	    },
+	    e: function e(_e2) {
+	      didErr = true;
+	      err = _e2;
+	    },
+	    f: function f() {
+	      try {
+	        if (!normalCompletion && it["return"] != null) it["return"]();
+	      } finally {
+	        if (didErr) throw err;
+	      }
+	    }
+	  };
+	}
+
+	function _unsupportedIterableToArray(o, minLen) {
+	  if (!o) return;
+	  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+	  var n = Object.prototype.toString.call(o).slice(8, -1);
+	  if (n === "Object" && o.constructor) n = o.constructor.name;
+	  if (n === "Map" || n === "Set") return Array.from(o);
+	  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+	}
+
+	function _arrayLikeToArray(arr, len) {
+	  if (len == null || len > arr.length) len = arr.length;
+
+	  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+	    arr2[i] = arr[i];
+	  }
+
+	  return arr2;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
 	}
 
 	var invariant = __webpack_require__(4);
-
 	/**
 	 * FluxStoreGroup allows you to execute a callback on every dispatch after
 	 * waiting for each of the given stores.
 	 */
 
-	var FluxStoreGroup = (function () {
+
+	var FluxStoreGroup = /*#__PURE__*/function () {
 	  function FluxStoreGroup(stores, callback) {
 	    var _this = this;
 
-	    _classCallCheck(this, FluxStoreGroup);
+	    _defineProperty(this, "_dispatcher", void 0);
 
-	    this._dispatcher = _getUniformDispatcher(stores);
+	    _defineProperty(this, "_dispatchToken", void 0);
 
-	    // Precompute store tokens.
+	    this._dispatcher = _getUniformDispatcher(stores); // Precompute store tokens.
+
 	    var storeTokens = stores.map(function (store) {
 	      return store.getDispatchToken();
-	    });
+	    }); // Register with the dispatcher.
 
-	    // Register with the dispatcher.
 	    this._dispatchToken = this._dispatcher.register(function (payload) {
 	      _this._dispatcher.waitFor(storeTokens);
+
 	      callback();
 	    });
 	  }
 
-	  FluxStoreGroup.prototype.release = function release() {
+	  var _proto = FluxStoreGroup.prototype;
+
+	  _proto.release = function release() {
 	    this._dispatcher.unregister(this._dispatchToken);
 	  };
 
 	  return FluxStoreGroup;
-	})();
+	}();
 
 	function _getUniformDispatcher(stores) {
-	  !(stores && stores.length) ?  true ? invariant(false, 'Must provide at least one store to FluxStoreGroup') : invariant(false) : undefined;
+	  !(stores && stores.length) ?  true ? invariant(false, 'Must provide at least one store to FluxStoreGroup') : invariant(false) : void 0;
 	  var dispatcher = stores[0].getDispatcher();
+
 	  if (true) {
-	    for (var _iterator = stores, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	      var _ref;
+	    var _iterator = _createForOfIteratorHelper(stores),
+	        _step;
 
-	      if (_isArray) {
-	        if (_i >= _iterator.length) break;
-	        _ref = _iterator[_i++];
-	      } else {
-	        _i = _iterator.next();
-	        if (_i.done) break;
-	        _ref = _i.value;
+	    try {
+	      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	        var store = _step.value;
+	        !(store.getDispatcher() === dispatcher) ?  true ? invariant(false, 'All stores in a FluxStoreGroup must use the same dispatcher') : invariant(false) : void 0;
 	      }
-
-	      var store = _ref;
-
-	      !(store.getDispatcher() === dispatcher) ?  true ? invariant(false, 'All stores in a FluxStoreGroup must use the same dispatcher') : invariant(false) : undefined;
+	    } catch (err) {
+	      _iterator.e(err);
+	    } finally {
+	      _iterator.f();
 	    }
 	  }
+
 	  return dispatcher;
 	}
 
@@ -590,48 +760,47 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the MIT license found in the
 	 * LICENSE file in the root directory of this source tree.
 	 *
+	 * 
 	 */
-
 	'use strict';
 
+	var validateFormat =  true ? function (format) {
+	  if (format === undefined) {
+	    throw new Error('invariant(...): Second argument must be a string.');
+	  }
+	} : function (format) {};
 	/**
 	 * Use invariant() to assert state which your program assumes to be true.
 	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
+	 * Provide sprintf-style format (only %s is supported) and arguments to provide
+	 * information about what broke and what you were expecting.
 	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
+	 * The invariant message will be stripped in production, but the invariant will
+	 * remain to ensure logic does not differ in production.
 	 */
 
-	var validateFormat = function validateFormat(format) {};
+	function invariant(condition, format) {
+	  for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
+	    args[_key - 2] = arguments[_key];
+	  }
 
-	if (true) {
-	  validateFormat = function validateFormat(format) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  };
-	}
-
-	function invariant(condition, format, a, b, c, d, e, f) {
 	  validateFormat(format);
 
 	  if (!condition) {
 	    var error;
+
 	    if (format === undefined) {
 	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
 	    } else {
-	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
 	      error = new Error(format.replace(/%s/g, function () {
-	        return args[argIndex++];
+	        return String(args[argIndex++]);
 	      }));
 	      error.name = 'Invariant Violation';
 	    }
 
-	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    error.framesToPop = 1; // Skip invariant's own stack frame.
+
 	    throw error;
 	  }
 	}
@@ -662,7 +831,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the MIT license found in the
 	 * LICENSE file in the root directory of this source tree.
 	 */
-
 	'use strict';
 
 	if (true) {
@@ -670,32 +838,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	    'use strict';
 
 	    var _assign = __webpack_require__(7);
+
 	    var checkPropTypes = __webpack_require__(8);
 
-	    var ReactVersion = '16.13.0';
-
-	    // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
+	    var ReactVersion = '16.13.0'; // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
 	    // nor polyfill, then a plain number is used for performance.
-	    var hasSymbol = typeof Symbol === 'function' && Symbol['for'];
-	    var REACT_ELEMENT_TYPE = hasSymbol ? Symbol['for']('react.element') : 0xeac7;
-	    var REACT_PORTAL_TYPE = hasSymbol ? Symbol['for']('react.portal') : 0xeaca;
-	    var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol['for']('react.fragment') : 0xeacb;
-	    var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol['for']('react.strict_mode') : 0xeacc;
-	    var REACT_PROFILER_TYPE = hasSymbol ? Symbol['for']('react.profiler') : 0xead2;
-	    var REACT_PROVIDER_TYPE = hasSymbol ? Symbol['for']('react.provider') : 0xeacd;
-	    var REACT_CONTEXT_TYPE = hasSymbol ? Symbol['for']('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
-	    var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol['for']('react.concurrent_mode') : 0xeacf;
-	    var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol['for']('react.forward_ref') : 0xead0;
-	    var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol['for']('react.suspense') : 0xead1;
-	    var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol['for']('react.suspense_list') : 0xead8;
-	    var REACT_MEMO_TYPE = hasSymbol ? Symbol['for']('react.memo') : 0xead3;
-	    var REACT_LAZY_TYPE = hasSymbol ? Symbol['for']('react.lazy') : 0xead4;
-	    var REACT_BLOCK_TYPE = hasSymbol ? Symbol['for']('react.block') : 0xead9;
-	    var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol['for']('react.fundamental') : 0xead5;
-	    var REACT_RESPONDER_TYPE = hasSymbol ? Symbol['for']('react.responder') : 0xead6;
-	    var REACT_SCOPE_TYPE = hasSymbol ? Symbol['for']('react.scope') : 0xead7;
+
+	    var hasSymbol = typeof Symbol === 'function' && Symbol.for;
+	    var REACT_ELEMENT_TYPE = hasSymbol ? Symbol.for('react.element') : 0xeac7;
+	    var REACT_PORTAL_TYPE = hasSymbol ? Symbol.for('react.portal') : 0xeaca;
+	    var REACT_FRAGMENT_TYPE = hasSymbol ? Symbol.for('react.fragment') : 0xeacb;
+	    var REACT_STRICT_MODE_TYPE = hasSymbol ? Symbol.for('react.strict_mode') : 0xeacc;
+	    var REACT_PROFILER_TYPE = hasSymbol ? Symbol.for('react.profiler') : 0xead2;
+	    var REACT_PROVIDER_TYPE = hasSymbol ? Symbol.for('react.provider') : 0xeacd;
+	    var REACT_CONTEXT_TYPE = hasSymbol ? Symbol.for('react.context') : 0xeace; // TODO: We don't use AsyncMode or ConcurrentMode anymore. They were temporary
+
+	    var REACT_CONCURRENT_MODE_TYPE = hasSymbol ? Symbol.for('react.concurrent_mode') : 0xeacf;
+	    var REACT_FORWARD_REF_TYPE = hasSymbol ? Symbol.for('react.forward_ref') : 0xead0;
+	    var REACT_SUSPENSE_TYPE = hasSymbol ? Symbol.for('react.suspense') : 0xead1;
+	    var REACT_SUSPENSE_LIST_TYPE = hasSymbol ? Symbol.for('react.suspense_list') : 0xead8;
+	    var REACT_MEMO_TYPE = hasSymbol ? Symbol.for('react.memo') : 0xead3;
+	    var REACT_LAZY_TYPE = hasSymbol ? Symbol.for('react.lazy') : 0xead4;
+	    var REACT_BLOCK_TYPE = hasSymbol ? Symbol.for('react.block') : 0xead9;
+	    var REACT_FUNDAMENTAL_TYPE = hasSymbol ? Symbol.for('react.fundamental') : 0xead5;
+	    var REACT_RESPONDER_TYPE = hasSymbol ? Symbol.for('react.responder') : 0xead6;
+	    var REACT_SCOPE_TYPE = hasSymbol ? Symbol.for('react.scope') : 0xead7;
 	    var MAYBE_ITERATOR_SYMBOL = typeof Symbol === 'function' && Symbol.iterator;
 	    var FAUX_ITERATOR_SYMBOL = '@@iterator';
+
 	    function getIteratorFn(maybeIterable) {
 	      if (maybeIterable === null || typeof maybeIterable !== 'object') {
 	        return null;
@@ -709,10 +879,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return null;
 	    }
-
 	    /**
 	     * Keeps track of the current dispatcher.
 	     */
+
+
 	    var ReactCurrentDispatcher = {
 	      /**
 	       * @internal
@@ -720,21 +891,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	       */
 	      current: null
 	    };
-
 	    /**
 	     * Keeps track of the current batch's configuration such as how long an update
 	     * should suspend for if it needs to.
 	     */
+
 	    var ReactCurrentBatchConfig = {
 	      suspense: null
 	    };
-
 	    /**
 	     * Keeps track of the current owner.
 	     *
 	     * The current owner is the component who should own any components that are
 	     * currently being constructed.
 	     */
+
 	    var ReactCurrentOwner = {
 	      /**
 	       * @internal
@@ -742,15 +913,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	       */
 	      current: null
 	    };
-
 	    var BEFORE_SLASH_RE = /^(.*)[\\\/]/;
+
 	    function describeComponentFrame(name, source, ownerName) {
 	      var sourceInfo = '';
 
 	      if (source) {
 	        var path = source.fileName;
 	        var fileName = path.replace(BEFORE_SLASH_RE, '');
-
 	        {
 	          // In DEV, include code for a common special case:
 	          // prefer "folder/index.js" instead of just "index.js".
@@ -767,7 +937,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	            }
 	          }
 	        }
-
 	        sourceInfo = ' (at ' + fileName + ':' + source.lineNumber + ')';
 	      } else if (ownerName) {
 	        sourceInfo = ' (created by ' + ownerName + ')';
@@ -777,6 +946,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var Resolved = 1;
+
 	    function refineResolvedLazyComponent(lazyComponent) {
 	      return lazyComponent._status === Resolved ? lazyComponent._result : null;
 	    }
@@ -786,96 +956,83 @@ return /******/ (function(modules) { // webpackBootstrap
 	      return outerType.displayName || (functionName !== '' ? wrapperName + "(" + functionName + ")" : wrapperName);
 	    }
 
-	    function getComponentName(_x) {
-	      var _again = true;
-
-	      _function: while (_again) {
-	        var type = _x;
-	        _again = false;
-
-	        if (type == null) {
-	          // Host root, text node or just invalid type.
-	          return null;
-	        }
-
-	        {
-	          if (typeof type.tag === 'number') {
-	            error('Received an unexpected object in getComponentName(). ' + 'This is likely a bug in React. Please file an issue.');
-	          }
-	        }
-
-	        if (typeof type === 'function') {
-	          return type.displayName || type.name || null;
-	        }
-
-	        if (typeof type === 'string') {
-	          return type;
-	        }
-
-	        switch (type) {
-	          case REACT_FRAGMENT_TYPE:
-	            return 'Fragment';
-
-	          case REACT_PORTAL_TYPE:
-	            return 'Portal';
-
-	          case REACT_PROFILER_TYPE:
-	            return "Profiler";
-
-	          case REACT_STRICT_MODE_TYPE:
-	            return 'StrictMode';
-
-	          case REACT_SUSPENSE_TYPE:
-	            return 'Suspense';
-
-	          case REACT_SUSPENSE_LIST_TYPE:
-	            return 'SuspenseList';
-	        }
-
-	        if (typeof type === 'object') {
-	          switch (type.$$typeof) {
-	            case REACT_CONTEXT_TYPE:
-	              return 'Context.Consumer';
-
-	            case REACT_PROVIDER_TYPE:
-	              return 'Context.Provider';
-
-	            case REACT_FORWARD_REF_TYPE:
-	              return getWrappedName(type, type.render, 'ForwardRef');
-
-	            case REACT_MEMO_TYPE:
-	              _x = type.type;
-	              _again = true;
-	              continue _function;
-
-	            case REACT_BLOCK_TYPE:
-	              _x = type.render;
-	              _again = true;
-	              continue _function;
-
-	            case REACT_LAZY_TYPE:
-	              {
-	                var thenable = type;
-	                var resolvedThenable = refineResolvedLazyComponent(thenable);
-
-	                if (resolvedThenable) {
-	                  _x = resolvedThenable;
-	                  _again = true;
-	                  thenable = resolvedThenable = undefined;
-	                  continue _function;
-	                }
-
-	                break;
-	              }
-	          }
-	        }
-
+	    function getComponentName(type) {
+	      if (type == null) {
+	        // Host root, text node or just invalid type.
 	        return null;
 	      }
+
+	      {
+	        if (typeof type.tag === 'number') {
+	          error('Received an unexpected object in getComponentName(). ' + 'This is likely a bug in React. Please file an issue.');
+	        }
+	      }
+
+	      if (typeof type === 'function') {
+	        return type.displayName || type.name || null;
+	      }
+
+	      if (typeof type === 'string') {
+	        return type;
+	      }
+
+	      switch (type) {
+	        case REACT_FRAGMENT_TYPE:
+	          return 'Fragment';
+
+	        case REACT_PORTAL_TYPE:
+	          return 'Portal';
+
+	        case REACT_PROFILER_TYPE:
+	          return "Profiler";
+
+	        case REACT_STRICT_MODE_TYPE:
+	          return 'StrictMode';
+
+	        case REACT_SUSPENSE_TYPE:
+	          return 'Suspense';
+
+	        case REACT_SUSPENSE_LIST_TYPE:
+	          return 'SuspenseList';
+	      }
+
+	      if (typeof type === 'object') {
+	        switch (type.$$typeof) {
+	          case REACT_CONTEXT_TYPE:
+	            return 'Context.Consumer';
+
+	          case REACT_PROVIDER_TYPE:
+	            return 'Context.Provider';
+
+	          case REACT_FORWARD_REF_TYPE:
+	            return getWrappedName(type, type.render, 'ForwardRef');
+
+	          case REACT_MEMO_TYPE:
+	            return getComponentName(type.type);
+
+	          case REACT_BLOCK_TYPE:
+	            return getComponentName(type.render);
+
+	          case REACT_LAZY_TYPE:
+	            {
+	              var thenable = type;
+	              var resolvedThenable = refineResolvedLazyComponent(thenable);
+
+	              if (resolvedThenable) {
+	                return getComponentName(resolvedThenable);
+	              }
+
+	              break;
+	            }
+	        }
+	      }
+
+	      return null;
 	    }
 
 	    var ReactDebugCurrentFrame = {};
 	    var currentlyValidatingElement = null;
+
 	    function setCurrentlyValidatingElement(element) {
 	      {
 	        currentlyValidatingElement = element;
@@ -895,6 +1052,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          stack += describeComponentFrame(name, currentlyValidatingElement._source, owner && getComponentName(owner.type));
 	        } // Delegate to the injected renderer-specific implementation
 
+
 	        var impl = ReactDebugCurrentFrame.getCurrentStack;
 
 	        if (impl) {
@@ -904,14 +1062,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return stack;
 	      };
 	    }
-
 	    /**
 	     * Used by act() to track whether you're inside an act() scope.
 	     */
+
 	    var IsSomeRendererActing = {
 	      current: false
 	    };
-
 	    var ReactSharedInternals = {
 	      ReactCurrentDispatcher: ReactCurrentDispatcher,
 	      ReactCurrentBatchConfig: ReactCurrentBatchConfig,
@@ -920,7 +1077,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // Used by renderers to avoid bundling object-assign twice in UMD bundles:
 	      assign: _assign
 	    };
-
 	    {
 	      _assign(ReactSharedInternals, {
 	        // These should not be included in production.
@@ -929,9 +1085,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // TODO: remove in React 17.0.
 	        ReactComponentTreeHook: {}
 	      });
-	    }
-
-	    // by calls to these methods by a Babel plugin.
+	    } // by calls to these methods by a Babel plugin.
 	    //
 	    // In PROD (or in packages without access to React internals),
 	    // they are left as they are instead.
@@ -945,6 +1099,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        printWarning('warn', format, args);
 	      }
 	    }
+
 	    function error(format) {
 	      {
 	        for (var _len2 = arguments.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
@@ -1007,13 +1162,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 
 	        error("Can't call %s on a component that is not yet mounted. " + 'This is a no-op, but it might indicate a bug in your application. ' + 'Instead, assign to `this.state` directly or define a `state = {};` ' + 'class property with the desired state in the %s component.', callerName, componentName);
-
 	        didWarnStateUpdateForUnmountedComponent[warningKey] = true;
 	      }
 	    }
 	    /**
 	     * This is the abstract API for an update queue.
 	     */
+
 
 	    var ReactNoopUpdateQueue = {
 	      /**
@@ -1023,7 +1178,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * @protected
 	       * @final
 	       */
-	      isMounted: function isMounted(publicInstance) {
+	      isMounted: function (publicInstance) {
 	        return false;
 	      },
 
@@ -1042,7 +1197,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * @param {?string} callerName name of the calling function in the public API.
 	       * @internal
 	       */
-	      enqueueForceUpdate: function enqueueForceUpdate(publicInstance, callback, callerName) {
+	      enqueueForceUpdate: function (publicInstance, callback, callerName) {
 	        warnNoop(publicInstance, 'forceUpdate');
 	      },
 
@@ -1059,7 +1214,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * @param {?string} callerName name of the calling function in the public API.
 	       * @internal
 	       */
-	      enqueueReplaceState: function enqueueReplaceState(publicInstance, completeState, callback, callerName) {
+	      enqueueReplaceState: function (publicInstance, completeState, callback, callerName) {
 	        warnNoop(publicInstance, 'replaceState');
 	      },
 
@@ -1075,13 +1230,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	       * @param {?string} Name of the calling function in the public API.
 	       * @internal
 	       */
-	      enqueueSetState: function enqueueSetState(publicInstance, partialState, callback, callerName) {
+	      enqueueSetState: function (publicInstance, partialState, callback, callerName) {
 	        warnNoop(publicInstance, 'setState');
 	      }
 	    };
-
 	    var emptyObject = {};
-
 	    {
 	      Object.freeze(emptyObject);
 	    }
@@ -1150,6 +1303,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @protected
 	     */
 
+
 	    Component.prototype.forceUpdate = function (callback) {
 	      this.updater.enqueueForceUpdate(this, callback, 'forceUpdate');
 	    };
@@ -1159,17 +1313,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * modern base class. Instead, we define a getter that warns if it's accessed.
 	     */
 
+
 	    {
 	      var deprecatedAPIs = {
 	        isMounted: ['isMounted', 'Instead, make sure to clean up subscriptions and pending requests in ' + 'componentWillUnmount to prevent memory leaks.'],
 	        replaceState: ['replaceState', 'Refactor your code to use setState instead (see ' + 'https://github.com/facebook/react/issues/3236).']
 	      };
 
-	      var defineDeprecationWarning = function defineDeprecationWarning(methodName, info) {
+	      var defineDeprecationWarning = function (methodName, info) {
 	        Object.defineProperty(Component.prototype, methodName, {
-	          get: function get() {
+	          get: function () {
 	            warn('%s(...) is deprecated in plain JavaScript React classes. %s', info[0], info[1]);
-
 	            return undefined;
 	          }
 	        });
@@ -1202,18 +1356,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    _assign(pureComponentPrototype, Component.prototype);
 
-	    pureComponentPrototype.isPureReactComponent = true;
+	    pureComponentPrototype.isPureReactComponent = true; // an immutable object with a single mutable value
 
-	    // an immutable object with a single mutable value
 	    function createRef() {
 	      var refObject = {
 	        current: null
 	      };
-
 	      {
 	        Object.seal(refObject);
 	      }
-
 	      return refObject;
 	    }
 
@@ -1225,7 +1376,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      __source: true
 	    };
 	    var specialPropKeyWarningShown, specialPropRefWarningShown, didWarnAboutStringRefs;
-
 	    {
 	      didWarnAboutStringRefs = {};
 	    }
@@ -1240,7 +1390,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	      }
-
 	      return config.ref !== undefined;
 	    }
 
@@ -1254,16 +1403,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	      }
-
 	      return config.key !== undefined;
 	    }
 
 	    function defineKeyPropWarningGetter(props, displayName) {
-	      var warnAboutAccessingKey = function warnAboutAccessingKey() {
+	      var warnAboutAccessingKey = function () {
 	        {
 	          if (!specialPropKeyWarningShown) {
 	            specialPropKeyWarningShown = true;
-
 	            error('%s: `key` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
 	          }
 	        }
@@ -1277,11 +1424,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    function defineRefPropWarningGetter(props, displayName) {
-	      var warnAboutAccessingRef = function warnAboutAccessingRef() {
+	      var warnAboutAccessingRef = function () {
 	        {
 	          if (!specialPropRefWarningShown) {
 	            specialPropRefWarningShown = true;
-
 	            error('%s: `ref` is not a prop. Trying to access it will result ' + 'in `undefined` being returned. If you need to access the same ' + 'value within the child component, you should pass it as a different ' + 'prop. (https://fb.me/react-special-props)', displayName);
 	          }
 	        }
@@ -1301,7 +1447,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          if (!didWarnAboutStringRefs[componentName]) {
 	            error('Component "%s" contains the string ref "%s". ' + 'Support for string refs will be removed in a future major release. ' + 'This case cannot be automatically converted to an arrow function. ' + 'We ask you to manually fix this case by using useRef() or createRef() instead. ' + 'Learn more about using refs safely here: ' + 'https://fb.me/react-strict-mode-string-ref', getComponentName(ReactCurrentOwner.current.type), config.ref);
-
 	            didWarnAboutStringRefs[componentName] = true;
 	          }
 	        }
@@ -1328,7 +1473,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @internal
 	     */
 
-	    var ReactElement = function ReactElement(type, key, ref, self, source, owner, props) {
+
+	    var ReactElement = function (type, key, ref, self, source, owner, props) {
 	      var element = {
 	        // This tag allows us to uniquely identify this as a React Element
 	        $$typeof: REACT_ELEMENT_TYPE,
@@ -1340,7 +1486,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Record the component responsible for creating this element.
 	        _owner: owner
 	      };
-
 	      {
 	        // The validation flag is currently mutative. We put it on
 	        // an external backing store so that we can freeze the whole object.
@@ -1378,13 +1523,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	          Object.freeze(element);
 	        }
 	      }
-
 	      return element;
 	    };
 	    /**
 	     * Create and return a new ReactElement of the given type.
 	     * See https://reactjs.org/docs/react-api.html#createelement
 	     */
+
 
 	    function createElement(type, config, children) {
 	      var propName; // Reserved names are extracted
@@ -1398,7 +1543,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      if (config != null) {
 	        if (hasValidRef(config)) {
 	          ref = config.ref;
-
 	          {
 	            warnIfStringRefCannotBeAutoConverted(config);
 	          }
@@ -1419,6 +1563,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      } // Children can be more than one argument, and those are transferred onto
 	      // the newly allocated props object.
 
+
 	      var childrenLength = arguments.length - 2;
 
 	      if (childrenLength === 1) {
@@ -1435,9 +1580,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	            Object.freeze(childArray);
 	          }
 	        }
-
 	        props.children = childArray;
 	      } // Resolve default props
+
 
 	      if (type && type.defaultProps) {
 	        var defaultProps = type.defaultProps;
@@ -1462,9 +1607,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	      }
-
 	      return ReactElement(type, key, ref, self, source, ReactCurrentOwner.current, props);
 	    }
+
 	    function cloneAndReplaceKey(oldElement, newKey) {
 	      var newElement = ReactElement(oldElement.type, newKey, oldElement.ref, oldElement._self, oldElement._source, oldElement._owner, oldElement.props);
 	      return newElement;
@@ -1473,6 +1618,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Clone and return a new ReactElement using element as the starting point.
 	     * See https://reactjs.org/docs/react-api.html#cloneelement
 	     */
+
 
 	    function cloneElement(element, config, children) {
 	      if (!!(element === null || element === undefined)) {
@@ -1484,6 +1630,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var propName; // Original props are copied
 
 	      var props = _assign({}, element.props); // Reserved names are extracted
+
 
 	      var key = element.key;
 	      var ref = element.ref; // Self is preserved since the owner is preserved.
@@ -1507,6 +1654,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	          key = '' + config.key;
 	        } // Remaining properties override existing props
 
+
 	        var defaultProps;
 
 	        if (element.type && element.type.defaultProps) {
@@ -1525,6 +1673,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        }
 	      } // Children can be more than one argument, and those are transferred onto
 	      // the newly allocated props object.
+
 
 	      var childrenLength = arguments.length - 2;
 
@@ -1549,6 +1698,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {boolean} True if `object` is a ReactElement.
 	     * @final
 	     */
+
 
 	    function isValidElement(object) {
 	      return typeof object === 'object' && object !== null && object.$$typeof === REACT_ELEMENT_TYPE;
@@ -1578,6 +1728,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * TODO: Test that a single child and an array with one item have the same key
 	     * pattern.
 	     */
+
 
 	    var didWarnAboutMaps = false;
 	    var userProvidedKeyEscapeRegex = /\/+/g;
@@ -1628,6 +1779,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * process.
 	     * @return {!number} The number of children in this subtree.
 	     */
+
 
 	    function traverseAllChildrenImpl(children, nameSoFar, callback, traverseContext) {
 	      var type = typeof children;
@@ -1681,7 +1833,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var iteratorFn = getIteratorFn(children);
 
 	        if (typeof iteratorFn === 'function') {
-
 	          {
 	            // Warn about using Maps as children
 	            if (iteratorFn === children.entries) {
@@ -1692,7 +1843,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	              didWarnAboutMaps = true;
 	            }
 	          }
-
 	          var iterator = iteratorFn.call(children);
 	          var step;
 	          var ii = 0;
@@ -1704,13 +1854,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        } else if (type === 'object') {
 	          var addendum = '';
-
 	          {
 	            addendum = ' If you meant to render a collection of children, use an array ' + 'instead.' + ReactDebugCurrentFrame.getStackAddendum();
 	          }
-
 	          var childrenString = '' + children;
-
 	          {
 	            {
 	              throw Error("Objects are not valid as a React child (found: " + (childrenString === '[object Object]' ? 'object with keys {' + Object.keys(children).join(', ') + '}' : childrenString) + ")." + addendum);
@@ -1738,6 +1885,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {!number} The number of children in this subtree.
 	     */
 
+
 	    function traverseAllChildren(children, callback, traverseContext) {
 	      if (children == null) {
 	        return 0;
@@ -1753,6 +1901,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {string}
 	     */
 
+
 	    function getComponentKey(component, index) {
 	      // Do some typechecking here since we call this blindly. We want to ensure
 	      // that we don't block potential future ES APIs.
@@ -1760,6 +1909,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        // Explicit key
 	        return escape(component.key);
 	      } // Implicit key determined by the index in the set
+
 
 	      return index.toString(36);
 	    }
@@ -1781,6 +1931,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {function(*, int)} forEachFunc
 	     * @param {*} forEachContext Context for forEachContext.
 	     */
+
 
 	    function forEachChildren(children, forEachFunc, forEachContext) {
 	      if (children == null) {
@@ -1839,6 +1990,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {object} Object containing the ordered map of results.
 	     */
 
+
 	    function mapChildren(children, func, context) {
 	      if (children == null) {
 	        return children;
@@ -1858,6 +2010,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {number} The number of children.
 	     */
 
+
 	    function countChildren(children) {
 	      return traverseAllChildren(children, function () {
 	        return null;
@@ -1869,6 +2022,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *
 	     * See https://reactjs.org/docs/react-api.html#reactchildrentoarray
 	     */
+
 
 	    function toArray(children) {
 	      var result = [];
@@ -1891,6 +2045,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @return {ReactElement} The first and only `ReactElement` contained in the
 	     * structure.
 	     */
+
 
 	    function onlyChild(children) {
 	      if (!isValidElement(children)) {
@@ -1936,7 +2091,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      };
 	      var hasWarnedAboutUsingNestedContextConsumers = false;
 	      var hasWarnedAboutUsingConsumerProvider = false;
-
 	      {
 	        // A separate object, but proxies back to the original context object for
 	        // backwards compatibility. It has a different $$typeof, so we can properly
@@ -1949,48 +2103,46 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        Object.defineProperties(Consumer, {
 	          Provider: {
-	            get: function get() {
+	            get: function () {
 	              if (!hasWarnedAboutUsingConsumerProvider) {
 	                hasWarnedAboutUsingConsumerProvider = true;
-
 	                error('Rendering <Context.Consumer.Provider> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Provider> instead?');
 	              }
 
 	              return context.Provider;
 	            },
-	            set: function set(_Provider) {
+	            set: function (_Provider) {
 	              context.Provider = _Provider;
 	            }
 	          },
 	          _currentValue: {
-	            get: function get() {
+	            get: function () {
 	              return context._currentValue;
 	            },
-	            set: function set(_currentValue) {
+	            set: function (_currentValue) {
 	              context._currentValue = _currentValue;
 	            }
 	          },
 	          _currentValue2: {
-	            get: function get() {
+	            get: function () {
 	              return context._currentValue2;
 	            },
-	            set: function set(_currentValue2) {
+	            set: function (_currentValue2) {
 	              context._currentValue2 = _currentValue2;
 	            }
 	          },
 	          _threadCount: {
-	            get: function get() {
+	            get: function () {
 	              return context._threadCount;
 	            },
-	            set: function set(_threadCount) {
+	            set: function (_threadCount) {
 	              context._threadCount = _threadCount;
 	            }
 	          },
 	          Consumer: {
-	            get: function get() {
+	            get: function () {
 	              if (!hasWarnedAboutUsingNestedContextConsumers) {
 	                hasWarnedAboutUsingNestedContextConsumers = true;
-
 	                error('Rendering <Context.Consumer.Consumer> is not supported and will be removed in ' + 'a future major release. Did you mean to render <Context.Consumer> instead?');
 	              }
 
@@ -2001,12 +2153,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	        context.Consumer = Consumer;
 	      }
-
 	      {
 	        context._currentRenderer = null;
 	        context._currentRenderer2 = null;
 	      }
-
 	      return context;
 	    }
 
@@ -2018,7 +2168,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        _status: -1,
 	        _result: null
 	      };
-
 	      {
 	        // In production, this would just set it on the object.
 	        var defaultProps;
@@ -2026,12 +2175,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	        Object.defineProperties(lazyType, {
 	          defaultProps: {
 	            configurable: true,
-	            get: function get() {
+	            get: function () {
 	              return defaultProps;
 	            },
-	            set: function set(newDefaultProps) {
+	            set: function (newDefaultProps) {
 	              error('React.lazy(...): It is not supported to assign `defaultProps` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
-
 	              defaultProps = newDefaultProps; // Match production behavior more closely:
 
 	              Object.defineProperty(lazyType, 'defaultProps', {
@@ -2041,12 +2189,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	          },
 	          propTypes: {
 	            configurable: true,
-	            get: function get() {
+	            get: function () {
 	              return propTypes;
 	            },
-	            set: function set(newPropTypes) {
+	            set: function (newPropTypes) {
 	              error('React.lazy(...): It is not supported to assign `propTypes` to ' + 'a lazy component import. Either specify them where the component ' + 'is defined, or create a wrapping component around it.');
-
 	              propTypes = newPropTypes; // Match production behavior more closely:
 
 	              Object.defineProperty(lazyType, 'propTypes', {
@@ -2056,7 +2203,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        });
 	      }
-
 	      return lazyType;
 	    }
 
@@ -2078,7 +2224,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	      }
-
 	      return {
 	        $$typeof: REACT_FORWARD_REF_TYPE,
 	        render: render
@@ -2096,7 +2241,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          error('memo: The first argument must be a component. Instead ' + 'received: %s', type === null ? 'null' : typeof type);
 	        }
 	      }
-
 	      return {
 	        $$typeof: REACT_MEMO_TYPE,
 	        type: type,
@@ -2118,11 +2262,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	    function useContext(Context, unstable_observedBits) {
 	      var dispatcher = resolveDispatcher();
-
 	      {
 	        if (unstable_observedBits !== undefined) {
 	          error('useContext() second argument is reserved for future ' + 'use in React. Passing it is not supported. ' + 'You passed: %s.%s', unstable_observedBits, typeof unstable_observedBits === 'number' && Array.isArray(arguments[2]) ? '\n\nDid you call array.map(useContext)? ' + 'Calling Hooks inside a loop is not supported. ' + 'Learn more at https://fb.me/rules-of-hooks' : '');
 	        } // TODO: add a more generic warning for invalid values.
+
 
 	        if (Context._context !== undefined) {
 	          var realContext = Context._context; // Don't deduplicate because this legitimately causes bugs
@@ -2135,41 +2279,49 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        }
 	      }
-
 	      return dispatcher.useContext(Context, unstable_observedBits);
 	    }
+
 	    function useState(initialState) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useState(initialState);
 	    }
+
 	    function useReducer(reducer, initialArg, init) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useReducer(reducer, initialArg, init);
 	    }
+
 	    function useRef(initialValue) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useRef(initialValue);
 	    }
+
 	    function useEffect(create, deps) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useEffect(create, deps);
 	    }
+
 	    function useLayoutEffect(create, deps) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useLayoutEffect(create, deps);
 	    }
+
 	    function useCallback(callback, deps) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useCallback(callback, deps);
 	    }
+
 	    function useMemo(create, deps) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useMemo(create, deps);
 	    }
+
 	    function useImperativeHandle(ref, create, deps) {
 	      var dispatcher = resolveDispatcher();
 	      return dispatcher.useImperativeHandle(ref, create, deps);
 	    }
+
 	    function useDebugValue(value, formatterFn) {
 	      {
 	        var dispatcher = resolveDispatcher();
@@ -2178,7 +2330,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    var propTypesMisspellWarningShown;
-
 	    {
 	      propTypesMisspellWarningShown = false;
 	    }
@@ -2218,6 +2369,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * updates.
 	     */
 
+
 	    var ownerHasKeyUseWarning = {};
 
 	    function getCurrentComponentErrorInfo(parentType) {
@@ -2245,6 +2397,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {*} parentType element's parent's type.
 	     */
 
+
 	    function validateExplicitKey(element, parentType) {
 	      if (!element._store || element._store.validated || element.key != null) {
 	        return;
@@ -2269,11 +2422,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      setCurrentlyValidatingElement(element);
-
 	      {
 	        error('Each child in a list should have a unique "key" prop.' + '%s%s See https://fb.me/react-warning-keys for more information.', currentComponentErrorInfo, childOwner);
 	      }
-
 	      setCurrentlyValidatingElement(null);
 	    }
 	    /**
@@ -2285,6 +2436,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {ReactNode} node Statically passed child of any type.
 	     * @param {*} parentType node's parent's type.
 	     */
+
 
 	    function validateChildKeys(node, parentType) {
 	      if (typeof node !== 'object') {
@@ -2330,6 +2482,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {ReactElement} element
 	     */
 
+
 	    function validatePropTypes(element) {
 	      {
 	        var type = element.type;
@@ -2357,7 +2510,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	          setCurrentlyValidatingElement(null);
 	        } else if (type.PropTypes !== undefined && !propTypesMisspellWarningShown) {
 	          propTypesMisspellWarningShown = true;
-
 	          error('Component %s declared `PropTypes` instead of `propTypes`. Did you misspell the property assignment?', name || 'Unknown');
 	        }
 
@@ -2371,6 +2523,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * @param {ReactElement} fragment
 	     */
 
+
 	    function validateFragmentProps(fragment) {
 	      {
 	        setCurrentlyValidatingElement(fragment);
@@ -2381,7 +2534,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	          if (key !== 'children' && key !== 'key') {
 	            error('Invalid prop `%s` supplied to `React.Fragment`. ' + 'React.Fragment can only have `key` and `children` props.', key);
-
 	            break;
 	          }
 	        }
@@ -2393,6 +2545,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        setCurrentlyValidatingElement(null);
 	      }
 	    }
+
 	    function createElementWithValidation(type, props, children) {
 	      var validType = isValidElementType(type); // We warn in this case but don't throw. We expect the element creation to
 	      // succeed and there will likely be errors in render.
@@ -2441,6 +2594,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      // (Rendering will throw with a helpful message and as soon as the type is
 	      // fixed, the key warnings will appear.)
 
+
 	      if (validType) {
 	        for (var i = 2; i < arguments.length; i++) {
 	          validateChildKeys(arguments[i], type);
@@ -2455,23 +2609,23 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      return element;
 	    }
+
 	    var didWarnAboutDeprecatedCreateFactory = false;
+
 	    function createFactoryWithValidation(type) {
 	      var validatedFactory = createElementWithValidation.bind(null, type);
 	      validatedFactory.type = type;
-
 	      {
 	        if (!didWarnAboutDeprecatedCreateFactory) {
 	          didWarnAboutDeprecatedCreateFactory = true;
-
 	          warn('React.createFactory() is deprecated and will be removed in ' + 'a future major release. Consider using JSX ' + 'or use React.createElement() directly instead.');
 	        } // Legacy hook: remove it
 
+
 	        Object.defineProperty(validatedFactory, 'type', {
 	          enumerable: false,
-	          get: function get() {
+	          get: function () {
 	            warn('Factory.type is deprecated. Access the class directly ' + 'before passing it to createFactory.');
-
 	            Object.defineProperty(this, 'type', {
 	              value: type
 	            });
@@ -2479,9 +2633,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	          }
 	        });
 	      }
-
 	      return validatedFactory;
 	    }
+
 	    function cloneElementWithValidation(element, props, children) {
 	      var newElement = cloneElement.apply(this, arguments);
 
@@ -2494,7 +2648,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    {
-
 	      try {
 	        var frozenObject = Object.freeze({});
 	        var testMap = new Map([[frozenObject, null]]);
@@ -2506,7 +2659,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	        testSet.add(0);
 	      } catch (e) {}
 	    }
-
 	    var createElement$1 = createElementWithValidation;
 	    var cloneElement$1 = cloneElementWithValidation;
 	    var createFactory = createFactoryWithValidation;
@@ -2517,7 +2669,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      toArray: toArray,
 	      only: onlyChild
 	    };
-
 	    exports.Children = Children;
 	    exports.Component = Component;
 	    exports.Fragment = REACT_FRAGMENT_TYPE;
@@ -2558,89 +2709,95 @@ return /******/ (function(modules) { // webpackBootstrap
 	(c) Sindre Sorhus
 	@license MIT
 	*/
-
 	'use strict';
 	/* eslint-disable no-unused-vars */
+
 	var getOwnPropertySymbols = Object.getOwnPropertySymbols;
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
 	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
 	function toObject(val) {
-		if (val === null || val === undefined) {
-			throw new TypeError('Object.assign cannot be called with null or undefined');
-		}
+	  if (val === null || val === undefined) {
+	    throw new TypeError('Object.assign cannot be called with null or undefined');
+	  }
 
-		return Object(val);
+	  return Object(val);
 	}
 
 	function shouldUseNative() {
-		try {
-			if (!Object.assign) {
-				return false;
-			}
+	  try {
+	    if (!Object.assign) {
+	      return false;
+	    } // Detect buggy property enumeration order in older V8 versions.
+	    // https://bugs.chromium.org/p/v8/issues/detail?id=4118
 
-			// Detect buggy property enumeration order in older V8 versions.
 
-			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
-			var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
-			test1[5] = 'de';
-			if (Object.getOwnPropertyNames(test1)[0] === '5') {
-				return false;
-			}
+	    var test1 = new String('abc'); // eslint-disable-line no-new-wrappers
 
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test2 = {};
-			for (var i = 0; i < 10; i++) {
-				test2['_' + String.fromCharCode(i)] = i;
-			}
-			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
-				return test2[n];
-			});
-			if (order2.join('') !== '0123456789') {
-				return false;
-			}
+	    test1[5] = 'de';
 
-			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
-			var test3 = {};
-			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
-				test3[letter] = letter;
-			});
-			if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
-				return false;
-			}
+	    if (Object.getOwnPropertyNames(test1)[0] === '5') {
+	      return false;
+	    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
 
-			return true;
-		} catch (err) {
-			// We don't expect any of the above to throw, but better to be safe.
-			return false;
-		}
+
+	    var test2 = {};
+
+	    for (var i = 0; i < 10; i++) {
+	      test2['_' + String.fromCharCode(i)] = i;
+	    }
+
+	    var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+	      return test2[n];
+	    });
+
+	    if (order2.join('') !== '0123456789') {
+	      return false;
+	    } // https://bugs.chromium.org/p/v8/issues/detail?id=3056
+
+
+	    var test3 = {};
+	    'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+	      test3[letter] = letter;
+	    });
+
+	    if (Object.keys(Object.assign({}, test3)).join('') !== 'abcdefghijklmnopqrst') {
+	      return false;
+	    }
+
+	    return true;
+	  } catch (err) {
+	    // We don't expect any of the above to throw, but better to be safe.
+	    return false;
+	  }
 	}
 
 	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
-		var from;
-		var to = toObject(target);
-		var symbols;
+	  var from;
+	  var to = toObject(target);
+	  var symbols;
 
-		for (var s = 1; s < arguments.length; s++) {
-			from = Object(arguments[s]);
+	  for (var s = 1; s < arguments.length; s++) {
+	    from = Object(arguments[s]);
 
-			for (var key in from) {
-				if (hasOwnProperty.call(from, key)) {
-					to[key] = from[key];
-				}
-			}
+	    for (var key in from) {
+	      if (hasOwnProperty.call(from, key)) {
+	        to[key] = from[key];
+	      }
+	    }
 
-			if (getOwnPropertySymbols) {
-				symbols = getOwnPropertySymbols(from);
-				for (var i = 0; i < symbols.length; i++) {
-					if (propIsEnumerable.call(from, symbols[i])) {
-						to[symbols[i]] = from[symbols[i]];
-					}
-				}
-			}
-		}
+	    if (getOwnPropertySymbols) {
+	      symbols = getOwnPropertySymbols(from);
 
-		return to;
+	      for (var i = 0; i < symbols.length; i++) {
+	        if (propIsEnumerable.call(from, symbols[i])) {
+	          to[symbols[i]] = from[symbols[i]];
+	        }
+	      }
+	    }
+	  }
+
+	  return to;
 	};
 
 /***/ }),
@@ -2653,21 +2810,23 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the MIT license found in the
 	 * LICENSE file in the root directory of this source tree.
 	 */
-
 	'use strict';
 
-	var printWarning = function printWarning() {};
+	var printWarning = function () {};
 
 	if (true) {
 	  var ReactPropTypesSecret = __webpack_require__(9);
+
 	  var loggedTypeFailures = {};
 	  var has = Function.call.bind(Object.prototype.hasOwnProperty);
 
 	  printWarning = function (text) {
 	    var message = 'Warning: ' + text;
+
 	    if (typeof console !== 'undefined') {
 	      console.error(message);
 	    }
+
 	    try {
 	      // --- Welcome to debugging React ---
 	      // This error was thrown as a convenience so that you can use this stack
@@ -2676,7 +2835,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    } catch (x) {}
 	  };
 	}
-
 	/**
 	 * Assert that the values match with the type specs.
 	 * Error messages are memorized and will only be shown once.
@@ -2688,14 +2846,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @param {?Function} getStack Returns the component stack.
 	 * @private
 	 */
+
+
 	function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 	  if (true) {
 	    for (var typeSpecName in typeSpecs) {
 	      if (has(typeSpecs, typeSpecName)) {
-	        var error;
-	        // Prop type validation may throw. In case they do, we don't want to
+	        var error; // Prop type validation may throw. In case they do, we don't want to
 	        // fail the render phase where it didn't fail before. So we log it.
 	        // After these have been cleaned up, we'll let them throw.
+
 	        try {
 	          // This is intentionally an invariant that gets caught. It's the same
 	          // behavior as without this statement except with a better message.
@@ -2704,32 +2864,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	            err.name = 'Invariant Violation';
 	            throw err;
 	          }
+
 	          error = typeSpecs[typeSpecName](values, typeSpecName, componentName, location, null, ReactPropTypesSecret);
 	        } catch (ex) {
 	          error = ex;
 	        }
+
 	        if (error && !(error instanceof Error)) {
 	          printWarning((componentName || 'React class') + ': type specification of ' + location + ' `' + typeSpecName + '` is invalid; the type checker ' + 'function must return `null` or an `Error` but returned a ' + typeof error + '. ' + 'You may have forgotten to pass an argument to the type checker ' + 'creator (arrayOf, instanceOf, objectOf, oneOf, oneOfType, and ' + 'shape all require an argument).');
 	        }
+
 	        if (error instanceof Error && !(error.message in loggedTypeFailures)) {
 	          // Only monitor this failure once because there tends to be a lot of the
 	          // same error.
 	          loggedTypeFailures[error.message] = true;
-
 	          var stack = getStack ? getStack() : '';
-
 	          printWarning('Failed ' + location + ' type: ' + error.message + (stack != null ? stack : ''));
 	        }
 	      }
 	    }
 	  }
 	}
-
 	/**
 	 * Resets warning cache when testing.
 	 *
 	 * @private
 	 */
+
+
 	checkPropTypes.resetWarningCache = function () {
 	  if (true) {
 	    loggedTypeFailures = {};
@@ -2748,11 +2910,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the MIT license found in the
 	 * LICENSE file in the root directory of this source tree.
 	 */
-
 	'use strict';
 
 	var ReactPropTypesSecret = 'SECRET_DO_NOT_PASS_THIS_OR_YOU_WILL_BE_FIRED';
-
 	module.exports = ReactPropTypesSecret;
 
 /***/ }),
@@ -2770,15 +2930,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 	/*eslint-disable no-self-compare */
-
 	'use strict';
 
 	var hasOwnProperty = Object.prototype.hasOwnProperty;
-
 	/**
 	 * inlined Object.is polyfill to avoid requiring consumers ship their own
 	 * https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/is
 	 */
+
 	function is(x, y) {
 	  // SameValue algorithm
 	  if (x === y) {
@@ -2791,12 +2950,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return x !== x && y !== y;
 	  }
 	}
-
 	/**
 	 * Performs equality by iterating through keys on an object and returning false
 	 * when any key has values which are not strictly equal between the arguments.
 	 * Returns true when the values of all keys are strictly equal.
 	 */
+
+
 	function shallowEqual(objA, objB) {
 	  if (is(objA, objB)) {
 	    return true;
@@ -2811,9 +2971,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  if (keysA.length !== keysB.length) {
 	    return false;
-	  }
+	  } // Test for A's keys different from B.
 
-	  // Test for A's keys different from B.
+
 	  for (var i = 0; i < keysA.length; i++) {
 	    if (!hasOwnProperty.call(objB, keysA[i]) || !is(objA[keysA[i]], objB[keysA[i]])) {
 	      return false;
@@ -2839,13 +2999,87 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxMixinLegacy
 	 * 
 	 */
-
 	'use strict';
+
+	function _createForOfIteratorHelper(o, allowArrayLike) {
+	  var it;
+
+	  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+	    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
+	      if (it) o = it;
+	      var i = 0;
+
+	      var F = function F() {};
+
+	      return {
+	        s: F,
+	        n: function n() {
+	          if (i >= o.length) return {
+	            done: true
+	          };
+	          return {
+	            done: false,
+	            value: o[i++]
+	          };
+	        },
+	        e: function e(_e) {
+	          throw _e;
+	        },
+	        f: F
+	      };
+	    }
+
+	    throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+	  }
+
+	  var normalCompletion = true,
+	      didErr = false,
+	      err;
+	  return {
+	    s: function s() {
+	      it = o[Symbol.iterator]();
+	    },
+	    n: function n() {
+	      var step = it.next();
+	      normalCompletion = step.done;
+	      return step;
+	    },
+	    e: function e(_e2) {
+	      didErr = true;
+	      err = _e2;
+	    },
+	    f: function f() {
+	      try {
+	        if (!normalCompletion && it["return"] != null) it["return"]();
+	      } finally {
+	        if (didErr) throw err;
+	      }
+	    }
+	  };
+	}
+
+	function _unsupportedIterableToArray(o, minLen) {
+	  if (!o) return;
+	  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+	  var n = Object.prototype.toString.call(o).slice(8, -1);
+	  if (n === "Object" && o.constructor) n = o.constructor.name;
+	  if (n === "Map" || n === "Set") return Array.from(o);
+	  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+	}
+
+	function _arrayLikeToArray(arr, len) {
+	  if (len == null || len > arr.length) len = arr.length;
+
+	  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+	    arr2[i] = arr[i];
+	  }
+
+	  return arr2;
+	}
 
 	var FluxStoreGroup = __webpack_require__(3);
 
 	var invariant = __webpack_require__(4);
-
 	/**
 	 * `FluxContainer` should be preferred over this mixin, but it requires using
 	 * react with classes. So this mixin is provided where it is not yet possible
@@ -2882,72 +3116,73 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * returning bar will not delete foo.
 	 *
 	 */
-	function FluxMixinLegacy(stores) {
-	  var options = arguments.length <= 1 || arguments[1] === undefined ? { withProps: false } : arguments[1];
 
+
+	function FluxMixinLegacy(stores) {
+	  var options = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {
+	    withProps: false
+	  };
 	  stores = stores.filter(function (store) {
 	    return !!store;
 	  });
-
 	  return {
 	    getInitialState: function getInitialState() {
 	      enforceInterface(this);
 	      return options.withProps ? this.constructor.calculateState(null, this.props) : this.constructor.calculateState(null, undefined);
 	    },
-
 	    componentWillMount: function componentWillMount() {
-	      var _this = this;
+	      var _this = this; // This tracks when any store has changed and we may need to update.
 
-	      // This tracks when any store has changed and we may need to update.
+
 	      var changed = false;
+
 	      var setChanged = function setChanged() {
 	        changed = true;
-	      };
-
-	      // This adds subscriptions to stores. When a store changes all we do is
+	      }; // This adds subscriptions to stores. When a store changes all we do is
 	      // set changed to true.
+
+
 	      this._fluxMixinSubscriptions = stores.map(function (store) {
 	        return store.addListener(setChanged);
-	      });
-
-	      // This callback is called after the dispatch of the relevant stores. If
+	      }); // This callback is called after the dispatch of the relevant stores. If
 	      // any have reported a change we update the state, then reset changed.
+
 	      var callback = function callback() {
 	        if (changed) {
 	          _this.setState(function (prevState) {
 	            return options.withProps ? _this.constructor.calculateState(prevState, _this.props) : _this.constructor.calculateState(prevState, undefined);
 	          });
 	        }
+
 	        changed = false;
 	      };
+
 	      this._fluxMixinStoreGroup = new FluxStoreGroup(stores, callback);
 	    },
-
 	    componentWillUnmount: function componentWillUnmount() {
 	      this._fluxMixinStoreGroup.release();
-	      for (var _iterator = this._fluxMixinSubscriptions, _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : _iterator[Symbol.iterator]();;) {
-	        var _ref;
 
-	        if (_isArray) {
-	          if (_i >= _iterator.length) break;
-	          _ref = _iterator[_i++];
-	        } else {
-	          _i = _iterator.next();
-	          if (_i.done) break;
-	          _ref = _i.value;
+	      var _iterator = _createForOfIteratorHelper(this._fluxMixinSubscriptions),
+	          _step;
+
+	      try {
+	        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+	          var subscription = _step.value;
+	          subscription.remove();
 	        }
-
-	        var subscription = _ref;
-
-	        subscription.remove();
+	      } catch (err) {
+	        _iterator.e(err);
+	      } finally {
+	        _iterator.f();
 	      }
+
 	      this._fluxMixinSubscriptions = [];
 	    }
 	  };
 	}
 
 	function enforceInterface(o) {
-	  !o.constructor.calculateState ?  true ? invariant(false, 'Components that use FluxMixinLegacy must implement ' + '`calculateState()` on the statics object') : invariant(false) : undefined;
+	  !o.constructor.calculateState ?  true ? invariant(false, 'Components that use FluxMixinLegacy must implement ' + '`calculateState()` on the statics object') : invariant(false) : void 0;
 	}
 
 	module.exports = FluxMixinLegacy;
@@ -2966,26 +3201,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxReduceStore
 	 * 
 	 */
-
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _assertThisInitialized(self) {
+	  if (self === void 0) {
+	    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
 	  }
+
+	  return self;
 	}
 
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== 'function' && superClass !== null) {
-	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	function _inheritsLoose(subClass, superClass) {
+	  subClass.prototype = Object.create(superClass.prototype);
+	  subClass.prototype.constructor = subClass;
+	  subClass.__proto__ = superClass;
+	}
+
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
+	  }
+
+	  return obj;
 	}
 
 	var FluxStore = __webpack_require__(13);
 
-	var abstractMethod = __webpack_require__(20);
-	var invariant = __webpack_require__(4);
+	var abstractMethod = __webpack_require__(21);
 
+	var invariant = __webpack_require__(4);
 	/**
 	 * This is the basic building block of a Flux application. All of your stores
 	 * should extend this class.
@@ -3008,68 +3259,72 @@ return /******/ (function(modules) { // webpackBootstrap
 	 *   }
 	 */
 
-	var FluxReduceStore = (function (_FluxStore) {
-	  _inherits(FluxReduceStore, _FluxStore);
+
+	var FluxReduceStore = /*#__PURE__*/function (_FluxStore) {
+	  _inheritsLoose(FluxReduceStore, _FluxStore);
 
 	  function FluxReduceStore(dispatcher) {
-	    _classCallCheck(this, FluxReduceStore);
+	    var _this;
 
-	    _FluxStore.call(this, dispatcher);
-	    this._state = this.getInitialState();
+	    _this = _FluxStore.call(this, dispatcher) || this;
+
+	    _defineProperty(_assertThisInitialized(_this), "_state", void 0);
+
+	    _this._state = _this.getInitialState();
+	    return _this;
 	  }
-
 	  /**
 	   * Getter that exposes the entire state of this store. If your state is not
 	   * immutable you should override this and not expose _state directly.
 	   */
 
-	  FluxReduceStore.prototype.getState = function getState() {
-	    return this._state;
-	  };
 
+	  var _proto = FluxReduceStore.prototype;
+
+	  _proto.getState = function getState() {
+	    return this._state;
+	  }
 	  /**
 	   * Constructs the initial state for this store. This is called once during
 	   * construction of the store.
 	   */
+	  ;
 
-	  FluxReduceStore.prototype.getInitialState = function getInitialState() {
+	  _proto.getInitialState = function getInitialState() {
 	    return abstractMethod('FluxReduceStore', 'getInitialState');
-	  };
-
+	  }
 	  /**
 	   * Used to reduce a stream of actions coming from the dispatcher into a
 	   * single state object.
 	   */
+	  ;
 
-	  FluxReduceStore.prototype.reduce = function reduce(state, action) {
+	  _proto.reduce = function reduce(state, action) {
 	    return abstractMethod('FluxReduceStore', 'reduce');
-	  };
-
+	  }
 	  /**
 	   * Checks if two versions of state are the same. You do not need to override
 	   * this if your state is immutable.
 	   */
+	  ;
 
-	  FluxReduceStore.prototype.areEqual = function areEqual(one, two) {
+	  _proto.areEqual = function areEqual(one, two) {
 	    return one === two;
 	  };
 
-	  FluxReduceStore.prototype.__invokeOnDispatch = function __invokeOnDispatch(action) {
-	    this.__changed = false;
+	  _proto.__invokeOnDispatch = function __invokeOnDispatch(action) {
+	    this.__changed = false; // Reduce the stream of incoming actions to state, update when necessary.
 
-	    // Reduce the stream of incoming actions to state, update when necessary.
 	    var startingState = this._state;
-	    var endingState = this.reduce(startingState, action);
+	    var endingState = this.reduce(startingState, action); // This means your ending state should never be undefined.
 
-	    // This means your ending state should never be undefined.
-	    !(endingState !== undefined) ?  true ? invariant(false, '%s returned undefined from reduce(...), did you forget to return ' + 'state in the default case? (use null if this was intentional)', this.constructor.name) : invariant(false) : undefined;
+	    !(endingState !== undefined) ?  true ? invariant(false, '%s returned undefined from reduce(...), did you forget to return ' + 'state in the default case? (use null if this was intentional)', this.constructor.name) : invariant(false) : void 0;
 
 	    if (!this.areEqual(startingState, endingState)) {
-	      this._state = endingState;
-
-	      // `__emitChange()` sets `this.__changed` to true and then the actual
+	      this._state = endingState; // `__emitChange()` sets `this.__changed` to true and then the actual
 	      // change will be fired from the emitter at the end of the dispatch, this
 	      // is required in order to support methods like `hasChanged()`
+
 	      this.__emitChange();
 	    }
 
@@ -3079,7 +3334,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return FluxReduceStore;
-	})(FluxStore);
+	}(FluxStore);
 
 	module.exports = FluxReduceStore;
 
@@ -3097,35 +3352,53 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule FluxStore
 	 * 
 	 */
-
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
 	  }
+
+	  return obj;
 	}
 
-	var _require = __webpack_require__(14);
-
-	var EventEmitter = _require.EventEmitter;
+	var _require = __webpack_require__(14),
+	    EventEmitter = _require.EventEmitter;
 
 	var invariant = __webpack_require__(4);
-
 	/**
 	 * This class represents the most basic functionality for a FluxStore. Do not
 	 * extend this store directly; instead extend FluxReduceStore when creating a
 	 * new store.
 	 */
 
-	var FluxStore = (function () {
+
+	var FluxStore = /*#__PURE__*/function () {
+	  // private
+	  // protected, available to subclasses
 	  function FluxStore(dispatcher) {
 	    var _this = this;
 
-	    _classCallCheck(this, FluxStore);
+	    _defineProperty(this, "_dispatchToken", void 0);
+
+	    _defineProperty(this, "__changed", void 0);
+
+	    _defineProperty(this, "__changeEvent", void 0);
+
+	    _defineProperty(this, "__className", void 0);
+
+	    _defineProperty(this, "__dispatcher", void 0);
+
+	    _defineProperty(this, "__emitter", void 0);
 
 	    this.__className = this.constructor.name;
-
 	    this.__changed = false;
 	    this.__changeEvent = 'change';
 	    this.__dispatcher = dispatcher;
@@ -3135,70 +3408,70 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	  }
 
-	  FluxStore.prototype.addListener = function addListener(callback) {
+	  var _proto = FluxStore.prototype;
+
+	  _proto.addListener = function addListener(callback) {
 	    return this.__emitter.addListener(this.__changeEvent, callback);
 	  };
 
-	  FluxStore.prototype.getDispatcher = function getDispatcher() {
+	  _proto.getDispatcher = function getDispatcher() {
 	    return this.__dispatcher;
-	  };
-
+	  }
 	  /**
 	   * This exposes a unique string to identify each store's registered callback.
 	   * This is used with the dispatcher's waitFor method to declaratively depend
 	   * on other stores updating themselves first.
 	   */
+	  ;
 
-	  FluxStore.prototype.getDispatchToken = function getDispatchToken() {
+	  _proto.getDispatchToken = function getDispatchToken() {
 	    return this._dispatchToken;
-	  };
-
+	  }
 	  /**
 	   * Returns whether the store has changed during the most recent dispatch.
 	   */
+	  ;
 
-	  FluxStore.prototype.hasChanged = function hasChanged() {
-	    !this.__dispatcher.isDispatching() ?  true ? invariant(false, '%s.hasChanged(): Must be invoked while dispatching.', this.__className) : invariant(false) : undefined;
+	  _proto.hasChanged = function hasChanged() {
+	    !this.__dispatcher.isDispatching() ?  true ? invariant(false, '%s.hasChanged(): Must be invoked while dispatching.', this.__className) : invariant(false) : void 0;
 	    return this.__changed;
 	  };
 
-	  FluxStore.prototype.__emitChange = function __emitChange() {
-	    !this.__dispatcher.isDispatching() ?  true ? invariant(false, '%s.__emitChange(): Must be invoked while dispatching.', this.__className) : invariant(false) : undefined;
+	  _proto.__emitChange = function __emitChange() {
+	    !this.__dispatcher.isDispatching() ?  true ? invariant(false, '%s.__emitChange(): Must be invoked while dispatching.', this.__className) : invariant(false) : void 0;
 	    this.__changed = true;
-	  };
-
+	  }
 	  /**
 	   * This method encapsulates all logic for invoking __onDispatch. It should
 	   * be used for things like catching changes and emitting them after the
 	   * subclass has handled a payload.
 	   */
+	  ;
 
-	  FluxStore.prototype.__invokeOnDispatch = function __invokeOnDispatch(payload) {
+	  _proto.__invokeOnDispatch = function __invokeOnDispatch(payload) {
 	    this.__changed = false;
+
 	    this.__onDispatch(payload);
+
 	    if (this.__changed) {
 	      this.__emitter.emit(this.__changeEvent);
 	    }
-	  };
-
+	  }
 	  /**
 	   * The callback that will be registered with the dispatcher during
 	   * instantiation. Subclasses must override this method. This callback is the
 	   * only way the store receives new data.
 	   */
+	  ;
 
-	  FluxStore.prototype.__onDispatch = function __onDispatch(payload) {
-	     true ?  true ? invariant(false, '%s has not overridden FluxStore.__onDispatch(), which is required', this.__className) : invariant(false) : undefined;
+	  _proto.__onDispatch = function __onDispatch(payload) {
+	     true ?  true ? invariant(false, '%s has not overridden FluxStore.__onDispatch(), which is required', this.__className) : invariant(false) : void 0;
 	  };
 
 	  return FluxStore;
-	})();
+	}();
 
 	module.exports = FluxStore;
-
-	// private
-
-	// protected, available to subclasses
 
 /***/ }),
 /* 14 */
@@ -3212,14 +3485,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
-
-	'use strict';
-
 	var fbemitter = {
 	  EventEmitter: __webpack_require__(15),
 	  EmitterSubscription: __webpack_require__(16)
 	};
-
 	module.exports = fbemitter;
 
 /***/ }),
@@ -3237,7 +3506,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule BaseEventEmitter
 	 * @typechecks
 	 */
-
 	'use strict';
 
 	function _classCallCheck(instance, Constructor) {
@@ -3247,11 +3515,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 	var EmitterSubscription = __webpack_require__(16);
+
 	var EventSubscriptionVendor = __webpack_require__(18);
 
-	var emptyFunction = __webpack_require__(19);
-	var invariant = __webpack_require__(4);
+	var emptyFunction = __webpack_require__(20);
 
+	var invariant = __webpack_require__(19);
 	/**
 	 * @class BaseEventEmitter
 	 * @description
@@ -3266,18 +3535,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * more advanced emitter may use an EventHolder and EventFactory.
 	 */
 
-	var BaseEventEmitter = (function () {
+
+	var BaseEventEmitter = function () {
 	  /**
 	   * @constructor
 	   */
-
 	  function BaseEventEmitter() {
 	    _classCallCheck(this, BaseEventEmitter);
 
 	    this._subscriber = new EventSubscriptionVendor();
 	    this._currentSubscription = null;
 	  }
-
 	  /**
 	   * Adds a listener to be invoked when events of the specified type are
 	   * emitted. An optional calling context may be provided. The data arguments
@@ -3293,10 +3561,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   listener
 	   */
 
+
 	  BaseEventEmitter.prototype.addListener = function addListener(eventType, listener, context) {
 	    return this._subscriber.addSubscription(eventType, new EmitterSubscription(this._subscriber, listener, context));
 	  };
-
 	  /**
 	   * Similar to addListener, except that the listener is removed after it is
 	   * invoked once.
@@ -3308,6 +3576,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   listener
 	   */
 
+
 	  BaseEventEmitter.prototype.once = function once(eventType, listener, context) {
 	    var emitter = this;
 	    return this.addListener(eventType, function () {
@@ -3315,7 +3584,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      listener.apply(context, arguments);
 	    });
 	  };
-
 	  /**
 	   * Removes all of the registered listeners, including those registered as
 	   * listener maps.
@@ -3324,10 +3592,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   listeners to remove
 	   */
 
+
 	  BaseEventEmitter.prototype.removeAllListeners = function removeAllListeners(eventType) {
 	    this._subscriber.removeAllSubscriptions(eventType);
 	  };
-
 	  /**
 	   * Provides an API that can be called during an eventing cycle to remove the
 	   * last listener that was invoked. This allows a developer to provide an event
@@ -3350,11 +3618,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   emitter.emit('someEvent', 'def'); // does not log anything
 	   */
 
+
 	  BaseEventEmitter.prototype.removeCurrentListener = function removeCurrentListener() {
 	    !!!this._currentSubscription ?  true ? invariant(false, 'Not in an emitting cycle; there is no current subscription') : invariant(false) : undefined;
+
 	    this._subscriber.removeSubscription(this._currentSubscription);
 	  };
-
 	  /**
 	   * Returns an array of listeners that are currently registered for the given
 	   * event.
@@ -3363,13 +3632,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @return {array}
 	   */
 
-	  BaseEventEmitter.prototype.listeners = function listeners(eventType) /* TODO: Array<EventSubscription> */{
+
+	  BaseEventEmitter.prototype.listeners = function listeners(eventType)
+	  /* TODO: Array<EventSubscription> */
+	  {
 	    var subscriptions = this._subscriber.getSubscriptionsForType(eventType);
+
 	    return subscriptions ? subscriptions.filter(emptyFunction.thatReturnsTrue).map(function (subscription) {
 	      return subscription.listener;
 	    }) : [];
 	  };
-
 	  /**
 	   * Emits an event of the given type with the given data. All handlers of that
 	   * particular type will be notified.
@@ -3385,23 +3657,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   emitter.emit('someEvent', 'abc'); // logs 'abc'
 	   */
 
+
 	  BaseEventEmitter.prototype.emit = function emit(eventType) {
 	    var subscriptions = this._subscriber.getSubscriptionsForType(eventType);
+
 	    if (subscriptions) {
 	      var keys = Object.keys(subscriptions);
+
 	      for (var ii = 0; ii < keys.length; ii++) {
 	        var key = keys[ii];
-	        var subscription = subscriptions[key];
-	        // The subscription may have been removed during this event loop.
+	        var subscription = subscriptions[key]; // The subscription may have been removed during this event loop.
+
 	        if (subscription) {
 	          this._currentSubscription = subscription;
+
 	          this.__emitToSubscription.apply(this, [subscription].concat(Array.prototype.slice.call(arguments)));
 	        }
 	      }
+
 	      this._currentSubscription = null;
 	    }
 	  };
-
 	  /**
 	   * Provides a hook to override how the emitter emits an event to a specific
 	   * subscription. This allows you to set up logging and error boundaries
@@ -3412,13 +3688,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {*} Arbitrary arguments to be passed to each registered listener
 	   */
 
+
 	  BaseEventEmitter.prototype.__emitToSubscription = function __emitToSubscription(subscription, eventType) {
 	    var args = Array.prototype.slice.call(arguments, 2);
 	    subscription.listener.apply(subscription.context, args);
 	  };
 
 	  return BaseEventEmitter;
-	})();
+	}();
 
 	module.exports = BaseEventEmitter;
 
@@ -3437,7 +3714,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule EmitterSubscription
 	 * @typechecks
 	 */
-
 	'use strict';
 
 	function _classCallCheck(instance, Constructor) {
@@ -3449,18 +3725,27 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inherits(subClass, superClass) {
 	  if (typeof superClass !== 'function' && superClass !== null) {
 	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-	  }subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } });if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	  }
+
+	  subClass.prototype = Object.create(superClass && superClass.prototype, {
+	    constructor: {
+	      value: subClass,
+	      enumerable: false,
+	      writable: true,
+	      configurable: true
+	    }
+	  });
+	  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
 	}
 
 	var EventSubscription = __webpack_require__(17);
-
 	/**
 	 * EmitterSubscription represents a subscription with listener and context data.
 	 */
 
-	var EmitterSubscription = (function (_EventSubscription) {
-	  _inherits(EmitterSubscription, _EventSubscription);
 
+	var EmitterSubscription = function (_EventSubscription) {
+	  _inherits(EmitterSubscription, _EventSubscription);
 	  /**
 	   * @param {EventSubscriptionVendor} subscriber - The subscriber that controls
 	   *   this subscription
@@ -3470,16 +3755,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   listener
 	   */
 
+
 	  function EmitterSubscription(subscriber, listener, context) {
 	    _classCallCheck(this, EmitterSubscription);
 
 	    _EventSubscription.call(this, subscriber);
+
 	    this.listener = listener;
 	    this.context = context;
 	  }
 
 	  return EmitterSubscription;
-	})(EventSubscription);
+	}(EventSubscription);
 
 	module.exports = EmitterSubscription;
 
@@ -3498,9 +3785,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule EventSubscription
 	 * @typechecks
 	 */
-
 	'use strict';
-
 	/**
 	 * EventSubscription represents a subscription to a particular event. It can
 	 * remove its own subscription.
@@ -3512,22 +3797,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 
-	var EventSubscription = (function () {
-
+	var EventSubscription = function () {
 	  /**
 	   * @param {EventSubscriptionVendor} subscriber the subscriber that controls
 	   *   this subscription.
 	   */
-
 	  function EventSubscription(subscriber) {
 	    _classCallCheck(this, EventSubscription);
 
 	    this.subscriber = subscriber;
 	  }
-
 	  /**
 	   * Removes this subscription from the subscriber that controls it.
 	   */
+
 
 	  EventSubscription.prototype.remove = function remove() {
 	    if (this.subscriber) {
@@ -3537,7 +3820,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  };
 
 	  return EventSubscription;
-	})();
+	}();
 
 	module.exports = EventSubscription;
 
@@ -3556,7 +3839,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule EventSubscriptionVendor
 	 * @typechecks
 	 */
-
 	'use strict';
 
 	function _classCallCheck(instance, Constructor) {
@@ -3565,21 +3847,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	}
 
-	var invariant = __webpack_require__(4);
-
+	var invariant = __webpack_require__(19);
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
 	 * subscribed to a particular event type.
 	 */
 
-	var EventSubscriptionVendor = (function () {
+
+	var EventSubscriptionVendor = function () {
 	  function EventSubscriptionVendor() {
 	    _classCallCheck(this, EventSubscriptionVendor);
 
 	    this._subscriptionsForType = {};
 	    this._currentSubscription = null;
 	  }
-
 	  /**
 	   * Adds a subscription keyed by an event type.
 	   *
@@ -3587,24 +3868,29 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {EventSubscription} subscription
 	   */
 
+
 	  EventSubscriptionVendor.prototype.addSubscription = function addSubscription(eventType, subscription) {
 	    !(subscription.subscriber === this) ?  true ? invariant(false, 'The subscriber of the subscription is incorrectly set.') : invariant(false) : undefined;
+
 	    if (!this._subscriptionsForType[eventType]) {
 	      this._subscriptionsForType[eventType] = [];
 	    }
+
 	    var key = this._subscriptionsForType[eventType].length;
+
 	    this._subscriptionsForType[eventType].push(subscription);
+
 	    subscription.eventType = eventType;
 	    subscription.key = key;
 	    return subscription;
 	  };
-
 	  /**
 	   * Removes a bulk set of the subscriptions.
 	   *
 	   * @param {?string} eventType - Optional name of the event type whose
 	   *   registered supscriptions to remove, if null remove all subscriptions.
 	   */
+
 
 	  EventSubscriptionVendor.prototype.removeAllSubscriptions = function removeAllSubscriptions(eventType) {
 	    if (eventType === undefined) {
@@ -3613,7 +3899,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	      delete this._subscriptionsForType[eventType];
 	    }
 	  };
-
 	  /**
 	   * Removes a specific subscription. Instead of calling this function, call
 	   * `subscription.remove()` directly.
@@ -3621,16 +3906,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {object} subscription
 	   */
 
+
 	  EventSubscriptionVendor.prototype.removeSubscription = function removeSubscription(subscription) {
 	    var eventType = subscription.eventType;
 	    var key = subscription.key;
-
 	    var subscriptionsForType = this._subscriptionsForType[eventType];
+
 	    if (subscriptionsForType) {
 	      delete subscriptionsForType[key];
 	    }
 	  };
-
 	  /**
 	   * Returns the array of subscriptions that are currently registered for the
 	   * given event type.
@@ -3644,21 +3929,79 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @return {?array}
 	   */
 
+
 	  EventSubscriptionVendor.prototype.getSubscriptionsForType = function getSubscriptionsForType(eventType) {
 	    return this._subscriptionsForType[eventType];
 	  };
 
 	  return EventSubscriptionVendor;
-	})();
+	}();
 
 	module.exports = EventSubscriptionVendor;
 
 /***/ }),
 /* 19 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 *
+	 * This source code is licensed under the MIT license found in the
+	 * LICENSE file in the root directory of this source tree.
+	 *
+	 */
+	'use strict';
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	var validateFormat = function validateFormat(format) {};
+
+	if (true) {
+	  validateFormat = function validateFormat(format) {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  };
+	}
+
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  validateFormat(format);
+
+	  if (!condition) {
+	    var error;
+
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	      error.name = 'Invariant Violation';
+	    }
+
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+
+	    throw error;
+	  }
+	}
+
+	module.exports = invariant;
+
+/***/ }),
+/* 20 */
 /***/ (function(module, exports) {
 
 	"use strict";
-
 	/**
 	 * Copyright (c) 2013-present, Facebook, Inc.
 	 *
@@ -3673,21 +4016,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return arg;
 	  };
 	}
-
 	/**
 	 * This function accepts and discards inputs; it has no side effects. This is
 	 * primarily useful idiomatically for overridable function endpoints which
 	 * always need to be callable, since JS lacks a null-call idiom ala Cocoa.
 	 */
+
+
 	var emptyFunction = function emptyFunction() {};
 
 	emptyFunction.thatReturns = makeEmptyFunction;
 	emptyFunction.thatReturnsFalse = makeEmptyFunction(false);
 	emptyFunction.thatReturnsTrue = makeEmptyFunction(true);
 	emptyFunction.thatReturnsNull = makeEmptyFunction(null);
+
 	emptyFunction.thatReturnsThis = function () {
 	  return this;
 	};
+
 	emptyFunction.thatReturnsArgument = function (arg) {
 	  return arg;
 	};
@@ -3695,7 +4041,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = emptyFunction;
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
@@ -3709,13 +4055,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule abstractMethod
 	 * 
 	 */
-
 	'use strict';
 
 	var invariant = __webpack_require__(4);
 
 	function abstractMethod(className, methodName) {
-	   true ?  true ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : undefined;
+	   true ?  true ? invariant(false, 'Subclasses of %s must override %s() with their own implementation.', className, methodName) : invariant(false) : void 0;
 	}
 
 	module.exports = abstractMethod;
