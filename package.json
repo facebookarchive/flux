@@ -42,7 +42,6 @@
     "babel-loader": "^8.1.0",
     "babel-preset-fbjs": "^3.3.0",
     "del": "^2.2.0",
-    "fbjs-scripts": "^2.0.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-flatten": "^0.2.0",
