@@ -1,6 +1,6 @@
 ---
 id: overview
-title: overview
+title: Overview
 layout: docs
 category: quick start
 next: in-depth-overview
