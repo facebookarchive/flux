@@ -105,3 +105,4 @@ PrependedTextStore.dispatchToken = Dispatcher.register(function(payload) {
 ```
 
 For more on `waitFor()`, actions, action creators and the dispatcher, please see [Flux: Actions and the Dispatcher](http://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html).
+
