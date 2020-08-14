@@ -96,7 +96,7 @@ case 'TODO_CREATE':
 
 `waitFor()` accepts a single argument which is an array of dispatcher registry indexes, often called _dispatch tokens_. Thus the store that is invoking `waitFor()` can depend on the state of another store to inform how it should update its own state.
 
-A dispatch token is returned by `register()` when registering callbacks for the Dispatcher:
+A dispatch token is returned by `register()` when registering callbacks for the dispatcher:
 
 ```javascript
 PrependedTextStore.dispatchToken = Dispatcher.register(function(payload) {
