@@ -22,7 +22,7 @@ Control is inverted with stores: the stores accept updates and reconcile them as
 Data in a Flux application flows in a single direction:
 
 <figure>
-  <img src="flux/blob/master/website/static/img/overview/flux-simple-f8-diagram-1300w.png" alt="Unidirectional data flow in Flux" />
+  <img src="/flux/website/static/img/overview/flux-simple-f8-diagram-1300w.png" alt="Unidirectional data flow in Flux" />
 </figure>
 
 A unidirectional data flow is central to the Flux pattern, and the above diagram should be **the primary mental model for the Flux programmer**. The dispatcher, stores and views are independent nodes with distinct inputs and outputs. The actions are simple objects containing the new data and an identifying _type_ property.
