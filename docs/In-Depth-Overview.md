@@ -30,13 +30,13 @@ A unidirectional data flow is central to the Flux pattern, and the above diagram
 The views may cause a new action to be propagated through the system in response to user interactions:
 
 <figure class="diagram">
-  <img src="/flux/img/overview/flux-simple-f8-diagram-with-client-action-1300w.png" alt="data flow in Flux with data originating from user interactions" />
+  <img src="/flux/website/static/img/overview/flux-simple-f8-diagram-with-client-action-1300w.png" alt="data flow in Flux with data originating from user interactions" />
 </figure>
 
 All data flows through the dispatcher as a central hub. Actions are provided to the dispatcher in an _action creator_ method, and most often originate from user interactions with the views. The dispatcher then invokes the callbacks that the stores have registered with it, dispatching actions to all stores. Within their registered callbacks, stores respond to whichever actions are relevant to the state they maintain. The stores then emit a _change_ event to alert the controller-views that a change to the data layer has occurred. Controller-views listen for these events and retrieve data from the stores in an event handler. The controller-views call their own `setState()` method, causing a re-rendering of themselves and all of their descendants in the component tree.
 
 <figure class="diagram">
-  <img src="/flux/img/overview/flux-simple-f8-diagram-explained-1300w.png" alt="varying transports between each step of the Flux data flow" />
+  <img src="/flux/website/static/img/overview/flux-simple-f8-diagram-explained-1300w.png" alt="varying transports between each step of the Flux data flow" />
 </figure>
 
 This structure allows us to reason easily about our application in a way that is reminiscent of _functional reactive programming_, or more specifically _data-flow programming_ or _flow-based programming_, where data flows through the application in a single direction — there are no two-way bindings. Application state is maintained only in the stores, allowing the different parts of the application to remain highly decoupled. Where dependencies do occur between stores, they are kept in a strict hierarchy, with synchronous updates managed by the dispatcher.
