@@ -11,7 +11,7 @@
     <img src="https://img.shields.io/badge/License-BSD%20-blue.svg" alt="Licence Badge" />
   </a>
   <a href="https://www.npmjs.com/package/flux">
-    <img src="https://badge.fury.io/js/flux.svg" alt="Current npm package version." />
+    <img src="https://img.shields.io/npm/v/flux.svg?style=flat" alt="Current npm package version." />
   </a>
 </p>
 
