@@ -5,7 +5,7 @@
   Flux
 </h1>
 <p align="center">
-  An application architecture for React utilizing a unidirectional data flow.
+  An application architecture for React utilizing a unidirectional data flow.<br>
   
   <a href="https://github.com/facebook/flux/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-BSD%20-blue.svg" alt="Licence Badge" />
