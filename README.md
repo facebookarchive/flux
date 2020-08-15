@@ -6,6 +6,9 @@
 </h1>
 <p align="center">
   An application architecture for React utilizing a unidirectional data flow.
+
+[![License](https://img.shields.io/badge/License-BSD%20-blue.svg)](https://github.com/facebook/flux/blob/master/LICENSE)
+  
 </p>
 
 <img src="./img/flux-diagram-white-background.png" style="width: 100%;" />
