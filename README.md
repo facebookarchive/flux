@@ -7,8 +7,9 @@
 <p align="center">
   An application architecture for React utilizing a unidirectional data flow.
   
-[![License](https://img.shields.io/badge/License-BSD%20-blue.svg)](https://github.com/facebook/flux/blob/master/LICENSE)
-
+  <a href="https://github.com/facebook/flux/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-BSD%20-blue.svg" alt="Licence Badge" />
+  </a>
   <a href="https://www.npmjs.com/package/flux">
     <img src="https://badge.fury.io/js/flux.svg" alt="Current npm package version." />
   </a>
