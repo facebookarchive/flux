@@ -5,10 +5,14 @@
   Flux
 </h1>
 <p align="center">
-  An application architecture for React utilizing a unidirectional data flow.
-
-[![License](https://img.shields.io/badge/License-BSD%20-blue.svg)](https://github.com/facebook/flux/blob/master/LICENSE)
+  An application architecture for React utilizing a unidirectional data flow.<br>
   
+  <a href="https://github.com/facebook/flux/blob/master/LICENSE">
+    <img src="https://img.shields.io/badge/License-BSD%20-blue.svg" alt="Licence Badge" />
+  </a>
+  <a href="https://www.npmjs.com/package/flux">
+    <img src="https://img.shields.io/npm/v/flux.svg?style=flat" alt="Current npm package version." />
+  </a>
 </p>
 
 <img src="./img/flux-diagram-white-background.png" style="width: 100%;" />
