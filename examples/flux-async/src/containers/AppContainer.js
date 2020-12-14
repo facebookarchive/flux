@@ -88,7 +88,7 @@ function onRetry(todo: Todo) {
       fakeID: todo.id,
     });
   } else {
-    // It it's a real ID we had an error loading it, try again.
+    // If it's a real ID we had an error loading it, try again.
     TodoDispatcher.dispatch({
       type: 'todos/start-load',
       ids: [todo.id],
