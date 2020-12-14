@@ -65,9 +65,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
 	 */
-
-	'use strict';
-
 	module.exports.Dispatcher = __webpack_require__(1);
 
 /***/ }),
@@ -86,21 +83,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * 
 	 * @preventMunge
 	 */
-
 	'use strict';
 
-	exports.__esModule = true;
-
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
+	function _defineProperty(obj, key, value) {
+	  if (key in obj) {
+	    Object.defineProperty(obj, key, {
+	      value: value,
+	      enumerable: true,
+	      configurable: true,
+	      writable: true
+	    });
+	  } else {
+	    obj[key] = value;
 	  }
+
+	  return obj;
 	}
 
 	var invariant = __webpack_require__(2);
 
 	var _prefix = 'ID_';
-
 	/**
 	 * Dispatcher is used to broadcast payloads to registered callbacks. This is
 	 * different from generic pub-sub systems in two ways:
@@ -189,9 +191,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * `FlightPriceStore`.
 	 */
 
-	var Dispatcher = (function () {
+	var Dispatcher = /*#__PURE__*/function () {
 	  function Dispatcher() {
-	    _classCallCheck(this, Dispatcher);
+	    _defineProperty(this, "_callbacks", void 0);
+
+	    _defineProperty(this, "_isDispatching", void 0);
+
+	    _defineProperty(this, "_isHandled", void 0);
+
+	    _defineProperty(this, "_isPending", void 0);
+
+	    _defineProperty(this, "_lastID", void 0);
+
+	    _defineProperty(this, "_pendingPayload", void 0);
 
 	    this._callbacks = {};
 	    this._isDispatching = false;
@@ -199,114 +211,126 @@ return /******/ (function(modules) { // webpackBootstrap
 	    this._isPending = {};
 	    this._lastID = 1;
 	  }
-
 	  /**
 	   * Registers a callback to be invoked with every dispatched payload. Returns
 	   * a token that can be used with `waitFor()`.
 	   */
 
-	  Dispatcher.prototype.register = function register(callback) {
+
+	  var _proto = Dispatcher.prototype;
+
+	  _proto.register = function register(callback) {
 	    var id = _prefix + this._lastID++;
 	    this._callbacks[id] = callback;
 	    return id;
-	  };
-
+	  }
 	  /**
 	   * Removes a callback based on its token.
 	   */
+	  ;
 
-	  Dispatcher.prototype.unregister = function unregister(id) {
-	    !this._callbacks[id] ?  true ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+	  _proto.unregister = function unregister(id) {
+	    !this._callbacks[id] ?  true ? invariant(false, 'Dispatcher.unregister(...): `%s` does not map to a registered callback.', id) : invariant(false) : void 0;
 	    delete this._callbacks[id];
-	  };
-
+	  }
 	  /**
 	   * Waits for the callbacks specified to be invoked before continuing execution
 	   * of the current callback. This method should only be used by a callback in
 	   * response to a dispatched payload.
 	   */
+	  ;
 
-	  Dispatcher.prototype.waitFor = function waitFor(ids) {
-	    !this._isDispatching ?  true ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : undefined;
+	  _proto.waitFor = function waitFor(ids) {
+	    !this._isDispatching ?  true ? invariant(false, 'Dispatcher.waitFor(...): Must be invoked while dispatching.') : invariant(false) : void 0;
+
 	    for (var ii = 0; ii < ids.length; ii++) {
 	      var id = ids[ii];
+
 	      if (this._isPending[id]) {
-	        !this._isHandled[id] ?  true ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : undefined;
+	        !this._isHandled[id] ?  true ? invariant(false, 'Dispatcher.waitFor(...): Circular dependency detected while ' + 'waiting for `%s`.', id) : invariant(false) : void 0;
 	        continue;
 	      }
-	      !this._callbacks[id] ?  true ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : undefined;
+
+	      !this._callbacks[id] ?  true ? invariant(false, 'Dispatcher.waitFor(...): `%s` does not map to a registered callback.', id) : invariant(false) : void 0;
+
 	      this._invokeCallback(id);
 	    }
-	  };
-
+	  }
 	  /**
 	   * Dispatches a payload to all registered callbacks.
 	   */
+	  ;
 
-	  Dispatcher.prototype.dispatch = function dispatch(payload) {
-	    !!this._isDispatching ?  true ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : undefined;
+	  _proto.dispatch = function dispatch(payload) {
+	    !!this._isDispatching ?  true ? invariant(false, 'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.') : invariant(false) : void 0;
+
 	    this._startDispatching(payload);
+
 	    try {
 	      for (var id in this._callbacks) {
 	        if (this._isPending[id]) {
 	          continue;
 	        }
+
 	        this._invokeCallback(id);
 	      }
 	    } finally {
 	      this._stopDispatching();
 	    }
-	  };
-
+	  }
 	  /**
 	   * Is this Dispatcher currently dispatching.
 	   */
+	  ;
 
-	  Dispatcher.prototype.isDispatching = function isDispatching() {
+	  _proto.isDispatching = function isDispatching() {
 	    return this._isDispatching;
-	  };
-
+	  }
 	  /**
 	   * Call the callback stored with the given id. Also do some internal
 	   * bookkeeping.
 	   *
 	   * @internal
 	   */
+	  ;
 
-	  Dispatcher.prototype._invokeCallback = function _invokeCallback(id) {
+	  _proto._invokeCallback = function _invokeCallback(id) {
 	    this._isPending[id] = true;
-	    this._callbacks[id](this._pendingPayload);
-	    this._isHandled[id] = true;
-	  };
 
+	    this._callbacks[id](this._pendingPayload);
+
+	    this._isHandled[id] = true;
+	  }
 	  /**
 	   * Set up bookkeeping needed when dispatching.
 	   *
 	   * @internal
 	   */
+	  ;
 
-	  Dispatcher.prototype._startDispatching = function _startDispatching(payload) {
+	  _proto._startDispatching = function _startDispatching(payload) {
 	    for (var id in this._callbacks) {
 	      this._isPending[id] = false;
 	      this._isHandled[id] = false;
 	    }
+
 	    this._pendingPayload = payload;
 	    this._isDispatching = true;
-	  };
-
+	  }
 	  /**
 	   * Clear bookkeeping used for dispatching.
 	   *
 	   * @internal
 	   */
+	  ;
 
-	  Dispatcher.prototype._stopDispatching = function _stopDispatching() {
+	  _proto._stopDispatching = function _stopDispatching() {
 	    delete this._pendingPayload;
 	    this._isDispatching = false;
 	  };
 
 	  return Dispatcher;
-	})();
+	}();
 
 	module.exports = Dispatcher;
 
