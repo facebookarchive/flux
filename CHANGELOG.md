@@ -1,5 +1,9 @@
 # Changelog
 
+### 4.0.0
+
+* Upgrade fbjs dependency to ^3.x
+
 ### 3.1.3
 
 * Added support for React 16
