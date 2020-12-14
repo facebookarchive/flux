@@ -34,7 +34,8 @@
     "Jing Chen <jingc@fb.com>",
     "Bill Fisher <fisherwebdev@gmail.com>",
     "Paul O'Shannessy <paul@oshannessy.com>",
-    "Kyle Davis <kyldvs@gmail.com>"
+    "Kyle Davis <kyldvs@gmail.com>",
+    "Yangshun Tay <tay.yang.shun@gmail.com>"
   ],
   "license": "BSD-3-Clause",
   "devDependencies": {
