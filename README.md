@@ -15,6 +15,12 @@
   </a>
 </p>
 
+<hr/>
+
+⚠️ The Flux project is in maintenance mode and there are many more sophisticated alternatives available (e.g. [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/)) and we would recommend using them instead.
+
+<hr/>
+
 <img src="./img/flux-diagram-white-background.png" style="width: 100%;" />
 
 ## Getting Started
