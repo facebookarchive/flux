@@ -7,12 +7,12 @@
  * of patent rights can be found in the PATENTS file in the same directory.
  */
 
-var Dispatcher = require('Dispatcher');
+import Dispatcher from 'Dispatcher';
 
 describe('Dispatcher', () => {
-  var dispatcher;
-  var callbackA;
-  var callbackB;
+  let dispatcher;
+  let callbackA;
+  let callbackB;
 
   beforeEach(() => {
     dispatcher = new Dispatcher();
@@ -24,7 +24,7 @@ describe('Dispatcher', () => {
     dispatcher.register(callbackA);
     dispatcher.register(callbackB);
 
-    var payload = {};
+    const payload = {};
     dispatcher.dispatch(payload);
 
     expect(callbackA.mock.calls.length).toBe(1);
@@ -43,7 +43,7 @@ describe('Dispatcher', () => {
   });
 
   it('should wait for callbacks registered earlier', () => {
-    var tokenA = dispatcher.register(callbackA);
+    const tokenA = dispatcher.register(callbackA);
 
     dispatcher.register((payload) => {
       dispatcher.waitFor([tokenA]);
@@ -52,7 +52,7 @@ describe('Dispatcher', () => {
       callbackB(payload);
     });
 
-    var payload = {};
+    const payload = {};
     dispatcher.dispatch(payload);
 
     expect(callbackA.mock.calls.length).toBe(1);
@@ -70,9 +70,9 @@ describe('Dispatcher', () => {
       callbackA(payload);
     });
 
-    var tokenB = dispatcher.register(callbackB);
+    const tokenB = dispatcher.register(callbackB);
 
-    var payload = {};
+    const payload = {};
     dispatcher.dispatch(payload);
 
     expect(callbackA.mock.calls.length).toBe(1);
@@ -88,47 +88,47 @@ describe('Dispatcher', () => {
       callbackA();
     });
 
-    var payload = {};
+    const payload = {};
     expect(() => dispatcher.dispatch(payload)).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
   it('should throw if waitFor() while not dispatching', () => {
-    var tokenA = dispatcher.register(callbackA);
+    const tokenA = dispatcher.register(callbackA);
 
     expect(() => dispatcher.waitFor([tokenA])).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
   it('should throw if waitFor() with invalid token', () => {
-    var invalidToken = 1337;
+    const invalidToken = 1337;
 
     dispatcher.register(() => {
       dispatcher.waitFor([invalidToken]);
     });
 
-    var payload = {};
+    const payload = {};
     expect(() => dispatcher.dispatch(payload)).toThrow();
   });
 
   it('should throw on self-circular dependencies', () => {
-    var tokenA = dispatcher.register((payload) => {
+    const tokenA = dispatcher.register((payload) => {
       dispatcher.waitFor([tokenA]);
       callbackA(payload);
     });
 
-    var payload = {};
+    const payload = {};
     expect(() => dispatcher.dispatch(payload)).toThrow();
     expect(callbackA.mock.calls.length).toBe(0);
   });
 
   it('should throw on multi-circular dependencies', () => {
-    var tokenA = dispatcher.register((payload) => {
+    const tokenA = dispatcher.register((payload) => {
       dispatcher.waitFor([tokenB]);
       callbackA(payload);
     });
 
-    var tokenB = dispatcher.register((payload) => {
+    const tokenB = dispatcher.register((payload) => {
       dispatcher.waitFor([tokenA]);
       callbackB(payload);
     });
@@ -150,7 +150,7 @@ describe('Dispatcher', () => {
     expect(() => dispatcher.dispatch({shouldThrow: true})).toThrow();
 
     // Cannot make assumptions about a failed dispatch.
-    var callbackACount = callbackA.mock.calls.length;
+    const callbackACount = callbackA.mock.calls.length;
 
     dispatcher.dispatch({shouldThrow: false});
 
@@ -161,9 +161,9 @@ describe('Dispatcher', () => {
   it('should properly unregister callbacks', () => {
     dispatcher.register(callbackA);
 
-    var tokenB = dispatcher.register(callbackB);
+    const tokenB = dispatcher.register(callbackB);
 
-    var payload = {};
+    const payload = {};
     dispatcher.dispatch(payload);
 
     expect(callbackA.mock.calls.length).toBe(1);

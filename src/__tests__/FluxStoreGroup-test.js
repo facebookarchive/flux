@@ -10,9 +10,9 @@
  * @typechecks
  */
 
-var Dispatcher = require('Dispatcher');
-var FluxStore = require('FluxStore');
-var FluxStoreGroup = require('FluxStoreGroup');
+import Dispatcher from 'Dispatcher';
+import FluxStore from 'FluxStore';
+import FluxStoreGroup from 'FluxStoreGroup';
 
 class SimpleStore extends FluxStore {
   __onDispatch(payload) {
@@ -21,9 +21,9 @@ class SimpleStore extends FluxStore {
 }
 
 describe('FluxStoreGroup', () => {
-  var dispatcher;
-  var storeA;
-  var storeB;
+  let dispatcher;
+  let storeA;
+  let storeB;
 
   beforeEach(() => {
     dispatcher = new Dispatcher();
@@ -32,7 +32,7 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should register a callback with the dispatcher', () => {
-    var callback = jest.genMockFn();
+    const callback = jest.genMockFn();
     new FluxStoreGroup([storeA, storeB], callback);
 
     dispatcher.dispatch({type: 'foo'});
@@ -40,7 +40,7 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should wait for the store dependencies', () => {
-    var callback = jest.genMockFn().mockImplementation(() => {
+    const callback = jest.genMockFn().mockImplementation(() => {
       expect(storeA.hasChanged()).toBe(true);
       expect(storeB.hasChanged()).toBe(true);
     });
@@ -51,8 +51,8 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should not run the callback after being released', () => {
-    var callback = jest.genMockFn();
-    var group = new FluxStoreGroup([storeA, storeB], callback);
+    const callback = jest.genMockFn();
+    const group = new FluxStoreGroup([storeA, storeB], callback);
     group.release();
 
     dispatcher.dispatch({type: 'foo'});
@@ -60,13 +60,13 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should have at least one store', () => {
-    var callback = jest.genMockFn();
+    const callback = jest.genMockFn();
     expect(() => new FluxStoreGroup([], callback)).toThrow();
   });
 
   it('should make sure dispatchers are uniform in DEV', () => {
-    var callback = jest.genMockFn();
-    var storeC = new SimpleStore(new Dispatcher());
+    const callback = jest.genMockFn();
+    const storeC = new SimpleStore(new Dispatcher());
     expect(() => new FluxStoreGroup([storeA, storeC], callback)).toThrow();
   });
 });

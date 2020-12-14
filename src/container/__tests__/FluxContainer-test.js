@@ -13,34 +13,31 @@
 
 jest.autoMockOff();
 
-var Dispatcher = require('Dispatcher');
-var FluxContainer = require('FluxContainer');
-var FluxReduceStore = require('FluxReduceStore');
-var React = require('react');
-var ReactDOM = require('react-dom');
-var ReactTestUtils = require('react-dom/test-utils');
-
-var {Component} = React;
+import Dispatcher from 'Dispatcher';
+import FluxContainer from 'FluxContainer';
+import FluxReduceStore from 'FluxReduceStore';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import ReactTestUtils from 'react-dom/test-utils';
 
 /**
  * Helper to create a container. The container must render a single div with
  * text content, this will return a function to access that content.
  */
 function createContainer(containerClass, options, props) {
-  var container = FluxContainer.create(containerClass, options);
-  var element = React.createElement(container, props);
-  var tag = ReactTestUtils.renderIntoDocument(element);
-  var component = ReactTestUtils.findRenderedDOMComponentWithTag(tag, 'div');
-  var simpleDOMNode = ReactDOM.findDOMNode(component);
+  const container = FluxContainer.create(containerClass, options);
+  const element = React.createElement(container, props);
+  const tag = ReactTestUtils.renderIntoDocument(element);
+  const component = ReactTestUtils.findRenderedDOMComponentWithTag(tag, 'div');
+  const simpleDOMNode = ReactDOM.findDOMNode(component);
   return () => simpleDOMNode.textContent;
 }
 
 describe('FluxContainer', () => {
+  let dispatch;
+  let FooStore;
 
-  var dispatch;
-  var FooStore;
-
-  class BaseContainer extends Component {
+  class BaseContainer extends React.Component {
     static getStores() {
       return [FooStore];
     }
@@ -55,7 +52,7 @@ describe('FluxContainer', () => {
   }
 
   beforeEach(() => {
-    var dispatcher = new Dispatcher();
+    const dispatcher = new Dispatcher();
     dispatch = dispatcher.dispatch.bind(dispatcher);
 
     class FooStoreClass extends FluxReduceStore {
@@ -89,7 +86,7 @@ describe('FluxContainer', () => {
         };
       }
     }
-    var getValue = createContainer(SimpleContainer);
+    const getValue = createContainer(SimpleContainer);
 
     // Test it.
     expect(getValue()).toBe('foo');
@@ -115,7 +112,7 @@ describe('FluxContainer', () => {
         };
       }
     }
-    var getValue = createContainer(SimpleContainer);
+    const getValue = createContainer(SimpleContainer);
 
     // Test it.
     expect(getValue()).toBe('one');
@@ -148,7 +145,7 @@ describe('FluxContainer', () => {
       }
     }
 
-    var getValue = createContainer(
+    const getValue = createContainer(
       SimpleContainer,
       {withProps: true}, // options
       {value: 'prop'}, // props
@@ -200,7 +197,7 @@ describe('FluxContainer', () => {
         dangerouslyGetState = () => this.state;
       }
     }
-    var getValue = createContainer(SimpleContainer);
+    const getValue = createContainer(SimpleContainer);
 
     // Make sure our other value is there initially.
     expect(dangerouslyGetState().someOtherValue).toBe(42);
@@ -233,7 +230,7 @@ describe('FluxContainer', () => {
         });
       }
     }
-    var getValue = createContainer(SimpleContainer);
+    const getValue = createContainer(SimpleContainer);
     expect(getValue()).toBe('bar');
   });
 
@@ -258,7 +255,7 @@ describe('FluxContainer', () => {
     }
     SimpleContainer.contextType = MyContext;
 
-    var getValue = createContainer(
+    const getValue = createContainer(
       SimpleContainer,
       {withContext: true}, // options
       {}, // props
@@ -283,7 +280,7 @@ describe('FluxContainer', () => {
       }
     }
 
-    var getValue = createContainer(
+    const getValue = createContainer(
       SimpleContainer,
       {withProps: true, withContext: true}, // options
       {}, // props
