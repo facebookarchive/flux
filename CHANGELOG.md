@@ -3,6 +3,8 @@
 ### 4.0.0
 
 * Upgrade fbjs dependency to ^3.x
+* Upgrade for Babel 7 compatibility (#495) (thanks to @koba04)
+* Added React 17 as a peer dependency
 
 ### 3.1.3
 
