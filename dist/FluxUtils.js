@@ -3526,7 +3526,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var FluxStore = __webpack_require__(11);
 
-	var abstractMethod = __webpack_require__(19);
+	var abstractMethod = __webpack_require__(18);
 
 	var invariant = __webpack_require__(4);
 	/**
@@ -3787,6 +3787,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 13 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	"use strict";
 	/**
 	 * Copyright (c) 2014-present, Facebook, Inc.
 	 * All rights reserved.
@@ -3798,21 +3799,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @providesModule BaseEventEmitter
 	 * @typechecks
 	 */
-	'use strict';
-
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
-	  }
-	}
 
 	var EmitterSubscription = __webpack_require__(14);
 
 	var EventSubscriptionVendor = __webpack_require__(16);
 
-	var emptyFunction = __webpack_require__(18);
+	var invariant = __webpack_require__(4);
 
-	var invariant = __webpack_require__(17);
+	var emptyFunction = __webpack_require__(17);
 	/**
 	 * @class BaseEventEmitter
 	 * @description
@@ -3828,13 +3822,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 
-	var BaseEventEmitter = function () {
+	var BaseEventEmitter = /*#__PURE__*/function () {
 	  /**
 	   * @constructor
 	   */
 	  function BaseEventEmitter() {
-	    _classCallCheck(this, BaseEventEmitter);
-
 	    this._subscriber = new EventSubscriptionVendor();
 	    this._currentSubscription = null;
 	  }
@@ -3854,9 +3846,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  BaseEventEmitter.prototype.addListener = function addListener(eventType, listener, context) {
+	  var _proto = BaseEventEmitter.prototype;
+
+	  _proto.addListener = function addListener(eventType, listener, context) {
 	    return this._subscriber.addSubscription(eventType, new EmitterSubscription(this._subscriber, listener, context));
-	  };
+	  }
 	  /**
 	   * Similar to addListener, except that the listener is removed after it is
 	   * invoked once.
@@ -3867,15 +3861,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {*} context - Optional context object to use when invoking the
 	   *   listener
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.once = function once(eventType, listener, context) {
+	  _proto.once = function once(eventType, listener, context) {
 	    var emitter = this;
 	    return this.addListener(eventType, function () {
 	      emitter.removeCurrentListener();
 	      listener.apply(context, arguments);
 	    });
-	  };
+	  }
 	  /**
 	   * Removes all of the registered listeners, including those registered as
 	   * listener maps.
@@ -3883,11 +3877,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {?string} eventType - Optional name of the event whose registered
 	   *   listeners to remove
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.removeAllListeners = function removeAllListeners(eventType) {
+	  _proto.removeAllListeners = function removeAllListeners(eventType) {
 	    this._subscriber.removeAllSubscriptions(eventType);
-	  };
+	  }
 	  /**
 	   * Provides an API that can be called during an eventing cycle to remove the
 	   * last listener that was invoked. This allows a developer to provide an event
@@ -3909,13 +3903,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *   emitter.emit('someEvent', 'abc'); // logs 'abc'
 	   *   emitter.emit('someEvent', 'def'); // does not log anything
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.removeCurrentListener = function removeCurrentListener() {
-	    !!!this._currentSubscription ?  true ? invariant(false, 'Not in an emitting cycle; there is no current subscription') : invariant(false) : undefined;
+	  _proto.removeCurrentListener = function removeCurrentListener() {
+	    !!!this._currentSubscription ?  true ? invariant(false, 'Not in an emitting cycle; there is no current subscription') : invariant(false) : void 0;
 
 	    this._subscriber.removeSubscription(this._currentSubscription);
-	  };
+	  }
 	  /**
 	   * Returns an array of listeners that are currently registered for the given
 	   * event.
@@ -3923,9 +3917,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {string} eventType - Name of the event to query
 	   * @return {array}
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.listeners = function listeners(eventType)
+	  _proto.listeners = function listeners(eventType)
 	  /* TODO: Array<EventSubscription> */
 	  {
 	    var subscriptions = this._subscriber.getSubscriptionsForType(eventType);
@@ -3933,7 +3927,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return subscriptions ? subscriptions.filter(emptyFunction.thatReturnsTrue).map(function (subscription) {
 	      return subscription.listener;
 	    }) : [];
-	  };
+	  }
 	  /**
 	   * Emits an event of the given type with the given data. All handlers of that
 	   * particular type will be notified.
@@ -3948,9 +3942,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   *
 	   *   emitter.emit('someEvent', 'abc'); // logs 'abc'
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.emit = function emit(eventType) {
+	  _proto.emit = function emit(eventType) {
 	    var subscriptions = this._subscriber.getSubscriptionsForType(eventType);
 
 	    if (subscriptions) {
@@ -3969,7 +3963,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	      this._currentSubscription = null;
 	    }
-	  };
+	  }
 	  /**
 	   * Provides a hook to override how the emitter emits an event to a specific
 	   * subscription. This allows you to set up logging and error boundaries
@@ -3979,9 +3973,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {string} eventType
 	   * @param {*} Arbitrary arguments to be passed to each registered listener
 	   */
+	  ;
 
-
-	  BaseEventEmitter.prototype.__emitToSubscription = function __emitToSubscription(subscription, eventType) {
+	  _proto.__emitToSubscription = function __emitToSubscription(subscription, eventType) {
 	    var args = Array.prototype.slice.call(arguments, 2);
 	    subscription.listener.apply(subscription.context, args);
 	  };
@@ -4002,32 +3996,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the BSD-style license found in the
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
-	 * 
+	 *
 	 * @providesModule EmitterSubscription
 	 * @typechecks
 	 */
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
-	  }
-	}
-
-	function _inherits(subClass, superClass) {
-	  if (typeof superClass !== 'function' && superClass !== null) {
-	    throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
-	  }
-
-	  subClass.prototype = Object.create(superClass && superClass.prototype, {
-	    constructor: {
-	      value: subClass,
-	      enumerable: false,
-	      writable: true,
-	      configurable: true
-	    }
-	  });
-	  if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass;
+	function _inheritsLoose(subClass, superClass) {
+	  subClass.prototype = Object.create(superClass.prototype);
+	  subClass.prototype.constructor = subClass;
+	  subClass.__proto__ = superClass;
 	}
 
 	var EventSubscription = __webpack_require__(15);
@@ -4036,8 +4014,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 
 
-	var EmitterSubscription = function (_EventSubscription) {
-	  _inherits(EmitterSubscription, _EventSubscription);
+	var EmitterSubscription = /*#__PURE__*/function (_EventSubscription) {
+	  _inheritsLoose(EmitterSubscription, _EventSubscription);
 	  /**
 	   * @param {EventSubscriptionVendor} subscriber - The subscriber that controls
 	   *   this subscription
@@ -4049,12 +4027,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	  function EmitterSubscription(subscriber, listener, context) {
-	    _classCallCheck(this, EmitterSubscription);
+	    var _this;
 
-	    _EventSubscription.call(this, subscriber);
-
-	    this.listener = listener;
-	    this.context = context;
+	    _this = _EventSubscription.call(this, subscriber) || this;
+	    _this.listener = listener;
+	    _this.context = context;
+	    return _this;
 	  }
 
 	  return EmitterSubscription;
@@ -4083,20 +4061,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * remove its own subscription.
 	 */
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
-	  }
-	}
-
-	var EventSubscription = function () {
+	var EventSubscription = /*#__PURE__*/function () {
 	  /**
 	   * @param {EventSubscriptionVendor} subscriber the subscriber that controls
 	   *   this subscription.
 	   */
 	  function EventSubscription(subscriber) {
-	    _classCallCheck(this, EventSubscription);
-
 	    this.subscriber = subscriber;
 	  }
 	  /**
@@ -4104,7 +4074,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  EventSubscription.prototype.remove = function remove() {
+	  var _proto = EventSubscription.prototype;
+
+	  _proto.remove = function remove() {
 	    if (this.subscriber) {
 	      this.subscriber.removeSubscription(this);
 	      this.subscriber = null;
@@ -4127,29 +4099,21 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * This source code is licensed under the BSD-style license found in the
 	 * LICENSE file in the root directory of this source tree. An additional grant
 	 * of patent rights can be found in the PATENTS file in the same directory.
-	 * 
+	 *
 	 * @providesModule EventSubscriptionVendor
 	 * @typechecks
 	 */
 	'use strict';
 
-	function _classCallCheck(instance, Constructor) {
-	  if (!(instance instanceof Constructor)) {
-	    throw new TypeError('Cannot call a class as a function');
-	  }
-	}
-
-	var invariant = __webpack_require__(17);
+	var invariant = __webpack_require__(4);
 	/**
 	 * EventSubscriptionVendor stores a set of EventSubscriptions that are
 	 * subscribed to a particular event type.
 	 */
 
 
-	var EventSubscriptionVendor = function () {
+	var EventSubscriptionVendor = /*#__PURE__*/function () {
 	  function EventSubscriptionVendor() {
-	    _classCallCheck(this, EventSubscriptionVendor);
-
 	    this._subscriptionsForType = {};
 	    this._currentSubscription = null;
 	  }
@@ -4161,8 +4125,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	   */
 
 
-	  EventSubscriptionVendor.prototype.addSubscription = function addSubscription(eventType, subscription) {
-	    !(subscription.subscriber === this) ?  true ? invariant(false, 'The subscriber of the subscription is incorrectly set.') : invariant(false) : undefined;
+	  var _proto = EventSubscriptionVendor.prototype;
+
+	  _proto.addSubscription = function addSubscription(eventType, subscription) {
+	    !(subscription.subscriber === this) ?  true ? invariant(false, 'The subscriber of the subscription is incorrectly set.') : invariant(false) : void 0;
 
 	    if (!this._subscriptionsForType[eventType]) {
 	      this._subscriptionsForType[eventType] = [];
@@ -4175,31 +4141,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	    subscription.eventType = eventType;
 	    subscription.key = key;
 	    return subscription;
-	  };
+	  }
 	  /**
 	   * Removes a bulk set of the subscriptions.
 	   *
 	   * @param {?string} eventType - Optional name of the event type whose
 	   *   registered supscriptions to remove, if null remove all subscriptions.
 	   */
+	  ;
 
-
-	  EventSubscriptionVendor.prototype.removeAllSubscriptions = function removeAllSubscriptions(eventType) {
+	  _proto.removeAllSubscriptions = function removeAllSubscriptions(eventType) {
 	    if (eventType === undefined) {
 	      this._subscriptionsForType = {};
 	    } else {
 	      delete this._subscriptionsForType[eventType];
 	    }
-	  };
+	  }
 	  /**
 	   * Removes a specific subscription. Instead of calling this function, call
 	   * `subscription.remove()` directly.
 	   *
 	   * @param {object} subscription
 	   */
+	  ;
 
-
-	  EventSubscriptionVendor.prototype.removeSubscription = function removeSubscription(subscription) {
+	  _proto.removeSubscription = function removeSubscription(subscription) {
 	    var eventType = subscription.eventType;
 	    var key = subscription.key;
 	    var subscriptionsForType = this._subscriptionsForType[eventType];
@@ -4207,7 +4173,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    if (subscriptionsForType) {
 	      delete subscriptionsForType[key];
 	    }
-	  };
+	  }
 	  /**
 	   * Returns the array of subscriptions that are currently registered for the
 	   * given event type.
@@ -4220,9 +4186,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	   * @param {string} eventType
 	   * @return {?array}
 	   */
+	  ;
 
-
-	  EventSubscriptionVendor.prototype.getSubscriptionsForType = function getSubscriptionsForType(eventType) {
+	  _proto.getSubscriptionsForType = function getSubscriptionsForType(eventType) {
 	    return this._subscriptionsForType[eventType];
 	  };
 
@@ -4233,64 +4199,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ }),
 /* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright (c) 2013-present, Facebook, Inc.
-	 *
-	 * This source code is licensed under the MIT license found in the
-	 * LICENSE file in the root directory of this source tree.
-	 *
-	 */
-	'use strict';
-	/**
-	 * Use invariant() to assert state which your program assumes to be true.
-	 *
-	 * Provide sprintf-style format (only %s is supported) and arguments
-	 * to provide information about what broke and what you were
-	 * expecting.
-	 *
-	 * The invariant message will be stripped in production, but the invariant
-	 * will remain to ensure logic does not differ in production.
-	 */
-
-	var validateFormat = function validateFormat(format) {};
-
-	if (true) {
-	  validateFormat = function validateFormat(format) {
-	    if (format === undefined) {
-	      throw new Error('invariant requires an error message argument');
-	    }
-	  };
-	}
-
-	function invariant(condition, format, a, b, c, d, e, f) {
-	  validateFormat(format);
-
-	  if (!condition) {
-	    var error;
-
-	    if (format === undefined) {
-	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
-	    } else {
-	      var args = [a, b, c, d, e, f];
-	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
-	        return args[argIndex++];
-	      }));
-	      error.name = 'Invariant Violation';
-	    }
-
-	    error.framesToPop = 1; // we don't care about invariant's own frame
-
-	    throw error;
-	  }
-	}
-
-	module.exports = invariant;
-
-/***/ }),
-/* 18 */
 /***/ (function(module, exports) {
 
 	"use strict";
@@ -4333,7 +4241,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	module.exports = emptyFunction;
 
 /***/ }),
-/* 19 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
