@@ -10,7 +10,7 @@ import classnames from 'classnames';
 import Layout from '@theme/Layout';
 import Link from '@docusaurus/Link';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import withBaseUrl from '@docusaurus/withBaseUrl';
+import useBaseUrl from '@docusaurus/useBaseUrl';
 import styles from './styles.module.css';
 
 const features = [
@@ -51,10 +51,7 @@ function Home() {
   const { siteConfig = {} } = context;
 
   return (
-    <Layout
-      title={siteConfig.title}
-      description={siteConfig.tagline}
-    >
+    <Layout title={siteConfig.title} description={siteConfig.tagline}>
       <header className={classnames('hero hero--primary', styles.heroBanner)}>
         <div className="container">
           <h1 className="hero__title">{siteConfig.title}</h1>
@@ -65,7 +62,7 @@ function Home() {
                 'button button--secondary button--lg',
                 styles.getStarted,
               )}
-              to={withBaseUrl('docs/overview')}
+              to={useBaseUrl('docs/overview')}
             >
               Get Started
             </Link>
@@ -86,7 +83,7 @@ function Home() {
                       <div className="text--center">
                         <img
                           className={styles.featureImage}
-                          src={withBaseUrl(imageUrl)}
+                          src={useBaseUrl(imageUrl)}
                           alt={title}
                         />
                       </div>
@@ -114,7 +111,7 @@ function Home() {
               <div className="text--center padding-vert--lg">
                 <Link
                   className="button button--primary button--lg"
-                  to={withBaseUrl('docs/overview')}
+                  to={useBaseUrl('docs/overview')}
                 >
                   Learn more about Flux!
                 </Link>

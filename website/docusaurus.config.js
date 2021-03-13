@@ -24,7 +24,7 @@ module.exports = {
         alt: 'Flux Logo',
         src: 'img/flux-logo-color.svg',
       },
-      links: [
+      items: [
         { to: 'docs/overview', label: 'Docs', position: 'left' },
         { to: 'support', label: 'Support', position: 'left' },
         {
