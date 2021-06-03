@@ -29,6 +29,10 @@
   justify-content: center;
 }
 
+.deprecationBanner {
+  background-color: var(--ifm-color-emphasis-200);
+}
+
 .features {
   display: flex;
   align-items: center;
