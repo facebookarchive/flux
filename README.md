@@ -1,3 +1,5 @@
+## ⚠️ The Flux project is in maintenance mode and there are many more sophisticated alternatives available (e.g. [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/)) and we would recommend using them instead.
+
 <p align="center">
   <img src="https://facebook.github.io/flux/img/flux-logo-color.svg" alt="logo" width="20%" />
 </p>
@@ -14,10 +16,6 @@
     <img src="https://img.shields.io/npm/v/flux.svg?style=flat" alt="Current npm package version." />
   </a>
 </p>
-
-<hr/>
-
-⚠️ The Flux project is in maintenance mode and there are many more sophisticated alternatives available (e.g. [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/)) and we would recommend using them instead.
 
 <hr/>
 
