@@ -149,6 +149,10 @@ function create<DefaultProps, Props, State>(
     }
 
     UNSAFE_componentWillReceiveProps(nextProps: any, nextContext: any): void {
+      if (super.UNSAFE_componentWillReceiveProps) {
+        super.UNSAFE_componentWillReceiveProps(nextProps, nextContext);
+      }
+
       if (super.componentWillReceiveProps) {
         super.componentWillReceiveProps(nextProps, nextContext);
       }
