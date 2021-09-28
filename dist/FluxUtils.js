@@ -98,7 +98,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inheritsLoose(subClass, superClass) {
 	  subClass.prototype = Object.create(superClass.prototype);
 	  subClass.prototype.constructor = subClass;
-	  subClass.__proto__ = superClass;
+
+	  _setPrototypeOf(subClass, superClass);
+	}
+
+	function _setPrototypeOf(o, p) {
+	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+	    o.__proto__ = p;
+	    return o;
+	  };
+
+	  return _setPrototypeOf(o, p);
 	}
 
 	function ownKeys(object, enumerableOnly) {
@@ -106,9 +116,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	  if (Object.getOwnPropertySymbols) {
 	    var symbols = Object.getOwnPropertySymbols(object);
-	    if (enumerableOnly) symbols = symbols.filter(function (sym) {
-	      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-	    });
+
+	    if (enumerableOnly) {
+	      symbols = symbols.filter(function (sym) {
+	        return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+	      });
+	    }
+
 	    keys.push.apply(keys, symbols);
 	  }
 
@@ -277,6 +291,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _proto = ContainerClass.prototype;
 
 	    _proto.UNSAFE_componentWillReceiveProps = function UNSAFE_componentWillReceiveProps(nextProps, nextContext) {
+	      if (_Base.prototype.UNSAFE_componentWillReceiveProps) {
+	        _Base.prototype.UNSAFE_componentWillReceiveProps.call(this, nextProps, nextContext);
+	      }
+
 	      if (_Base.prototype.componentWillReceiveProps) {
 	        _Base.prototype.componentWillReceiveProps.call(this, nextProps, nextContext);
 	      }
@@ -598,9 +616,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	function _createForOfIteratorHelper(o, allowArrayLike) {
-	  var it;
+	  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
 
-	  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+	  if (!it) {
 	    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
 	      if (it) o = it;
 	      var i = 0;
@@ -633,7 +651,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      err;
 	  return {
 	    s: function s() {
-	      it = o[Symbol.iterator]();
+	      it = it.call(o);
 	    },
 	    n: function n() {
 	      var step = it.next();
@@ -823,7 +841,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 6 */
 /***/ (function(module, exports, __webpack_require__) {
 
-	/** @license React v17.0.1
+	/** @license React v17.0.2
 	 * react.development.js
 	 *
 	 * Copyright (c) Facebook, Inc. and its affiliates.
@@ -840,7 +858,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    var _assign = __webpack_require__(7); // TODO: this is special because it gets imported during build.
 
 
-	    var ReactVersion = '17.0.1'; // ATTENTION
+	    var ReactVersion = '17.0.2'; // ATTENTION
 	    // When adding new symbols to this file,
 	    // Please consider also adding to 'react-devtools-shared/src/backend/ReactSymbols'
 	    // The Symbol used to tag the ReactElement-like types. If there is no native Symbol
@@ -3294,9 +3312,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	'use strict';
 
 	function _createForOfIteratorHelper(o, allowArrayLike) {
-	  var it;
+	  var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"];
 
-	  if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) {
+	  if (!it) {
 	    if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") {
 	      if (it) o = it;
 	      var i = 0;
@@ -3329,7 +3347,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      err;
 	  return {
 	    s: function s() {
-	      it = o[Symbol.iterator]();
+	      it = it.call(o);
 	    },
 	    n: function n() {
 	      var step = it.next();
@@ -3506,7 +3524,17 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _inheritsLoose(subClass, superClass) {
 	  subClass.prototype = Object.create(superClass.prototype);
 	  subClass.prototype.constructor = subClass;
-	  subClass.__proto__ = superClass;
+
+	  _setPrototypeOf(subClass, superClass);
+	}
+
+	function _setPrototypeOf(o, p) {
+	  _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) {
+	    o.__proto__ = p;
+	    return o;
+	  };
+
+	  return _setPrototypeOf(o, p);
 	}
 
 	function _defineProperty(obj, key, value) {

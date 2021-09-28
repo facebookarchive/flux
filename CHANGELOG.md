@@ -1,5 +1,9 @@
 # Changelog
 
+### 4.0.2
+
+- Added support for `UNSAFE_componentWillReceiveProps` lifecycle method
+
 ### 4.0.1
 
 - Upgrade `fbemitter` dependency to 3.x
