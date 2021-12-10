@@ -1,5 +1,9 @@
 # Changelog
 
+### 4.0.3
+
+- Upgraded `fbjs` to 3.0.1 which fixes [CVE-2021-27292](https://www.whitesourcesoftware.com/vulnerability-database/CVE-2021-27292)
+
 ### 4.0.2
 
 - Added support for `UNSAFE_componentWillReceiveProps` lifecycle method
