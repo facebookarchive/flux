@@ -46,6 +46,43 @@ const features = [
   },
 ];
 
+function VideoContainer() {
+  return (
+    <div className="container text--center margin-bottom--xl">
+      <div className="row">
+        <div className="col">
+          <h2>Brief Introduction into Flux</h2>
+          <div>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/pR4A9YONzuo"
+              title="Explain Like I'm 5: Flux"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+        <div className="col">
+          <h2>Closer Look at Flux</h2>
+          <div>
+            <iframe
+              width="560"
+              height="315"
+              src="https://www.youtube.com/embed/nYkdrAPrdcw"
+              title="Hacker Way: Rethinking Web App Development at Facebook"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Home() {
   const context = useDocusaurusContext();
   const { siteConfig = {} } = context;
@@ -111,28 +148,14 @@ function Home() {
             </div>
           </section>
         )}
-        <div className="container">
-          <div className="row">
-            <div className="col col--6 col--offset-3 padding-vert--lg">
-              <h2>Introduction Video</h2>
-              <iframe
-                width="100%"
-                height="315"
-                src="https://www.youtube.com/embed/nYkdrAPrdcw"
-                frameborder="0"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              />
-              <div className="text--center padding-vert--lg">
-                <Link
-                  className="button button--primary button--lg"
-                  to={useBaseUrl('docs/overview')}
-                >
-                  Learn more about Flux!
-                </Link>
-              </div>
-            </div>
-          </div>
+        <VideoContainer />
+        <div className="text--center padding-vert--lg">
+          <Link
+            className="button button--primary button--lg"
+            to={useBaseUrl("docs/overview")}
+          >
+            Learn more about Flux!
+          </Link>
         </div>
       </main>
     </Layout>
