@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "classnames": "^2.2.3",
+    "escape-html": "^1.0.3",
     "express": "^4.14.0",
     "flux": "../../.",
     "immutable": "^3.8.0",
