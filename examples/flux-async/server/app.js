@@ -9,6 +9,7 @@
 
 'use strict';
 
+const escape = require('escape-html');
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
@@ -427,11 +428,11 @@ function unique(arr) {
 }
 
 function missing(res, field) {
-  res.status(400).send(`Missing required query param: ${field}.`);
+  res.status(400).send(`Missing required query param: ${escape(field)}.`);
 }
 
 function missingID(res, id) {
-  res.status(404).send(`Todo not found for ID: ${id}.`);
+  res.status(404).send(`Todo not found for ID: ${escape(id)}.`);
 }
 
 function getTodos() {
