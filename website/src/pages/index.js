@@ -114,7 +114,7 @@ function Home() {
                 <div className="margin-vert--xl text--center">
                   <h2>
                     The Flux project is in maintenance mode and there are many
-                    more sophisticated alternatives available (e.g. Redux, MobX)
+                    more sophisticated alternatives available (e.g. Redux, MobX, Recoil)
                     and we would recommend using them instead.
                   </h2>
                 </div>
