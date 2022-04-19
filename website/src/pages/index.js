@@ -29,7 +29,7 @@ const features = [
     imageUrl: 'img/undraw_react.svg',
     description: (
       <>
-        It compliments React's composable view components by utilizing a
+        It complements React's composable view components by utilizing a
         unidirectional data flow.
       </>
     ),
