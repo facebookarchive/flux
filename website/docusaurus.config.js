@@ -23,7 +23,8 @@ module.exports = {
       isCloseable: false,
     },
     algolia: {
-      apiKey: '6dab6b592e7b8e994dc2cff2aadc3cf2',
+      appId: 'YDWP2C57PH',
+      apiKey: '05bee0fdd678621b57cf7f8881751543',
       indexName: 'flux',
     },
     navbar: {
