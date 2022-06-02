@@ -54,7 +54,7 @@ function VideoContainer() {
           <h2>Brief Introduction into Flux</h2>
           <div>
             <iframe
-              width="560"
+              width="100%"
               height="315"
               src="https://www.youtube.com/embed/pR4A9YONzuo"
               title="Explain Like I'm 5: Flux"
@@ -68,7 +68,7 @@ function VideoContainer() {
           <h2>Closer Look at Flux</h2>
           <div>
             <iframe
-              width="560"
+              width="100%"
               height="315"
               src="https://www.youtube.com/embed/nYkdrAPrdcw"
               title="Hacker Way: Rethinking Web App Development at Facebook"
@@ -85,7 +85,7 @@ function VideoContainer() {
 
 function Home() {
   const context = useDocusaurusContext();
-  const { siteConfig = {} } = context;
+  const {siteConfig = {}} = context;
 
   return (
     <Layout title={siteConfig.title} description={siteConfig.tagline}>
@@ -99,8 +99,7 @@ function Home() {
                 'button button--secondary button--lg',
                 styles.getStarted,
               )}
-              to={useBaseUrl('docs/overview')}
-            >
+              to={useBaseUrl('docs/overview')}>
               Get Started
             </Link>
           </div>
@@ -114,8 +113,8 @@ function Home() {
                 <div className="margin-vert--xl text--center">
                   <h2>
                     The Flux project is in maintenance mode and there are many
-                    more sophisticated alternatives available (e.g. Redux, MobX, Recoil)
-                    and we would recommend using them instead.
+                    more sophisticated alternatives available (e.g. Redux, MobX,
+                    Recoil) and we would recommend using them instead.
                   </h2>
                 </div>
               </div>
@@ -126,11 +125,10 @@ function Home() {
           <section className={styles.features}>
             <div className="container">
               <div className="row">
-                {features.map(({ imageUrl, title, description }, idx) => (
+                {features.map(({imageUrl, title, description}, idx) => (
                   <div
                     key={idx}
-                    className={classnames('col col--4', styles.feature)}
-                  >
+                    className={classnames('col col--4', styles.feature)}>
                     {imageUrl && (
                       <div className="text--center">
                         <img
@@ -152,8 +150,7 @@ function Home() {
         <div className="text--center padding-vert--lg">
           <Link
             className="button button--primary button--lg"
-            to={useBaseUrl("docs/overview")}
-          >
+            to={useBaseUrl('docs/overview')}>
             Learn more about Flux!
           </Link>
         </div>
