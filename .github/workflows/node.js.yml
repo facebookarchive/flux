@@ -23,6 +23,6 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm install
-      - run: npm test
-      - run: npm run build
+      - run: yarn install
+      - run: yarn test
+      - run: yarn run build
