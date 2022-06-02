@@ -139,7 +139,7 @@ class Dispatcher<TPayload> {
     invariant(
       this._callbacks[id],
       'Dispatcher.unregister(...): `%s` does not map to a registered callback.',
-      id
+      id,
     );
     delete this._callbacks[id];
   }
@@ -152,7 +152,7 @@ class Dispatcher<TPayload> {
   waitFor(ids: Array<DispatchToken>): void {
     invariant(
       this._isDispatching,
-      'Dispatcher.waitFor(...): Must be invoked while dispatching.'
+      'Dispatcher.waitFor(...): Must be invoked while dispatching.',
     );
     for (var ii = 0; ii < ids.length; ii++) {
       var id = ids[ii];
@@ -161,14 +161,14 @@ class Dispatcher<TPayload> {
           this._isHandled[id],
           'Dispatcher.waitFor(...): Circular dependency detected while ' +
             'waiting for `%s`.',
-          id
+          id,
         );
         continue;
       }
       invariant(
         this._callbacks[id],
         'Dispatcher.waitFor(...): `%s` does not map to a registered callback.',
-        id
+        id,
       );
       this._invokeCallback(id);
     }
@@ -180,7 +180,7 @@ class Dispatcher<TPayload> {
   dispatch(payload: TPayload): void {
     invariant(
       !this._isDispatching,
-      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.'
+      'Dispatch.dispatch(...): Cannot dispatch in the middle of a dispatch.',
     );
     this._startDispatching(payload);
     try {

@@ -142,7 +142,7 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withProps: true}, // options
-      {value: 'prop'} // props
+      {value: 'prop'}, // props
     );
 
     // Test it.
@@ -169,7 +169,7 @@ describe('FluxContainer', () => {
     const node = document.createElement('div');
     const component = ReactDOM.render(
       <SimpleContainerComponent value="initial" />,
-      node
+      node,
     );
     ReactDOM.render(<SimpleContainerComponent value="changed" />, node);
     const text = ReactDOM.findDOMNode(component).textContent;
@@ -254,7 +254,7 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withContext: true}, // options
-      {} // props
+      {}, // props
     );
 
     expect(getValue()).toBe('foo');
@@ -276,7 +276,7 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withProps: true, withContext: true}, // options
-      {} // props
+      {}, // props
     );
 
     // Test it.

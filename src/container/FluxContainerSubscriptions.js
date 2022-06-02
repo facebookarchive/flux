@@ -57,7 +57,7 @@ class FluxContainerSubscriptions {
         store.addListener(() => {
           changed = true;
           changedStores.push(store);
-        })
+        }),
       );
     } else {
       const setChanged = () => {

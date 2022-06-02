@@ -48,14 +48,14 @@ class FluxStoreGroup {
 function _getUniformDispatcher(stores: Array<FluxStore>): Dispatcher<any> {
   invariant(
     stores && stores.length,
-    'Must provide at least one store to FluxStoreGroup'
+    'Must provide at least one store to FluxStoreGroup',
   );
   var dispatcher = stores[0].getDispatcher();
   if (__DEV__) {
     for (var store of stores) {
       invariant(
         store.getDispatcher() === dispatcher,
-        'All stores in a FluxStoreGroup must use the same dispatcher'
+        'All stores in a FluxStoreGroup must use the same dispatcher',
       );
     }
   }

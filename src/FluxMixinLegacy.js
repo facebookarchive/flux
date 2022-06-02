@@ -59,7 +59,7 @@ type Options = {
  */
 function FluxMixinLegacy(
   stores: Array<FluxStore>,
-  options: Options = {withProps: false}
+  options: Options = {withProps: false},
 ): any {
   stores = stores.filter((store) => !!store);
 
@@ -81,7 +81,7 @@ function FluxMixinLegacy(
       // This adds subscriptions to stores. When a store changes all we do is
       // set changed to true.
       this._fluxMixinSubscriptions = stores.map((store) =>
-        store.addListener(setChanged)
+        store.addListener(setChanged),
       );
 
       // This callback is called after the dispatch of the relevant stores. If
@@ -91,7 +91,7 @@ function FluxMixinLegacy(
           this.setState((prevState) =>
             options.withProps
               ? this.constructor.calculateState(prevState, this.props)
-              : this.constructor.calculateState(prevState, undefined)
+              : this.constructor.calculateState(prevState, undefined),
           );
         }
         changed = false;
@@ -113,7 +113,7 @@ function enforceInterface(o: any): void {
   invariant(
     o.constructor.calculateState,
     'Components that use FluxMixinLegacy must implement ' +
-      '`calculateState()` on the statics object'
+      '`calculateState()` on the statics object',
   );
 }
 

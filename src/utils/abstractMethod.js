@@ -19,7 +19,7 @@ function abstractMethod<T>(className: string, methodName: string): T {
     false,
     'Subclasses of %s must override %s() with their own implementation.',
     className,
-    methodName
+    methodName,
   );
 }
 

@@ -69,7 +69,7 @@ class FluxStore {
     invariant(
       this.__dispatcher.isDispatching(),
       '%s.hasChanged(): Must be invoked while dispatching.',
-      this.__className
+      this.__className,
     );
     return this.__changed;
   }
@@ -78,7 +78,7 @@ class FluxStore {
     invariant(
       this.__dispatcher.isDispatching(),
       '%s.__emitChange(): Must be invoked while dispatching.',
-      this.__className
+      this.__className,
     );
     this.__changed = true;
   }
@@ -105,7 +105,7 @@ class FluxStore {
     invariant(
       false,
       '%s has not overridden FluxStore.__onDispatch(), which is required',
-      this.__className
+      this.__className,
     );
   }
 }
