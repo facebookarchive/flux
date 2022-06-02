@@ -9,9 +9,9 @@
  * @emails oncall+uiecommd
  */
 
-var Dispatcher = require('Dispatcher');
-var FluxReduceStore = require('FluxReduceStore');
-var Immutable = require('immutable');
+import Dispatcher from 'Dispatcher';
+import FluxReduceStore from 'FluxReduceStore';
+import Immutable from 'immutable';
 
 class FooStore extends FluxReduceStore {
   getInitialState() {

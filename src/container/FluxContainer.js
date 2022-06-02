@@ -102,7 +102,7 @@ const DEFAULT_OPTIONS = {
  */
 function create<DefaultProps, Props, State>(
   Base: ReactClass<Props>,
-  options?: ?Options,
+  options?: ?Options
 ): ReactClass<Props> {
   enforceInterface(Base);
 
@@ -133,12 +133,8 @@ function create<DefaultProps, Props, State>(
       this._fluxContainerSubscriptions = new FluxContainerSubscriptions();
       this._fluxContainerSubscriptions.setStores(getStores(props, context));
       this._fluxContainerSubscriptions.addListener(() => {
-        this.setState(
-          (prevState, currentProps) => getState(
-            prevState,
-            currentProps,
-            context,
-          ),
+        this.setState((prevState, currentProps) =>
+          getState(prevState, currentProps, context)
         );
       });
       const calculatedState = getState(undefined, props, context);
@@ -160,9 +156,11 @@ function create<DefaultProps, Props, State>(
       if (realOptions.withProps || realOptions.withContext) {
         // Update both stores and state.
         this._fluxContainerSubscriptions.setStores(
-          getStores(nextProps, nextContext),
+          getStores(nextProps, nextContext)
         );
-        this.setState(prevState => getState(prevState, nextProps, nextContext));
+        this.setState((prevState) =>
+          getState(prevState, nextProps, nextContext)
+        );
       }
     }
 
@@ -201,7 +199,6 @@ function createPureComponent<DefaultProps, Props, State>(
   }
   return PureComponent;
 }
-
 
 function enforceInterface(o: any): void {
   invariant(
@@ -250,7 +247,7 @@ function createFunctional<Props, State, A, B>(
   viewFn: (props: State) => React.Element<State>,
   getStores: (props?: ?Props, context?: any) => Array<FluxStore>,
   calculateState: (prevState?: ?State, props?: ?Props, context?: any) => State,
-  options?: Options,
+  options?: Options
 ): ReactClass<Props> {
   class FunctionalContainer extends Component<void, Props, State> {
     state: State;
@@ -261,7 +258,7 @@ function createFunctional<Props, State, A, B>(
     static calculateState(
       prevState?: ?State,
       props?: ?Props,
-      context?: any,
+      context?: any
     ): State {
       return calculateState(prevState, props, context);
     }

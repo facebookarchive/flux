@@ -31,10 +31,10 @@ class FluxStoreGroup {
     this._dispatcher = _getUniformDispatcher(stores);
 
     // Precompute store tokens.
-    var storeTokens = stores.map(store => store.getDispatchToken());
+    var storeTokens = stores.map((store) => store.getDispatchToken());
 
     // Register with the dispatcher.
-    this._dispatchToken = this._dispatcher.register(payload => {
+    this._dispatchToken = this._dispatcher.register((payload) => {
       this._dispatcher.waitFor(storeTokens);
       callback();
     });

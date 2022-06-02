@@ -31,7 +31,6 @@ function shallowArrayEqual(a: Array<FluxStore>, b: Array<FluxStore>): boolean {
 }
 
 class FluxContainerSubscriptions {
-
   _callbacks: Array<() => void>;
   _storeGroup: ?FluxStoreGroup;
   _stores: ?Array<FluxStore>;
@@ -54,18 +53,22 @@ class FluxContainerSubscriptions {
 
     if (__DEV__) {
       // Keep track of the stores that changed for debugging purposes only
-      this._tokens = stores.map(store => store.addListener(() => {
-        changed = true;
-        changedStores.push(store);
-      }));
+      this._tokens = stores.map((store) =>
+        store.addListener(() => {
+          changed = true;
+          changedStores.push(store);
+        })
+      );
     } else {
-      const setChanged = () => { changed = true; };
-      this._tokens = stores.map(store => store.addListener(setChanged));
+      const setChanged = () => {
+        changed = true;
+      };
+      this._tokens = stores.map((store) => store.addListener(setChanged));
     }
 
     const callCallbacks = () => {
       if (changed) {
-        this._callbacks.forEach(fn => fn());
+        this._callbacks.forEach((fn) => fn());
         changed = false;
         if (__DEV__) {
           // Uncomment this to print the stores that changed.
@@ -90,7 +93,7 @@ class FluxContainerSubscriptions {
 
   _resetTokens() {
     if (this._tokens) {
-      this._tokens.forEach(token => token.remove());
+      this._tokens.forEach((token) => token.remove());
       this._tokens = null;
     }
   }

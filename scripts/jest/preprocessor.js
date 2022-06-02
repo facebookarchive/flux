@@ -1,9 +1,11 @@
-var assign = require('object-assign');
-var babel = require('@babel/core');
-var babelOpts = require('../babel/default-options');
+const assign = require('object-assign');
+const babel = require('@babel/core');
+const babelOpts = require('../babel/default-options');
 
 module.exports = {
-  process: function(src, path) {
-    return babel.transform(src, assign({filename: path}, babelOpts)).code;
-  }
+  process: function (src, path) {
+    return {
+      code: babel.transform(src, assign({ filename: path }, babelOpts)).code,
+    };
+  },
 };

@@ -61,8 +61,7 @@ function FluxMixinLegacy(
   stores: Array<FluxStore>,
   options: Options = {withProps: false}
 ): any {
-
-  stores = stores.filter(store => !!store);
+  stores = stores.filter((store) => !!store);
 
   return {
     getInitialState(): Object {
@@ -75,22 +74,24 @@ function FluxMixinLegacy(
     componentWillMount(): void {
       // This tracks when any store has changed and we may need to update.
       var changed = false;
-      var setChanged = () => {changed = true;};
+      var setChanged = () => {
+        changed = true;
+      };
 
       // This adds subscriptions to stores. When a store changes all we do is
       // set changed to true.
-      this._fluxMixinSubscriptions = stores.map(
-        store => store.addListener(setChanged)
+      this._fluxMixinSubscriptions = stores.map((store) =>
+        store.addListener(setChanged)
       );
 
       // This callback is called after the dispatch of the relevant stores. If
       // any have reported a change we update the state, then reset changed.
       var callback = () => {
         if (changed) {
-          this.setState(
-            prevState => options.withProps
-                ? this.constructor.calculateState(prevState, this.props)
-                : this.constructor.calculateState(prevState, undefined)
+          this.setState((prevState) =>
+            options.withProps
+              ? this.constructor.calculateState(prevState, this.props)
+              : this.constructor.calculateState(prevState, undefined)
           );
         }
         changed = false;
@@ -112,7 +113,7 @@ function enforceInterface(o: any): void {
   invariant(
     o.constructor.calculateState,
     'Components that use FluxMixinLegacy must implement ' +
-    '`calculateState()` on the statics object'
+      '`calculateState()` on the statics object'
   );
 }
 

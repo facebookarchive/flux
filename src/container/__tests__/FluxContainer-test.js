@@ -11,8 +11,6 @@
 
 'use strict';
 
-jest.autoMockOff();
-
 import Dispatcher from 'Dispatcher';
 import FluxContainer from 'FluxContainer';
 import FluxReduceStore from 'FluxReduceStore';
@@ -43,11 +41,7 @@ describe('FluxContainer', () => {
     }
 
     render() {
-      return (
-        <div>
-          {this.state.value}
-        </div>
-      );
+      return <div>{this.state.value}</div>;
     }
   }
 
@@ -148,7 +142,7 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withProps: true}, // options
-      {value: 'prop'}, // props
+      {value: 'prop'} // props
     );
 
     // Test it.
@@ -168,10 +162,15 @@ describe('FluxContainer', () => {
         };
       }
     }
-    const SimpleContainerComponent = FluxContainer.create(SimpleContainer, {withProps: true});
+    const SimpleContainerComponent = FluxContainer.create(SimpleContainer, {
+      withProps: true,
+    });
 
     const node = document.createElement('div');
-    const component = ReactDOM.render(<SimpleContainerComponent value="initial" />, node);
+    const component = ReactDOM.render(
+      <SimpleContainerComponent value="initial" />,
+      node
+    );
     ReactDOM.render(<SimpleContainerComponent value="changed" />, node);
     const text = ReactDOM.findDOMNode(component).textContent;
     expect(text).toBe('changed-foo');
@@ -235,12 +234,9 @@ describe('FluxContainer', () => {
   });
 
   it('should get access to context in getStores', () => {
-    const MyContext = React.createContext(
-      {value: FooStore}
-    );
+    const MyContext = React.createContext({value: FooStore});
 
     class SimpleContainer extends BaseContainer {
-
       static contextType = MyContext;
 
       static getStores(props, context) {
@@ -258,19 +254,16 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withContext: true}, // options
-      {}, // props
+      {} // props
     );
 
     expect(getValue()).toBe('foo');
   });
 
   it('should get access to context in calculateState', () => {
-    const MyContext = React.createContext(
-      {value: "context"}
-    );
+    const MyContext = React.createContext({value: 'context'});
 
     class SimpleContainer extends BaseContainer {
-
       static contextType = MyContext;
 
       static calculateState(prevState, props, context) {
@@ -283,7 +276,7 @@ describe('FluxContainer', () => {
     const getValue = createContainer(
       SimpleContainer,
       {withProps: true, withContext: true}, // options
-      {}, // props
+      {} // props
     );
 
     // Test it.
@@ -297,5 +290,4 @@ describe('FluxContainer', () => {
 
   // Still need to write a test for changing props. Can't figure out how to do
   // that with react test utils at the moment...
-
 });

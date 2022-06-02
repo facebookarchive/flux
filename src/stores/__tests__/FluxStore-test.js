@@ -10,13 +10,11 @@
  * @typechecks
  */
 
+import FluxStore from 'FluxStore';
+import Dispatcher from 'Dispatcher';
+import {EventEmitter} from 'fbemitter';
+
 jest.mock('fbemitter');
-jest.mock('Dispatcher');
-
-var FluxStore = require('FluxStore');
-var Dispatcher = require('Dispatcher');
-
-var {EventEmitter} = require('fbemitter');
 
 class TestFluxStore extends FluxStore {
   __onDispatch(action) {
@@ -25,7 +23,7 @@ class TestFluxStore extends FluxStore {
         this.__emitChange();
         break;
       default:
-        // no op
+      // no op
     }
   }
 }
@@ -40,7 +38,6 @@ class IllegalFluxStore extends FluxStore {
 }
 
 describe('FluxStore', () => {
-
   var dispatcher;
   var fluxStore;
   var mockEmit;
@@ -48,7 +45,8 @@ describe('FluxStore', () => {
 
   beforeEach(() => {
     dispatcher = new Dispatcher();
-    dispatcher.register
+    dispatcher.register = jest
+      .fn()
       .mockReturnValueOnce('ID_1')
       .mockReturnValueOnce('ID_2');
     EventEmitter.mockClear();
@@ -78,14 +76,14 @@ describe('FluxStore', () => {
   });
 
   it('emits an event on state change', () => {
-    dispatcher.isDispatching = jest.genMockFunction().mockReturnValue(true);
+    dispatcher.isDispatching = jest.fn().mockReturnValue(true);
     registeredCallback({type: 'store-will-change-state'});
     expect(mockEmit.mock.calls.length).toBe(1);
     expect(mockEmit.mock.calls[0][0]).toBe('change');
   });
 
   it('exposes whether the state has changed during current dispatch', () => {
-    dispatcher.isDispatching = jest.genMockFunction();
+    dispatcher.isDispatching = jest.fn();
     dispatcher.isDispatching.mockReturnValue(true);
     registeredCallback({type: 'store-will-change-state'});
     expect(fluxStore.hasChanged()).toBe(true);
@@ -99,11 +97,12 @@ describe('FluxStore', () => {
 
   it('wraps EventEmitter.addListener() with an addListener() method', () => {
     var mockAddListener = EventEmitter.mock.instances[0].addListener;
-    mockAddListener.mockImplementation(() => { return {}; });
+    mockAddListener.mockImplementation(() => {
+      return {};
+    });
     fluxStore.addListener(() => {});
     expect(mockAddListener.mock.calls.length).toBe(1);
     expect(typeof mockAddListener.mock.calls[0][0]).toBe('string');
     expect(typeof mockAddListener.mock.calls[0][1]).toBe('function');
   });
-
 });

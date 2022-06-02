@@ -32,7 +32,7 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should register a callback with the dispatcher', () => {
-    const callback = jest.genMockFn();
+    const callback = jest.fn();
     new FluxStoreGroup([storeA, storeB], callback);
 
     dispatcher.dispatch({type: 'foo'});
@@ -40,7 +40,7 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should wait for the store dependencies', () => {
-    const callback = jest.genMockFn().mockImplementation(() => {
+    const callback = jest.fn().mockImplementation(() => {
       expect(storeA.hasChanged()).toBe(true);
       expect(storeB.hasChanged()).toBe(true);
     });
@@ -51,7 +51,7 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should not run the callback after being released', () => {
-    const callback = jest.genMockFn();
+    const callback = jest.fn();
     const group = new FluxStoreGroup([storeA, storeB], callback);
     group.release();
 
@@ -60,12 +60,12 @@ describe('FluxStoreGroup', () => {
   });
 
   it('should have at least one store', () => {
-    const callback = jest.genMockFn();
+    const callback = jest.fn();
     expect(() => new FluxStoreGroup([], callback)).toThrow();
   });
 
   it('should make sure dispatchers are uniform in DEV', () => {
-    const callback = jest.genMockFn();
+    const callback = jest.fn();
     const storeC = new SimpleStore(new Dispatcher());
     expect(() => new FluxStoreGroup([storeA, storeC], callback)).toThrow();
   });

@@ -17,10 +17,10 @@ var invariant = require('invariant');
 function abstractMethod<T>(className: string, methodName: string): T {
   invariant(
     false,
-     'Subclasses of %s must override %s() with their own implementation.',
-     className,
-     methodName
-   );
+    'Subclasses of %s must override %s() with their own implementation.',
+    className,
+    methodName
+  );
 }
 
 module.exports = abstractMethod;

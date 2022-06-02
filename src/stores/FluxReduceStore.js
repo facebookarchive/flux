@@ -40,7 +40,6 @@ const invariant = require('invariant');
  *   }
  */
 class FluxReduceStore<TState> extends FluxStore {
-
   _state: TState;
 
   constructor(dispatcher: Dispatcher<Object>) {
@@ -91,8 +90,8 @@ class FluxReduceStore<TState> extends FluxStore {
     invariant(
       endingState !== undefined,
       '%s returned undefined from reduce(...), did you forget to return ' +
-      'state in the default case? (use null if this was intentional)',
-      this.constructor.name,
+        'state in the default case? (use null if this was intentional)',
+      this.constructor.name
     );
 
     if (!this.areEqual(startingState, endingState)) {

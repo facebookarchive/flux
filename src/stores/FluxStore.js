@@ -23,7 +23,6 @@ const invariant = require('invariant');
  * new store.
  */
 class FluxStore {
-
   // private
   _dispatchToken: string;
 

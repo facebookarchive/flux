@@ -16,8 +16,8 @@ describe('Dispatcher', () => {
 
   beforeEach(() => {
     dispatcher = new Dispatcher();
-    callbackA = jest.genMockFunction();
-    callbackB = jest.genMockFunction();
+    callbackA = jest.fn();
+    callbackB = jest.fn();
   });
 
   it('should execute all subscriber callbacks', () => {
