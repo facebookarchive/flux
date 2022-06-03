@@ -13,7 +13,6 @@ const gulp = require('gulp');
 const gulpUtil = require('gulp-util');
 const header = require('gulp-header');
 const rename = require('gulp-rename');
-const source = require('vinyl-source-stream');
 const webpackStream = require('webpack-stream');
 
 const babelDefaultOptions = require('./scripts/babel/default-options');
