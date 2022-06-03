@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2014-present, Facebook, Inc.
+ * Copyright (c) Meta Platforms, Inc. and affiliates.
  * All rights reserved.
  *
  * This source code is licensed under the BSD-style license found in the
@@ -96,5 +96,3 @@ export type Action =
       originalTodos: Array<Todo>,
       error: Error,
     };
-
-// This is a semi-colon, all hail the mighty semi-colon.

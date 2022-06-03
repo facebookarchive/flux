@@ -58,7 +58,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright (c) 2014-present, Facebook, Inc.
+	 * Copyright (c) Meta Platforms, Inc. and affiliates.
 	 * All rights reserved.
 	 *
 	 * This source code is licensed under the BSD-style license found in the
@@ -72,7 +72,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /***/ (function(module, exports, __webpack_require__) {
 
 	/**
-	 * Copyright (c) 2014-present, Facebook, Inc.
+	 * Copyright (c) Meta Platforms, Inc. and affiliates.
 	 * All rights reserved.
 	 *
 	 * This source code is licensed under the BSD-style license found in the
