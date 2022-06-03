@@ -20,8 +20,7 @@ import TodoStore from '../../../flux-todomvc/src/data/TodoStore';
 
 import renderer from 'react-test-renderer';
 
-describe('AppContainer', function() {
-
+describe('AppContainer', function () {
   // Set up functions to help mock the data in each store that is used by
   // our container. If there are child containers you may also need to mock that
   // data as well. We do not need to mock all of the callbacks because we are
@@ -32,17 +31,16 @@ describe('AppContainer', function() {
   // you should move these into test utils that can be reused across tests for
   // many containers. This should prevent the need for any code to be in the
   // beforeEach() function of your container tests.
-  beforeEach(function() {
-
+  beforeEach(function () {
     let editStore = '';
-    this.setEditID = (id) => editStore = id;
+    this.setEditID = (id) => (editStore = id);
 
     let draftStore = '';
-    this.setDraftText = (text) => draftStore = text;
+    this.setDraftText = (text) => (draftStore = text);
 
     let todoStore = Immutable.OrderedMap();
     this.setTodos = (todos) => {
-      todos.forEach(todo => {
+      todos.forEach((todo) => {
         const id = Counter.increment();
         todoStore = todoStore.set(
           id,
@@ -58,7 +56,7 @@ describe('AppContainer', function() {
       if (todoStore.size <= index) {
         throw new Error(
           'Requested id for an index that is larger than the size of the ' +
-          'current state.'
+            'current state.',
         );
       }
       return Array.from(todoStore.keys())[index];
@@ -75,7 +73,7 @@ describe('AppContainer', function() {
 
   ///// Begin tests /////
 
-  it('renders some todos', function() {
+  it('renders some todos', function () {
     this.setTodos([
       {text: 'Hello', complete: false},
       {text: 'World!', complete: false},
@@ -86,11 +84,11 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('renders with no todos', function() {
+  it('renders with no todos', function () {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('renders todos that are complete', function() {
+  it('renders todos that are complete', function () {
     this.setTodos([
       // Try changing complete to "true" for test0 to see how snapshot changes.
       {text: 'test0', complete: false},
@@ -102,7 +100,7 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('can edit task that is not complete', function() {
+  it('can edit task that is not complete', function () {
     this.setTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: true},
@@ -115,7 +113,7 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('can edit task that is complete', function() {
+  it('can edit task that is complete', function () {
     this.setTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: true},
@@ -128,23 +126,21 @@ describe('AppContainer', function() {
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('renders draft with todos', function() {
-    this.setTodos([
-      {text: 'test0', complete: false},
-    ]);
+  it('renders draft with todos', function () {
+    this.setTodos([{text: 'test0', complete: false}]);
 
     this.setDraftText('test1');
 
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('renders draft with no todos', function() {
+  it('renders draft with no todos', function () {
     this.setDraftText('test0');
 
     expect(this.render()).toMatchSnapshot();
   });
 
-  it('renders draft with todos while editing', function() {
+  it('renders draft with todos while editing', function () {
     this.setTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: false},

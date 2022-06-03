@@ -12,10 +12,11 @@
 'use strict';
 
 export type Action =
-  {
-    type: 'foo',
-    foo: string,
-  } | {
-    type: 'bar',
-    bar: string,
-  };
+  | {
+      type: 'foo',
+      foo: string,
+    }
+  | {
+      type: 'bar',
+      bar: string,
+    };

@@ -15,12 +15,11 @@ import styles from './styles.module.css';
 
 function Support() {
   const context = useDocusaurusContext();
-  const { siteConfig = {} } = context;
+  const {siteConfig = {}} = context;
   return (
     <Layout
       title={`Hello from ${siteConfig.title}`}
-      description="Description will go into a meta tag in <head />"
-    >
+      description="Description will go into a meta tag in <head />">
       <div className="container">
         <div className="row">
           <div className="col col--6 col--offset-3 padding-vert--lg">

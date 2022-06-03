@@ -21,11 +21,7 @@ import TodoListStore from '../stores/TodoListStore';
 import TodoStore from '../stores/TodoStore';
 
 function getStores() {
-  return [
-    TodoDraftStore,
-    TodoListStore,
-    TodoStore,
-  ];
+  return [TodoDraftStore, TodoListStore, TodoStore];
 }
 
 function getState() {
@@ -44,7 +40,7 @@ function getState() {
     draft: TodoDraftStore.getState(),
 
     // Then optimistically remove todos that are being deleted.
-    ids: ids.map(list => list.filter(id => !deletedIDs.has(id))),
+    ids: ids.map((list) => list.filter((id) => !deletedIDs.has(id))),
     todos: todos.filter((_, id) => !deletedIDs.has(id)),
 
     onDelete,
@@ -99,9 +95,9 @@ function onRetry(todo: Todo) {
 function onUpdateTodos(todos: Array<Todo>) {
   TodoDispatcher.dispatch({
     type: 'todos/start-update',
-    ids: todos.map(todo => todo.id),
-    texts: todos.map(todo => todo.text),
-    completes: todos.map(todo => todo.complete),
+    ids: todos.map((todo) => todo.id),
+    texts: todos.map((todo) => todo.text),
+    completes: todos.map((todo) => todo.complete),
   });
 }
 

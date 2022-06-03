@@ -19,9 +19,9 @@ declare class Todo {
   text: string;
 
   constructor(data: {
-    id: string;
-    complete: boolean;
-    text: string;
+    id: string,
+    complete: boolean,
+    text: string,
   }): void;
 
   set(key: 'id', value: string): Todo;

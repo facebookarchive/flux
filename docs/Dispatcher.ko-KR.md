@@ -12,14 +12,11 @@ Dispatcher는 등록된 callback에 데이터를 중계할 때 사용된다. 일
 
 ## API
 
-- **`register(function callback): string`**
-  모든 데이터 변동이 있을 때 실행될 콜백을 등록한다. `waitFor()`에서 사용 가능한 토큰을 반환한다.
+- **`register(function callback): string`** 모든 데이터 변동이 있을 때 실행될 콜백을 등록한다. `waitFor()`에서 사용 가능한 토큰을 반환한다.
 
-- **`unregister(string id): void`**
-  토큰으로 콜백을 제거한다.
+- **`unregister(string id): void`** 토큰으로 콜백을 제거한다.
 
-- **`waitFor(array<string> ids): void`**
-  현재 실행한 콜백이 진행되기 전에 특정 콜백을 지연하게 한다. 데이터 변동에 응답하는 콜백에만 사용해야 한다.
+- **`waitFor(array<string> ids): void`** 현재 실행한 콜백이 진행되기 전에 특정 콜백을 지연하게 한다. 데이터 변동에 응답하는 콜백에만 사용해야 한다.
 
 - **`dispatch(object payload): void`** 등록된 모든 콜백에 데이터를 전달한다.
 
@@ -47,14 +44,14 @@ var FlightPriceStore = {price: null};
 ```js
 flightDispatcher.dispatch({
   actionType: 'city-update',
-  selectedCity: 'paris'
+  selectedCity: 'paris',
 });
 ```
 
 이 데이터 변동은 `CityStore`가 소화한다:
 
 ```js
-flightDispatcher.register(function(payload) {
+flightDispatcher.register(function (payload) {
   if (payload.actionType === 'city-update') {
     CityStore.city = payload.selectedCity;
   }
@@ -66,25 +63,24 @@ flightDispatcher.register(function(payload) {
 ```js
 flightDispatcher.dispatch({
   actionType: 'country-update',
-  selectedCountry: 'australia'
+  selectedCountry: 'australia',
 });
 ```
 
 이 데이터는 두 store에 의해 소화된다:
 
 ```js
- CountryStore.dispatchToken = flightDispatcher.register(function(payload) {
+CountryStore.dispatchToken = flightDispatcher.register(function (payload) {
   if (payload.actionType === 'country-update') {
     CountryStore.country = payload.selectedCountry;
   }
 });
 ```
 
-`CountryStore`가 등록한 콜백을 업데이트 할 때 반환되는 토큰을 참조값으로 저장했다. 이 토큰은 `waitFor()`
-에서 사용할 수 있고 `CityStore`가 갱신하는 것보다 먼저 `CountryStore`를 갱신하도록 보장할 수 있다.
+`CountryStore`가 등록한 콜백을 업데이트 할 때 반환되는 토큰을 참조값으로 저장했다. 이 토큰은 `waitFor()` 에서 사용할 수 있고 `CityStore`가 갱신하는 것보다 먼저 `CountryStore`를 갱신하도록 보장할 수 있다.
 
 ```js
-CityStore.dispatchToken = flightDispatcher.register(function(payload) {
+CityStore.dispatchToken = flightDispatcher.register(function (payload) {
   if (payload.actionType === 'country-update') {
     // `CountryStore.country`는 업데이트 되지 않는다
     flightDispatcher.waitFor([CountryStore.dispatchToken]);
@@ -99,15 +95,16 @@ CityStore.dispatchToken = flightDispatcher.register(function(payload) {
 `waitFor()`는 다음과 같이 묶을 수 있다:
 
 ```js
-FlightPriceStore.dispatchToken =
-  flightDispatcher.register(function(payload) {
-    switch (payload.actionType) {
-      case 'country-update':
-      case 'city-update':
-        flightDispatcher.waitFor([CityStore.dispatchToken]);
-        FlightPriceStore.price =
-          getFlightPriceStore(CountryStore.country, CityStore.city);
-        break;
+FlightPriceStore.dispatchToken = flightDispatcher.register(function (payload) {
+  switch (payload.actionType) {
+    case 'country-update':
+    case 'city-update':
+      flightDispatcher.waitFor([CityStore.dispatchToken]);
+      FlightPriceStore.price = getFlightPriceStore(
+        CountryStore.country,
+        CityStore.city,
+      );
+      break;
   }
 });
 ```

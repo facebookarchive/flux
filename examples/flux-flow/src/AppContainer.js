@@ -17,9 +17,7 @@ import AppView from './AppView';
 import {Container} from 'flux/utils';
 
 function getStores() {
-  return [
-    AppStore,
-  ];
+  return [AppStore];
 }
 
 function getState() {
@@ -27,10 +25,11 @@ function getState() {
     value: AppStore.getState(),
 
     // $FlowExpectedError: Cannot dispatch an incorrectly formed action.
-    onFooChange: () => AppDispatcher.dispatch({
-      type: 'foo',
-      bar: 'Hello Bar!',
-    }),
+    onFooChange: () =>
+      AppDispatcher.dispatch({
+        type: 'foo',
+        bar: 'Hello Bar!',
+      }),
   };
 }
 

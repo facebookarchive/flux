@@ -38,7 +38,7 @@ function Main(props) {
   }
 
   // If this were expensive we could move it to the container.
-  const areAllComplete = props.todos.every(todo => todo.complete);
+  const areAllComplete = props.todos.every((todo) => todo.complete);
 
   return (
     <section id="main">
@@ -48,11 +48,9 @@ function Main(props) {
         type="checkbox"
         onChange={props.onToggleAllTodos}
       />
-      <label htmlFor="toggle-all">
-        Mark all as complete
-      </label>
+      <label htmlFor="toggle-all">Mark all as complete</label>
       <ul id="todo-list">
-        {[...props.todos.values()].reverse().map(todo => (
+        {[...props.todos.values()].reverse().map((todo) => (
           <TodoItem
             key={todo.id}
             editing={props.editing}
@@ -74,26 +72,23 @@ function Footer(props) {
     return null;
   }
 
-  const remaining = props.todos.filter(todo => !todo.complete).size;
+  const remaining = props.todos.filter((todo) => !todo.complete).size;
   const completed = props.todos.size - remaining;
   const phrase = remaining === 1 ? ' item left' : ' items left';
 
   let clearCompletedButton = null;
   if (completed > 0) {
-    clearCompletedButton =
-      <button
-        id="clear-completed"
-        onClick={props.onDeleteCompletedTodos}>
+    clearCompletedButton = (
+      <button id="clear-completed" onClick={props.onDeleteCompletedTodos}>
         Clear completed ({completed})
       </button>
+    );
   }
 
   return (
     <footer id="footer">
       <span id="todo-count">
-        <strong>
-          {remaining}
-        </strong>
+        <strong>{remaining}</strong>
         {phrase}
       </span>
       {clearCompletedButton}
@@ -141,7 +136,7 @@ function TodoItem(props) {
         onStopEditingTodo();
       }
     };
-    input =
+    input = (
       <input
         autoFocus={true}
         className="edit"
@@ -149,7 +144,8 @@ function TodoItem(props) {
         onBlur={onStopEditingTodo}
         onChange={onChange}
         onKeyDown={onKeyDown}
-      />;
+      />
+    );
   }
 
   return (
@@ -165,15 +161,12 @@ function TodoItem(props) {
           checked={todo.complete}
           onChange={onToggleTodo}
         />
-        <label onDoubleClick={onStartEditingTodo}>
-          {todo.text}
-        </label>
+        <label onDoubleClick={onStartEditingTodo}>{todo.text}</label>
         <button className="destroy" onClick={onDeleteTodo} />
       </div>
       {input}
     </li>
   );
 }
-
 
 export default AppView;

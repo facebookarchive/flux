@@ -16,7 +16,7 @@ There are three main classes exposed in Flux Utils:
 These base classes can be imported from `flux/utils` like this:
 
 ```js
-import { ReduceStore } from 'flux/utils';
+import {ReduceStore} from 'flux/utils';
 
 class CounterStore extends ReduceStore<number> {
   getInitialState(): number {
@@ -133,8 +133,8 @@ Note that any store that extends `ReduceStore` does not need to manually emit ch
 Create is used to transform a react class into a container that updates its state when relevant stores change. The provided base class must have static methods `getStores()` and `calculateState()`.
 
 ```js
-import { Component } from 'react';
-import { Container } from 'flux/utils';
+import {Component} from 'react';
+import {Container} from 'flux/utils';
 
 class CounterContainer extends Component {
   static getStores() {
@@ -169,5 +169,4 @@ React 16.8 introduced [Hooks](https://reactjs.org/docs/hooks-intro.html). Much o
 
 ## Existing Projects with `Store`/`ReduceStore`
 
-If you have existing projects that need to continue using Flux Util's Stores, you can use the [flux-hooks](https://github.com/Fieldscope/flux-hooks) package.
-Access the store using useFluxStore which provides an API similar to [Container](#container)'s calculateState.
+If you have existing projects that need to continue using Flux Util's Stores, you can use the [flux-hooks](https://github.com/Fieldscope/flux-hooks) package. Access the store using useFluxStore which provides an API similar to [Container](#container)'s calculateState.

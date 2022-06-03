@@ -5,7 +5,7 @@ const babelOpts = require('../babel/default-options');
 module.exports = {
   process: function (src, path) {
     return {
-      code: babel.transform(src, assign({ filename: path }, babelOpts)).code,
+      code: babel.transform(src, assign({filename: path}, babelOpts)).code,
     };
   },
 };

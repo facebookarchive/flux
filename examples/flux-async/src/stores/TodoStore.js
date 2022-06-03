@@ -30,15 +30,16 @@ class TodoStore extends ReduceStore<Action, State> {
   }
 
   getInitialState(): State {
-    return new LoadObjectMap(keys => TodoDispatcher.dispatch({
-      type: 'todos/start-load',
-      ids: Array.from(keys),
-    }));
+    return new LoadObjectMap((keys) =>
+      TodoDispatcher.dispatch({
+        type: 'todos/start-load',
+        ids: Array.from(keys),
+      }),
+    );
   }
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
-
       ///// Creating /////
 
       case 'todo/start-create':
@@ -46,11 +47,13 @@ class TodoStore extends ReduceStore<Action, State> {
         // Optimistically create the todo with the fakeID.
         return state.set(
           action.fakeID,
-          LoadObject.creating().setValue(new Todo({
-            id: action.fakeID,
-            text: action.value,
-            complete: false,
-          })),
+          LoadObject.creating().setValue(
+            new Todo({
+              id: action.fakeID,
+              text: action.value,
+              complete: false,
+            }),
+          ),
         );
 
       case 'todo/created':
@@ -61,28 +64,25 @@ class TodoStore extends ReduceStore<Action, State> {
 
       case 'todo/create-error':
         // Clear the operation and save the error when there is one.
-        return state.update(
-          action.fakeID,
-          lo => lo.setError(action.error).done(),
+        return state.update(action.fakeID, (lo) =>
+          lo.setError(action.error).done(),
         );
 
       ///// Loading /////
 
       case 'todos/start-load':
         TodoDataManager.loadTodos(action.ids);
-        return state.merge(action.ids.map(id => [id, LoadObject.loading()]));
+        return state.merge(action.ids.map((id) => [id, LoadObject.loading()]));
 
       case 'todos/loaded':
-        return state.merge(action.todos.map(todo => [
-          todo.id,
-          LoadObject.withValue(todo),
-        ]));
+        return state.merge(
+          action.todos.map((todo) => [todo.id, LoadObject.withValue(todo)]),
+        );
 
       case 'todos/load-error':
-        return state.merge(action.ids.map(id => [
-          id,
-          LoadObject.withError(action.error),
-        ]));
+        return state.merge(
+          action.ids.map((id) => [id, LoadObject.withError(action.error)]),
+        );
 
       ///// Updating /////
 
@@ -97,11 +97,13 @@ class TodoStore extends ReduceStore<Action, State> {
             return;
           }
           originalTodos.push(todoLo.getValueEnforcing());
-          nextState = nextState.update(id, lo => lo.updating().map(todo => {
-            return todo
-              .set('text', action.texts[i])
-              .set('complete', action.completes[i]);
-          }));
+          nextState = nextState.update(id, (lo) =>
+            lo.updating().map((todo) => {
+              return todo
+                .set('text', action.texts[i])
+                .set('complete', action.completes[i]);
+            }),
+          );
         });
         TodoDataManager.updateTodos(
           action.ids,
@@ -113,28 +115,29 @@ class TodoStore extends ReduceStore<Action, State> {
       }
 
       case 'todos/updated':
-        return state.merge(action.todos.map(todo => [
-          todo.id,
-          LoadObject.withValue(todo),
-        ]));
+        return state.merge(
+          action.todos.map((todo) => [todo.id, LoadObject.withValue(todo)]),
+        );
 
       case 'todos/update-error':
-        return state.merge(action.originalTodos.map(todo => [
-          todo.id,
-          LoadObject.withValue(todo).setError(action.error),
-        ]));
+        return state.merge(
+          action.originalTodos.map((todo) => [
+            todo.id,
+            LoadObject.withValue(todo).setError(action.error),
+          ]),
+        );
 
       ///// Deleting /////
 
       case 'todos/start-delete': {
         let nextState = state;
         const realIDs = [];
-        action.ids.forEach(id => {
+        action.ids.forEach((id) => {
           if (FakeID.isFake(id)) {
             nextState = nextState.delete(id);
           } else {
             realIDs.push(id);
-            nextState = nextState.update(id, lo => lo.deleting());
+            nextState = nextState.update(id, (lo) => lo.deleting());
           }
         });
         TodoDataManager.deleteTodos(realIDs);
@@ -147,10 +150,9 @@ class TodoStore extends ReduceStore<Action, State> {
 
       case 'todos/delete-error': {
         let nextState = state;
-        action.ids.forEach(id => {
-          nextState = nextState.update(
-            id,
-            lo => lo.setError(action.error).done(),
+        action.ids.forEach((id) => {
+          nextState = nextState.update(id, (lo) =>
+            lo.setError(action.error).done(),
           );
         });
         return nextState;

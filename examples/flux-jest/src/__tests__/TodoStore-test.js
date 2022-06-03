@@ -14,8 +14,7 @@ import Todo from '../../../flux-todomvc/src/data/Todo';
 import TodoActionTypes from '../../../flux-todomvc/src/data/TodoActionTypes';
 import TodoStore from '../../../flux-todomvc/src/data/TodoStore';
 
-describe('TodoStore', function() {
-
+describe('TodoStore', function () {
   // Before each test case we set up some helper functions that makes the tests
   // easier to read. It's okay to have a fair amount of helper functions as long
   // as they make the tests simpler to read and write. Depending on the
@@ -23,21 +22,22 @@ describe('TodoStore', function() {
   // into a separate `TodoTestHelpers.js` file that can be reused -- and then
   // you could write tests for the helpers too! :P (we actually do this for our
   // main stores)
-  beforeEach(function() {
+  beforeEach(function () {
     // Always start with the initial state.
     this.state = TodoStore.getInitialState();
 
     // This function gets a more readable form of the todos that we can pass
     // to expect().
-    this.todos = () => Array.from(this.state.values()).map(todo => ({
-      text: todo.text,
-      complete: !!todo.complete,
-    }));
+    this.todos = () =>
+      Array.from(this.state.values()).map((todo) => ({
+        text: todo.text,
+        complete: !!todo.complete,
+      }));
 
     // This function is for setting up data, it will add all the todos to the
     // state in a direct way.
     this.addTodos = (todos) => {
-      todos.forEach(todo => {
+      todos.forEach((todo) => {
         const id = Counter.increment();
         this.state = this.state.set(
           id,
@@ -53,7 +53,7 @@ describe('TodoStore', function() {
       if (this.state.size <= index) {
         throw new Error(
           'Requested id for an index that is larger than the size of the ' +
-          'current state.'
+            'current state.',
         );
       }
       return Array.from(this.state.keys())[index];
@@ -61,14 +61,14 @@ describe('TodoStore', function() {
 
     // This "dispatches" an action to our store. We can bypass the dispatcher
     // and just call the store's reduce function directly.
-    this.dispatch = action => {
+    this.dispatch = (action) => {
       this.state = TodoStore.reduce(this.state, action);
     };
   });
 
   ///// Begin tests /////
 
-  it('can add multiple todos', function() {
+  it('can add multiple todos', function () {
     expect(this.todos()).toEqual([]);
 
     this.dispatch({
@@ -76,9 +76,7 @@ describe('TodoStore', function() {
       text: 'test0',
     });
 
-    expect(this.todos()).toEqual([
-      {text: 'test0', complete: false},
-    ]);
+    expect(this.todos()).toEqual([{text: 'test0', complete: false}]);
 
     this.dispatch({
       type: TodoActionTypes.ADD_TODO,
@@ -91,7 +89,7 @@ describe('TodoStore', function() {
     ]);
   });
 
-  it('only removes completed todos', function() {
+  it('only removes completed todos', function () {
     this.addTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: true},
@@ -106,7 +104,7 @@ describe('TodoStore', function() {
     ]);
   });
 
-  it('can delete a specific todo', function() {
+  it('can delete a specific todo', function () {
     this.addTodos([
       {text: 'test0', complete: true},
       {text: 'test1', complete: true},
@@ -128,12 +126,10 @@ describe('TodoStore', function() {
       id: this.id(0),
     });
 
-    expect(this.todos()).toEqual([
-      {text: 'test1', complete: true},
-    ]);
+    expect(this.todos()).toEqual([{text: 'test1', complete: true}]);
   });
 
-  it('can edit a specific todo', function() {
+  it('can edit a specific todo', function () {
     this.addTodos([
       {text: 'test0', complete: false},
       {text: 'test1', complete: false},
@@ -153,7 +149,7 @@ describe('TodoStore', function() {
     ]);
   });
 
-  it('marks all todos complete if any are incomplete', function() {
+  it('marks all todos complete if any are incomplete', function () {
     this.addTodos([
       {text: 'test0', complete: true},
       {text: 'test1', complete: true},
@@ -169,7 +165,7 @@ describe('TodoStore', function() {
     ]);
   });
 
-  it('marks all todos incomplete if all are complete', function() {
+  it('marks all todos incomplete if all are complete', function () {
     this.addTodos([
       {text: 'test0', complete: true},
       {text: 'test1', complete: true},
@@ -185,7 +181,7 @@ describe('TodoStore', function() {
     ]);
   });
 
-  it('toggles a particular todo', function() {
+  it('toggles a particular todo', function () {
     this.addTodos([
       {text: 'test0', complete: true},
       {text: 'test1', complete: true},

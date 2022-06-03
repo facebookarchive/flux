@@ -321,13 +321,13 @@ app.post('/todos/update', (req, res) => {
   const texts = JSON.parse(rawTexts);
   const completes = JSON.parse(rawCompletes);
   if (ids.length !== texts.length) {
-    res.status(400).send("The number of ids does not match number of texts.");
+    res.status(400).send('The number of ids does not match number of texts.');
     return;
   }
   if (ids.length !== completes.length) {
     res
       .status(400)
-      .send("The number of ids does not match number of completes.");
+      .send('The number of ids does not match number of completes.');
     return;
   }
 
@@ -451,16 +451,16 @@ let max = null;
 function nextID() {
   if (max == null) {
     max = 0;
-    Object.keys(getTodos()).forEach(key => {
+    Object.keys(getTodos()).forEach((key) => {
       if (/^id_[1-9]\d*$/.test(key)) {
         const idPart = key.split('_')[1];
         max = Math.max(max, Number(idPart));
       } else {
         throw new Error(
-          `Invalid id "${key}" found, ids must look like id_<number>`
+          `Invalid id "${key}" found, ids must look like id_<number>`,
         );
       }
     });
   }
-  return 'id_' + (++max);
+  return 'id_' + ++max;
 }

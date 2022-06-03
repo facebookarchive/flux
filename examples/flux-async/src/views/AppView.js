@@ -70,13 +70,7 @@ type MainProps = {
 };
 
 function Main(props: MainProps): ?React.Element<*> {
-  const {
-    ids,
-    todos,
-    onDelete,
-    onRetry,
-    onUpdateTodos,
-  } = props;
+  const {ids, todos, onDelete, onRetry, onUpdateTodos} = props;
 
   if (!ids.getLoadObject().hasValue()) {
     return null;
@@ -87,18 +81,18 @@ function Main(props: MainProps): ?React.Element<*> {
     return null;
   }
 
-  const areAllComplete = list.every(id => {
+  const areAllComplete = list.every((id) => {
     const todoLo = todos.get(id);
     return !todoLo.hasValue() || todoLo.getValueEnforcing().complete;
   });
 
   const onToggleAll = () => {
     const toUpdate = todos
-      .filter(lo => lo.hasValue() && lo.isDone())
+      .filter((lo) => lo.hasValue() && lo.isDone())
       .getValues()
-      .map(lo => lo.getValueEnforcing())
-      .filter(todo => areAllComplete ? todo.complete : !todo.complete)
-      .map(todo => todo.set('complete', !todo.complete));
+      .map((lo) => lo.getValueEnforcing())
+      .filter((todo) => (areAllComplete ? todo.complete : !todo.complete))
+      .map((todo) => todo.set('complete', !todo.complete));
     onUpdateTodos(toUpdate);
   };
 
@@ -111,7 +105,7 @@ function Main(props: MainProps): ?React.Element<*> {
         onDelete={onDelete}
         onRetry={onRetry}
         onUpdateTodos={onUpdateTodos}
-      />
+      />,
     );
   });
 
@@ -123,12 +117,8 @@ function Main(props: MainProps): ?React.Element<*> {
         type="checkbox"
         onChange={onToggleAll}
       />
-      <label htmlFor="toggle-all">
-        Mark all as complete
-      </label>
-      <ul id="todo-list">
-        {listItems.reverse()}
-      </ul>
+      <label htmlFor="toggle-all">Mark all as complete</label>
+      <ul id="todo-list">{listItems.reverse()}</ul>
     </section>
   );
 }
@@ -141,37 +131,34 @@ type FooterProps = {
 
 function Footer(props: FooterProps): ?React.Element<*> {
   const todos = props.todos
-    .filter(lo => lo.hasValue())
+    .filter((lo) => lo.hasValue())
     .getValues()
-    .map(lo => lo.getValueEnforcing());
+    .map((lo) => lo.getValueEnforcing());
 
   if (todos.length === 0) {
     return null;
   }
 
-  const remaining = todos.filter(todo => !todo.complete).length;
+  const remaining = todos.filter((todo) => !todo.complete).length;
   const completed = todos.length - remaining;
   const phrase = remaining === 1 ? ' item left' : ' items left';
 
   let clearCompletedButton = null;
   if (completed > 0) {
     const completedIDs = todos
-      .filter(todo => todo.complete)
-      .map(todo => todo.id);
-    clearCompletedButton =
-      <button
-        id="clear-completed"
-        onClick={() => props.onDelete(completedIDs)}>
+      .filter((todo) => todo.complete)
+      .map((todo) => todo.id);
+    clearCompletedButton = (
+      <button id="clear-completed" onClick={() => props.onDelete(completedIDs)}>
         Clear completed ({completed})
       </button>
+    );
   }
 
   return (
     <footer id="footer">
       <span id="todo-count">
-        <strong>
-          {remaining}
-        </strong>
+        <strong>{remaining}</strong>
         {phrase}
       </span>
       {clearCompletedButton}
@@ -218,19 +205,15 @@ type TodoItemProps = {
 };
 
 function TodoItem(props: TodoItemProps): ?React.Element<*> {
-  const {
-    todoLo,
-    onDelete,
-    onRetry,
-    onUpdateTodos,
-  } = props;
+  const {todoLo, onDelete, onRetry, onUpdateTodos} = props;
 
   if (!todoLo.hasValue()) {
     return (
-      <li className={classnames({
-        hasError: todoLo.hasError(),
-        shimmer: todoLo.hasOperation(),
-      })}>
+      <li
+        className={classnames({
+          hasError: todoLo.hasError(),
+          shimmer: todoLo.hasOperation(),
+        })}>
         <div className="view">
           <label>Loading...</label>
         </div>
@@ -245,10 +228,8 @@ function TodoItem(props: TodoItemProps): ?React.Element<*> {
   if (todoLo.isDone()) {
     // Can only toggle real todos.
     if (!FakeID.isFake(todo.id)) {
-      boundOnToggle = () => onUpdateTodos([todo.set(
-        'complete',
-        !todo.complete,
-      )]);
+      boundOnToggle = () =>
+        onUpdateTodos([todo.set('complete', !todo.complete)]);
     }
     buttons = (
       <div className="todo-buttons">
@@ -259,10 +240,11 @@ function TodoItem(props: TodoItemProps): ?React.Element<*> {
   }
 
   return (
-    <li className={classnames({
-      hasError: todoLo.hasError(),
-      shimmer: todoLo.hasOperation(),
-    })}>
+    <li
+      className={classnames({
+        hasError: todoLo.hasError(),
+        shimmer: todoLo.hasOperation(),
+      })}>
       <div className="view">
         <input
           className="toggle"

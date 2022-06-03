@@ -25,13 +25,10 @@ class LoadObjectState<V> {
   _preventLoadsForThisFrame: boolean;
   _clearPreventLoadsForThisFrame: mixed;
 
-  constructor(
-    load: () => void,
-    shouldLoad?: (lo: LoadObject<V>) => boolean,
-  ) {
+  constructor(load: () => void, shouldLoad?: (lo: LoadObject<V>) => boolean) {
     this._data = LoadObject.empty();
     this._load = load;
-    this._shouldLoad = shouldLoad || (lo => lo.isEmpty());
+    this._shouldLoad = shouldLoad || ((lo) => lo.isEmpty());
     this._preventLoadsForThisFrame = false;
     this._clearPreventLoadsForThisFrame = null;
   }
@@ -39,14 +36,11 @@ class LoadObjectState<V> {
   getLoadObject(): LoadObject<V> {
     if (!this._preventLoadsForThisFrame && this._shouldLoad(this._data)) {
       this._preventLoadsForThisFrame = true;
-      this._clearPreventLoadsForThisFrame = setTimeout(
-        () => {
-          this._load();
-          this._preventLoadsForThisFrame = false;
-          this._clearPreventLoadsForThisFrame = null;
-        },
-        0,
-      );
+      this._clearPreventLoadsForThisFrame = setTimeout(() => {
+        this._load();
+        this._preventLoadsForThisFrame = false;
+        this._clearPreventLoadsForThisFrame = null;
+      }, 0);
     }
     return this._data;
   }

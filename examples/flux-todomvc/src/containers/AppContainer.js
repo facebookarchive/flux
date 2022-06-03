@@ -17,11 +17,7 @@ import TodoEditStore from '../data/TodoEditStore';
 import TodoStore from '../data/TodoStore';
 
 function getStores() {
-  return [
-    TodoEditStore,
-    TodoDraftStore,
-    TodoStore,
-  ];
+  return [TodoEditStore, TodoDraftStore, TodoStore];
 }
 
 function getState() {

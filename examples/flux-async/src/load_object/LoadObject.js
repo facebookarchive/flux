@@ -16,8 +16,7 @@ type LoadObjectOperation =
   | 'CREATING'
   | 'LOADING'
   | 'UPDATING'
-  | 'DELETING'
-  ;
+  | 'DELETING';
 
 /**
  * A secret key that is used to prevent direct construction of these objects,
@@ -67,7 +66,7 @@ class LoadObject<V> {
     if (secret !== SECRET) {
       throw new Error(
         'Construct LoadObjects using static methods such as ' +
-        'LoadObject.loading(), LoadObject.empty()',
+          'LoadObject.loading(), LoadObject.empty()',
       );
     }
     this._operation = operation;
@@ -141,13 +140,7 @@ class LoadObject<V> {
     if (this._value === value && this._hasValue === true) {
       return this;
     }
-    return new LoadObject(
-      SECRET,
-      this._operation,
-      value,
-      this._error,
-      true,
-    );
+    return new LoadObject(SECRET, this._operation, value, this._error, true);
   }
 
   setError(error: Error): LoadObject<V> {
@@ -256,73 +249,31 @@ class LoadObject<V> {
   // Static helpers for creating LoadObjects
 
   static empty<V>(): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'NONE',
-      undefined,
-      undefined,
-      false,
-    );
+    return new LoadObject(SECRET, 'NONE', undefined, undefined, false);
   }
 
   static creating<V>(): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'CREATING',
-      undefined,
-      undefined,
-      false
-    );
+    return new LoadObject(SECRET, 'CREATING', undefined, undefined, false);
   }
 
   static loading<V>(): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'LOADING',
-      undefined,
-      undefined,
-      false
-    );
+    return new LoadObject(SECRET, 'LOADING', undefined, undefined, false);
   }
 
   static updating<V>(): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'UPDATING',
-      undefined,
-      undefined,
-      false
-    );
+    return new LoadObject(SECRET, 'UPDATING', undefined, undefined, false);
   }
 
   static deleting<V>(): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'DELETING',
-      undefined,
-      undefined,
-      false
-    );
+    return new LoadObject(SECRET, 'DELETING', undefined, undefined, false);
   }
 
   static withError<V>(error: Error): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'NONE',
-      undefined,
-      error,
-      false
-    );
+    return new LoadObject(SECRET, 'NONE', undefined, error, false);
   }
 
   static withValue<V>(value: V): LoadObject<V> {
-    return new LoadObject(
-      SECRET,
-      'NONE',
-      value,
-      undefined,
-      true
-    );
+    return new LoadObject(SECRET, 'NONE', value, undefined, true);
   }
 }
 

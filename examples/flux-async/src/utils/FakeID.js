@@ -23,7 +23,7 @@ let count = 0;
  */
 const FakeID = {
   next(): string {
-    return PREFIX + (++count);
+    return PREFIX + ++count;
   },
 
   isFake(id: string): boolean {

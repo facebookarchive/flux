@@ -17,4 +17,4 @@ import ReactDOM from 'react-dom';
 // Import the logger store explicitly so that it registers with the dispatcher.
 import TodoLoggerStore from './TodoLoggerStore';
 
-ReactDOM.render(<AppContainer/>, document.getElementById('todoapp'));
+ReactDOM.render(<AppContainer />, document.getElementById('todoapp'));

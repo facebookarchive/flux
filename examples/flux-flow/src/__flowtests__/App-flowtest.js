@@ -48,5 +48,5 @@ function t2(): React.Element<*> {
     () => ({notValue: AppStore.getState()}),
   );
 
-  return <MyContainer />
+  return <MyContainer />;
 }

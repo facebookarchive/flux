@@ -29,14 +29,15 @@ class TodoListStore extends ReduceStore<Action, State> {
   }
 
   getInitialState(): State {
-    return new LoadObjectState(() => TodoDispatcher.dispatch({
-      type: 'ids/start-load',
-    }));
+    return new LoadObjectState(() =>
+      TodoDispatcher.dispatch({
+        type: 'ids/start-load',
+      }),
+    );
   }
 
   reduce(state: State, action: Action): State {
     switch (action.type) {
-
       ///// Loading /////
 
       case 'ids/start-load':
@@ -44,9 +45,9 @@ class TodoListStore extends ReduceStore<Action, State> {
         return state.setLoadObject(LoadObject.loading());
 
       case 'ids/loaded':
-        return state.setLoadObject(LoadObject.withValue(
-          Immutable.List(action.ids)
-        ));
+        return state.setLoadObject(
+          LoadObject.withValue(Immutable.List(action.ids)),
+        );
 
       case 'ids/load-error':
         return state.setLoadObject(LoadObject.withError(action.error));
@@ -54,15 +55,15 @@ class TodoListStore extends ReduceStore<Action, State> {
       ///// Creating /////
 
       case 'todo/start-create':
-        return state.map(
-          list => list.contains(action.fakeID) ? list : list.push(action.fakeID)
+        return state.map((list) =>
+          list.contains(action.fakeID) ? list : list.push(action.fakeID),
         );
 
       case 'todo/created':
         // This replaces the fake ID we added optimistically with the real id.
-        return state.map(list => list.map(
-          id => id === action.fakeID ? action.todo.id : id
-        ));
+        return state.map((list) =>
+          list.map((id) => (id === action.fakeID ? action.todo.id : id)),
+        );
 
       case 'todo/create-error':
         // We don't need to remove the id on an error. It will be updated to
@@ -73,13 +74,13 @@ class TodoListStore extends ReduceStore<Action, State> {
 
       case 'todos/start-delete':
         // Optimistically remove any fake ids.
-        const fakeIDs = action.ids.filter(id => FakeID.isFake(id));
+        const fakeIDs = action.ids.filter((id) => FakeID.isFake(id));
         const fakeIDSet = new Set(fakeIDs);
-        return state.map(list => list.filter(id => !fakeIDSet.has(id)));
+        return state.map((list) => list.filter((id) => !fakeIDSet.has(id)));
 
       case 'todos/deleted':
         const idSet = new Set(action.ids);
-        return state.map(list => list.filter(id => !idSet.has(id)));
+        return state.map((list) => list.filter((id) => !idSet.has(id)));
 
       case 'todo/delete-error':
         // No need to remove any ids when the delete fails, user will have to

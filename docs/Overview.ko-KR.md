@@ -91,8 +91,7 @@ store에게 이벤트를 받으면 store의 퍼블릭 getter 메소드를 통해
 
 때때로 컴포넌트의 단순함을 유지하기 위해 위계 깊은 곳에서 contoller-views가 추가로 필요할 때가 있다. 중간에 contoller-views를 넣으면 특정 데이터 도메인에 관계된 위계 영역을 감싸서 독립적으로 만드는데(encapsulate) 도움이 된다. 하지만 조심해야 한다. 위계 내에서 만든 controller-view는 단일의 데이터 흐름과 상충해 잠재적으로 새로운 데이터 흐름의 시작점에서 충돌할 수 있다.
 
-내부에 controller-view를 추가하는 것을 결정할 때에는 여러 데이터 업데이트의 흐름이 위계와 다른 방향으로 흐르지 않도록 고려해 단순함의 균형을 유지해야 한다. 여러 데이터가 업데이트되면 이상한 효과를 만들어 React의 렌더링 메소드가 다른 controller-view에 의해 반복적으로 실행돼서 디버깅의 어려움을 가중할 가능성이 있다.
-내부 controller-view를 만드는 것을 결정할 때, 데이터를 갱신하기 위해 위계에서 여러 방향으로 흐르는 복잡성에 반해 단순한 컴포넌트의 이점에서 균형을 찾아야 한다. 여러 방향으로의 데이터 갱신은 이상한 효과를 만들 수 있다. 특히 React의 렌더 메소드는 여러 controller-view를 갱신하기 위해 반복적으로 실행되어버려 디버깅의 어려움을 가중할 수도 있다.
+내부에 controller-view를 추가하는 것을 결정할 때에는 여러 데이터 업데이트의 흐름이 위계와 다른 방향으로 흐르지 않도록 고려해 단순함의 균형을 유지해야 한다. 여러 데이터가 업데이트되면 이상한 효과를 만들어 React의 렌더링 메소드가 다른 controller-view에 의해 반복적으로 실행돼서 디버깅의 어려움을 가중할 가능성이 있다. 내부 controller-view를 만드는 것을 결정할 때, 데이터를 갱신하기 위해 위계에서 여러 방향으로 흐르는 복잡성에 반해 단순한 컴포넌트의 이점에서 균형을 찾아야 한다. 여러 방향으로의 데이터 갱신은 이상한 효과를 만들 수 있다. 특히 React의 렌더 메소드는 여러 controller-view를 갱신하기 위해 반복적으로 실행되어버려 디버깅의 어려움을 가중할 수도 있다.
 
 ### Actions
 
@@ -122,7 +121,7 @@ case 'TODO_CREATE':
 dispatch token은 `register()` 메소드에서 반환하는데 이 메소드는 callback을 dispatcher에 등록할 때 사용된다:
 
 ```javascript
-PrependedTextStore.dispatchToken = Dispatcher.register(function(payload) {
+PrependedTextStore.dispatchToken = Dispatcher.register(function (payload) {
   // ...
 });
 ```

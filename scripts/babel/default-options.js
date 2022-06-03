@@ -18,10 +18,10 @@ module.exports = {
           fbemitter: 'fbemitter',
           immutable: 'immutable',
           invariant: 'fbjs/lib/invariant',
-          shallowEqual: 'fbjs/lib/shallowEqual'
-        }
+          shallowEqual: 'fbjs/lib/shallowEqual',
+        },
       },
-      stripDEV: true
-    })
-  ]
+      stripDEV: true,
+    }),
+  ],
 };

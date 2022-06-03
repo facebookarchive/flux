@@ -17,16 +17,15 @@ import TodoDispatcher from '../TodoDispatcher';
 
 const TodoDataManager = {
   create(text: string, fakeID: string) {
-    TodoAPI
-      .post('/todo/create', {text})
-      .then(rawTodo => {
+    TodoAPI.post('/todo/create', {text})
+      .then((rawTodo) => {
         TodoDispatcher.dispatch({
           type: 'todo/created',
           todo: new Todo(rawTodo),
           fakeID,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         TodoDispatcher.dispatch({
           type: 'todo/create-error',
           error,
@@ -36,15 +35,14 @@ const TodoDataManager = {
   },
 
   deleteTodos(ids: Array<string>) {
-    TodoAPI
-      .post('/todos/delete', {ids})
+    TodoAPI.post('/todos/delete', {ids})
       .then(() => {
         TodoDispatcher.dispatch({
           type: 'todos/deleted',
           ids,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         TodoDispatcher.dispatch({
           type: 'todos/delete-error',
           error,
@@ -59,15 +57,14 @@ const TodoDataManager = {
     completes: Array<boolean>,
     originalTodos: Array<Todo>,
   ) {
-    TodoAPI
-      .post('/todos/update', {ids, texts, completes})
-      .then(rawTodos => {
+    TodoAPI.post('/todos/update', {ids, texts, completes})
+      .then((rawTodos) => {
         TodoDispatcher.dispatch({
           type: 'todos/updated',
-          todos: rawTodos.map(rawTodo => new Todo(rawTodo)),
+          todos: rawTodos.map((rawTodo) => new Todo(rawTodo)),
         });
       })
-      .catch(error => {
+      .catch((error) => {
         TodoDispatcher.dispatch({
           type: 'todos/update-error',
           originalTodos,
@@ -77,15 +74,14 @@ const TodoDataManager = {
   },
 
   loadIDs() {
-    TodoAPI
-      .get('/ids')
-      .then(ids => {
+    TodoAPI.get('/ids')
+      .then((ids) => {
         TodoDispatcher.dispatch({
           type: 'ids/loaded',
           ids,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         TodoDispatcher.dispatch({
           type: 'ids/load-error',
           error,
@@ -94,15 +90,14 @@ const TodoDataManager = {
   },
 
   loadTodos(ids: Array<string>) {
-    TodoAPI
-      .get('/todos', {ids})
-      .then(rawTodos => {
+    TodoAPI.get('/todos', {ids})
+      .then((rawTodos) => {
         TodoDispatcher.dispatch({
           type: 'todos/loaded',
-          todos: rawTodos.map(rawTodo => new Todo(rawTodo)),
+          todos: rawTodos.map((rawTodo) => new Todo(rawTodo)),
         });
       })
-      .catch(error => {
+      .catch((error) => {
         TodoDispatcher.dispatch({
           type: 'todos/load-error',
           ids,
@@ -111,6 +106,5 @@ const TodoDataManager = {
       });
   },
 };
-
 
 export default TodoDataManager;

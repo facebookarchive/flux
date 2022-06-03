@@ -99,7 +99,7 @@ case 'TODO_CREATE':
 A dispatch token is returned by `register()` when registering callbacks for the Dispatcher:
 
 ```javascript
-PrependedTextStore.dispatchToken = Dispatcher.register(function(payload) {
+PrependedTextStore.dispatchToken = Dispatcher.register(function (payload) {
   // ...
 });
 ```
