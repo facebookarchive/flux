@@ -1,3 +1,10 @@
+/**
+ * Copyright (c) 2017-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
 const babel = require('gulp-babel');
 const del = require('del');
 const flatten = require('gulp-flatten');
@@ -10,22 +17,20 @@ const webpackStream = require('webpack-stream');
 
 const babelDefaultOptions = require('./scripts/babel/default-options');
 
-const DEVELOPMENT_HEADER = [
-  '/**',
-  ' * Flux v<%= version %>',
-  ' */',
-].join('\n') + '\n';
-const PRODUCTION_HEADER = [
-  '/**',
-  ' * Flux v<%= version %>',
-  ' *',
-  ' * Copyright (c) Facebook, Inc. and its affiliates.',
-  ' *',
-  ' * This source code is licensed under the BSD-style license found in the',
-  ' * LICENSE file in the root directory of this source tree. An additional grant',
-  ' * of patent rights can be found in the PATENTS file in the same directory.',
-  ' */',
-].join('\n') + '\n';
+const DEVELOPMENT_HEADER =
+  ['/**', ' * Flux v<%= version %>', ' */'].join('\n') + '\n';
+const PRODUCTION_HEADER =
+  [
+    '/**',
+    ' * Flux v<%= version %>',
+    ' *',
+    ' * Copyright (c) Facebook, Inc. and its affiliates.',
+    ' *',
+    ' * This source code is licensed under the BSD-style license found in the',
+    ' * LICENSE file in the root directory of this source tree. An additional grant',
+    ' * of patent rights can be found in the PATENTS file in the same directory.',
+    ' */',
+  ].join('\n') + '\n';
 
 const paths = {
   dist: './dist/',
@@ -39,13 +44,11 @@ const paths = {
   ],
 };
 
-const buildDist = function(opts) {
+const buildDist = function (opts) {
   const webpackOpts = {
     debug: opts.debug,
     module: {
-      loaders: [
-        {test: /\.js$/, loader: 'babel'}
-      ],
+      loaders: [{test: /\.js$/, loader: 'babel'}],
     },
     output: {
       filename: opts.output,
@@ -55,10 +58,10 @@ const buildDist = function(opts) {
     plugins: [
       new webpackStream.webpack.DefinePlugin({
         'process.env.NODE_ENV': JSON.stringify(
-          opts.debug ? 'development' : 'production'
+          opts.debug ? 'development' : 'production',
         ),
-      })
-    ]
+      }),
+    ],
   };
   if (!opts.debug) {
     webpackOpts.plugins.push(
@@ -66,12 +69,12 @@ const buildDist = function(opts) {
         compress: {
           hoist_vars: true,
           screw_ie8: true,
-          warnings: false
-        }
-      })
+          warnings: false,
+        },
+      }),
     );
   }
-  return webpackStream(webpackOpts, null, function(err, stats) {
+  return webpackStream(webpackOpts, null, function (err, stats) {
     if (err) {
       throw new gulpUtil.PluginError('webpack', err);
     }
@@ -81,11 +84,11 @@ const buildDist = function(opts) {
   });
 };
 
-gulp.task('clean', function() {
+gulp.task('clean', function () {
   return del([paths.lib, 'Flux.js']);
 });
 
-gulp.task('lib', function() {
+gulp.task('lib', function () {
   return gulp
     .src(paths.src)
     .pipe(babel(babelDefaultOptions))
@@ -93,7 +96,7 @@ gulp.task('lib', function() {
     .pipe(gulp.dest(paths.lib));
 });
 
-gulp.task('flow', function() {
+gulp.task('flow', function () {
   return gulp
     .src(paths.src)
     .pipe(flatten())
@@ -101,73 +104,95 @@ gulp.task('flow', function() {
     .pipe(gulp.dest(paths.lib));
 });
 
-gulp.task('dist', gulp.series('lib', function() {
-  const distOpts = {
-    debug: true,
-    output: 'Flux.js',
-    library: 'Flux',
-  };
-  return gulp
-    .src(paths.entry)
-    .pipe(buildDist(distOpts))
-    .pipe(header(DEVELOPMENT_HEADER, {
-      version: process.env.npm_package_version,
-    }))
-    .pipe(gulp.dest(paths.dist));
-}));
+gulp.task(
+  'dist',
+  gulp.series('lib', function () {
+    const distOpts = {
+      debug: true,
+      output: 'Flux.js',
+      library: 'Flux',
+    };
+    return gulp
+      .src(paths.entry)
+      .pipe(buildDist(distOpts))
+      .pipe(
+        header(DEVELOPMENT_HEADER, {
+          version: process.env.npm_package_version,
+        }),
+      )
+      .pipe(gulp.dest(paths.dist));
+  }),
+);
 
-gulp.task('dist:utils', gulp.series('lib', function() {
-  const distOpts = {
-    debug: true,
-    output: 'FluxUtils.js',
-    library: 'FluxUtils',
-  };
-  return gulp
-    .src(paths.entryUtils)
-    .pipe(buildDist(distOpts))
-    .pipe(header(DEVELOPMENT_HEADER, {
-      version: process.env.npm_package_version,
-    }))
-    .pipe(gulp.dest(paths.dist));
-}));
+gulp.task(
+  'dist:utils',
+  gulp.series('lib', function () {
+    const distOpts = {
+      debug: true,
+      output: 'FluxUtils.js',
+      library: 'FluxUtils',
+    };
+    return gulp
+      .src(paths.entryUtils)
+      .pipe(buildDist(distOpts))
+      .pipe(
+        header(DEVELOPMENT_HEADER, {
+          version: process.env.npm_package_version,
+        }),
+      )
+      .pipe(gulp.dest(paths.dist));
+  }),
+);
 
-gulp.task('dist:min', gulp.series('lib', function() {
-  const distOpts = {
-    debug: false,
-    output: 'Flux.min.js',
-    library: 'Flux',
-  };
-  return gulp
-    .src(paths.entry)
-    .pipe(buildDist(distOpts))
-    .pipe(header(PRODUCTION_HEADER, {
-      version: process.env.npm_package_version,
-    }))
-    .pipe(gulp.dest(paths.dist));
-}));
+gulp.task(
+  'dist:min',
+  gulp.series('lib', function () {
+    const distOpts = {
+      debug: false,
+      output: 'Flux.min.js',
+      library: 'Flux',
+    };
+    return gulp
+      .src(paths.entry)
+      .pipe(buildDist(distOpts))
+      .pipe(
+        header(PRODUCTION_HEADER, {
+          version: process.env.npm_package_version,
+        }),
+      )
+      .pipe(gulp.dest(paths.dist));
+  }),
+);
 
-gulp.task('dist:utils:min', gulp.series('lib', function() {
-  const distOpts = {
-    debug: false,
-    output: 'FluxUtils.min.js',
-    library: 'FluxUtils',
-  };
-  return gulp
-    .src(paths.entryUtils)
-    .pipe(buildDist(distOpts))
-    .pipe(header(PRODUCTION_HEADER, {
-      version: process.env.npm_package_version,
-    }))
-    .pipe(gulp.dest(paths.dist));
-}));
-
+gulp.task(
+  'dist:utils:min',
+  gulp.series('lib', function () {
+    const distOpts = {
+      debug: false,
+      output: 'FluxUtils.min.js',
+      library: 'FluxUtils',
+    };
+    return gulp
+      .src(paths.entryUtils)
+      .pipe(buildDist(distOpts))
+      .pipe(
+        header(PRODUCTION_HEADER, {
+          version: process.env.npm_package_version,
+        }),
+      )
+      .pipe(gulp.dest(paths.dist));
+  }),
+);
 
 gulp.task('build', gulp.series('lib', 'flow', 'dist', 'dist:utils'));
 
-gulp.task('publish', gulp.series(
+gulp.task(
+  'publish',
+  gulp.series(
     'clean',
     'flow',
     gulp.parallel('dist', 'dist:min', 'dist:utils', 'dist:utils:min'),
-));
+  ),
+);
 
 gulp.task('default', gulp.series('build'));
