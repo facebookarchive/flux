@@ -34,8 +34,8 @@ module.exports = {
         src: 'img/flux-logo-color.svg',
       },
       items: [
-        { to: 'docs/overview', label: 'Docs', position: 'left' },
-        { to: 'support', label: 'Support', position: 'left' },
+        {to: 'docs/overview', label: 'Docs', position: 'left'},
+        {to: 'support', label: 'Support', position: 'left'},
         {
           href: 'https://github.com/facebook/flux',
           label: 'GitHub',
@@ -49,7 +49,54 @@ module.exports = {
         alt: 'Facebook Open Source Logo',
         src: 'https://docusaurus.io/img/oss_logo.png',
       },
-      copyright: `Copyright © ${new Date().getFullYear()} Facebook, Inc. Built with Docusaurus.`,
+      links: [
+        {
+          title: 'Docs',
+          items: [
+            {
+              label: 'Introduction',
+              to: 'docs/overview',
+            },
+          ],
+        },
+        {
+          title: 'Community',
+          items: [
+            {
+              label: 'Stack Overflow',
+              href: 'https://stackoverflow.com/questions/tagged/flux',
+            },
+          ],
+        },
+        {
+          title: 'Social',
+          items: [
+            {
+              label: 'GitHub',
+              href: 'https://github.com/facebook/flux',
+            },
+          ],
+        },
+        {
+          title: 'Legal',
+          // Please do not remove the privacy and terms, it's a legal requirement.
+          items: [
+            {
+              label: 'Privacy',
+              href: 'https://opensource.facebook.com/legal/privacy/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+            {
+              label: 'Terms',
+              href: 'https://opensource.facebook.com/legal/terms/',
+              target: '_blank',
+              rel: 'noreferrer noopener',
+            },
+          ],
+        },
+      ],
+      copyright: `Copyright © ${new Date().getFullYear()} Meta Platforms, Inc.`,
     },
   },
   presets: [

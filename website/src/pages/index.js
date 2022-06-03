@@ -48,7 +48,7 @@ const features = [
 
 function VideoContainer() {
   return (
-    <div className="container text--center margin-bottom--xl">
+    <div className="container text--center">
       <div className="row">
         <div className="col">
           <h2>Brief Introduction into Flux</h2>
@@ -147,7 +147,7 @@ function Home() {
           </section>
         )}
         <VideoContainer />
-        <div className="text--center padding-vert--lg">
+        <div className="text--center padding-vert--xl">
           <Link
             className="button button--primary button--lg"
             to={useBaseUrl('docs/overview')}>

@@ -20,6 +20,8 @@
   --ifm-color-primary-light: rgb(80, 150, 83);
   --ifm-color-primary-lighter: rgb(111, 169, 114);
   --ifm-color-primary-lightest: rgb(152, 194, 154);
+
+  --ifm-footer-padding-vertical: 4rem;
 }
 
 .navbar .navbar__logo {
