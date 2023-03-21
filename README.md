@@ -1,7 +1,7 @@
 ## ⚠️ The Flux project has been archived and no further changes will be made. We recommend using more sophisticated alternatives like [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/), [Recoil](https://recoiljs.org/), [Zustand](https://github.com/pmndrs/zustand), or [Jotai](https://github.com/pmndrs/jotai).
 
 <p align="center">
-  <img src="./website/static/flux-logo-color.svg" alt="logo" width="20%" />
+  <img src="https://github.com/facebookarchive/flux/blob/main/website/static/img/flux-logo-color.svg" alt="logo" width="20%" />
 </p>
 <h1 align="center">
   Flux
