@@ -1,14 +1,14 @@
-## ⚠️ The Flux project is in maintenance mode and there are many more sophisticated alternatives available (e.g. [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/), or [Recoil](https://recoiljs.org/)) and we would recommend using them instead.
+## ⚠️ The Flux project has been archived and no further changes will be made. We recommend using more sophisticated alternatives like [Redux](http://redux.js.org/), [MobX](https://mobx.js.org/), [Recoil](https://recoiljs.org/), [Zustand](https://github.com/pmndrs/zustand), or [Jotai](https://github.com/pmndrs/jotai).
 
 <p align="center">
-  <img src="https://facebook.github.io/flux/img/flux-logo-color.svg" alt="logo" width="20%" />
+  <img src="./website/static/flux-logo-color.svg" alt="logo" width="20%" />
 </p>
 <h1 align="center">
   Flux
 </h1>
 <p align="center">
   An application architecture for React utilizing a unidirectional data flow.<br>
-  
+
   <a href="https://github.com/facebook/flux/blob/master/LICENSE">
     <img src="https://img.shields.io/badge/License-BSD%20-blue.svg" alt="Licence Badge" />
   </a>
@@ -23,11 +23,11 @@
 
 ## Getting Started
 
-Start by looking through the [guides and examples](./examples) on Github. For more resources and API docs check out [facebook.github.io/flux](https://facebook.github.io/flux).
+Start by looking through the [guides and examples](./examples) on Github. For more resources and API docs check out [facebook.github.io/flux](https://facebookarchive.github.io/flux).
 
 ## How Flux works
 
-For more information on how Flux works check out the [Flux Concepts](./examples/flux-concepts) guide, or the [In Depth Overview](https://facebook.github.io/flux/docs/in-depth-overview).
+For more information on how Flux works check out the [Flux Concepts](./examples/flux-concepts) guide, or the [In Depth Overview](https://facebookarchive.github.io/flux/docs/in-depth-overview).
 
 ## Requirements
 
@@ -41,7 +41,7 @@ Flux is available as a [npm module](https://www.npmjs.org/package/flux), so you 
 const Dispatcher = require('flux').Dispatcher;
 ```
 
-Take a look at the [dispatcher API and some examples](https://facebook.github.io/flux/docs/dispatcher).
+Take a look at the [dispatcher API and some examples](https://facebookarchive.github.io/flux/docs/dispatcher).
 
 ## Flux Utils
 
@@ -70,7 +70,7 @@ class CounterStore extends ReduceStore<number> {
 }
 ```
 
-Check out the [examples](./examples) and [documentation](https://facebook.github.io/flux/docs/flux-utils) for more information.
+Check out the [examples](./examples) and [documentation](https://facebookarchive.github.io/flux/docs/flux-utils) for more information.
 
 ## Building Flux from a Cloned Repo
 
@@ -85,10 +85,6 @@ const Dispatcher = require('path/to/this/directory/Flux').Dispatcher;
 ```
 
 The build process also produces de-sugared versions of the `Dispatcher` and `invariant` modules in a `lib` directory, and you can require those modules directly, copying them into whatever directory is most convenient for you. The `flux-todomvc` and `flux-chat` example applications both do this.
-
-## Join the Flux community
-
-See the [CONTRIBUTING](/CONTRIBUTING.md) file for how to help out.
 
 ## License
 

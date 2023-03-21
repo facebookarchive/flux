@@ -112,9 +112,9 @@ function Home() {
               <div className="col col--8 col--offset-2">
                 <div className="margin-vert--xl text--center">
                   <h2>
-                    The Flux project is in maintenance mode and there are many
-                    more sophisticated alternatives available (e.g. Redux, MobX,
-                    Recoil) and we would recommend using them instead.
+                    The Flux project has been archived and no further changes
+                    will be made. We recommend using modern alternatives like
+                    Redux, MobX, Recoil, Zustand, or Jotai instead.
                   </h2>
                 </div>
               </div>

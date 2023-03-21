@@ -51,13 +51,13 @@ The dispatcher is the central hub that manages all data flow in a Flux applicati
 
 As an application grows, the dispatcher becomes more vital, as it can be used to manage dependencies between the stores by invoking the registered callbacks in a specific order. Stores can declaratively wait for other stores to finish updating, and then update themselves accordingly.
 
-The same dispatcher that Facebook uses in production is available through [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), or [GitHub](https://github.com/facebook/flux).
+The same dispatcher that Facebook uses in production is available through [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), or [GitHub](https://github.com/facebookarchive/flux).
 
 ### Stores
 
 Stores contain the application state and logic. Their role is somewhat similar to a model in a traditional MVC, but they manage the state of many objects — they do not represent a single record of data like ORM models do. Nor are they the same as Backbone's collections. More than simply managing a collection of ORM-style objects, stores manage the application state for a particular **domain** within the application.
 
-For example, Facebook's [Lookback Video Editor](https://facebook.com/lookback/edit) utilized a TimeStore that kept track of the playback time position and the playback state. On the other hand, the same application's ImageStore kept track of a collection of images. The TodoStore in our [TodoMVC example](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/) is similar in that it manages a collection of to-do items. A store exhibits characteristics of both a collection of models and a singleton model of a logical domain.
+For example, Facebook's [Lookback Video Editor](https://facebook.com/lookback/edit) utilized a TimeStore that kept track of the playback time position and the playback state. On the other hand, the same application's ImageStore kept track of a collection of images. The TodoStore in our [TodoMVC example](https://github.com/facebookarchive/flux/tree/master/examples/flux-todomvc/) is similar in that it manages a collection of to-do items. A store exhibits characteristics of both a collection of models and a singleton model of a logical domain.
 
 As mentioned above, a store registers itself with the dispatcher and provides it with a callback. This callback receives the action as a parameter. Within the store's registered callback, a switch statement based on the action's type is used to interpret the action and to provide the proper hooks into the store's internal methods. This allows an action to result in an update to the state of the store, via the dispatcher. After the stores are updated, they broadcast an event declaring that their state has changed, so the views may query the new state and update themselves.
 
@@ -79,7 +79,7 @@ Actions may also come from other places, such as the server. This happens, for e
 
 ### What About that Dispatcher?
 
-As mentioned earlier, the dispatcher is also able to manage dependencies between stores. This functionality is available through the `waitFor()` method within the Dispatcher class. We did not need to use this method within the extremely simple [TodoMVC application](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/), but it becomes vital in a larger, more complex application.
+As mentioned earlier, the dispatcher is also able to manage dependencies between stores. This functionality is available through the `waitFor()` method within the Dispatcher class. We did not need to use this method within the extremely simple [TodoMVC application](https://github.com/facebookarchive/flux/tree/master/examples/flux-todomvc/), but it becomes vital in a larger, more complex application.
 
 Within the TodoStore's registered callback we could explicitly wait for any dependencies to first update before moving forward:
 
@@ -104,4 +104,4 @@ PrependedTextStore.dispatchToken = Dispatcher.register(function (payload) {
 });
 ```
 
-For more on `waitFor()`, actions, action creators and the dispatcher, please see [Flux: Actions and the Dispatcher](http://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html).
+For more on `waitFor()`, actions, action creators and the dispatcher, please see [Flux: Actions and the Dispatcher](https://legacy.reactjs.org/blog/2014/07/30/flux-actions-and-the-dispatcher.html).

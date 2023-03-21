@@ -8,16 +8,16 @@
 module.exports = {
   title: 'Flux',
   tagline: 'Application architecture for building user interfaces',
-  url: 'https://facebook.github.io',
+  url: 'https://facebookarchive.github.io',
   baseUrl: '/flux/',
   favicon: 'img/favicon.ico',
-  organizationName: 'facebook',
+  organizationName: 'facebookarchive',
   projectName: 'flux',
   themeConfig: {
     announcementBar: {
       id: 'support_ukraine',
       content:
-        'Support Ukraine 🇺🇦 <a target="_blank" rel="noopener noreferrer" href="https://opensource.facebook.com/support-ukraine"> Help Provide Humanitarian Aid to Ukraine</a>.',
+        'The Flux project has been archived and no further changes will be made.',
       backgroundColor: '#20232a',
       textColor: '#fff',
       isCloseable: false,
@@ -37,7 +37,7 @@ module.exports = {
         {to: 'docs/overview', label: 'Docs', position: 'left'},
         {to: 'support', label: 'Support', position: 'left'},
         {
-          href: 'https://github.com/facebook/flux',
+          href: 'https://github.com/facebookarchive/flux',
           label: 'GitHub',
           position: 'right',
         },
@@ -47,7 +47,7 @@ module.exports = {
       style: 'dark',
       logo: {
         alt: 'Facebook Open Source Logo',
-        src: 'https://docusaurus.io/img/oss_logo.png',
+        src: 'https://docusaurus.io/img/meta_opensource_logo_negative.svg',
       },
       links: [
         {
@@ -73,7 +73,7 @@ module.exports = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/facebook/flux',
+              href: 'https://github.com/facebookarchive/flux',
             },
           ],
         },
@@ -106,7 +106,7 @@ module.exports = {
         docs: {
           path: '../docs',
           sidebarPath: require.resolve('./sidebars.js'),
-          editUrl: 'https://github.com/facebook/flux/edit/master/docs/',
+          editUrl: 'https://github.com/facebookarchive/flux/edit/master/docs/',
           showLastUpdateAuthor: true,
           showLastUpdateTime: true,
         },

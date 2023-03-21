@@ -71,13 +71,13 @@ dispatcher는 Flux 애플리케이션의 중앙 허브로 모든 데이터의 �
 
 애플리케이션의 규모가 커지게 되면 dispachter의 역할은 더욱 필수적이다. 바로 store 간에 의존성을 특정적인 순서로 callback을 실행하는 과정으로 관리하기 때문이다. Store는 다른 store의 업데이트가 끝날 때까지 선언적으로 기다릴 수 있고 끝나는 순서에 따라 스스로 갱신된다.
 
-Facebook이 실제로 사용하는 dispatcher는 [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), 또는 [GitHub](https://github.com/facebook/flux)에서 확인할 수 있다.
+Facebook이 실제로 사용하는 dispatcher는 [npm](https://www.npmjs.com/package/flux), [Bower](http://bower.io/), 또는 [GitHub](https://github.com/facebookarchive/flux)에서 확인할 수 있다.
 
 ### Stores
 
 Store는 애플리케이션의 상태와 로직을 포함하고 있다. store의 역할은 전통적인 MVC의 모델과 비슷하지만 많은 객체의 상태를 관리할 수 있는데 ORM 모델이 하는 것처럼 단일 레코드의 데이터를 표현하는 것도 아니고 Backbone의 컬렉션과도 다르다. store는 단순히 ORM 스타일의 객체 컬렉션을 관리하는 것을 넘어 애플리케이션 내의 개별적인 **도메인**에서 애플리케이션의 상태를 관리한다.
 
-예를 들면, Facebook의 [돌아보기 편집기](https://facebook.com/lookback/edit) 에서 지속해서 재생된 시간과 플레이어 상태를 지속해서 추적하기 위해 TimeStore를 활용한다. 같은 애플리케이션에서 ImageStore는 이미지 콜랙션을 지속해서 추적한다. [TodoMVC 예제](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/)의 TodoStore도 비슷하게 할 일 항목의 콜랙션을 관리한다. store는 두 모델 컬렉션의 특징을 보여주는 것과 동시에 싱글턴 모델의 논리적 도메인으로 역할을 한다.
+예를 들면, Facebook의 [돌아보기 편집기](https://facebook.com/lookback/edit) 에서 지속해서 재생된 시간과 플레이어 상태를 지속해서 추적하기 위해 TimeStore를 활용한다. 같은 애플리케이션에서 ImageStore는 이미지 콜랙션을 지속해서 추적한다. [TodoMVC 예제](https://github.com/facebookarchive/flux/tree/master/examples/flux-todomvc/)의 TodoStore도 비슷하게 할 일 항목의 콜랙션을 관리한다. store는 두 모델 컬렉션의 특징을 보여주는 것과 동시에 싱글턴 모델의 논리적 도메인으로 역할을 한다.
 
 위에서 언급한 것과 같이 store는 자신을 dispatcher에 등록하고 callback을 제공한다. 이 callback은 action을 파라미터로 받는다. store의 등록된 callback의 내부에서는 switch문을 사용한 action 타입을 활용해서 action을 해석하고 store 내부 메소드에 적절하게 연결될 수 있는 훅을 제공한다. 여기서 결과적으로 action은 disaptcher를 통해 store의 상태를 갱신한다. store가 업데이트된 후, 상태가 변경되었다는 이벤트를 중계하는 과정으로 view에게 새로운 상태를 보내주고 view 스스로 업데이트하게 한다.
 
@@ -101,7 +101,7 @@ action은 서버와 같은 다른 장소에서 올 수 있다. 예를 들면 dat
 
 ### Dispatcher에 대해서
 
-앞서 언급한 것처럼 disaptcher는 store 간의 의존성을 관리할 수 있다. 이 기능은 dispatcher 클래스에 포함된 `waitFor()` 메소드를 통해 가능하다. [TodoMVC](https://github.com/facebook/flux/tree/master/examples/flux-todomvc/)는 극단적으로 단순해서 이 메소드를 사용할 필요가 없지만 복잡한 대형 애플리케이션에서는 생명과도 같다.
+앞서 언급한 것처럼 disaptcher는 store 간의 의존성을 관리할 수 있다. 이 기능은 dispatcher 클래스에 포함된 `waitFor()` 메소드를 통해 가능하다. [TodoMVC](https://github.com/facebookarchive/flux/tree/master/examples/flux-todomvc/)는 극단적으로 단순해서 이 메소드를 사용할 필요가 없지만 복잡한 대형 애플리케이션에서는 생명과도 같다.
 
 TodoStore에 등록된 callback은 명시적으로 기다려 코드가 진행되는 동안 다른 의존성이 먼저 업데이트되도록 기다린다:
 
@@ -126,4 +126,4 @@ PrependedTextStore.dispatchToken = Dispatcher.register(function (payload) {
 });
 ```
 
-`waitFor()`, actions, action creator와 dispatcher에 대해서는 다음 [Flux 액션과 Dispatcher](http://facebook.github.io/react/blog/2014/07/30/flux-actions-and-the-dispatcher.html)를 참고하자.
+`waitFor()`, actions, action creator와 dispatcher에 대해서는 다음 [Flux 액션과 Dispatcher](https://legacy.reactjs.org/blog/2014/07/30/flux-actions-and-the-dispatcher.html)를 참고하자.

@@ -27,7 +27,7 @@ React brings about many radical ideas and encourages developers to [rethink best
 
 ### Jest – Unit Testing
 
-[Jest](http://facebook.github.io/jest/) is a testing library by Facebook that aims to make the process of testing pain-free. As with Facebook projects, it provides a great development experience out of the box. Tests can be run in parallel resulting in shorter duration. During watch mode, by default, only the tests for the changed files are run. One cool feature is "Snapshot Testing". Jest can save the generated output of your React component and Redux state and save it as serialized files, so you wouldn't have to manually come up with the expected output yourself. Jest also comes with built-in mocking, assertion and test coverage. One library to rule them all!
+[Jest](http://jestjs.io/) is a testing library by Facebook that aims to make the process of testing pain-free. As with Facebook projects, it provides a great development experience out of the box. Tests can be run in parallel resulting in shorter duration. During watch mode, by default, only the tests for the changed files are run. One cool feature is "Snapshot Testing". Jest can save the generated output of your React component and Redux state and save it as serialized files, so you wouldn't have to manually come up with the expected output yourself. Jest also comes with built-in mocking, assertion and test coverage. One library to rule them all!
 
 ### Redux - Alternative State Management
 

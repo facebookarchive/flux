@@ -8,7 +8,7 @@ Dispatcher는 등록된 callback에 데이터를 중계할 때 사용된다. 일
 - 콜백은 이벤트를 개별적으로 구독하지 않는다. 모든 데이터 변동은 등록된 모든 콜백에 전달된다.
 - 콜백이 실행될 때 콜백의 전체나 일부를 중단할 수 있다.
 
-소스 코드를 보려면 [Dispatcher.js](https://github.com/facebook/flux/blob/master/src/Dispatcher.js)에서 확인할 수 있다.
+소스 코드를 보려면 [Dispatcher.js](https://github.com/facebookarchive/flux/blob/master/src/Dispatcher.js)에서 확인할 수 있다.
 
 ## API
 
